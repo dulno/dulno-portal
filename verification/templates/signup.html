@@ -3,102 +3,99 @@
 <html lang="en">
   {% include 'head.html' %}
   <body class="dark" data-bs-theme="dark">
-    <div id="register-container">
-      <div class="container">
-        <header>Signup Form</header>
-        <div class="progress-bar">
-          <div class="step">
-            <div class="bullet">
-              <label>1</label>
+    <div id="signup-container">
+      <div id="signup-wrapper">
+        <div id="signup-header">
+          <h2 class="fw-bold">Signup</h2>
+          <div id="signup-progress-bar">
+            <div class="signup-step">
+              <div class="signup-bullet">
+                <label>1</label>
+              </div>
+              <div class="check fas fa-check"></div>
+              <p>Business</p>
             </div>
-            <div class="check fas fa-check"></div>
-            <p>
-              Name
-            </p>
-          </div>
-          <div class="step">
-            <div class="bullet">
-              <label>2</label>
+            <div class="signup-step">
+              <div class="signup-bullet">
+                <label>2</label>
+              </div>
+              <div class="check fas fa-check"></div>
+              <p>Card</p>
             </div>
-            <div class="check fas fa-check"></div>
-            <p>
-              Contact
-            </p>
-          </div>
-          <div class="step">
-            <div class="bullet">
-              <label>3</label>
+            <div class="signup-step">
+              <div class="signup-bullet">
+                <label>3</label>
+              </div>
+              <div class="check fas fa-check"></div>
+              <p>Reward</p>
             </div>
-            <div class="check fas fa-check"></div>
-            <p>
-              Birth
-            </p>
-          </div>
-          <div class="step">
-            <div class="bullet">
-              <label>4</label>
+            <div class="signup-step">
+              <div class="signup-bullet">
+                <label>4</label>
+              </div>
+              <div class="check fas fa-check"></div>
+              <p>Submit</p>
             </div>
-            <div class="check fas fa-check"></div>
-            <p>
-              Submit
-            </p>
           </div>
         </div>
-        <div class="form-outer">
-          <form action="#">
-            <div class="page slide-page">
-              <div class="title">
-                Basic Info:
+        <div id="signup-content">
+          <div id="signup-form">
+            <div class="signup-page">
+              <div class="signup-page-title">
+                Enter business data
               </div>
-              <div class="field">
-                <div class="label">
+              <div class="signup-page-description text-secondary">
+                We need some data about your business to provide our digital stamp card.
+              </div>
+              <div class="signup-field">
+                <div class="signup-field-label">
                   First Name
                 </div>
                 <input type="text">
               </div>
-              <div class="field">
-                <div class="label">
+              <div class="signup-field">
+                <div class="signup-field-label">
                   Last Name
                 </div>
                 <input type="text">
               </div>
-              <div class="field">
-                <button class="firstNext next">Next</button>
+              <div class="signup-field signup-pagination">
+                <button class="signup-next-button">Next</button>
               </div>
             </div>
-            <div class="page">
-              <div class="title">
+            <div class="signup-page">
+              <div class="signup-page-title">
                 Contact Info:
               </div>
-              <div class="field">
-                <div class="label">
+              <div class="signup-field">
+                <div class="signup-field-label">
                   Email Address
                 </div>
                 <input type="text">
               </div>
-              <div class="field">
-                <div class="label">
+              <div class="signup-field">
+                <div class="signup-field-label">
                   Phone Number
                 </div>
                 <input type="Number">
               </div>
-              <div class="field btns">
-                <button class="prev-1 prev">Previous</button>
-                <button class="next-1 next">Next</button>
+              <div class="signup-field signup-pagination">
+                <button class="signup-previous-button">Previous</button>
+                <button class="signup-next-button">Next</button>
               </div>
             </div>
-            <div class="page">
-              <div class="title">
+            <div class="signup-page">
+              <div class="signup-page-title">
                 Date of Birth:
               </div>
-              <div class="field">
-                <div class="label">
+              <div class="signup-field">
+                <div class="signup-field-label">
                   Date
                 </div>
                 <input type="text">
               </div>
-              <div class="field">
-                <div class="label">
+              <div class="signup-field">
+                <div class="signup-field-label">
                   Gender
                 </div>
                 <select>
@@ -107,33 +104,33 @@
                   <option>Other</option>
                 </select>
               </div>
-              <div class="field btns">
-                <button class="prev-2 prev">Previous</button>
-                <button class="next-2 next">Next</button>
+              <div class="signup-field signup-pagination">
+                <button class="signup-previous-button">Previous</button>
+                <button class="signup-next-button">Next</button>
               </div>
             </div>
-            <div class="page">
-              <div class="title">
+            <div class="signup-page">
+              <div class="signup-page-title">
                 Login Details:
               </div>
-              <div class="field">
-                <div class="label">
+              <div class="signup-field">
+                <div class="signup-field-label">
                   Username
                 </div>
                 <input type="text">
               </div>
-              <div class="field">
-                <div class="label">
+              <div class="signup-field">
+                <div class="signup-field-label">
                   Password
                 </div>
                 <input type="password">
               </div>
-              <div class="field btns">
-                <button class="prev-3 prev">Previous</button>
-                <button class="submit">Submit</button>
+              <div class="signup-field signup-pagination">
+                <button class="signup-previous-button">Previous</button>
+                <button class="signup-submit-button">Submit</button>
               </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -143,75 +140,31 @@
 <script src="https://www.google.com/recaptcha/api.js?render={{recaptcha_token}}"></script>
 
 <script>
-  <!-- Created By CodingNepal -->
-  const slidePage = document.querySelector(".slide-page");
-  const nextBtnFirst = document.querySelector(".firstNext");
-  const prevBtnSec = document.querySelector(".prev-1");
-  const nextBtnSec = document.querySelector(".next-1");
-  const prevBtnThird = document.querySelector(".prev-2");
-  const nextBtnThird = document.querySelector(".next-2");
-  const prevBtnFourth = document.querySelector(".prev-3");
-  const submitBtn = document.querySelector(".submit");
-  const progressText = document.querySelectorAll(".step p");
-  const progressCheck = document.querySelectorAll(".step .check");
-  const bullet = document.querySelectorAll(".step .bullet");
+  const pages = document.querySelectorAll(".signup-page");
+  const stepTexts = document.querySelectorAll(".signup-step p");
+  const stepChecks = document.querySelectorAll(".signup-step .check");
+  const stepBullets = document.querySelectorAll(".signup-step .signup-bullet");
   let current = 1;
-  nextBtnFirst.addEventListener("click", function(event){
-    event.preventDefault();
-    slidePage.style.marginLeft = "-25%";
-    bullet[current - 1].classList.add("active");
-    progressCheck[current - 1].classList.add("active");
-    progressText[current - 1].classList.add("active");
-    current += 1;
-  });
-  nextBtnSec.addEventListener("click", function(event){
-    event.preventDefault();
-    slidePage.style.marginLeft = "-50%";
-    bullet[current - 1].classList.add("active");
-    progressCheck[current - 1].classList.add("active");
-    progressText[current - 1].classList.add("active");
-    current += 1;
-  });
-  nextBtnThird.addEventListener("click", function(event){
-    event.preventDefault();
-    slidePage.style.marginLeft = "-75%";
-    bullet[current - 1].classList.add("active");
-    progressCheck[current - 1].classList.add("active");
-    progressText[current - 1].classList.add("active");
-    current += 1;
-  });
-  submitBtn.addEventListener("click", function(){
-    bullet[current - 1].classList.add("active");
-    progressCheck[current - 1].classList.add("active");
-    progressText[current - 1].classList.add("active");
-    current += 1;
-    setTimeout(function(){
-      alert("Your Form Successfully Signed up");
-      location.reload();
-    },800);
-  });
-  prevBtnSec.addEventListener("click", function(event){
-    event.preventDefault();
-    slidePage.style.marginLeft = "0%";
-    bullet[current - 2].classList.remove("active");
-    progressCheck[current - 2].classList.remove("active");
-    progressText[current - 2].classList.remove("active");
-    current -= 1;
-  });
-  prevBtnThird.addEventListener("click", function(event){
-    event.preventDefault();
-    slidePage.style.marginLeft = "-25%";
-    bullet[current - 2].classList.remove("active");
-    progressCheck[current - 2].classList.remove("active");
-    progressText[current - 2].classList.remove("active");
-    current -= 1;
-  });
-  prevBtnFourth.addEventListener("click", function(event){
-    event.preventDefault();
-    slidePage.style.marginLeft = "-50%";
-    bullet[current - 2].classList.remove("active");
-    progressCheck[current - 2].classList.remove("active");
-    progressText[current - 2].classList.remove("active");
-    current -= 1;
-  });
+  for (let i = 0; i < pages.length; i++) {
+    let nextButton = pages[i].querySelector(".signup-next-button");
+    if (nextButton) {
+      nextButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        pages[0].style.marginLeft = "-" + (100 * ((i + 1) / pages.length)) + "%";
+        stepBullets[i].classList.add("active");
+        stepChecks[i].classList.add("active");
+        stepTexts[i].classList.add("active");
+      });
+    }
+    let previousButton = pages[i].querySelector(".signup-previous-button");
+    if (previousButton) {
+      previousButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        pages[0].style.marginLeft = "-" + (100 * ((i - 1) / pages.length)) + "%";
+        stepBullets[i - 1].classList.remove("active");
+        stepChecks[i - 1].classList.remove("active");
+        stepTexts[i - 1].classList.remove("active");
+      });
+    }
+  }
 </script>
