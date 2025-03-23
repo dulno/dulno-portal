@@ -3,9 +3,9 @@ from . import verification
 
 urlpatterns = [
   path('login/', verification.login),
-  path('register/', verification.register),
-  path('register/confirm/<str:user>/<str:token>/', verification.registerConfirm),
-  path('login-register/', verification.loginRegister),
+  path('signup/', verification.signup),
+  path('signup/confirm/<str:user>/<str:token>/', verification.signupConfirm),
+  path('login-signup/', verification.loginSignup),
   path('payment/', verification.payment),
   path('payment/complete/<str:token>/', verification.paymentComplete),
   path('expiration/', verification.expiration),

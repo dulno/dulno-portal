@@ -1,8 +1,25 @@
+from functools import wraps
+from functools import partial
 from django.shortcuts import render
 from django.http import HttpResponse
-from home.home import home_page
+from product.dashboard import dashboard
+from django.shortcuts import redirect
+from django.utils import translation
 from django.utils.translation import gettext
 from app.settings import RECAPTCHA_TOKEN, GOOGLE_CLIENT_ID
+
+def home_page(function):
+  @wraps(function)
+  async def home_page(request, *args, **kwargs):
+    applyLanguage(request)
+    return await function(request, *args, **kwargs)
+  return home_page
+
+def applyLanguage(request):
+  language = request.COOKIES.get("dulno-home-language")
+  if (language is None):
+    translation.activate("en")
+  translation.activate(language)
 
 @home_page
 async def login(request):
@@ -12,24 +29,24 @@ async def login(request):
     'redirect': redirect, 'google_client_id': GOOGLE_CLIENT_ID})
 
 @home_page
-async def register(request):
+async def signup(request):
   redirect = request.GET.get('redirect', '')
-  return render(request, 'register.html', {'title': gettext("home.registration.title"),
-    'css': ['css/base/home-language.css', 'css/verification/register.css'],
+  return render(request, 'signup.html', {'title': gettext("home.registration.title"),
+    'css': ['css/base/home-language.css', 'css/verification/signup.css'],
     'redirect': redirect, 'recaptcha_token': RECAPTCHA_TOKEN})
 
 @home_page
-async def registerConfirm(request, user, token):
+async def signupConfirm(request, user, token):
   redirect = request.GET.get('redirect', '')
-  return render(request, 'register-confirm.html', {'title': gettext("home.registration.confirm.title"),
-    'css': ['css/base/home-language.css', 'css/verification/register-confirm.css'],
+  return render(request, 'signup-confirm.html', {'title': gettext("home.registration.confirm.title"),
+    'css': ['css/base/home-language.css', 'css/verification/signup-confirm.css'],
     'user': user, 'token': token, 'redirect': redirect})
 
 @home_page
-async def loginRegister(request):
+async def loginSignup(request):
   redirect = request.GET.get('redirect', '')
-  return render(request, 'login-register.html', {'title': gettext("home.login.register.title"),
-    'css': ['css/base/verification-header.css', 'css/base/home-language.css', 'css/verification/login-register.css'],
+  return render(request, 'login-signup.html', {'title': gettext("home.login.signup.title"),
+    'css': ['css/base/verification-header.css', 'css/base/home-language.css', 'css/verification/login-signup.css'],
     'redirect': redirect})
 
 @home_page
