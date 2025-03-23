@@ -1,0 +1,159 @@
+form {
+  width: min(500px, 90%);
+  text-align: center;
+  margin-top: 5vh;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 50px;
+  border: 1px #373b41 solid;
+  border-radius: 20px;
+}
+
+.dark input[type = "email"], .dark input[type = "password"] {
+  background-color: #0d1117 !important;
+  color: white !important;
+  -webkit-text-fill-color: white;
+  border: 1px solid #cecece !important;
+}
+
+.dark input[type = "email"]::placeholder, .dark input[type = "password"]::placeholder {
+  color: #828282 !important;
+  -webkit-text-fill-color: #828282;
+}
+
+.light input[type = "email"], .light input[type = "password"] {
+  background-color: #eaeaea !important;
+  color: black !important;
+  -webkit-text-fill-color: black;
+  border: 1px solid #4c4c4c !important;
+}
+
+.light input[type = "email"]::placeholder, .light input[type = "password"]::placeholder {
+  color: #949494 !important;
+  -webkit-text-fill-color: #949494;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+  -webkit-background-clip: text;
+  transition: background-color 5000s ease-in-out 0s;
+  box-shadow: inset 0 0 20px 20px #23232329;
+}
+
+.form-label {
+  text-align: left;
+  width: 100%;
+  font-size: 20px;
+}
+
+.dark .form-check-input {
+  background-color: #0d1117;
+  border: 1px solid #cecece;
+}
+
+.light .form-check-input {
+  background-color: #eaeaea;
+  border: 1px solid #4c4c4c;
+}
+
+#forgot-password {
+  text-align: right;
+  width: 100%;
+  text-decoration: none;
+}
+
+#remember-check {
+  text-align: center !important;
+}
+
+#remember-check-label {
+  width: 100%;
+  text-align: left;
+  user-select: none;
+}
+
+#login-logo {
+  transition: transform .3s;
+  width: 100px;
+  height: auto;
+  margin-bottom: 50px;
+}
+
+#login-logo:hover {
+  transform: scale(1.1);
+}
+
+#login {
+  margin-top: 5vh;
+  margin-bottom: 2vh;
+  width: 100%;
+}
+
+#login-alternative {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.login-alternative-divider {
+  width: 100%;
+  height: 2px;
+  background-color: #464646;
+}
+
+#login-external-services {
+  display: block;
+  text-align: center;
+  margin-top: 2%;
+}
+
+.login-external-service-button {
+  position: relative;
+  width: 100%;
+  margin-bottom: 2%;
+  padding: 10px !important;
+  color: white !important;
+  font-weight: bold !important;
+  border-radius: 5px !important;
+  transition: 0.2s;
+}
+
+.login-external-service-logo {
+  position: absolute;
+  left: 12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+}
+
+#login-external-service-google {
+  background-color: #151515;
+  border: 1px #383838 solid !important;
+}
+
+#login-external-service-google:hover {
+  background-color: #272727;
+}
+
+@media (max-width: 620px) {
+  form {
+    padding: 0;
+    margin-top: 0;
+    border: none;
+    border-radius: 0;
+  }
+
+  #login-logo {
+    margin-top: 4vh;
+    margin-bottom: 3vh;
+  }
+
+  #login {
+    margin-top: 2vh;
+  }
+}

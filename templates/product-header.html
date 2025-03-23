@@ -1,0 +1,230 @@
+{% load static %}
+{% load i18n %}
+<nav id="navbar">
+  <button id="sidebar-button" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar" aria-expanded="false" aria-controls="sidebar"></button>
+  <div id="navbar-content">
+    <a href="/" id="navbar-logo"><img class="dulno-logo" width="60px" height="60px" alt=""></a>
+    <div id="header-control-container">
+      <div id="team-target-button-container" class="dropdown d-none">
+        <button class="dropdown-toggle btn" id="team-target-button-wrapper" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i id="team-target-icon" class="fa-solid fa-users-between-lines"></i><i id="team-target-icon-arrow" class="fa-solid fa-angle-down"></i>
+        </button>
+        <ul id="team-target-list" class="dropdown-menu dropdown-menu-end" aria-labelledby="target-button-wrapper">
+        </ul>
+      </div>
+      <div id="target-button-container" class="dropdown">
+        <button class="dropdown-toggle btn" id="target-button-wrapper" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i id="target-icon" class="fa-regular fa-eye"></i><i id="target-icon-arrow" class="fa-solid fa-angle-down"></i>
+        </button>
+        <ul id="target-list" class="dropdown-menu dropdown-menu-end" aria-labelledby="target-button-wrapper">
+        </ul>
+      </div>
+      <div class="navbar-divider vr ms-3 me-3"></div>
+      <div id="profile-button-container" class="dropdown">
+        <button class="dropdown-toggle btn" id="profile-button-wrapper" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div class="position-relative">
+            <i id="profile-picture" class="fa-regular fa-user"></i>
+            <span class="ticket-notification d-none position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+              <span class="visually-hidden"></span>
+            </span>
+          </div>
+          <i id="profile-picture-arrow" class="fa-solid fa-angle-down"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profile-button-wrapper">
+          <li><button class="dropdown-item" id="dashboard-button" type="button">{% trans 'product.header.dashboard' %}</button></li>
+          <li><button class="dropdown-item" id="settings-button" type="button">{% trans 'product.header.settings' %}</button></li>
+          <li>
+            <button class="dropdown-item position-relative" id="tickets-button" type="button">
+              {% trans 'product.header.tickets' %}
+              <span class="ticket-notification d-none position-absolute top-50 translate-middle ms-3 p-1 bg-danger border border-light rounded-circle">
+                <span class="visually-hidden"></span>
+              </span>
+            </button>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          <li><button class="dropdown-item" id="logout-button" type="button">{% trans 'product.header.logout' %}</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+<div id="header-space"></div>
+
+<script>
+  let currentTarget;
+  let currentTeamTarget;
+
+  $(document).ready(function() {
+    setupTargetSelection();
+    setupTicketNotification();
+  });
+
+  document.getElementById('dashboard-button').onclick = function() {
+    window.location.href = "/dashboard/";
+  };
+  document.getElementById('settings-button').onclick = function() {
+    sessionStorage.setItem("settings-return", window.location.href);
+    window.location.href = "/settings/profile/";
+  };
+  document.getElementById('tickets-button').onclick = function() {
+    sessionStorage.setItem("neutral-return", window.location.href);
+    window.location.href = "/tickets/";
+  };
+  document.getElementById('logout-button').onclick = function() {
+    let request = new HttpRequest("/verification/logout/",
+      "GET", []);
+    request.send(function (status, responseText) {
+      Cookie.destroy("token");
+      Cookie.destroy("refresh-token");
+      Cookie.destroy("home-token");
+      window.location.href = "/";
+    });
+  };
+
+  function setupTargetSelection() {
+    fetchTargetsData(function(response) {
+      let targets = response.targets;
+      for (let i = 0; i < targets.length; i++) {
+        addTarget(targets[i], targets[i].id === response.currentTarget);
+      }
+      currentTarget = targets.filter((target) =>
+        target.id === response.currentTarget)[0];
+      if (currentTarget.type !== "PERSONAL") {
+        setupTeamTargetSelection();
+      }
+    });
+  }
+
+  function fetchTargetsData(callback) {
+    let request = new HttpRequest("/targets/all/", "GET",
+      []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+
+  function addTarget(target, isActive) {
+    let targetElement = document.createElement("li");
+    targetElement.classList.add("dropdown-item");
+    if (isActive) {
+      targetElement.classList.add("active");
+    }
+    let targetNameName = document.createElement("span");
+    targetNameName.innerHTML = target.name;
+    targetElement.appendChild(targetNameName);
+    targetElement.onclick = function(event) {
+      selectTarget(target);
+    }
+    document.getElementById("target-list").appendChild(targetElement);
+  }
+
+  function selectTarget(target) {
+    let request = new HttpRequest("/target/change/", "POST",
+      [], {target: target.id});
+    request.send(function (status, responseText) {
+      window.location.reload();
+    });
+  }
+
+  function setupTeamTargetSelection() {
+    document.getElementById("team-target-button-container").classList.remove("d-none");
+    fetchTeamTargetsData(function(response) {
+      let targets = response.targets;
+      for (let i = 0; i < targets.length; i++) {
+        addTeamTarget(targets[i], targets[i].id === response.currentTarget);
+      }
+      currentTeamTarget = targets.filter((target) =>
+        target.id === response.currentTarget)[0];
+    });
+  }
+
+  function fetchTeamTargetsData(callback) {
+    let request = new HttpRequest("/organization/team/targets/selected/",
+      "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+
+  function addTeamTarget(target, isActive) {
+    let targetElement = document.createElement("li");
+    targetElement.classList.add("dropdown-item");
+    if (isActive) {
+      targetElement.classList.add("active");
+    }
+    let targetNameName = document.createElement("span");
+    targetNameName.innerHTML = target.name;
+    targetElement.appendChild(targetNameName);
+    targetElement.onclick = function(event) {
+      selectTeamTarget(target, target.id === "");
+    }
+    document.getElementById("team-target-list").appendChild(targetElement);
+  }
+
+  function selectTeamTarget(target, isGlobal) {
+    let request = new HttpRequest("/organization/team/target/change/",
+      "POST", [], {target: target.id, isGlobal: isGlobal});
+    request.send(function (status, responseText) {
+      window.location.reload();
+    });
+  }
+
+  function setupTicketNotification() {
+    fetchTicketNotificationData(function(hasUnseenTickets) {
+      if (hasUnseenTickets) {
+        for (let element of [...document.getElementsByClassName("ticket-notification")]) {
+          element.classList.remove("d-none");
+        }
+      }
+    });
+  }
+
+  function fetchTicketNotificationData(callback) {
+    let request = new HttpRequest("/tickets/unseen/", "GET",
+      []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).unseenTickets);
+    });
+  }
+
+  let isSidebarShown;
+
+  window.onload = function() {
+    if (sessionStorage.getItem("dulno-sidebar") === null) {
+      sessionStorage.setItem("dulno-sidebar", "true");
+    }
+    let sidebarSetting = sessionStorage.getItem("dulno-sidebar").toLowerCase() === "true";
+    isSidebarShown = window.innerWidth > 575 && sidebarSetting;
+    if (isSidebarShown) {
+      document.getElementById("sidebar").classList.add("show");
+    }
+    updateSidebarSpacing();
+    updateSidebarButtonIcon();
+  };
+
+  document.getElementById('sidebar-button').onclick = function() {
+    isSidebarShown = !isSidebarShown;
+    sessionStorage.setItem("dulno-sidebar", isSidebarShown);
+    updateSidebarSpacing();
+    updateSidebarButtonIcon();
+  };
+
+  function updateSidebarSpacing() {
+    let elements = document.getElementsByClassName('sidebar-influenced');
+    for (let i = 0; i < elements.length; i++) {
+      if (isSidebarShown && window.innerWidth > 800) {
+        elements[i].style.marginLeft = '220px';
+      } else {
+        elements[i].style.marginLeft = '0';
+      }
+    }
+  }
+
+  function updateSidebarButtonIcon() {
+    if (isSidebarShown) {
+      document.getElementById("sidebar-button").innerHTML ='<i class="fa-solid fa-xmark"></i>';
+      return;
+    }
+    document.getElementById("sidebar-button").innerHTML ='<i class="fa-solid fa-bars"></i>';
+  }
+</script>

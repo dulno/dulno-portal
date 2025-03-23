@@ -1,0 +1,19 @@
+{% load static %}
+{% load i18n %}
+<nav id="navbar">
+  <div id="navbar-content">
+    <a id="close-button"><i class="fa-solid fa-circle-xmark"></i></a>
+  </div>
+</nav>
+<div id="header-space"></div>
+
+<script>
+  document.getElementById("close-button").onclick = function (event) {
+    let target = sessionStorage.getItem("neutral-return");
+    if (target === null) {
+      window.location.href = "/";
+      return;
+    }
+    window.location.href = target;
+  }
+</script>

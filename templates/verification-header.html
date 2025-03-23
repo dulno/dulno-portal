@@ -1,0 +1,13 @@
+{% load static %}
+{% load i18n %}
+<div id="verification-header">
+  <div></div>
+  <img id="verification-logo" src="{% static 'img/logo-light.webp' %}">
+  {% include 'home-language.html' %}
+</div>
+
+<script>
+  document.getElementById("verification-logo").onclick = function (event) {
+    window.location.href = "/";
+  }
+</script>

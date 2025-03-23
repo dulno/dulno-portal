@@ -1,0 +1,14 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="dark" data-bs-theme="dark">
+    <div id="error-wrapper">
+      <div id="error-headline-wrapper">
+        <a href="/"><img id="error-logo" class="dulno-logo"></a></br>
+        <h1 id="error-headline">{% trans 'error.404.headline' %}</h1></br>
+        <b id="error-description">{% trans 'error.404.description' %}</b>
+      </div>
+    </div>
+  </body>
+</html>

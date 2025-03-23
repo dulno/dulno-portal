@@ -1,0 +1,197 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="dark" data-bs-theme="dark">
+    <div id="payment-container">
+      {% include 'verification-header.html' %}
+      <div id="payment-pay" class="d-none">
+        <h1 class="text-center fw-bold mb-5">{% trans 'home.payment.pay.headline' %}</h1>
+        <div id="payment-package">
+          <img id="payment-package-logo" class="mb-5" src="{% static 'img/logo-light.webp' %}">
+          <h4 id="payment-package-type" class="text-center"></h4>
+          <p id="payment-package-class" class="text-center mb-0"></p>
+          <p id="payment-package-runtime" class="text-center mb-0"></p>
+          <h2 id="payment-package-price" class="text-center mt-4 fw-bold"></h2>
+          <p id="payment-package-payment-interval" class="text-center">{% trans 'home.payment.package.per.month' %}</p>
+          <button type="button" id="payment-pay-redirect" class="btn btn-primary d-block px-5 mt-5 mx-auto">{% trans 'home.payment.pay.redirect' %}</button>
+          <p id="payment-pay-method-headline" class="text-center mt-4">{% trans 'home.payment.pay.methods' %}</p>
+          <div id="payment-pay-method-list">
+            <img src="https://js.stripe.com/v3/fingerprinted/img/amex-b933c9009eeaf8cfd07e789c549b8c57.svg">
+            <img src="https://js.stripe.com/v3/fingerprinted/img/mastercard-86e9a2b929496a34918767093c470935.svg">
+            <img src="https://js.stripe.com/v3/fingerprinted/img/visa-fb36094822f73d7bc581f6c0bad1c201.svg">
+            <img src="https://js.stripe.com/v3/fingerprinted/img/sepa_debit-dark-2267c20803e67b8bb19eda68d42b20df.svg">
+            <img src="https://js.stripe.com/v3/fingerprinted/img/paypal-dark-b75755d2b5f200ed5a3d4e57fb111a8e.svg">
+          </div>
+        </div>
+      </div>
+      <div id="payment-not-found" class="d-none">
+        <h1 class="text-center fw-bold mb-5">{% trans 'home.payment.not.found.headline' %}</h1>
+        <p>{% trans 'home.payment.not.found.description' %}</p>
+        <button type="button" id="payment-not-found-redirect" class="btn btn-primary d-block px-4 mt-5 mx-auto">{% trans 'home.payment.not.found.redirect' %}</button>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  $(document).ready(function() {
+    if (Cookie.find("home-token") == null) {
+      loginRedirect();
+      return;
+    }
+    let packageType = Cookie.find("dulno-package-type");
+    let packageClass = Cookie.find("dulno-package-class");
+    let packageRuntime = Cookie.find("dulno-package-runtime");
+    let packagePrice = Cookie.find("dulno-package-price");
+    if (packageType == null || packageClass == null || packageRuntime == null || packagePrice == null) {
+      document.getElementById("payment-not-found").classList.remove("d-none");
+      return;
+    }
+    if (packageType === "FREE" && Cookie.find("token") !== null) {
+      window.location.href = "/";
+      return;
+    }
+    displayPackage(packageType, packageClass, packageRuntime, packagePrice);
+  });
+
+  function displayPackage(packageType, packageClass, packageRuntime, packagePrice) {
+    document.getElementById("payment-pay").classList.remove("d-none");
+    displayPackageType(packageType);
+    displayPackageClass(packageType, packageClass);
+    displayPackageRuntime(packageType, packageRuntime);
+    let language = Cookie.find("dulno-home-language");
+    document.getElementById("payment-package-price").innerHTML = (language === "de" ?
+      packagePrice.toString().replaceAll(".", ",") : packagePrice) + " €";
+    if (packageType === "FREE") {
+      document.getElementById("payment-package-payment-interval").classList.add("d-none");
+      document.getElementById("payment-pay-method-headline").classList.add("d-none");
+      document.getElementById("payment-pay-method-list").classList.add("d-none");
+      document.getElementById("payment-pay-redirect").classList.remove("btn-primary");
+      document.getElementById("payment-pay-redirect").classList.add("btn-success");
+      document.getElementById("payment-pay-redirect").innerHTML = "{% trans 'home.payment.pay.complete' %}";
+    }
+  }
+
+  function displayPackageType(packageType) {
+    if (packageType === "FREE") {
+      document.getElementById("payment-package-type").innerHTML =
+        "{% trans 'home.payment.package.type.free' %}";
+    } else if (packageType === "INDIVIDUAL") {
+      document.getElementById("payment-package-type").innerHTML =
+        "{% trans 'home.payment.package.type.individual' %}";
+    } else if (packageType === "TEAM") {
+      document.getElementById("payment-package-type").innerHTML =
+        "{% trans 'home.payment.package.type.team' %}";
+    }
+  }
+
+  function displayPackageClass(packageType, packageClass) {
+    if (packageType === "FREE") {
+      document.getElementById("payment-package-class").classList.add("d-none");
+      return;
+    }
+    if (packageClass === "BEGINNER") {
+      document.getElementById("payment-package-class").innerHTML =
+        "{% trans 'home.payment.package.class.beginner' %}";
+    } else if (packageClass === "ADVANCED") {
+      document.getElementById("payment-package-class").innerHTML =
+        "{% trans 'home.payment.package.class.advanced' %}";
+    } else if (packageClass === "EXPERT") {
+      document.getElementById("payment-package-class").innerHTML =
+        "{% trans 'home.payment.package.class.expert' %}";
+    }
+  }
+
+  function displayPackageRuntime(packageType, packageRuntime) {
+    if (packageType === "FREE") {
+      document.getElementById("payment-package-runtime").innerHTML =
+        "{% trans 'home.payment.package.runtime.unlimited' %}";
+      return;
+    }
+    if (packageRuntime === "MONTHLY") {
+      document.getElementById("payment-package-runtime").innerHTML =
+        "{% trans 'home.payment.package.runtime.month' %}";
+    } else if (packageRuntime === "YEARLY") {
+      document.getElementById("payment-package-runtime").innerHTML =
+        "{% trans 'home.payment.package.runtime.year' %}";
+    }
+  }
+
+  document.getElementById("payment-pay-redirect").onclick = function (event) {
+    let packageType = Cookie.find("dulno-package-type");
+    let packageClass = Cookie.find("dulno-package-class");
+    let packageRuntime = Cookie.find("dulno-package-runtime");
+    if (packageType === "FREE") {
+      processTrial();
+      return;
+    }
+    processPayment(packageType, packageClass, packageRuntime);
+  }
+
+  function processPayment(packageType, packageClass, packageRuntime) {
+    let request = new HttpRequest("/checkout/", "POST",
+      [], {bundleType: packageType, bundleClass: packageClass,
+        bundleRuntime: packageRuntime});
+    request.send(function (status, responseText) {
+      if (status === 403) {
+        Swal.fire("{% trans 'home.payment.failed.not.found.title' %}",
+          "{% trans 'home.payment.failed.not.found.body' %}", "error")
+          .then(success => loginRedirect());
+        return;
+      }
+      let response = JSON.parse(responseText);
+      if (response.success === true) {
+        resetPackageSelection();
+        window.location.href = response.link;
+        return;
+      }
+      Swal.fire("{% trans 'home.payment.failed.wrong.package.title' %}",
+        "{% trans 'home.payment.failed.wrong.package.body' %}", "error")
+        .then(success => window.location.href = "/pricing/");
+    });
+  }
+
+  function processTrial() {
+    let request = new HttpRequest("/trial/use/", "GET", []);
+    request.send(function (status, responseText) {
+      let response = JSON.parse(responseText);
+      resetPackageSelection();
+      if (response.success === true) {
+        Cookie.create("token", response.productApiKey, 60 * 60 * 24 * 30);
+        Cookie.create("refresh-token", response.refreshToken, 60 * 60 * 24 * 30);
+        Cookie.create("home-token", response.homeApiKey, 60 * 60);
+        Swal.fire("{% trans 'home.payment.trial.successful.title' %}",
+          "{% trans 'home.payment.trial.successful.body' %}", "success")
+          .then(success => window.location.href = "/");
+        return;
+      }
+      let errorCode = response.error;
+      if (errorCode === 1000) {
+        Swal.fire("{% trans 'home.payment.trial.failed.trial.exists.title' %}",
+          "{% trans 'home.payment.trial.failed.trial.exists.body' %}", "error")
+          .then(success => window.location.href = "/pricing/");
+      } else if (errorCode === 1001) {
+        Swal.fire("{% trans 'home.payment.trial.failed.bundle.present.title' %}",
+          "{% trans 'home.payment.trial.failed.bundle.preset.body' %}", "error")
+          .then(success => window.location.href = "/login/");
+      }
+    });
+  }
+
+  function loginRedirect() {
+    window.location.href = "/login/?redirect=" +
+      window.location.href.replace("{{base_url}}", "");
+  }
+
+  function resetPackageSelection() {
+    Cookie.destroy("dulno-package-type");
+    Cookie.destroy("dulno-package-class");
+    Cookie.destroy("dulno-package-runtime");
+    Cookie.destroy("dulno-package-price");
+  }
+
+  document.getElementById("payment-not-found-redirect").onclick = function (event) {
+    window.location.href = "/pricing/";
+  }
+</script>

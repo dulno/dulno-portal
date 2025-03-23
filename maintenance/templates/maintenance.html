@@ -1,0 +1,59 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="dark" data-bs-theme="dark">
+    <div id="maintenance-container">
+      {% include 'verification-header.html' %}
+      <div id="maintenance-content">
+        <div>
+          <h3 id="maintenance-headline">{% trans 'maintenance.headline' %}</h3>
+          <h1 id="maintenance-subtitle">{% trans 'maintenance.subtitle' %}</h1>
+          <p id="maintenance-description"></p>
+        </div>
+        <div>
+          <img id="maintenance-logo" src="{% static 'img/maintenance/maintenance.webp' %}">
+        </div>
+      </div>
+    </div>
+    {% include 'home-footer.html' %}
+  </body>
+</html>
+
+<script>
+  $(document).ready(function() {
+    document.getElementById("maintenance-description").innerHTML =
+      "{% trans 'maintenance.description' %}".replace("%s", "");
+    fetchMaintenance(function (maintenance) {
+      if (!maintenance.found) {
+        window.location.href = "/";
+        return;
+      }
+      displayRemainingDuration(maintenance.startTime, maintenance.duration);
+      setInterval(function () {
+        displayRemainingDuration(maintenance.startTime, maintenance.duration);
+      }, 1000);
+      setInterval(function () {
+        fetchMaintenance(function (maintenance) {
+          if (!maintenance.found) {
+            window.location.href = "/";
+          }
+        });
+      }, 10000);
+    });
+  });
+
+  function displayRemainingDuration(startTime, duration) {
+    var remainingTime = Math.max(startTime + duration - Date.now(), 0);
+    document.getElementById("maintenance-description").innerHTML =
+      "{% trans 'maintenance.description' %}".replace("%s",
+        new Date(Math.abs(remainingTime)).toISOString().slice(11,19));
+  }
+
+  function fetchMaintenance(callback) {
+    let request = new HttpRequest("/maintenance/running/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+</script>

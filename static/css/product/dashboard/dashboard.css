@@ -1,0 +1,235 @@
+#dashboard-wrapper {
+  width: 100%
+}
+
+#dashboard-container {
+  width: 100%;
+  margin: auto;
+}
+
+#dashboard-header {
+  padding: 5vh 20px;
+  margin-bottom: 8vh;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.dark #dashboard-header {
+  background-image: linear-gradient(to right, #232D3E, #586882);
+}
+
+.light #dashboard-header {
+  background-image: linear-gradient(to right, #8697b5, #444d6d);
+}
+
+#dashboard-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: min(calc(1200px), 100%);
+  margin: auto;
+}
+
+#dashboard-headline {
+  font-weight: bold;
+  text-align: center;
+  color: white;
+}
+
+#dashboard-header-logo {
+  height: 200px;
+}
+
+@media (max-width: 1000px) {
+  #dashboard-header {
+    padding: 10vh 20px;
+  }
+
+  #dashboard-header-content {
+    justify-content: center;
+  }
+
+  #dashboard-header-logo {
+    display: none;
+  }
+}
+
+#dashboard-content {
+  width: min(calc(1200px), 95%);
+  margin: auto;
+}
+
+.dashboard-content-entry {
+  margin-bottom: 8vh;
+}
+
+#dashboard-target-list {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border-radius: 5px;
+  list-style: none;
+}
+
+.dark #dashboard-target-list {
+  background-color: #131820;
+  border: 1px #2b3441 solid;
+}
+
+.light #dashboard-target-list {
+  background-color: #dadada;
+  border: 1px #a0a0a0 solid;
+}
+
+.dashboard-target {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.dashboard-target-icon {
+  width: 32px;
+  height: 32px;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-target-name {
+  margin-left: 30px;
+  margin-right: 30px;
+  font-size: 24px;
+}
+
+.dashboard-target .badge {
+  height: 38px;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-target-separator {
+  width: 100%;
+  height: 0;
+}
+
+.dark .dashboard-target-separator {
+  border-bottom: 1px #2b3441 solid;
+}
+
+.light .dashboard-target-separator {
+  border-bottom: 1px #a0a0a0 solid;
+}
+
+@media (max-width: 575px) {
+  .dashboard-target-icon {
+    font-size: 20px;
+  }
+
+  .dashboard-target-name {
+    font-size: 20px;
+    margin-left: 15px;
+  }
+}
+
+@media (max-width: 450px) {
+  .dashboard-target-icon {
+    display: none;
+  }
+
+  .dashboard-target-name {
+    margin-left: 0;
+  }
+}
+
+#dashboard-activity-list {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 0 0 30px;
+  margin: 0;
+  list-style: none;
+}
+
+.dashboard-activity {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 0 0 auto;
+  width: calc((1200px - 2 * 20px) / 3);
+  height: 300px;
+  border-radius: 5px;
+  padding: 30px;
+}
+
+.dark .dashboard-activity {
+  background-color: #131820;
+  border: 1px #2b3441 solid;
+}
+
+.light .dashboard-activity {
+  background-color: #dadada;
+  border: 1px #a0a0a0 solid;
+}
+
+.dashboard-activity-icon {
+  font-size: 64px;
+  height: 96px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.dashboard-activity-empty {
+  width: calc((1200px - 3.5rem) / 3);
+  height: 300px;
+  flex: 0 0 auto;
+  border-radius: 5px;
+  padding: 30px;
+}
+
+.dark .dashboard-activity-empty {
+  background-color: #131820;
+  border: 3px #5a6479 dashed;
+}
+
+.light .dashboard-activity-empty {
+  background-color: #dadada;
+  border: 3px #666666 dashed;
+}
+
+.dashboard-activity-title-empty {
+  margin: 90px auto auto;
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+}
+
+.dashboard-activity-description-empty {
+  margin: 20px auto auto;
+  width: 200px;
+  height: 30px;
+  border-radius: 10px;
+}
+
+.dark .dashboard-activity-title-empty, .dark .dashboard-activity-description-empty {
+  background-color: #5a6479;
+}
+
+.light .dashboard-activity-title-empty, .light .dashboard-activity-description-empty {
+  background-color: #666666;
+}
+
+.dashboard-tip-issue {
+  padding: 20px;
+  border-radius: 5px;
+  border: 2px #a94242 solid;
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.dark .dashboard-tip-issue a {
+  color: #0000EE;
+}

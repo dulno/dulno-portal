@@ -1,0 +1,199 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="dark" data-bs-theme="dark">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="package-upgrade-container">
+        <div id="package-upgrade-wrapper" class="d-none">
+          {% include 'package-tab.html' %}
+          <div id="package-upgrade-disclaimer">
+            <h4 class="fw-bold mb-4">{% trans 'product.package.upgrade.headline' %}</h4>
+            <p class="mb-3">{% trans 'product.package.upgrade.description.1' %}</p>
+            <b class="mb-0">{% trans 'product.package.upgrade.description.2' %}</b>
+          </div>
+          <div id="package-upgrade-limit-reached">
+            <h4 class="fw-bold mb-4">{% trans 'product.package.upgrade.headline' %}</h4>
+            <p class="mb-0">{% trans 'product.package.upgrade.limit.reached' %}</p>
+          </div>
+          <div id="package-upgrade-process">
+            <h4 class="fw-bold mb-4">{% trans 'product.package.upgrade.process.headline' %}</h4>
+            <div id="package-upgrade-personalization">
+              <div id="package-upgrade-runtime-selection" class="package-upgrade-switch">
+                <button id="package-upgrade-runtime-monthly" class="package-upgrade-switch-entry">{% trans 'home.pricing.runtime.monthly' %}</button>
+                <button id="package-upgrade-runtime-yearly" class="package-upgrade-switch-entry package-upgrade-switch-active">{% trans 'home.pricing.runtime.yearly' %}</button>
+              </div>
+              <div id="package-upgrade-class-selection" class="package-upgrade-switch mt-4">
+                <button id="package-upgrade-class-beginner" class="package-upgrade-switch-entry">{% trans 'home.pricing.class.beginner' %}</button>
+                <button id="package-upgrade-class-advanced" class="package-upgrade-switch-entry">{% trans 'home.pricing.class.advanced' %}</button>
+                <button id="package-upgrade-class-expert" class="package-upgrade-switch-entry package-upgrade-switch-active">{% trans 'home.pricing.class.expert' %}</button>
+              </div>
+            </div>
+            <div id="package-upgrade-package" class="mt-5">
+              <div id="package-upgrade-package-container">
+                <h2 id="package-upgrade-package-title">{% trans 'home.pricing.individual.title' %}</h2>
+                <h1 id="package-upgrade-package-price"></h1>
+                <p id="package-upgrade-package-time">{% trans 'home.pricing.individual.time' %}</p>
+                <button type="button" id="package-upgrade-buy" class="btn btn-outline-light">{% trans 'home.pricing.buy' %}</button>
+                <p id="package-upgrade-package-features-headline">{% trans 'home.pricing.summary.headline' %}</p>
+                <ul id="package-upgrade-package-features">
+                  <li class="mb-3"><i class="fa-regular fa-clock me-3"></i><p id="package-upgrade-package-runtime" class="mb-0"></p></li>
+                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p id="package-upgrade-package-workflow-number" class="mb-0"></p></li>
+                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b id="package-upgrade-package-workflow-operation" class="mb-0"></b></li>
+                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p id="package-upgrade-package-process-number" class="mb-0"></p></li>
+                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p id="package-upgrade-package-database-number" class="mb-0"></p></li>
+                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p id="package-upgrade-package-database-data" class="mb-0"></p></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div id="package-upgrade-options">
+            <h4 class="fw-bold mb-4">{% trans 'product.package.upgrade.options.headline' %}</h4>
+            <p class="mb-0">{% trans 'product.package.upgrade.options.description' %}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let bundleClass = "EXPERT";
+  let bundleRuntime = "YEARLY";
+  let individualPackageData;
+
+  $(document).ready(function() {
+    displayLoader()
+    fetchBundle(function (bundle) {
+      if (bundle.type !== "TRIAL" && bundle.type !== "INDIVIDUAL") {
+        window.location.href = "/";
+        return;
+      }
+      displayUpgradeOptions(bundle);
+      removeLoader();
+    });
+  });
+
+  function displayUpgradeOptions(bundle) {
+    if (bundle.type === "INDIVIDUAL" && bundle.class === "EXPERT") {
+      document.getElementById("package-upgrade-disclaimer").classList.add("d-none");
+      document.getElementById("package-upgrade-options").classList.add("d-none");
+      document.getElementById("package-upgrade-process").classList.add("d-none");
+    } else {
+      if (bundle.type === "INDIVIDUAL" && bundle.class === "BEGINNER") {
+        document.getElementById("package-upgrade-class-beginner").classList.add("d-none");
+      }
+      if (bundle.type === "INDIVIDUAL" && bundle.class === "ADVANCED") {
+        document.getElementById("package-upgrade-class-beginner").classList.add("d-none");
+        document.getElementById("package-upgrade-class-advanced").classList.add("d-none");
+      }
+      document.getElementById("package-upgrade-limit-reached").classList.add("d-none");
+      upgradeUpgradePackage();
+    }
+  }
+
+  function fetchBundle(callback) {
+    let request = new HttpRequest("/bundle/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+
+  function upgradeUpgradePackage() {
+    fetchPackage("INDIVIDUAL", function (individualPackage) {
+      individualPackageData = individualPackage;
+      displayUpgradePackage(individualPackage);
+    });
+  }
+
+  function displayUpgradePackage(individualPackage) {
+    document.getElementById("package-upgrade-package-price").innerHTML =
+      individualPackage.price + " €";
+    if (bundleRuntime === "MONTHLY") {
+      document.getElementById("package-upgrade-package-runtime").innerHTML =
+        "{% trans 'home.pricing.time.month' %}";
+    } else if (bundleRuntime === "YEARLY") {
+      document.getElementById("package-upgrade-package-runtime").innerHTML =
+        "{% trans 'home.pricing.time.year' %}";
+    }
+    document.getElementById("package-upgrade-package-workflow-number").innerHTML =
+      individualPackage.workflowNumberLimit + " " + "{% trans 'home.pricing.summary.workflow.number' %}";
+    document.getElementById("package-upgrade-package-workflow-operation").innerHTML =
+      individualPackage.workflowOperationLimit + " " + "{% trans 'home.pricing.summary.workflow.operation' %}";
+    document.getElementById("package-upgrade-package-process-number").innerHTML =
+      individualPackage.processNumberLimit + " " + "{% trans 'home.pricing.summary.process.number' %}";
+    document.getElementById("package-upgrade-package-database-number").innerHTML =
+      individualPackage.databaseNumberLimit + " " + "{% trans 'home.pricing.summary.database.number' %}";
+    document.getElementById("package-upgrade-package-database-data").innerHTML =
+      individualPackage.databaseDataLimit + " GB " + "{% trans 'home.pricing.summary.database.data' %}";
+  }
+
+  function fetchPackage(packageName, callback) {
+    let request = new HttpRequest("/bundle/preset/", "POST",
+      [], {type: packageName, class: bundleClass, runtime: bundleRuntime});
+    request.send(function (status, responseText) {
+      let response = JSON.parse(responseText);
+      callback(response);
+    });
+  }
+
+  document.getElementById("package-upgrade-class-beginner").onclick = function (event) {
+    bundleClass = "BEGINNER";
+    upgradeUpgradePackage();
+    document.getElementById("package-upgrade-class-beginner").classList.add("package-upgrade-switch-active");
+    document.getElementById("package-upgrade-class-advanced").classList.remove("package-upgrade-switch-active");
+    document.getElementById("package-upgrade-class-expert").classList.remove("package-upgrade-switch-active");
+  }
+
+  document.getElementById("package-upgrade-class-advanced").onclick = function (event) {
+    bundleClass = "ADVANCED";
+    upgradeUpgradePackage();
+    document.getElementById("package-upgrade-class-beginner").classList.remove("package-upgrade-switch-active");
+    document.getElementById("package-upgrade-class-advanced").classList.add("package-upgrade-switch-active");
+    document.getElementById("package-upgrade-class-expert").classList.remove("package-upgrade-switch-active");
+  }
+
+  document.getElementById("package-upgrade-class-expert").onclick = function (event) {
+    bundleClass = "EXPERT";
+    upgradeUpgradePackage();
+    document.getElementById("package-upgrade-class-beginner").classList.remove("package-upgrade-switch-active");
+    document.getElementById("package-upgrade-class-advanced").classList.remove("package-upgrade-switch-active");
+    document.getElementById("package-upgrade-class-expert").classList.add("package-upgrade-switch-active");
+  }
+
+  document.getElementById("package-upgrade-runtime-monthly").onclick = function (event) {
+    bundleRuntime = "MONTHLY";
+    upgradeUpgradePackage();
+    document.getElementById("package-upgrade-runtime-monthly").classList.add("package-upgrade-switch-active");
+    document.getElementById("package-upgrade-runtime-yearly").classList.remove("package-upgrade-switch-active");
+  }
+
+  document.getElementById("package-upgrade-runtime-yearly").onclick = function (event) {
+    bundleRuntime = "YEARLY";
+    upgradeUpgradePackage();
+    document.getElementById("package-upgrade-runtime-monthly").classList.remove("package-upgrade-switch-active");
+    document.getElementById("package-upgrade-runtime-yearly").classList.add("package-upgrade-switch-active");
+  }
+
+  document.getElementById("package-upgrade-buy").onclick = function (event) {
+    Cookie.create("dulno-package-type", "INDIVIDUAL", 60 * 60 * 24);
+    Cookie.create("dulno-package-class", bundleClass, 60 * 60 * 24);
+    Cookie.create("dulno-package-runtime", bundleRuntime, 60 * 60 * 24);
+    Cookie.create("dulno-package-price", individualPackageData.price, 60 * 60 * 24);
+    window.location.href = "/payment/";
+  }
+
+  function displayLoader() {
+    let loader = document.createElement("div");
+    loader.classList.add("loader");
+    document.getElementById("package-upgrade-container").appendChild(loader);
+  }
+
+  function removeLoader() {
+    document.getElementById("package-upgrade-container")
+      .removeChild(document.getElementsByClassName("loader")[0]);
+    document.getElementById("package-upgrade-wrapper").classList.remove("d-none");
+  }
+</script>

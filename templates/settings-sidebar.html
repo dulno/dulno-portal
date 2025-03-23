@@ -1,0 +1,30 @@
+{% load static %}
+{% load i18n %}
+<div class="collapse collapse-horizontal" id="sidebar">
+  <div id="sidebar-content">
+    <ul class="navbar-nav ml-auto d-flex align-items-center">
+      <li class="sidebar-item">
+        <a href="/settings/profile/" class="sidebar-link nav-link {% if request.path == '/settings/profile/' %}sidebar-active{% endif %}" aria-current="page"><i class="sidebar-icon fa fa-user" aria-hidden="true"></i>{% trans 'settings.sidebar.profile' %}</a>
+      </li>
+      <li class="sidebar-item">
+        <a href="/settings/account/" class="sidebar-link nav-link {% if request.path == '/settings/account/' %}sidebar-active{% endif %}" aria-current="page"><i class="sidebar-icon fa fa-gear" aria-hidden="true"></i>{% trans 'settings.sidebar.account' %}</a>
+      </li>
+      <li class="sidebar-divider my-2"></li>
+      <h6 class="sidebar-section">{% trans 'settings.sidebar.personalization' %}</h6>
+      <li class="sidebar-item">
+        <a href="/settings/language/" class="sidebar-link nav-link {% if request.path == '/settings/language/' %}sidebar-active{% endif %}" aria-current="page"><i class="sidebar-icon fa fa-globe" aria-hidden="true"></i>{% trans 'settings.sidebar.language' %}</a>
+      </li>
+      <li class="sidebar-item">
+        <a href="/settings/theme/" class="sidebar-link nav-link {% if request.path == '/settings/theme/' %}sidebar-active{% endif %}" aria-current="page"><i class="sidebar-icon fa fa-circle-half-stroke" aria-hidden="true"></i>{% trans 'settings.sidebar.theme' %}</a>
+      </li>
+      <li class="sidebar-divider my-2"></li>
+      <h6 class="sidebar-section">{% trans 'settings.sidebar.security' %}</h6>
+      <li class="sidebar-item">
+        <a href="/settings/2fa/" class="sidebar-link nav-link {% if request.path == '/settings/2fa/' %}sidebar-active{% endif %}" aria-current="page"><i class="sidebar-icon fa fa-lock" aria-hidden="true"></i>{% trans 'settings.sidebar.2fa' %}</a>
+      </li>
+      <li class="sidebar-item">
+        <a href="/settings/session/" class="sidebar-link nav-link {% if request.path == '/settings/session/' %}sidebar-active{% endif %}" aria-current="page"><i class="sidebar-icon fa fa-key" aria-hidden="true"></i>{% trans 'settings.sidebar.session' %}</a>
+      </li>
+    </ul>
+  </div>
+</div>

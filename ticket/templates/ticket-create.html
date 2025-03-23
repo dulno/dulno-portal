@@ -1,0 +1,135 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="dark" data-bs-theme="dark">
+    {% include 'neutral-header.html' %}
+    <div id="ticket-create-container">
+      <div id="ticket-create-header">
+        <button id="ticket-create-page-back"><i class="fa-solid fa-arrow-left-long"></i></button>
+        <h1 id="ticket-create-headline" class="fw-bold text-center mb-0">{% trans 'ticket.create.headline' %}</h1>
+      </div>
+      <div class="form-outline mb-4">
+        <label for="ticket-title" class="form-label">{% trans 'ticket.create.title' %}</label>
+        <input type="title" id="ticket-title" class="form-control" maxlength=64 placeholder="{% trans 'ticket.create.title' %}">
+      </div>
+      <div class="form-outline mb-4">
+        <label class="form-label">{% trans 'ticket.create.type' %}</label>
+        <div id="ticket-create-type-dropdown" class="dropdown">
+          <button id="ticket-create-type-dropdown-button" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            {% trans 'ticket.create.type' %}
+          </button>
+          <ul id="ticket-create-type-dropdown-list" class="dropdown-menu">
+            <li><a id="ticket-create-type-request" class="dropdown-item">{% trans 'ticket.create.type.request' %}</a></li>
+            <li><a id="ticket-create-type-bug" class="dropdown-item">{% trans 'ticket.create.type.bug' %}</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="form-outline mb-4">
+        <label for="ticket-message" class="form-label">{% trans 'ticket.create.message' %}</label>
+        <div id="ticket-message">
+        </div>
+      </div>
+      <p id="ticket-create-note" class="text-secondary my-3">{% trans 'ticket.create.note' %}</p>
+      <button type="button" id="ticket-create" class="btn btn-primary btn-block disabled mb-3">{% trans 'ticket.create.create' %}</button>
+    </div>
+  </body>
+</html>
+
+<script>
+  let ticketType = "";
+
+  $(document).ready(function() {
+    for (let element of [...document.querySelectorAll('input[maxlength]')]) {
+      element.addEventListener('input', tickInputMaxLength)
+      element.parentElement.classList.add('max-length-badged');
+      tickInputMaxLength(element)
+    }
+  });
+
+  function tickInputMaxLength(element) {
+    if (element.target) {
+      element = element.target
+    }
+    let limit = element.maxLength;
+    let parent = element.parentElement;
+    let length = element.value.length;
+    parent.dataset['limit'] = limit;
+    parent.dataset['remaining'] = limit - length;
+    parent.classList.remove('max-length-reached');
+    if (length === limit) {
+      parent.classList.add('max-length-reached');
+    }
+  }
+
+  let quill = new Quill('#ticket-message', {
+    modules: {
+      toolbar: [
+        [{'size': ['huge', 'large', false, 'small']}],
+        ['bold', 'italic', 'underline'],
+        ['image'],
+        [{'list': 'ordered'}, {'list': 'bullet'}],
+        [{'align': []}],
+        [{'color': []}],
+      ]
+    },
+    theme: 'snow'
+  });
+
+  document.getElementById("ticket-title").oninput = function(event) {
+    checkTicketCreatable();
+  }
+
+  document.getElementById("ticket-create-type-request").onclick = function(event) {
+    ticketType = "REQUEST";
+    document.getElementById("ticket-create-type-dropdown-button").innerText = "{% trans 'ticket.create.type.request' %}";
+    checkTicketCreatable();
+  }
+
+  document.getElementById("ticket-create-type-bug").onclick = function(event) {
+    ticketType = "BUG";
+    document.getElementById("ticket-create-type-dropdown-button").innerText = "{% trans 'ticket.create.type.bug' %}";
+    checkTicketCreatable();
+  }
+
+  quill.on('text-change', function(delta, oldDelta, source) {
+    checkTicketCreatable();
+  });
+
+  function checkTicketCreatable() {
+    if (document.getElementById("ticket-title").value !== "" && ticketType !== "" &&
+      document.getElementsByClassName("ql-editor")[0].innerHTML !== "<p><br></p>"
+    ) {
+      document.getElementById("ticket-create").classList.remove("disabled");
+    } else {
+      document.getElementById("ticket-create").classList.add("disabled");
+    }
+  }
+
+  document.getElementById("ticket-create").onclick = function(event) {
+    let title = document.getElementById("ticket-title").value;
+    let message =  document.getElementsByClassName("ql-editor")[0].innerHTML;
+    let request = new HttpRequest("/ticket/create/", "POST",
+      [], {title: title, type: ticketType, message: message});
+    request.send(function (status, responseText) {
+      if (status !== 200) {
+        Swal.fire("{% trans 'ticket.create.failed.title' %}",
+          "{% trans 'ticket.create.failed' %}", "error");
+        return;
+      }
+      let success = JSON.parse(responseText).success;
+      if (!success) {
+        Swal.fire("{% trans 'ticket.create.failed.title' %}",
+          "{% trans 'ticket.create.limit' %}", "error");
+        return;
+      }
+      Swal.fire("{% trans 'ticket.create.successful.title' %}",
+        "{% trans 'ticket.create.successful.body' %}", "success")
+        .then(success => window.location.href = "/tickets/");
+    });
+  }
+
+  document.getElementById("ticket-create-page-back").onclick = function (event) {
+    window.location.href = "/tickets/";
+  }
+</script>

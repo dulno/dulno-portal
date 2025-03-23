@@ -1,0 +1,67 @@
+{% load static %}
+{% load i18n %}
+<div class="collapse collapse-horizontal" id="sidebar">
+  <div id="sidebar-content">
+    <ul class="navbar-nav ml-auto h-100 d-flex align-items-center">
+      <li class="sidebar-item mt-3 {% if request.path == '/dashboard/' or request.path == '/' %}sidebar-active{% endif %}">
+        <a href="/dashboard/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">house</span><span>{% trans 'product.sidebar.dashboard' %}</span></a>
+      </li>
+      <li class="sidebar-divider"></li>
+      <li class="sidebar-item {% if 'workflow' in request.path %}sidebar-active{% endif %}">
+        <a href="/workflows/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">family_history</span><span>{% trans 'product.sidebar.workflows' %}</span></a>
+      </li>
+      <li class="sidebar-item {% if request.path == '/templates/' %}sidebar-active{% endif %}">
+        <a href="/templates/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">draft</span><span>{% trans 'product.sidebar.templates' %}</span></a>
+      </li>
+      <li class="sidebar-item {% if 'process' in request.path %}sidebar-active{% endif %}">
+        <a href="/processes/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">account_tree</span><span>{% trans 'product.sidebar.processes' %}</span></a>
+      </li>
+      <li class="sidebar-divider"></li>
+      <li class="sidebar-item {% if 'database' in request.path %}sidebar-active{% endif %}">
+        <a href="/databases/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">database</span><span>{% trans 'product.sidebar.databases' %}</span></a>
+      </li>
+      <li class="sidebar-item {% if 'webhook' in request.path %}sidebar-active{% endif %}">
+        <a href="/webhooks/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">webhook</span><span>{% trans 'product.sidebar.webhooks' %}</span></a>
+      </li>
+      <li class="sidebar-item {% if 'device' in request.path %}sidebar-active{% endif %}">
+        <a href="/devices/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">devices</span><span>{% trans 'product.sidebar.devices' %}</span></a>
+      </li>
+      <li class="sidebar-divider"></li>
+      <li class="sidebar-item {% if request.path == '/account/apps/' or request.path == '/accounts/' %}sidebar-active{% endif %}">
+        <a href="/account/apps/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">link</span><span>{% trans 'product.sidebar.accounts' %}</span></a>
+      </li>
+      <li id="sidebar-organization" class="sidebar-item d-none {% if 'organization' in request.path %}sidebar-active{% endif %}">
+        <a href="/organization/members/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">groups</span><span>{% trans 'product.sidebar.organization' %}</span></a>
+      </li>
+      <li id="sidebar-package" class="sidebar-item d-none {% if 'package' in request.path %}sidebar-active{% endif %}">
+        <a href="/package/general/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">account_balance</span><span>{% trans 'product.sidebar.package' %}</span></a>
+      </li>
+      <li class="sidebar-divider mt-auto"></li>
+      <li class="sidebar-item mb-2 {% if request.path == '/help/' %}sidebar-active{% endif %}">
+        <a href="/help/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">help</span><span>{% trans 'product.sidebar.help' %}</span></a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    let request = new HttpRequest("/organization/", "GET",
+      []);
+    request.send(function (status, responseText) {
+      let response = JSON.parse(responseText);
+      if ("id" in response) {
+        document.getElementById("sidebar-organization").classList.remove("d-none");
+      } else {
+        document.getElementById("sidebar-package").classList.remove("d-none");
+      }
+    });
+  });
+
+  document.fonts.ready.then(function() {
+    const icons = document.querySelectorAll('.material-symbols-outlined');
+    icons.forEach(icon => {
+      icon.classList.add('loaded');
+    });
+  });
+</script>
