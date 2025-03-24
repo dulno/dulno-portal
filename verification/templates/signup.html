@@ -184,15 +184,16 @@
                   <div class="signup-page-headline">{% trans 'signup.finish.headline' %}</div>
                   <div class="signup-page-description text-secondary">{% trans 'signup.finish.description' %}</div>
                 </div>
-                <div class="signup-page-input-list mt-5 pt-5 px-2">
+                <div class="signup-page-finish-content text-start mt-5 pt-5">
                   <div class="form-check">
                     <input id="signup-finish-legal-check" type="checkbox" class="form-check-input">
                     <label class="form-check-label" for="signup-finish-legal-check">
                       {% trans 'signup.finish.legal.check' %}
                       <a class="text-decoration-none" href="/terms-of-service/" target="_blank">{% trans 'signup.finish.terms.of.service' %}</a> {% trans 'signup.finish.and' %}
-                      <a class="text-decoration-none" href="/privacy-policy/" target="_blank">{% trans 'signup.finish.privacy.policy' %}</a></label>
+                      <a class="text-decoration-none" href="/privacy-policy/" target="_blank">{% trans 'signup.finish.privacy.policy' %}</a>
+                    </label>
                   </div>
-                  <div class="form-check mb-3">
+                  <div class="form-check">
                     <input id="signup-finish-newsletter-check" type="checkbox" class="form-check-input">
                     <label class="form-check-label" for="signup-finish-newsletter-check">{% trans 'signup.finish.news' %}</label>
                   </div>
@@ -213,8 +214,8 @@
                     </div>
                   </div>
                   <h2 class="fw-bold mb-3">{% trans 'signup.success.headline' %}</h2>
-                  <p class="text-secondary">{% trans 'signup.success.email.description' %}</p>
-                  <p class="text-secondary">{% trans 'signup.success.email.resend.description' %}</p>
+                  <p class="text-start text-secondary">{% trans 'signup.success.email.description' %}</p>
+                  <p class="text-start text-secondary">{% trans 'signup.success.email.resend.description' %}</p>
                 </div>
               </div>
             </div>

@@ -496,6 +496,12 @@
   background-color: #acb2b9;
 }
 
+.signup-page-finish-content {
+  max-width: min(800px, 100%);
+  width: fit-content;
+  margin: auto;
+}
+
 #signup-success-container {
   width: min(650px, 100%);
   margin: auto;
