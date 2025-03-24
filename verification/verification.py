@@ -31,7 +31,7 @@ async def login(request):
 @home_page
 async def signup(request):
   redirect = request.GET.get('redirect', '')
-  return render(request, 'signup.html', {'title': gettext("home.registration.title"),
+  return render(request, 'signup.html', {'title': gettext("signup.title"),
     'css': ['css/base/home-language.css', 'css/verification/signup.css'],
     'redirect': redirect, 'recaptcha_token': RECAPTCHA_TOKEN})
 
