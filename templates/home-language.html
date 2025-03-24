@@ -22,11 +22,11 @@
 
   document.getElementById("home-language-en").onclick = function (event) {
     Cookie.create("dulno-home-language", "en", 60 * 60 * 24 * 365);
-    window.location.reload();
+    window.location.reload(true);
   }
 
   document.getElementById("home-language-de").onclick = function (event) {
     Cookie.create("dulno-home-language", "de", 60 * 60 * 24 * 365);
-    window.location.reload();
+    window.location.reload(true);
   }
 </script>

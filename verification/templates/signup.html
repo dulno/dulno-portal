@@ -54,7 +54,7 @@
                   <div class="signup-page-headline">{% trans 'signup.card.headline' %}</div>
                   <div class="signup-page-description text-secondary">{% trans 'signup.card.description' %}</div>
                 </div>
-                <div class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center mt-5">
+                <div class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center">
                   <div class="flex-grow-1 align-self-stretch">
                     <div class="signup-field">
                       <div class="signup-field-label">{% trans 'signup.card.business.name' %}</div>
@@ -70,10 +70,10 @@
                     </div>
                     <div class="signup-field">
                       <div class="signup-field-label">{% trans 'signup.card.color' %}</div>
-                      <input id="signup-card-color-input" type="color" default="#475569" value="#475569" class="mb-4">
+                      <input id="signup-card-color-input" type="color" value="#475569" class="mb-4">
                     </div>
                   </div>
-                  <div id="signup-card-container" class="ms-xl-5">
+                  <div id="signup-card-container" class="ms-xl-5 mb-3">
                     <div id="signup-card" class="d-flex align-items-end">
                       <img id="signup-card-logo" src="{% static 'img/logo-light.webp' %}"  alt=""/>
                       <div class="d-flex align-items-center justify-content-evenly w-100">
@@ -107,7 +107,7 @@
                 <div class="signup-page-input-list">
                   <div class="signup-field">
                     <div class="signup-field-label">{% trans 'signup.reward.number' %}</div>
-                    <input id="signup-reward-number-input" type="text" default="10" value="10">
+                    <input id="signup-reward-number-input" type="text" value="10">
                   </div>
                   <div class="signup-field">
                     <div class="signup-field-label">{% trans 'signup.reward.type' %}</div>
@@ -130,17 +130,16 @@
                   <div class="signup-field">
                     <div class="signup-field-label">{% trans 'signup.business.locations' %}</div>
                     <ul id="signup-business-location-list">
-                      <li>
-                        <input id="signup-business-location-input" type="text" placeholder="{% trans 'signup.business.location.placeholder' %}">
-                        <div id="signup-business-location-suggestions" class="d-none"></div>
-                      </li>
                     </ul>
+                    <div id="signup-business-location-add">
+                      <i class="fa-solid fa-plus"></i>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="signup-field signup-pagination">
                 <button class="signup-previous-button">{% trans 'signup.previous' %}</button>
-                <button class="signup-next-button signup-next-disabled">{% trans 'signup.next' %}</button>
+                <button id="signup-business-next" class="signup-next-button signup-next-disabled">{% trans 'signup.next' %}</button>
               </div>
             </div>
             <div class="signup-page">
@@ -185,10 +184,38 @@
                   <div class="signup-page-headline">{% trans 'signup.finish.headline' %}</div>
                   <div class="signup-page-description text-secondary">{% trans 'signup.finish.description' %}</div>
                 </div>
+                <div class="signup-page-input-list mt-5 pt-5 px-2">
+                  <div class="form-check">
+                    <input id="signup-finish-legal-check" type="checkbox" class="form-check-input">
+                    <label class="form-check-label" for="signup-finish-legal-check">
+                      {% trans 'signup.finish.legal.check' %}
+                      <a class="text-decoration-none" href="/terms-of-service/" target="_blank">{% trans 'signup.finish.terms.of.service' %}</a> {% trans 'signup.finish.and' %}
+                      <a class="text-decoration-none" href="/privacy-policy/" target="_blank">{% trans 'signup.finish.privacy.policy' %}</a></label>
+                  </div>
+                  <div class="form-check mb-3">
+                    <input id="signup-finish-newsletter-check" type="checkbox" class="form-check-input">
+                    <label class="form-check-label" for="signup-finish-newsletter-check">{% trans 'signup.finish.news' %}</label>
+                  </div>
+                </div>
               </div>
               <div class="signup-field signup-pagination">
                 <button class="signup-previous-button">{% trans 'signup.previous' %}</button>
                 <button id="signup-finish-submit" class="signup-submit-button signup-submit-disabled">{% trans 'signup.submit' %}</button>
+              </div>
+            </div>
+            <div class="signup-page">
+              <div class="flex-grow-1 d-flex align-items-center justify-content-center">
+                <div id="signup-success-container">
+                  <div class="success-icon-wrapper mb-5">
+                    <div class="success-icon">
+                      <div class="success-icon__tip"></div>
+                      <div class="success-icon__long"></div>
+                    </div>
+                  </div>
+                  <h2 class="fw-bold mb-3">{% trans 'signup.success.headline' %}</h2>
+                  <p class="text-secondary">{% trans 'signup.success.email.description' %}</p>
+                  <p class="text-secondary">{% trans 'signup.success.email.resend.description' %}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -201,17 +228,7 @@
 <script src="https://www.google.com/recaptcha/api.js?render={{recaptcha_token}}"></script>
 
 <script>
-  window.onload = function() {
-    document.querySelectorAll("input").forEach(field => {
-      if (field.hasAttribute("default")) {
-        field.value = field.getAttribute("default");
-        return;
-      }
-      field.value = "";
-    });
-  };
-
-  $(document).ready(function() {
+  $(document).ready(function () {
     cardBusinessNameInput.focus();
     for (let element of [...document.querySelectorAll('input[maxlength]')]) {
       element.addEventListener('input', tickInputMaxLength)
@@ -219,6 +236,7 @@
       tickInputMaxLength(element)
     }
     updatePasswordProgress();
+    createBusinessLocationEntry();
   });
 
   function tickInputMaxLength(element) {
@@ -240,9 +258,9 @@
   const steps = document.querySelectorAll(".signup-step");
   let current = 1;
   for (let i = 0; i < pages.length; i++) {
-    let nextButton = pages[i].querySelector(".signup-next-button");
+    let nextButton = pages[i].querySelector(".signup-next-button, .signup-submit-button");
     if (nextButton) {
-      nextButton.addEventListener("click", function(event) {
+      nextButton.addEventListener("click", function (event) {
         event.preventDefault();
         if (nextButton.classList.contains("signup-next-disabled")) {
           return;
@@ -250,10 +268,12 @@
         pages[0].style.marginLeft = "-" + (100 * ((i + 1) / pages.length)) + "%";
         steps[i].classList.add("signup-step-active");
         steps[i].classList.remove("signup-step-current");
-        steps[i + 1].classList.add("signup-step-current");
-        focusFirstInput(pages[i + 1]);
+        if (steps[i + 1]) {
+          steps[i + 1].classList.add("signup-step-current");
+          focusFirstInput(pages[i + 1]);
+        }
       });
-      nextButton.addEventListener('keydown', function(event) {
+      nextButton.addEventListener('keydown', function (event) {
         if (event.key === 'Tab') {
           event.preventDefault();
         }
@@ -261,7 +281,7 @@
     }
     let previousButton = pages[i].querySelector(".signup-previous-button");
     if (previousButton) {
-      previousButton.addEventListener("click", function(event) {
+      previousButton.addEventListener("click", function (event) {
         event.preventDefault();
         pages[0].style.marginLeft = "-" + (100 * ((i - 1) / pages.length)) + "%";
         steps[i - 1].classList.remove("signup-step-active");
@@ -273,10 +293,13 @@
   }
 
   function focusFirstInput(page) {
-    setTimeout(function() {
+    setTimeout(function () {
       let inputs = page.getElementsByTagName("input");
       if (inputs.length > 0) {
         let input = inputs[0];
+        if (input.type !== "text") {
+          return;
+        }
         input.focus();
         const length = input.value.length;
         input.setSelectionRange(length, length);
@@ -285,7 +308,7 @@
   }
 
   let cardBusinessNameInput = document.getElementById("signup-card-name-input");
-  cardBusinessNameInput.addEventListener("input", function(event) {
+  cardBusinessNameInput.addEventListener("input", function (event) {
     let value = cardBusinessNameInput.value;
     if (value === "") {
       value = "{% trans 'signup.card.business.name.placeholder' %}";
@@ -295,7 +318,7 @@
   });
 
   let cardBusinessDescriptionInput = document.getElementById("signup-card-description-input");
-  cardBusinessDescriptionInput.addEventListener("input", function(event) {
+  cardBusinessDescriptionInput.addEventListener("input", function (event) {
     let value = cardBusinessDescriptionInput.value;
     if (value === "") {
       value = "{% trans 'signup.card.business.description.placeholder' %}";
@@ -305,11 +328,11 @@
   });
 
   let cardLogoInput = document.getElementById("signup-card-logo-input");
-  cardLogoInput.addEventListener('change', function(event) {
+  cardLogoInput.addEventListener('change', function (event) {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         document.getElementById('signup-card-logo').src = e.target.result;
       };
       reader.readAsDataURL(file);
@@ -318,7 +341,7 @@
   });
 
   let cardColorInput = document.getElementById("signup-card-color-input");
-  cardColorInput.addEventListener("input", function(event) {
+  cardColorInput.addEventListener("input", function (event) {
     document.getElementById("signup-card").style.backgroundColor = cardColorInput.value;
   });
 
@@ -335,7 +358,7 @@
   let rewardNumberInput = document.getElementById("signup-reward-number-input");
   let rewardTypeInput = document.getElementById("signup-reward-type-input");
 
-  rewardNumberInput.addEventListener("input", function(event) {
+  rewardNumberInput.addEventListener("input", function (event) {
     let value = rewardNumberInput.value;
     value = value.replace(/[^0-9-]/g, "");
     value = value.replace(/(?!^)-/g, "");
@@ -343,7 +366,7 @@
     checkRewardCompletion();
   });
 
-  rewardTypeInput.addEventListener("input", function(event) {
+  rewardTypeInput.addEventListener("input", function (event) {
     checkRewardCompletion();
   });
 
@@ -355,43 +378,115 @@
     document.getElementById("signup-reward-next").classList.remove("signup-next-disabled");
   }
 
-  let businessAddressInput = document.getElementById("signup-business-location-input");
-  let businessAddressSuggestions = document.getElementById("signup-business-location-suggestions");
-  let businessAddressTimeout = -1;
-  businessAddressInput.addEventListener('input', function() {
-    if (businessAddressTimeout !== -1) {
-      clearTimeout(businessAddressTimeout);
-    }
-    businessAddressTimeout = setTimeout(function () {
-      businessAddressTimeout = -1;
-      const query = businessAddressInput.value;
-      if (query.length > 2) {
-        fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=5`)
-          .then(response => response.json())
-          .then(data => {
-            businessAddressSuggestions.innerHTML = '';
-            if (data.length > 0) {
-              businessAddressSuggestions.classList.remove("d-none");
-            }
-            data.forEach(item => {
-              const div = document.createElement('div');
-              div.classList.add('signup-business-location-suggestions-item');
-              div.textContent = item.display_name;
-              div.onclick = () => {
-                businessAddressInput.value = item.display_name;
-                businessAddressSuggestions.classList.add("d-none");
-              };
-              businessAddressSuggestions.appendChild(div);
-            });
-          })
-          .catch(error => {
-            console.error('Fehler beim Abrufen der Vorschläge:', error);
-          });
-      } else {
-        businessAddressSuggestions.classList.add("d-none");
+  let businessLocationEntries = [];
+
+  function createBusinessLocationEntry() {
+    let locationEntry = {};
+    let entryElement = document.createElement("li");
+    let entryControl = document.createElement("div");
+    entryControl.classList.add("d-flex", "align-items-center");
+    let inputElement = document.createElement("input");
+    inputElement.placeholder = "{% trans 'signup.business.location.placeholder' %}";
+    inputElement.type = "text";
+    entryControl.appendChild(inputElement);
+    let removeElement = document.createElement("button");
+    removeElement.innerHTML = '<i class="fa-solid fa-xmark text-danger"></i>';
+    removeElement.onclick = function (event) {
+      entryElement.remove();
+      businessLocationEntries.splice(businessLocationEntries.indexOf(locationEntry), 1);
+      if (businessLocationEntries.length === 1) {
+        businessLocationEntries[0].removeElement.classList.add("d-none");
       }
+      checkBusinessCompletion();
+    }
+    locationEntry.removeElement = removeElement;
+    entryControl.appendChild(removeElement);
+    entryElement.appendChild(entryControl);
+    if (businessLocationEntries.length === 0) {
+      removeElement.classList.add("d-none");
+    } else if (businessLocationEntries.length === 1) {
+      businessLocationEntries[0].removeElement.classList.remove("d-none");
+    }
+    let suggestionsElement = document.createElement("div");
+    suggestionsElement.classList.add("signup-business-location-suggestions");
+    let suggestionsContentElement = document.createElement("div");
+    suggestionsContentElement.classList.add("d-none", "signup-business-location-suggestions-content");
+    locationEntry.timeout = -1;
+    inputElement.addEventListener('input', function () {
+      locationEntry.address = inputElement.value;
+      processBusinessLocationInteraction(locationEntry, inputElement,
+        suggestionsContentElement);
+      checkBusinessCompletion();
+    });
+    inputElement.addEventListener('click', function () {
+      processBusinessLocationInteraction(locationEntry, inputElement,
+        suggestionsContentElement);
+    });
+    suggestionsElement.appendChild(suggestionsContentElement)
+    entryElement.appendChild(suggestionsElement);
+    document.getElementById("signup-business-location-list").appendChild(entryElement);
+    businessLocationEntries.push(locationEntry);
+    document.addEventListener('click', function(event) {
+      if (event.target !== inputElement) {
+        suggestionsContentElement.classList.add("d-none");
+      }
+    });
+    checkBusinessCompletion();
+  }
+
+  function processBusinessLocationInteraction(locationEntry, inputElement, suggestionsElement) {
+    if (locationEntry.timeout !== -1) {
+      clearTimeout(locationEntry.timeout);
+    }
+    locationEntry.timeout = setTimeout(function () {
+      locationEntry.timeout = -1;
+      displayBusinessLocationSuggestions(locationEntry, inputElement, suggestionsElement);
     }, 500);
-  });
+  }
+
+  function displayBusinessLocationSuggestions(locationEntry, inputElement, suggestionsElement) {
+    const query = inputElement.value;
+    if (query.length > 2) {
+      fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=5`)
+        .then(response => response.json())
+        .then(data => {
+          suggestionsElement.innerHTML = '';
+          if (data.length > 0) {
+            suggestionsElement.classList.remove("d-none");
+          }
+          data.forEach(item => {
+            const div = document.createElement('div');
+            div.classList.add('signup-business-location-suggestions-item');
+            div.textContent = item.display_name;
+            div.onclick = () => {
+              inputElement.value = item.display_name;
+              suggestionsElement.classList.add("d-none");
+              locationEntry.address = item.display_name;
+              locationEntry.latitude = item.lat;
+              locationEntry.longitude = item.lon;
+              checkBusinessCompletion();
+            };
+            suggestionsElement.appendChild(div);
+          });
+        });
+    } else {
+      suggestionsElement.classList.add("d-none");
+    }
+  }
+
+  document.getElementById("signup-business-location-add").onclick = function (event) {
+    createBusinessLocationEntry();
+  }
+
+  function checkBusinessCompletion() {
+    for (let entry of businessLocationEntries) {
+      if (!entry.address || entry.address === "") {
+        document.getElementById("signup-business-next").classList.add("signup-next-disabled");
+        return;
+      }
+    }
+    document.getElementById("signup-business-next").classList.remove("signup-next-disabled");
+  }
 
   let accountNameInput = document.getElementById("signup-account-name-input");
   let accountEmailInput = document.getElementById("signup-account-email-input");
@@ -400,11 +495,11 @@
   let accountPasswordRepetitionInput = document.getElementById("signup-account-password-repetition-input");
   accountPasswordRepetitionInput.setCustomValidity(1);
 
-  accountNameInput.addEventListener("input", function(event) {
+  accountNameInput.addEventListener("input", function (event) {
     checkAccountCompletion();
   });
 
-  accountEmailInput.addEventListener("input", function(event) {
+  accountEmailInput.addEventListener("input", function (event) {
     checkAccountCompletion();
     if (!validateEmail(accountEmailInput.value)) {
       accountEmailInput.setCustomValidity(1);
@@ -413,15 +508,15 @@
     accountEmailInput.setCustomValidity("");
   });
 
-  accountPasswordInput.addEventListener('keypress', function(event) {
+  accountPasswordInput.addEventListener('keypress', function (event) {
     updatePasswordProgress();
   });
 
-  accountPasswordInput.addEventListener('keyup', function(event) {
+  accountPasswordInput.addEventListener('keyup', function (event) {
     updatePasswordProgress();
   });
 
-  accountPasswordRepetitionInput.addEventListener("input", function(event) {
+  accountPasswordRepetitionInput.addEventListener("input", function (event) {
     checkAccountCompletion();
     if (accountPasswordInput.validity.customError) {
       accountPasswordRepetitionInput.setCustomValidity(1);
@@ -491,7 +586,7 @@
     } else {
       accountPasswordInput.setCustomValidity(strength);
       progressBarClass = "bg-danger";
-      if(accountPasswordInput.value.length < 8) {
+      if (accountPasswordInput.value.length < 8) {
         information += (8 - accountPasswordInput.value.length) + "{% trans 'neutral.password.letters.remaining' %}";
       }
       information += messageCases;
@@ -528,4 +623,12 @@
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
   }
+
+  let finishLegalCheck = document.getElementById("signup-finish-legal-check");
+  let finishNewsletterCheck = document.getElementById("signup-finish-legal-check");
+
+  finishLegalCheck.addEventListener('change', (event) => {
+    $(document.getElementById("signup-finish-submit"))
+      .toggleClass("signup-submit-disabled", !event.currentTarget.checked);
+  })
 </script>
