@@ -36,11 +36,11 @@ async def signup(request):
     'redirect': redirect, 'recaptcha_token': RECAPTCHA_TOKEN})
 
 @home_page
-async def signupConfirm(request, user, token):
+async def signupConfirm(request, member, token):
   redirect = request.GET.get('redirect', '')
-  return render(request, 'signup-confirm.html', {'title': gettext("home.registration.confirm.title"),
+  return render(request, 'signup-confirm.html', {'title': gettext("signup.title"),
     'css': ['css/base/home-language.css', 'css/verification/signup-confirm.css'],
-    'user': user, 'token': token, 'redirect': redirect})
+    'member': member, 'token': token, 'redirect': redirect})
 
 @home_page
 async def loginSignup(request):
@@ -77,7 +77,7 @@ async def passwordResetRequest(request):
     'css': ['css/base/home-language.css', 'css/verification/password-reset-request.css']})
 
 @home_page
-async def passwordResetComplete(request, user, token):
+async def passwordResetComplete(request, member, token):
   return render(request, 'password-reset-complete.html', {'title': gettext("home.password.reset.complete.title"),
     'css': ['css/base/home-language.css', 'css/verification/password-reset-complete.css'],
-    'user': user, 'token': token})
+    'member': member, 'token': token})

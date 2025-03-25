@@ -34,6 +34,17 @@
   padding-bottom: 32px;
 }
 
+#signup-logo {
+  position: absolute;
+  left: 25px;
+  top: 25px;
+}
+
+#signup-logo img {
+  width: 56px;
+  height: 56px;
+}
+
 #home-languages {
   position: absolute;
   right: 40px;
@@ -58,6 +69,20 @@
 }
 
 @media (max-width: 600px) {
+  #signup-logo {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    top: 0;
+    left: 0;
+  }
+
+  #signup-logo img {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 15px;
+  }
+
   #home-languages {
     position: relative;
     margin-left: auto;

@@ -2,7 +2,7 @@
 {% load i18n %}
 <html lang="en">
   {% include 'head.html' %}
-  <body class="dark" data-bs-theme="dark">
+  <body class="light" data-bs-theme="light" notheme>
     <div id="login-register-container">
       {% include 'verification-header.html' %}
       <div id="login-register-wrapper">
@@ -33,6 +33,6 @@
     if ("{{redirect}}" !== "") {
       addition += "?redirect=" + "{{redirect}}";
     }
-    window.location.href = "/register/" + addition;
+    window.location.href = "/signup/" + addition;
   }
 </script>

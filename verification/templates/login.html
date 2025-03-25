@@ -2,35 +2,37 @@
 {% load i18n %}
 <html lang="en">
   {% include 'head.html' %}
-  <body class="dark" data-bs-theme="dark">
-    <form>
-      <img id="login-logo" src="{% static 'img/logo-light.webp' %}">
-      <div class="form-outline mb-4">
-        <label for="email" class="form-label">{% trans 'home.login.email' %}</label>
-        <input type="email" id="email" class="form-control" placeholder="{% trans 'home.login.email' %}">
-      </div>
-      <div class="form-outline mb-4">
-        <div class="d-flex">
-          <label for="password" class="form-label">{% trans 'home.login.password' %}</label>
-          <a id="forgot-password" href="/password/reset/request/">{% trans 'home.login.password.forgot' %}</a>
+  <body class="light" data-bs-theme="light" notheme>
+    <div id="login-container">
+      <div id="login-wrapper">
+        <div id="login-header">
+          <img id="login-logo" src="{% static 'img/logo-light.webp' %}">
+          <h2 class="mt-3 fw-bold">{% trans 'home.login.headline' %}</h2>
+          {% include 'home-language.html' %}
         </div>
-        <input type="password" id="password" class="form-control" placeholder="{% trans 'home.login.password' %}"/>
+        <form>
+          <div class="form-outline mb-4">
+            <label for="email" class="form-label">{% trans 'home.login.email' %}</label>
+            <input type="email" id="email" class="form-control" placeholder="{% trans 'home.login.email' %}">
+          </div>
+          <div class="form-outline mb-4">
+            <div class="d-flex">
+              <label for="password" class="form-label">{% trans 'home.login.password' %}</label>
+              <a id="forgot-password" href="/password/reset/request/">{% trans 'home.login.password.forgot' %}</a>
+            </div>
+            <input type="password" id="password" class="form-control" placeholder="{% trans 'home.login.password' %}"/>
+          </div>
+          <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" id="remember-check">
+            <label class="form-check-label" for="remember-check" id="remember-check-label">{% trans 'home.login.remember' %}</label>
+          </div>
+          <div class="text-center">
+            <button type="button" id="login" class="btn btn-primary">{% trans 'home.login.button' %}</button></br>
+            <p>{% trans 'home.login.register' %} <a id="not-registered" class="text-decoration-none" href="/signup/">{% trans 'home.login.account.create' %}</a>
+          </div>
+        </form>
       </div>
-      <div class="form-check mb-3">
-        <input type="checkbox" class="form-check-input" id="remember-check">
-        <label class="form-check-label" for="remember-check" id="remember-check-label">{% trans 'home.login.remember' %}</label>
-      </div>
-      <button type="button" id="login" class="btn btn-primary">{% trans 'home.login.button' %}</button></br>
-      <p>{% trans 'home.login.register' %} <a id="not-registered" class="text-decoration-none" href="/register/">{% trans 'home.login.account.create' %}</a>
-      <div id="login-alternative">
-        <div class="login-alternative-divider"></div>
-        <label class="text-muted mx-4">{% trans 'home.login.alternative' %}</label>
-        <div class="login-alternative-divider"></div>
-      </div>
-      <div id="login-external-services">
-        <button id="login-external-service-google" class="btn login-external-service-button" type="button"><img class="login-external-service-logo" src="{% static 'img/verification/google.webp' %}">{% trans 'home.login.google' %}</button>
-      </div>
-    </form>
+    </div>
   </body>
 </html>
 
@@ -105,7 +107,7 @@
             Cookie.create("expiration-has-personal-package", response.hasPersonalBundle, 60 * 60);
             Cookie.create("expiration-has-own-organization", response.hasOwnOrganization, 60 * 60);
             Cookie.create("expiration-is-organization-member", response.isOrganizationMember, 60 * 60);
-            Cookie.create("expiration-user-name", response.userName, 60 * 60);
+            Cookie.create("expiration-member-name", response.userName, 60 * 60);
             window.location.href = "/expiration/";
           }
         }
@@ -120,18 +122,5 @@
       return true;
     }
     return false;
-  }
-
-  document.getElementById("login-external-service-google").onclick = function (event) {
-    let googleUrl = "https://accounts.google.com/o/oauth2/auth?access_type=offline&prompt=consent&client_id=" + "{{google_client_id}}" + "&redirect_uri=" + "{{public_endpoint}}" + "/v1/google/login/&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&state=";
-    if ("{{redirect}}" !== "") {
-      googleUrl += "{{redirect}}";
-    } else {
-      googleUrl += "/dashboard/";
-    }
-    googleUrl += "DULNO-STATE-SPLIT";
-    let language = Cookie.find("dulno-home-language");
-    googleUrl += language;
-    window.location.href = googleUrl;
   }
 </script>

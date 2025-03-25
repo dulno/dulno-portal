@@ -2,7 +2,7 @@
 {% load i18n %}
 <html lang="en">
   {% include 'head.html' %}
-  <body class="dark" data-bs-theme="dark">
+  <body class="light" data-bs-theme="light" notheme>
     <nav id="navbar">
       <div id="navbar-content">
         <a href="/" id="navbar-logo"><img src="{% static 'img/logo-light.webp' %}" class="dulno-logo" width="60px" height="60px" alt=""></a>
@@ -62,9 +62,7 @@
 
   function displayExpirationDescription() {
     var hasPersonalPackage = Cookie.find("expiration-has-personal-package");
-    var hasOwnOrganization = Cookie.find("expiration-has-own-organization");
-    var isOrganizationMember = Cookie.find("expiration-is-organization-member");
-    var userName = Cookie.find("expiration-user-name");
+    var userName = Cookie.find("expiration-member-name");
     var homeToken = Cookie.find("home-token");
     if (hasPersonalPackage == null || hasOwnOrganization == null ||
       isOrganizationMember == null || userName == null || homeToken == null
