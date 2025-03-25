@@ -2,7 +2,7 @@
 {% load i18n %}
 <html lang="en">
   {% include 'head.html' %}
-  <body class="dark" data-bs-theme="dark">
+  <body class="light" data-bs-theme="light" notheme>
     <div id="signup-container">
       <div id="signup-wrapper">
         <div id="signup-header">
@@ -58,19 +58,19 @@
                   <div class="flex-grow-1 align-self-stretch">
                     <div class="signup-field">
                       <div class="signup-field-label">{% trans 'signup.card.business.name' %}</div>
-                      <input id="signup-card-name-input" type="text" maxlength=64 placeholder="{% trans 'signup.card.business.name.placeholder' %}">
+                      <input id="signup-card-name-input" type="text" autocomplete=off maxlength=64 placeholder="{% trans 'signup.card.business.name.placeholder' %}">
                     </div>
                     <div class="signup-field">
                       <div class="signup-field-label">{% trans 'signup.card.business.description' %}</div>
-                      <input id="signup-card-description-input" type="text" maxlength=256 placeholder="{% trans 'signup.card.business.description.placeholder' %}">
+                      <input id="signup-card-description-input" type="text" autocomplete=off maxlength=256 placeholder="{% trans 'signup.card.business.description.placeholder' %}">
                     </div>
                     <div class="signup-field">
                       <div class="signup-field-label">{% trans 'signup.card.logo' %}</div>
-                      <input id="signup-card-logo-input" type="file" accept="image/png, image/jpeg" />
+                      <input id="signup-card-logo-input" type="file" autocomplete=off accept="image/png, image/jpeg" />
                     </div>
                     <div class="signup-field">
                       <div class="signup-field-label">{% trans 'signup.card.color' %}</div>
-                      <input id="signup-card-color-input" type="color" value="#475569" class="mb-4">
+                      <input id="signup-card-color-input" type="color" autocomplete=off value="#475569" class="mb-4">
                     </div>
                   </div>
                   <div id="signup-card-container" class="ms-xl-5 mb-3">
@@ -107,11 +107,11 @@
                 <div class="signup-page-input-list">
                   <div class="signup-field">
                     <div class="signup-field-label">{% trans 'signup.reward.number' %}</div>
-                    <input id="signup-reward-number-input" type="text" value="10">
+                    <input id="signup-reward-number-input" type="text" autocomplete=off value="10">
                   </div>
                   <div class="signup-field">
                     <div class="signup-field-label">{% trans 'signup.reward.type' %}</div>
-                    <input id="signup-reward-type-input" type="text" placeholder="{% trans 'signup.reward.type.placeholder' %}">
+                    <input id="signup-reward-type-input" type="text" autocomplete=off placeholder="{% trans 'signup.reward.type.placeholder' %}">
                   </div>
                 </div>
               </div>
@@ -151,15 +151,15 @@
                 <div class="signup-page-input-list">
                   <div class="signup-field">
                     <div class="signup-field-label">{% trans 'signup.account.name' %}</div>
-                    <input id="signup-account-name-input" type="text" maxlength=64 placeholder="{% trans 'signup.account.name.placeholder' %}">
+                    <input id="signup-account-name-input" type="text" autocomplete=off maxlength=64 placeholder="{% trans 'signup.account.name.placeholder' %}">
                   </div>
                   <div class="signup-field was-validated">
                     <div class="signup-field-label">{% trans 'signup.account.email' %}</div>
-                    <input id="signup-account-email-input" type="text" class="form-control" placeholder="{% trans 'signup.account.email.placeholder' %}">
+                    <input id="signup-account-email-input" type="text" autocomplete=off class="form-control" placeholder="{% trans 'signup.account.email.placeholder' %}">
                   </div>
                   <div class="signup-field was-validated">
                     <div class="signup-field-label">{% trans 'signup.account.password' %}</div>
-                    <input id="signup-account-password-input" type="password" class="form-control" minlength="8" name="password" placeholder="{% trans 'signup.account.password.placeholder' %}" required>
+                    <input id="signup-account-password-input" type="password" autocomplete=off class="form-control" minlength="8" name="password" placeholder="{% trans 'signup.account.password.placeholder' %}" required>
                     <div class="progress mt-3" style="height: 5px;">
                       <div id="progressbar" class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" style="width: 1%;">
                       </div>
@@ -169,7 +169,7 @@
                   </div>
                   <div class="signup-field was-validated">
                     <div class="signup-field-label">{% trans 'signup.account.password.repetition' %}</div>
-                    <input id="signup-account-password-repetition-input" type="password" class="form-control" placeholder="{% trans 'signup.account.password.repetition.placeholder' %}">
+                    <input id="signup-account-password-repetition-input" type="password" autocomplete=off class="form-control" placeholder="{% trans 'signup.account.password.repetition.placeholder' %}">
                   </div>
                 </div>
               </div>
@@ -186,7 +186,7 @@
                 </div>
                 <div class="signup-page-finish-content text-start mt-5 pt-5">
                   <div class="form-check">
-                    <input id="signup-finish-legal-check" type="checkbox" class="form-check-input">
+                    <input id="signup-finish-legal-check" type="checkbox" autocomplete=off class="form-check-input">
                     <label class="form-check-label" for="signup-finish-legal-check">
                       {% trans 'signup.finish.legal.check' %}
                       <a class="text-decoration-none" href="/terms-of-service/" target="_blank">{% trans 'signup.finish.terms.of.service' %}</a> {% trans 'signup.finish.and' %}
@@ -194,7 +194,7 @@
                     </label>
                   </div>
                   <div class="form-check">
-                    <input id="signup-finish-newsletter-check" type="checkbox" class="form-check-input">
+                    <input id="signup-finish-newsletter-check" type="checkbox" autocomplete=off class="form-check-input">
                     <label class="form-check-label" for="signup-finish-newsletter-check">{% trans 'signup.finish.news' %}</label>
                   </div>
                 </div>

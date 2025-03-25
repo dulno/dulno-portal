@@ -2,8 +2,8 @@ window.addEventListener('DOMContentLoaded', function () {
   if (Cookie.find("dulno-theme") == null) {
     Cookie.create("dulno-theme", "light", 60 * 60 * 24 * 365);
   }
-  let theme = Cookie.find("dulno-theme");
-  var logoSource;
+  let theme = document.body.hasAttribute("notheme") ? "light" : Cookie.find("dulno-theme");
+  let logoSource;
   if (theme === "dark") {
     document.body.classList.add("dark");
     document.body.setAttribute("data-bs-theme", "dark");
@@ -14,8 +14,8 @@ window.addEventListener('DOMContentLoaded', function () {
     document.body.setAttribute("data-bs-theme", "light");
     logoSource = "logo-dark.webp";
   }
-  var logoElements = document.getElementsByClassName("dulno-logo");
-  for (var i = 0; i < logoElements.length; i++) {
+  let logoElements = document.getElementsByClassName("dulno-logo");
+  for (let i = 0; i < logoElements.length; i++) {
     logoElements[i].src = "/static/img/" + logoSource;
   }
 });
