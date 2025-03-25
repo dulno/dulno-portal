@@ -56,7 +56,7 @@
                   <div class="signup-page-description text-secondary">{% trans 'signup.card.description' %}</div>
                 </div>
                 <div class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center">
-                  <div class="flex-grow-1 align-self-stretch">
+                  <div class="flex-grow-1 align-self-stretch me-xl-5">
                     <div class="signup-field">
                       <div class="signup-field-label">{% trans 'signup.card.business.name' %}</div>
                       <input id="signup-card-name-input" type="text" autocomplete=off maxlength=64 placeholder="{% trans 'signup.card.business.name.placeholder' %}">
@@ -70,8 +70,12 @@
                       <input id="signup-card-logo-input" type="file" autocomplete=off accept="image/png, image/jpeg" />
                     </div>
                     <div class="signup-field">
-                      <div class="signup-field-label">{% trans 'signup.card.color' %}</div>
-                      <input id="signup-card-color-input" type="color" autocomplete=off value="#475569" class="mb-4">
+                      <div class="signup-field-label">{% trans 'signup.card.background.color' %}</div>
+                      <input id="signup-card-background-color-input" type="color" autocomplete=off value="#475569">
+                    </div>
+                    <div class="signup-field">
+                      <div class="signup-field-label">{% trans 'signup.card.foreground.color' %}</div>
+                      <input id="signup-card-foreground-color-input" type="color" autocomplete=off value="#ffffff" class="mb-2">
                     </div>
                   </div>
                   <div id="signup-card-container" class="ms-xl-5 mb-3">
@@ -364,9 +368,16 @@
   }
 
 
-  let cardColorInput = document.getElementById("signup-card-color-input");
-  cardColorInput.addEventListener("input", function (event) {
-    document.getElementById("signup-card").style.backgroundColor = cardColorInput.value;
+  let cardBackgroundColorInput = document.getElementById("signup-card-background-color-input");
+  cardBackgroundColorInput.addEventListener("input", function (event) {
+    document.documentElement.style.setProperty("--signup-card-background-color",
+      cardBackgroundColorInput.value);
+  });
+
+  let cardForegroundColorInput = document.getElementById("signup-card-foreground-color-input");
+  cardForegroundColorInput.addEventListener("input", function (event) {
+    document.documentElement.style.setProperty("--signup-card-foreground-color",
+      cardForegroundColorInput.value);
   });
 
   function checkCardCompletion() {
@@ -698,12 +709,8 @@
     let locations = [];
     for (let entry of businessLocationEntries) {
       let location = {address: entry.address};
-      if (entry.latitude) {
-        location.latitude = entry.latitude;
-      }
-      if (entry.longitude) {
-        location.longitude = entry.longitude;
-      }
+      location.latitude = entry.latitude ? entry.latitude : -1;
+      location.longitude = entry.longitude ? entry.longitude : -1;
       locations.push(location);
     }
     encodeCardLogo(function (partnerLogo) {
@@ -713,7 +720,9 @@
           partnerName: cardBusinessNameInput.value,
           partnerDescription: cardBusinessDescriptionInput.value,
           partnerLogo: partnerLogo, partnerLocations: locations,
-          cardColor: cardColorInput.value, cardRewardNumber: rewardNumberInput.value,
+          cardBackgroundColor: cardBackgroundColorInput.value,
+          cardForegroundColor: cardForegroundColorInput.value,
+          cardRewardNumber: rewardNumberInput.value,
           cardRewardDescription: rewardTypeInput.value, redirect: "{{redirect}}",
           recaptchaToken: recaptchaToken, legalAccepted: finishLegalCheck.checked,
           newsletter: finishNewsletterCheck.checked});
