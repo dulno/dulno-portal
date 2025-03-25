@@ -683,8 +683,11 @@
             "{% trans 'signup.failed.email.pattern' %}", "error");
         } else  if (errorCode === 1002) {
           Swal.fire("{% trans 'signup.failed.title' %}",
+            "{% trans 'signup.failed.logo.size' %}", "error");
+        } else  if (errorCode === 1003) {
+          Swal.fire("{% trans 'signup.failed.title' %}",
             "{% trans 'signup.failed.already.exists' %}", "error");
-        } else if (errorCode === 1003) {
+        } else if (errorCode === 1004) {
           Swal.fire("{% trans 'signup.failed.title' %}",
             "{% trans 'signup.failed.recaptcha' %}", "error");
         }
