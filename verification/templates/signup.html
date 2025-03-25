@@ -259,20 +259,14 @@
   const steps = document.querySelectorAll(".signup-step");
   let current = 1;
   for (let i = 0; i < pages.length; i++) {
-    let nextButton = pages[i].querySelector(".signup-next-button, .signup-submit-button");
+    let nextButton = pages[i].querySelector(".signup-next-button");
     if (nextButton) {
       nextButton.addEventListener("click", function (event) {
         event.preventDefault();
         if (nextButton.classList.contains("signup-next-disabled")) {
           return;
         }
-        pages[0].style.marginLeft = "-" + (100 * ((i + 1) / pages.length)) + "%";
-        steps[i].classList.add("signup-step-active");
-        steps[i].classList.remove("signup-step-current");
-        if (steps[i + 1]) {
-          steps[i + 1].classList.add("signup-step-current");
-          focusFirstInput(pages[i + 1]);
-        }
+        nextSignupPage(i);
       });
       nextButton.addEventListener('keydown', function (event) {
         if (event.key === 'Tab') {
@@ -284,13 +278,27 @@
     if (previousButton) {
       previousButton.addEventListener("click", function (event) {
         event.preventDefault();
-        pages[0].style.marginLeft = "-" + (100 * ((i - 1) / pages.length)) + "%";
-        steps[i - 1].classList.remove("signup-step-active");
-        steps[i].classList.remove("signup-step-current");
-        steps[i - 1].classList.add("signup-step-current");
-        focusFirstInput(pages[i - 1]);
+        previousSignupPage(i);
       });
     }
+  }
+
+  function nextSignupPage(currentIndex) {
+    pages[0].style.marginLeft = "-" + (100 * ((currentIndex + 1) / pages.length)) + "%";
+    steps[currentIndex].classList.add("signup-step-active");
+    steps[currentIndex].classList.remove("signup-step-current");
+    if (steps[currentIndex + 1]) {
+      steps[currentIndex + 1].classList.add("signup-step-current");
+      focusFirstInput(pages[currentIndex + 1]);
+    }
+  }
+
+  function previousSignupPage(currentIndex) {
+    pages[0].style.marginLeft = "-" + (100 * ((currentIndex - 1) / pages.length)) + "%";
+    steps[currentIndex - 1].classList.remove("signup-step-active");
+    steps[currentIndex].classList.remove("signup-step-current");
+    steps[currentIndex - 1].classList.add("signup-step-current");
+    focusFirstInput(pages[currentIndex - 1]);
   }
 
   function focusFirstInput(page) {
@@ -340,6 +348,20 @@
       checkCardCompletion();
     }
   });
+
+  function encodeCardLogo(callback) {
+    let reader = new FileReader();
+    reader.onload = function() {
+      let binary = '';
+      let bytes = new Uint8Array(reader.result);
+      for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      callback(btoa(binary));
+    }
+    reader.readAsArrayBuffer(cardLogoInput.files[0]);
+  }
+
 
   let cardColorInput = document.getElementById("signup-card-color-input");
   cardColorInput.addEventListener("input", function (event) {
@@ -627,9 +649,85 @@
 
   let finishLegalCheck = document.getElementById("signup-finish-legal-check");
   let finishNewsletterCheck = document.getElementById("signup-finish-legal-check");
+  let finishSubmitButton = document.getElementById("signup-finish-submit");
 
   finishLegalCheck.addEventListener('change', (event) => {
-    $(document.getElementById("signup-finish-submit"))
-      .toggleClass("signup-submit-disabled", !event.currentTarget.checked);
-  })
+    $(finishSubmitButton).toggleClass("signup-submit-disabled",
+      !event.currentTarget.checked);
+  });
+
+  finishSubmitButton.addEventListener("click", (event) => {
+    if (finishSubmitButton.classList.contains("signup-submit-disabled")) {
+      return;
+    }
+    signup(function (response) {
+      if (response.success === true) {
+        sessionStorage.setItem("signup-email", accountEmailInput.value);
+        nextSignupPage(pages.length - 2);
+      } else {
+        let errorCode = response.error;
+        if (errorCode === 1001) {
+          Swal.fire("{% trans 'signup.failed.title' %}",
+            "{% trans 'signup.failed.email.pattern' %}", "error");
+        } else  if (errorCode === 1002) {
+          Swal.fire("{% trans 'signup.failed.title' %}",
+            "{% trans 'signup.failed.already.exists' %}", "error");
+        } else if (errorCode === 1003) {
+          Swal.fire("{% trans 'signup.failed.title' %}",
+            "{% trans 'signup.failed.recaptcha' %}", "error");
+        }
+      }
+    });
+  });
+
+  function signup(callback) {
+    if ("{{recaptcha_token}}" === "") {
+      sendSignupRequest(callback, "");
+      return;
+    }
+    grecaptcha.ready(function() {
+      grecaptcha.execute("{{recaptcha_token}}", {action: 'signup'}).then(function(token) {
+        sendSignupRequest(callback, token);
+      });
+    });
+  }
+
+  function sendSignupRequest(callback, recaptchaToken) {
+    let language = Cookie.find("dulno-home-language");
+    let locations = [];
+    for (let entry of businessLocationEntries) {
+      let location = {address: entry.address};
+      if (entry.latitude) {
+        location.latitude = entry.latitude;
+      }
+      if (entry.longitude) {
+        location.longitude = entry.longitude;
+      }
+      locations.push(location);
+    }
+    encodeCardLogo(function (partnerLogo) {
+      let request = new HttpRequest("/verification/partner/signup/", "POST", [],
+        {memberName: accountNameInput.value, memberEmail: accountEmailInput.value,
+          memberPassword: accountPasswordInput.value, memberLanguage: language,
+          partnerName: cardBusinessNameInput.value,
+          partnerDescription: cardBusinessDescriptionInput.value,
+          partnerLogo: partnerLogo, partnerLocations: locations,
+          cardColor: cardColorInput.value, cardRewardNumber: rewardNumberInput.value,
+          cardRewardDescription: rewardTypeInput.value, redirect: "{{redirect}}",
+          recaptchaToken: recaptchaToken, legalAccepted: finishLegalCheck.checked,
+          newsletter: finishNewsletterCheck.checked});
+      request.send(function (status, responseText) {
+        callback(JSON.parse(responseText));
+      });
+    });
+  }
+
+  function resendSignupEmail() {
+    let request = new HttpRequest("/verification/email/resend/", "POST", [],
+      {email: sessionStorage.getItem("signup-email")});
+    request.send(function (status, responseText) {
+      Swal.fire("{% trans 'signup.success.email.resend.success.title' %}",
+        "{% trans 'signup.success.email.resend.success.body' %}", "success");
+    });
+  }
 </script>
