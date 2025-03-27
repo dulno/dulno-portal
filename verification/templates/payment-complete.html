@@ -34,9 +34,16 @@
         Cookie.create("token", response.productApiKey, 60 * 60 * 24 * 30);
         Cookie.create("refresh-token", response.refreshToken, 60 * 60 * 24 * 30);
         Cookie.create("home-token", response.homeApiKey, 60 * 60);
+        resetPackageSelection();
       }
     });
   });
+
+  function resetPackageSelection() {
+    Cookie.destroy("dulno-package-type");
+    Cookie.destroy("dulno-package-runtime");
+    Cookie.destroy("dulno-package-price");
+  }
 
   document.getElementById("payment-complete-continue").onclick = function (event) {
     window.location.href = "/";

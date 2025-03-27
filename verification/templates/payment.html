@@ -274,7 +274,6 @@
       }
       let response = JSON.parse(responseText);
       if (response.success === true) {
-        resetPackageSelection();
         window.location.href = response.link;
         return;
       }
@@ -287,12 +286,6 @@
   function loginRedirect() {
     window.location.href = "/login/?redirect=" +
       window.location.href.replace("{{base_url}}", "");
-  }
-
-  function resetPackageSelection() {
-    Cookie.destroy("dulno-package-type");
-    Cookie.destroy("dulno-package-runtime");
-    Cookie.destroy("dulno-package-price");
   }
 
   document.getElementById("payment-not-found-redirect").onclick = function (event) {
