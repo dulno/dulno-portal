@@ -7,28 +7,28 @@
       <div id="login-wrapper">
         <div id="login-header">
           <img id="login-logo" src="{% static 'img/logo-light.webp' %}">
-          <h2 class="mt-3 fw-bold">{% trans 'home.login.headline' %}</h2>
+          <h2 class="mt-3 fw-bold">{% trans 'login.headline' %}</h2>
           {% include 'home-language.html' %}
         </div>
         <form>
           <div class="form-outline mb-4">
-            <label for="email" class="form-label">{% trans 'home.login.email' %}</label>
-            <input type="email" id="email" class="form-control" placeholder="{% trans 'home.login.email' %}">
+            <label for="email" class="form-label">{% trans 'login.email' %}</label>
+            <input type="email" id="email" class="form-control" placeholder="{% trans 'login.email' %}">
           </div>
           <div class="form-outline mb-4">
             <div class="d-flex">
-              <label for="password" class="form-label">{% trans 'home.login.password' %}</label>
-              <a id="forgot-password" href="/password/reset/request/">{% trans 'home.login.password.forgot' %}</a>
+              <label for="password" class="form-label">{% trans 'login.password' %}</label>
+              <a id="forgot-password" href="/password/reset/request/">{% trans 'login.password.forgot' %}</a>
             </div>
-            <input type="password" id="password" class="form-control" placeholder="{% trans 'home.login.password' %}"/>
+            <input type="password" id="password" class="form-control" placeholder="{% trans 'login.password' %}"/>
           </div>
           <div class="form-check mb-3">
             <input type="checkbox" class="form-check-input" id="remember-check">
-            <label class="form-check-label" for="remember-check" id="remember-check-label">{% trans 'home.login.remember' %}</label>
+            <label class="form-check-label" for="remember-check" id="remember-check-label">{% trans 'login.remember' %}</label>
           </div>
           <div class="text-center">
-            <button type="button" id="login" class="btn btn-primary">{% trans 'home.login.button' %}</button></br>
-            <p>{% trans 'home.login.register' %} <a id="not-registered" class="text-decoration-none" href="/signup/">{% trans 'home.login.account.create' %}</a>
+            <button type="button" id="login">{% trans 'login.button' %}</button></br>
+            <p>{% trans 'login.signup' %} <a id="not-registered" class="text-decoration-none" href="/signup/">{% trans 'login.account.create' %}</a>
           </div>
         </form>
       </div>
@@ -90,7 +90,7 @@
           if (multiFactorCode === "") {
             display2FA(function(code) {login(code)});
           } else {
-            Swal.fire("{% trans 'home.login.failed.two.factor.title' %}", "{% trans 'home.login.failed.two.factor.body' %}", "error").then((result) => {
+            Swal.fire("{% trans 'login.failed.two.factor.title' %}", "{% trans 'login.failed.two.factor.body' %}", "error").then((result) => {
               if (result.isConfirmed) {
                 display2FA(function(code) {login(code)});
               }
@@ -99,9 +99,9 @@
           return;
         }
         if (error === 1000) {
-          Swal.fire("{% trans 'home.login.failed.credentials.title' %}", "{% trans 'home.login.failed.credentials.body' %}", "error");
+          Swal.fire("{% trans 'login.failed.credentials.title' %}", "{% trans 'login.failed.credentials.body' %}", "error");
         } else  if (error === 1001) {
-          Swal.fire("{% trans 'home.login.failed.confirmation.title' %}", "{% trans 'home.login.failed.confirmation.body' %}", "error");
+          Swal.fire("{% trans 'login.failed.confirmation.title' %}", "{% trans 'login.failed.confirmation.body' %}", "error");
         } else  if (error === 1003) {
           if (!redirect()) {
             Cookie.create("expiration-member-name", response.memberName, 60 * 60);

@@ -24,7 +24,7 @@ def applyLanguage(request):
 @home_page
 async def login(request):
   redirect = request.GET.get('redirect', '')
-  return render(request, 'login.html', {'title': gettext("home.login.title"),
+  return render(request, 'login.html', {'title': gettext("login.title"),
     'css': ['css/base/home-language.css', 'css/base/2fa.css', 'css/verification/login.css'],
     'redirect': redirect, 'google_client_id': GOOGLE_CLIENT_ID})
 
@@ -45,39 +45,39 @@ async def signupConfirm(request, member, token):
 @home_page
 async def loginSignup(request):
   redirect = request.GET.get('redirect', '')
-  return render(request, 'login-signup.html', {'title': gettext("home.login.signup.title"),
+  return render(request, 'login-signup.html', {'title': gettext("login.signup.title"),
     'css': ['css/base/verification-header.css', 'css/base/home-language.css', 'css/verification/login-signup.css'],
     'redirect': redirect})
 
 @home_page
 async def payment(request):
-  return render(request, 'payment.html', {'title': gettext("home.payment.title"),
+  return render(request, 'payment.html', {'title': gettext("payment.title"),
     'css': ['css/base/verification-header.css', 'css/base/home-language.css', 'css/verification/payment.css']})
 
 @home_page
 async def paymentComplete(request, token):
-  return render(request, 'payment-complete.html', {'title': gettext("home.payment.complete.title"),
+  return render(request, 'payment-complete.html', {'title': gettext("payment.complete.title"),
     'css': ['css/base/verification-header.css', 'css/base/home-language.css', 'css/verification/payment-complete.css'],
     'token': token})
 
 @home_page
 async def expiration(request):
-  return render(request, 'expiration.html', {'title': gettext("home.expiration.title"),
+  return render(request, 'expiration.html', {'title': gettext("expiration.title"),
     'css': ['css/verification/expiration.css', 'css/base/pricing-content.css']})
 
 @home_page
 async def offer(request, id):
-  return render(request, 'offer.html', {'title': gettext("home.offer.title"),
+  return render(request, 'offer.html', {'title': gettext("offer.title"),
     'css': ['css/base/verification-header.css', 'css/base/home-language.css', 'css/verification/offer.css'],
     'offer': id})
 
 @home_page
 async def passwordResetRequest(request):
-  return render(request, 'password-reset-request.html', {'title': gettext("home.password.reset.request.title"),
+  return render(request, 'password-reset-request.html', {'title': gettext("password.reset.request.title"),
     'css': ['css/base/home-language.css', 'css/verification/password-reset-request.css']})
 
 @home_page
 async def passwordResetComplete(request, member, token):
-  return render(request, 'password-reset-complete.html', {'title': gettext("home.password.reset.complete.title"),
+  return render(request, 'password-reset-complete.html', {'title': gettext("password.reset.complete.title"),
     'css': ['css/base/home-language.css', 'css/verification/password-reset-complete.css'],
     'member': member, 'token': token})
