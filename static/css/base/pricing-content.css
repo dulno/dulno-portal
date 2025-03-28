@@ -1,6 +1,7 @@
 :root {
   --pricing-package-highlight-color: rgba(40, 112, 204, 1);
   --pricing-package-highlight-background: rgba(40, 112, 204, 0.2);
+  --pricing-package-foreground-color: #4f5154;
 }
 
 #pricing-personalization {
@@ -52,7 +53,7 @@
 }
 
 .light .pricing-switch-active {
-  background-color: #404040;
+  background-color: var(--pricing-package-foreground-color);
   color: white !important;
 }
 
@@ -120,12 +121,6 @@
   padding: 12px;
 }
 
-@media (max-width: 1350px) {
-  .pricing-table tr td {
-    color: black;
-  }
-}
-
 .pricing-table tr td {
   border-bottom: 1px solid black;
 }
@@ -163,7 +158,7 @@
   top: 87px;
   z-index: 99 !important;
   vertical-align: top;
-  color: black;
+  color: var(--pricing-package-foreground-color);
   text-align: center;
   padding: 10px 30px;
   border-radius: 20px;
@@ -183,7 +178,7 @@
   max-width: 100%;
   padding: 6px;
   border-radius: 4px;
-  background-color: #404040;
+  background-color: var(--pricing-package-foreground-color);
   color: white !important;
   margin: auto;
   overflow: hidden;
