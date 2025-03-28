@@ -241,6 +241,7 @@
 
 #pricing-table-container-desktop .pricing-package-professional, #pricing-table-container-desktop .pricing-feature-professional, #pricing-table-container-desktop .pricing-table tbody td:nth-child(3) {
   background-color: var(--pricing-package-highlight-background);
+  color: #2e2f31;
 }
 
 #pricing-table-container-desktop .pricing-package-professional {
