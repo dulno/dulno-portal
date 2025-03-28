@@ -244,6 +244,10 @@
   color: #2e2f31;
 }
 
+#pricing-table-container-desktop .pricing-package-professional .pricing-package-description {
+  background-color: #445f88;
+}
+
 #pricing-table-container-desktop .pricing-package-professional {
   border: 1px solid var(--pricing-package-highlight-color);
   outline: 2px solid var(--pricing-package-highlight-color);
