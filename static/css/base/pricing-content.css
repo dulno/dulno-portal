@@ -1,6 +1,6 @@
 :root {
-  --pricing-package-highlight-color: #33b1ff;
-  --pricing-package-highlight-shadow: rgba(51, 177, 255, 0.8);
+  --pricing-package-highlight-color: rgba(40, 112, 204, 1);
+  --pricing-package-highlight-background: rgba(40, 112, 204, 0.2);
 }
 
 #pricing-personalization {
@@ -26,7 +26,7 @@
 }
 
 .light .pricing-switch {
-  background-color: #dadada;
+  background-color: rgba(224, 226, 232, 0.75);
   border: 1px #a0a0a0 solid;
   color: black;
 }
@@ -52,7 +52,8 @@
 }
 
 .light .pricing-switch-active {
-  background-color: #a4a4a4;
+  background-color: #404040;
+  color: white !important;
 }
 
 @media (max-width: 1000px) {
@@ -69,7 +70,6 @@
 .pricing-table-head {
   width: 100%;
   table-layout: fixed;
-  color: white;
   border-collapse: separate;
   border-spacing: 15px 0;
 }
@@ -118,7 +118,6 @@
 
 .pricing-table tr td {
   padding: 12px;
-  color: white;
 }
 
 @media (max-width: 1350px) {
@@ -127,24 +126,8 @@
   }
 }
 
-.pricing-table tr td:nth-child(1) {
-  border-bottom: 1px solid #424f62;
-}
-
-.pricing-table tr td:nth-child(2) {
-  border-bottom: 1px solid #8198be;
-}
-
-.pricing-table tr td:nth-child(3) {
-  border-bottom: 1px solid #697e9d;
-}
-
-.pricing-table tr td:nth-child(4) {
-  border-bottom: 1px solid #62748f;
-}
-
-.pricing-table tr td:nth-child(5) {
-  border-bottom: 1px solid #55647c;
+.pricing-table tr td {
+  border-bottom: 1px solid black;
 }
 
 .pricing-table tr:last-child td {
@@ -180,7 +163,7 @@
   top: 87px;
   z-index: 99 !important;
   vertical-align: top;
-  color: white;
+  color: black;
   text-align: center;
   padding: 10px 30px;
   border-radius: 20px;
@@ -200,8 +183,8 @@
   max-width: 100%;
   padding: 6px;
   border-radius: 4px;
-  background-color: white;
-  color: black !important;
+  background-color: #404040;
+  color: white !important;
   margin: auto;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -257,39 +240,31 @@
   }
 }
 
-.pricing-package-basic, .pricing-feature-basic, #pricing-table-container-desktop .pricing-table tbody td:nth-child(2) {
-  background-color: #596a83;
+.pricing-package, #pricing-table-container-desktop .pricing-table tbody td:nth-child(n + 2) {
+  background-color: rgba(224, 226, 232, 0.75);
 }
 
-.pricing-package-professional, .pricing-feature-professional, #pricing-table-container-desktop .pricing-table tbody td:nth-child(3) {
-  background-color: #475569;
+#pricing-table-container-desktop .pricing-package-professional, #pricing-table-container-desktop .pricing-feature-professional, #pricing-table-container-desktop .pricing-table tbody td:nth-child(3) {
+  background-color: var(--pricing-package-highlight-background);
 }
 
 #pricing-table-container-desktop .pricing-package-professional {
   border: 1px solid var(--pricing-package-highlight-color);
   outline: 2px solid var(--pricing-package-highlight-color);
-  box-shadow: 0 0 80px var(--pricing-package-highlight-color);
+  background-color: var(--pricing-package-highlight-background);
   z-index: 0 !important;
   padding: 9px 29px;
-}
-
-.pricing-package-premium, .pricing-feature-premium, #pricing-table-container-desktop .pricing-table tbody td:nth-child(4) {
-  background-color: #343e4d;
-}
-
-.pricing-package-enterprise, .pricing-feature-enterprise, #pricing-table-container-desktop .pricing-table tbody td:nth-child(5) {
-  background-color: #262d38;
 }
 
 .pricing-package-enterprise-price {
   margin-bottom: 60px;
 }
 
-.dark .pricing-feature-bundle-headline {
+.dark .pricing-feature-bundle-headline td {
   background-color: #0d1117 !important;
 }
 
-.light .pricing-feature-bundle-headline {
+.light .pricing-feature-bundle-headline td {
   background-color: #fafafa !important;
 }
 
