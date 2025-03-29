@@ -23,10 +23,13 @@ def applyLanguage(request):
 
 @home_page
 async def login(request):
-  redirect = request.GET.get('redirect', '')
-  return render(request, 'login.html', {'title': gettext("login.title"),
-    'css': ['css/base/home-language.css', 'css/base/2fa.css', 'css/verification/login.css'],
-    'redirect': redirect, 'google_client_id': GOOGLE_CLIENT_ID})
+  token = request.COOKIES.get('token')
+  if (token is None):
+    redirect = request.GET.get('redirect', '')
+    return render(request, 'login.html', {'title': gettext("login.title"),
+      'css': ['css/base/home-language.css', 'css/base/2fa.css', 'css/verification/login.css'],
+      'redirect': redirect, 'google_client_id': GOOGLE_CLIENT_ID})
+  return redirect("/dashboard/")
 
 @home_page
 async def signup(request):
