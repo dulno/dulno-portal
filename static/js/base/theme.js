@@ -6,6 +6,7 @@ window.addEventListener('DOMContentLoaded', function () {
   let logoSource;
   if (theme === "dark") {
     document.body.classList.add("dark");
+    document.body.classList.remove("light");
     document.body.setAttribute("data-bs-theme", "dark");
     logoSource = "logo-light.webp";
   } else {

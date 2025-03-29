@@ -18,9 +18,8 @@ class MaintenanceMiddleware(object):
       markcoroutinefunction(self)
 
   async def __call__(self, request):
-    if (request.path == "/maintenance/" or
-      request.path == "/imprint/" or request.path == "/privacy-policy/" or
-      request.path == "/terms-of-service/" or request.path == "/favicon.ico"
+    if (request.path == "/maintenance/" or request.path == "/favicon.ico" or
+      "static" in request.path
     ):
       self.applyLanguage(request)
       return await self.get_response(request)
