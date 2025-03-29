@@ -262,6 +262,12 @@
   }
 
   function processPayment(packageType, packageRuntime, accessories) {
+    let redirectButton = document.getElementById("payment-pay-redirect");
+    redirectButton.classList.add("disabled");
+    redirectButton.innerHTML = "{% trans 'payment.redirect' %}" + `
+      <span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span>
+      <span class="visually-hidden" role="status">Loading...</span>
+    `;
     let request = new HttpRequest("/checkout/", "POST",
       [], {bundleType: packageType, bundleRuntime: packageRuntime,
         accessories: accessories});
@@ -270,6 +276,7 @@
         Swal.fire("{% trans 'payment.failed.not.found.title' %}",
           "{% trans 'payment.failed.not.found.body' %}", "error")
           .then(success => loginRedirect());
+        redirectButton.innerHTML = "{% trans 'payment.redirect' %}";
         return;
       }
       let response = JSON.parse(responseText);
@@ -280,6 +287,7 @@
       Swal.fire("{% trans 'payment.failed.wrong.package.title' %}",
         "{% trans 'payment.failed.wrong.package.body' %}", "error")
         .then(success => window.location.href = "/pricing/");
+      redirectButton.innerHTML = "{% trans 'payment.redirect' %}";
     });
   }
 

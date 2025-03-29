@@ -61,6 +61,10 @@
   });
 
   document.getElementById('login').onclick = function(event) {
+    document.getElementById("login").innerHTML = "{% trans 'login.button' %}" + `
+      <span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span>
+      <span class="visually-hidden" role="status">Loading...</span>
+    `;
     login("");
   };
 
@@ -93,6 +97,8 @@
             Swal.fire("{% trans 'login.failed.two.factor.title' %}", "{% trans 'login.failed.two.factor.body' %}", "error").then((result) => {
               if (result.isConfirmed) {
                 display2FA(function(code) {login(code)});
+              } else {
+                document.getElementById("login").innerHTML = "{% trans 'login.button' %}";
               }
             });
           }
@@ -109,6 +115,7 @@
           }
         }
         document.getElementById("password").value = "";
+        document.getElementById("login").innerHTML = "{% trans 'login.button' %}";
       }
     });
   }
