@@ -8,7 +8,9 @@
         <div id="payment-header">
           <a href="/" id="payment-logo"><img src="{% static 'img/logo-light.webp' %}" alt=""></a>
           <h2 class="fw-bold">{% trans 'payment.headline' %}</h2>
-          {% include 'home-language.html' %}
+          <div data-bs-theme="dark">
+            {% include 'home-language.html' %}
+          </div>
         </div>
         <div id="payment-body">
           <div id="payment-accessories">
