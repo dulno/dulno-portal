@@ -1,0 +1,146 @@
+#card-wrapper {
+  width: min(1200px, 95%);
+  margin: auto;
+}
+
+#card-page-back {
+  width: 52px;
+  height: 52px;
+  border: none;
+  background-color: transparent;
+  border-radius: 50%;
+  font-size: 25px;
+  transition-duration: 0.1s;
+}
+
+.dark #card-page-back {
+  color: #b5b5b5;
+}
+
+.light #card-page-back {
+  color: #656565;
+}
+
+.dark #card-page-back:hover {
+  background-color: #212937;
+}
+
+.light #card-page-back:hover {
+  background-color: #d3d3d3;
+  color: #545454;
+}
+
+#card-wrapper input {
+  width: 100%;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.dark #card-wrapper input {
+  background-color: #161d27;
+  border: 1px solid #1e2735;
+}
+
+.light #card-wrapper input {
+  background-color: #f3f3f3;
+  border: 1px solid #d5d5d5;
+}
+
+#card-wrapper input[maxlength] {
+  position: relative;
+}
+
+.max-length-badged[data-remaining] {
+  position: relative;
+
+  &:after {
+    content: attr(data-remaining) " / " attr(data-limit);
+    display: inline-block;
+    position: absolute;
+    bottom: -20px;
+    right: 5px;
+    pointer-events: none;
+    font-size: 0.75em;
+  }
+
+  &.max-length-reached::after {
+    color: #dc3545;
+  }
+}
+
+#card-preview-container {
+  width: min(510px, 100%);
+  padding: 15px;
+  border-radius: 12px;
+  transition-duration: 0.2s;
+}
+
+.dark #card-preview-container {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  border: 1px solid #3b3b3b;
+  background-color: #171e28;
+}
+
+.light #card-preview-container {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid #dadada;
+  background-color: #ffffff;
+}
+
+#card-preview {
+  position: relative;
+  min-width: 100%;
+  min-height: 180px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+#card-preview-logo {
+  width: auto;
+  height: 72px;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+}
+
+.card-preview-stamp {
+  background-color: transparent;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+#card-preview-type-member {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 56px;
+}
+
+@media (max-width: 500px) {
+  #card-preview {
+    height: 160px;
+  }
+
+  .card-preview-stamp {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 400px) {
+  #card-preview {
+    height: 140px;
+  }
+
+  #card-preview-logo {
+    height: 64px;
+  }
+
+  .card-preview-stamp {
+    width: 16px;
+    height: 16px;
+  }
+}

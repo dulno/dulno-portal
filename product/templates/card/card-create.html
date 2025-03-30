@@ -82,13 +82,8 @@
       <span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span>
       <span class="visually-hidden" role="status">Loading...</span>
     `;
-    let content = {};
-    if (selectedType === "collection") {
-      content = {reward_number: 10, reward_description: ""};
-    }
     let request = new HttpRequest("/card/create/", "POST", [],
-      {backgroundColor: "#ffffff", foregroundColor: "#000000",
-        type: selectedType.toUpperCase(), content: content});
+      {type: selectedType.toUpperCase()});
     request.send(function (status, responseText) {
       window.location.href = "/card/" + JSON.parse(responseText).card + "/";
     });

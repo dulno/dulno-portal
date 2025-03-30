@@ -30,10 +30,8 @@
   $(document).ready(function () {
     displayLoader();
     fetchCards(function (cards) {
-      fetchPartnerLogo(function (logo) {
-        displayCards(cards, logo);
-        removeLoader();
-      });
+      displayCards(cards);
+      removeLoader();
     });
   });
 
@@ -44,17 +42,9 @@
     });
   }
 
-  function fetchPartnerLogo(callback) {
-    let request = new HttpRequest("/partner/logo/", "GET", []);
-    request.send(function (status, responseText) {
-      callback(JSON.parse(responseText).logo);
-    });
-  }
-
-  function displayCards(cards, logo) {
+  function displayCards(cards) {
     for (let i = 0; i < cards.length; i++) {
-      let entry = cards[i];
-      displayCard(entry, logo);
+      displayCard(cards[i]);
     }
     if (cards.length === 0) {
       document.getElementById("cards-empty").classList.remove("d-none");
@@ -64,7 +54,7 @@
     }
   }
 
-  function displayCard(card, logo) {
+  function displayCard(card) {
     let cardContainer = document.createElement("li");
     cardContainer.classList.add("card-container");
     let cardElement = document.createElement("div");
@@ -73,7 +63,7 @@
     cardElement.style.backgroundColor = card.backgroundColor;
     let cardLogo = document.createElement("img");
     cardLogo.classList.add("card-logo");
-    cardLogo.src = "data:image/png;base64," + logo;
+    cardLogo.src = "data:image/png;base64," + card.logo;
     cardElement.appendChild(cardLogo);
     if (card.type === "COLLECTION" || card.type === "VALUE") {
       cardElement.appendChild(createCardStamps(card.foregroundColor));
