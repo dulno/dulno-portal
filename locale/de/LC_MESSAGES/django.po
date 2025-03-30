@@ -513,6 +513,42 @@ msgstr "Aktivieren Sie die 2-Faktor-Authentifizierung"
 msgid "product.dashboard.tip.2fa.description"
 msgstr "Gehen Sie nun in Ihre Einstellungen und aktivieren Sie die 2-Faktor-Authentifizierung unter '2FA' oder klicken Sie einfach <a href='/settings/2fa/'>hier</a>. Dies erhöht die Sicherheit Ihres Kontos immens, da wichtige Änderungen oder das Einloggen in das Konto von einer zweiten Quelle bestätigt werden müssen."
 
+# CARDS
+msgid "product.cards.title"
+msgstr "Karten - Dulno"
+msgid "product.cards.headline"
+msgstr "Karten"
+msgid "product.cards.create"
+msgstr "ERSTELLEN"
+msgid "product.cards.empty.headline"
+msgstr "Sie haben noch keine Karten erstellt."
+msgid "product.cards.empty.text"
+msgstr "Warum erstellen Sie nicht einfach eine "
+msgid "product.cards.empty.link"
+msgstr "hier"
+
+# CARD - CREATE
+msgid "product.card.create.title"
+msgstr "Karte erstellen - Dulno"
+msgid "product.card.create.headline"
+msgstr "Karte erstellen"
+msgid "product.card.create.description"
+msgstr "Wählen Sie nun die Art der Karte, die Sie erstellen möchten."
+msgid "product.card.create.type.collection"
+msgstr "Sammelkarte"
+msgid "product.card.create.type.value"
+msgstr "Wertkarte"
+msgid "product.card.create.type.member"
+msgstr "Mitgliedskarte"
+msgid "product.card.create.continue"
+msgstr "WEITER"
+
+# CARD
+msgid "product.card.title"
+msgstr "Karte - Dulno"
+msgid "product.card.headline"
+msgstr "Karte"
+
 # PACkAGE
 msgid "product.package.tab.general"
 msgstr "ALLGEMEIN"

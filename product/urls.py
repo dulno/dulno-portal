@@ -4,6 +4,8 @@ from . import dashboard, card, stamp, partner, analysis, action, package, access
 urlpatterns = [
   path('dashboard/', dashboard.dashboard),
   path('cards/', card.cards),
+  path('card/create/', card.createCard),
+  path('card/<str:id>/', card.card),
   path('stamps/', stamp.stamps),
   path('partner/', partner.partner),
   path('analysis/', analysis.analysis),

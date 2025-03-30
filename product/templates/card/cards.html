@@ -8,7 +8,18 @@
     <div class="sidebar-influenced">
       <div id="cards-container">
         <div id="cards-wrapper" class="d-none">
-
+          <div class="position-relative d-flex justify-content-center align-items-lg-center my-5 py-4">
+            <h1 class="fw-bold m-0 position-absolute start-50 translate-middle-x">{% trans 'product.cards.headline' %}</h1>
+            <div class="ms-lg-auto mt-lg-0 mt-5 pt-lg-0 pt-5">
+              <button id="card-create" class="btn btn-primary fw-bold"><i class="fa-solid fa-plus me-1"></i> {% trans 'product.cards.create' %}</button>
+            </div>
+          </div>
+          <ul id="cards-list">
+          </ul>
+          <div id="cards-empty" class="d-none">
+            <p id="cards-empty-headline" class="mb-sm-1 mb-3">{% trans 'product.cards.empty.headline' %}</p>
+            <span>{% trans 'product.cards.empty.text' %}</span><a href="/card/create/">{% trans 'product.cards.empty.link' %}</a><span>?</span>
+          </div>
         </div>
       </div>
     </div>
@@ -16,9 +27,90 @@
 </html>
 
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     displayLoader();
-    removeLoader();
+    fetchCards(function (cards) {
+      fetchPartnerLogo(function (logo) {
+        displayCards(cards, logo);
+        removeLoader();
+      });
+    });
+  });
+
+  function fetchCards(callback) {
+    let request = new HttpRequest("/cards/list/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).cards);
+    });
+  }
+
+  function fetchPartnerLogo(callback) {
+    let request = new HttpRequest("/partner/logo/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).logo);
+    });
+  }
+
+  function displayCards(cards, logo) {
+    for (let i = 0; i < cards.length; i++) {
+      let entry = cards[i];
+      displayCard(entry, logo);
+    }
+    if (cards.length === 0) {
+      document.getElementById("cards-empty").classList.remove("d-none");
+    }
+    if (cards.length === 1) {
+      document.getElementById("cards-list").style.gridTemplateColumns = "repeat(1, 1fr)";
+    }
+  }
+
+  function displayCard(card, logo) {
+    let cardContainer = document.createElement("li");
+    cardContainer.classList.add("card-container");
+    let cardElement = document.createElement("div");
+    cardElement.classList.add("card", "d-flex", "align-items-end",
+      "justify-content-end");
+    cardElement.style.backgroundColor = card.backgroundColor;
+    let cardLogo = document.createElement("img");
+    cardLogo.classList.add("card-logo");
+    cardLogo.src = "data:image/png;base64," + logo;
+    cardElement.appendChild(cardLogo);
+    if (card.type === "COLLECTION" || card.type === "VALUE") {
+      cardElement.appendChild(createCardStamps(card.foregroundColor));
+    } else if (card.type === "MEMBER") {
+      let memberElement = document.createElement("i");
+      memberElement.classList.add("card-type-member", "fa-solid",
+        "fa-crown");
+      memberElement.style.color = card.foregroundColor;
+      cardElement.appendChild(memberElement);
+    }
+    cardContainer.appendChild(cardElement);
+    cardContainer.role = "button";
+    cardContainer.onclick = function (event) {
+      window.location.href = "/card/" + card.id;
+    }
+    document.getElementById("cards-list").appendChild(cardContainer);
+  }
+
+  function createCardStamps(foregroundColor) {
+    let cardStampContainer = document.createElement("div");
+    cardStampContainer.classList.add("d-flex", "align-items-center",
+      "justify-content-evenly", "w-100");
+    for (let i = 0; i < 10; i++) {
+      let cardStampElement = document.createElement("div");
+      cardStampElement.classList.add("card-stamp");
+      cardStampElement.style.border = "3px solid " + foregroundColor;
+      if (i < 3) {
+        cardStampElement.classList.add("signup-card-stamp-collected");
+        cardStampElement.style.backgroundColor = foregroundColor;
+      }
+      cardStampContainer.appendChild(cardStampElement);
+    }
+    return cardStampContainer;
+  }
+
+  document.getElementById("card-create").addEventListener("click", function (event) {
+    window.location.href = "/card/create/";
   });
 
   function displayLoader() {
@@ -28,7 +120,8 @@
   }
 
   function removeLoader() {
-    document.getElementById("cards-container").removeChild(document.getElementsByClassName("loader")[0]);
+    document.getElementById("cards-container").removeChild(
+      document.getElementsByClassName("loader")[0]);
     document.getElementById("cards-wrapper").classList.remove("d-none");
   }
 </script>

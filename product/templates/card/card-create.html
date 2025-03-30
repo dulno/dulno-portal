@@ -1,0 +1,112 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="card-create-container">
+        <div id="card-create-wrapper" class="d-none">
+          <div class="text-center mb-5">
+            <div class="position-relative d-flex justify-content-center align-items-center">
+              <div class="me-auto">
+                <button id="card-create-page-back"><i class="fa-solid fa-arrow-left-long"></i></button>
+              </div>
+              <h1 class="fw-bold m-0 position-absolute start-50 translate-middle-x">{% trans 'product.card.create.headline' %}</h1>
+            </div>
+            <p class="text-secondary">{% trans 'product.card.create.description' %}</p>
+          </div>
+          <div id="card-create-type-container">
+            <button id="card-create-type-collection" class="card-create-type">
+              <i class="fa-solid fa-hand-holding-heart card-create-type-icon"></i>
+              <h4>{% trans 'product.card.create.type.collection' %}</h4>
+            </button>
+            <button id="card-create-type-value" class="card-create-type">
+              <i class="fa-solid fa-wallet card-create-type-icon"></i>
+              <h4>{% trans 'product.card.create.type.value' %}</h4>
+            </button>
+            <button id="card-create-type-member" class="card-create-type">
+              <i class="fa-solid fa-crown card-create-type-icon"></i>
+              <h4>{% trans 'product.card.create.type.member' %}</h4>
+            </button>
+          </div>
+          <div class="text-end my-5">
+            <button id="card-continue" class="btn btn-primary fw-bold disabled">{% trans 'product.card.create.continue' %}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let selectedType;
+  let selectedTypeElement;
+  let continued = false;
+
+  $(document).ready(function () {
+    displayLoader();
+    removeLoader();
+  });
+
+  document.getElementById("card-create-type-collection").addEventListener("click", function (event) {
+    selectCardType("collection");
+  });
+
+  document.getElementById("card-create-type-value").addEventListener("click", function (event) {
+    selectCardType("value");
+  });
+
+  document.getElementById("card-create-type-member").addEventListener("click", function (event) {
+    selectCardType("member");
+  });
+
+  function selectCardType(type) {
+    if (continued) {
+      return;
+    }
+    document.getElementById("card-continue").classList.remove("disabled");
+    if (selectedTypeElement) {
+      selectedTypeElement.classList.remove("card-create-type-selected");
+    }
+    selectedTypeElement = document.getElementById("card-create-type-" + type);
+    selectedTypeElement.classList.add("card-create-type-selected");
+    selectedType = type;
+  }
+
+  document.getElementById("card-continue").addEventListener("click", function (event) {
+    continued = true;
+    document.getElementById("card-continue").classList.add("disabled");
+    document.getElementById("card-continue").innerHTML = "{% trans 'product.card.create.continue' %}" + `
+      <span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span>
+      <span class="visually-hidden" role="status">Loading...</span>
+    `;
+    let content = {};
+    if (selectedType === "collection") {
+      content = {reward_number: 10, reward_description: ""};
+    }
+    let request = new HttpRequest("/card/create/", "POST", [],
+      {backgroundColor: "#ffffff", foregroundColor: "#000000",
+        type: selectedType.toUpperCase(), content: content});
+    request.send(function (status, responseText) {
+      window.location.href = "/card/" + JSON.parse(responseText).card + "/";
+    });
+  });
+
+  document.getElementById("card-create-page-back").addEventListener("click", function (event) {
+    window.location.href = "/cards/";
+  });
+
+  function displayLoader() {
+    let loader = document.createElement("div");
+    loader.classList.add("loader");
+    document.getElementById("card-create-container").appendChild(loader);
+  }
+
+  function removeLoader() {
+    document.getElementById("card-create-container").removeChild(
+      document.getElementsByClassName("loader")[0]);
+    document.getElementById("card-create-wrapper").classList.remove("d-none");
+  }
+</script>
