@@ -53,6 +53,6 @@
 }
 
 .light #package-termination-disclaimer, .light #package-termination-process, .light #package-termination-not-possible, .light #package-termination-done {
-  background-color: #dadada;
+  background-color: #ececec;
   border: 1px #a0a0a0 solid;
 }

@@ -9,6 +9,7 @@
 
 .dark #sidebar {
   color: white;
+  background-color: #212529;
   border-right: 1px #4a4a4a solid;
 }
 
