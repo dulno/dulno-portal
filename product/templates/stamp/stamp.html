@@ -8,7 +8,7 @@
     <div class="sidebar-influenced">
       <div id="stamp-container">
         <div id="stamp-wrapper">
-          <div class="position-relative d-flex flex-lg-row flex-column justify-content-center align-items-lg-center my-5 py-4">
+          <div class="position-relative d-flex flex-lg-row flex-column justify-content-center align-items-lg-center mt-lg-5 mt-0 mb-5 py-4">
             <div class="me-auto ms-lg-0 ms-auto">
               <button id="stamp-page-back"><i class="fa-solid fa-arrow-left-long"></i></button>
             </div>
@@ -27,11 +27,11 @@
               </div>
               <div class="mb-3">
                 <h5>{% trans 'product.stamp.assigned.card' %}</h5>
-                <div class="d-flex align-items-center w-100">
-                  <div class="flex-grow-1">
+                <div class="d-flex flex-md-row flex-column justify-content-center align-items-center w-100">
+                  <div class="flex-grow-1 w-100 mb-md-0 mb-3">
                     <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
                   </div>
-                  <div class="flex-grow-1 ms-3">
+                  <div class="flex-grow-1 w-100 mb-md-0 mb-3 ms-md-3">
                     <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
                   </div>
                 </div>
@@ -46,7 +46,7 @@
               </div>
             </div>
           </div>
-          <div id="stamp-body" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center placeholder-fade">
+          <div id="stamp-body" class="d-none d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center placeholder-fade">
             <div class="flex-grow-1 mb-5 me-xl-5">
               <div class="mb-3">
                 <h5>{% trans 'product.stamp.name' %}</h5>
@@ -54,28 +54,22 @@
               </div>
               <div class="mb-3">
                 <h5>{% trans 'product.stamp.assigned.card' %}</h5>
-                <div class="d-flex align-items-center w-100">
-                  <div class="dropdown flex-grow-1">
-                    <button class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="d-flex flex-md-row flex-column justify-content-center align-items-center w-100">
+                  <div class="dropdown flex-grow-1 w-100 mb-md-0 mb-3">
+                    <button id="stamp-card-assignment-button" class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                       {% trans 'product.stamp.assigned.card.card' %}
                     </button>
-                    <ul class="dropdown-menu w-100">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <ul id="stamp-card-selection" class="dropdown-menu w-100">
                     </ul>
                   </div>
-                  <div class="dropdown flex-grow-1 ms-3">
-                    <button class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <div class="dropdown flex-grow-1 w-100 mb-md-0 mb-3 ms-md-3">
+                    <button id="stamp-card-role-button" class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                       {% trans 'product.stamp.assigned.card.role' %}
                     </button>
-                    <ul class="dropdown-menu w-100">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <ul id="stamp-card-role-selection" class="dropdown-menu w-100">
                     </ul>
                   </div>
-                  <a href="/cards/"><h3 class="fa-regular fa-share-from-square mb-0 ms-3"></h3></a>
+                  <a id="stamp-card-link" href="/cards/" target="_blank"><h3 class="fa-regular fa-share-from-square mb-0 ms-md-3"></h3></a>
                 </div>
               </div>
             </div>
@@ -90,6 +84,16 @@
           </div>
         </div>
       </div>
+      <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="stamp-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <img class="dulno-logo me-2" alt="" width="32" height="32">
+            <strong id="stamp-toast-title" class="me-auto"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div id="stamp-toast-body" class="toast-body"></div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
@@ -99,15 +103,18 @@
 
   $(document).ready(function () {
     fetchStamp(function (stampResult) {
-      stamp = stampResult;
-      displayStamp();
-      for (let element of [...document.querySelectorAll('input[maxlength]')]) {
-        element.addEventListener('input', tickInputMaxLength)
-        element.parentElement.classList.add('max-length-badged');
-        tickInputMaxLength(element)
-      }
-      document.getElementById("stamp-body").classList.add("placeholder-fade-show");
-      document.getElementById("stamp-placeholder").classList.add("d-none");
+      fetchCards(function (cardsResult) {
+        stamp = stampResult;
+        displayStamp(cardsResult.sort((a, b) => b.creation - a.creation));
+        for (let element of [...document.querySelectorAll('input[maxlength]')]) {
+          element.addEventListener('input', tickInputMaxLength)
+          element.parentElement.classList.add('max-length-badged');
+          tickInputMaxLength(element)
+        }
+        document.getElementById("stamp-body").classList.add("placeholder-fade-show");
+        document.getElementById("stamp-body").classList.remove("d-none");
+        document.getElementById("stamp-placeholder").classList.add("d-none");
+      });
     });
   });
 
@@ -133,7 +140,7 @@
     });
   }
 
-  function displayStamp() {
+  function displayStamp(cards) {
     if (stamp.state === "ACTIVE") {
       document.getElementById("stamp-deactivate").classList.remove("d-none");
     } else {
@@ -151,6 +158,125 @@
       iconElement.innerText = "nfc";
       iconElement.style.fontSize = "100px";
     }
+    displayStampCardSelection(cards);
+    updateStampCardLink();
+  }
+
+  function displayStampCardSelection(cards) {
+    addStampCardSelectionEntry(null, null, "{% trans 'product.stamp.assigned.card.unassigned' %}");
+    for (let i = 0; i < cards.length; i++) {
+      let card = cards[i];
+      let type = "";
+      if (card.type === "COLLECTION") {
+        type = "{% trans 'product.stamp.assigned.card.collection' %}";
+      } else if (card.type === "VALUE") {
+        type = "{% trans 'product.stamp.assigned.card.value' %}";
+      } else if (card.type === "MEMBER") {
+        type = "{% trans 'product.stamp.assigned.card.member' %}";
+      }
+      addStampCardSelectionEntry(card.id, card.type, "#" + (i + 1) + " (" + type + ")");
+    }
+  }
+
+  function addStampCardSelectionEntry(id, type, name) {
+    let entry = document.createElement("li");
+    let span = document.createElement("span");
+    span.classList.add("dropdown-item");
+    span.innerText = name;
+    entry.appendChild(span);
+    let initial = true;
+    entry.addEventListener('click', function () {
+      document.getElementById("stamp-card-assignment-button").innerText = name;
+      let roleButton = document.getElementById("stamp-card-role-button");
+      roleButton.innerText = "{% trans 'product.stamp.assigned.card.role' %}";
+      if (id == null) {
+        if (stamp.assignedCard !== null) {
+          stamp.assignedCard = null;
+          stamp.assignmentRole = "UNASSIGNED";
+          updateStampCardAssignment();
+        }
+        roleButton.classList.add("disabled");
+      } else {
+        stamp.assignedCard = id;
+        roleButton.classList.remove("disabled");
+        displayStampCardRoleSelection(type, initial);
+      }
+      updateStampCardLink();
+    });
+    if (stamp.assignedCard === id) {
+      entry.click();
+      initial = false;
+    }
+    document.getElementById("stamp-card-selection").appendChild(entry);
+  }
+
+  function displayStampCardRoleSelection(type, initial) {
+    document.getElementById("stamp-card-role-selection").innerHTML = "";
+    if (type === "COLLECTION") {
+      addStampCardRoleSelectionEntry("COLLECTION_REWARD",
+        "{% trans 'product.stamp.assigned.card.role.collection.reward' %}", initial);
+    } else if (type === "VALUE") {
+      addStampCardRoleSelectionEntry("VALUE_CREDIT",
+        "{% trans 'product.stamp.assigned.card.role.value.credit' %}", initial);
+      addStampCardRoleSelectionEntry("VALUE_DEBIT",
+        "{% trans 'product.stamp.assigned.card.role.value.debit' %}", initial);
+    } else if (type === "MEMBER") {
+      addStampCardRoleSelectionEntry("MEMBER_ISSUE",
+        "{% trans 'product.stamp.assigned.card.role.member.issue' %}", initial);
+      addStampCardRoleSelectionEntry("MEMBER_REVOKE",
+        "{% trans 'product.stamp.assigned.card.role.member.revoke' %}", initial);
+    }
+  }
+
+  function addStampCardRoleSelectionEntry(role, name, initial) {
+    let entry = document.createElement("li");
+    let span = document.createElement("span");
+    span.classList.add("dropdown-item");
+    span.innerText = name;
+    entry.appendChild(span);
+    entry.addEventListener('click', function () {
+      document.getElementById("stamp-card-role-button").innerText = name;
+      stamp.assignmentRole = role;
+      updateStampCardAssignment();
+    });
+    if (stamp.assignmentRole === role && initial) {
+      document.getElementById("stamp-card-role-button").innerText = name;
+    }
+    document.getElementById("stamp-card-role-selection").appendChild(entry);
+  }
+
+  function updateStampCardLink() {
+    let linkElement = document.getElementById("stamp-card-link");
+    let roleButton = document.getElementById("stamp-card-role-button");
+    if (stamp.assignedCard === null) {
+      linkElement.classList.add("d-none");
+      roleButton.classList.add("disabled");
+      return;
+    }
+    linkElement.classList.remove("d-none");
+    roleButton.classList.remove("disabled");
+    linkElement.href = "/card/" + stamp.assignedCard + "/";
+  }
+
+  function updateStampCardAssignment() {
+    let request = new HttpRequest("/stamp/assign/", "POST", [],
+      {stamp: "{{id}}", assignedCard: stamp.assignedCard,
+        assignmentRole: stamp.assignmentRole});
+    request.send(function (status, responseText) {
+      document.getElementById("stamp-toast-title").innerText =
+        "{% trans 'product.stamp.assignment.successful.title' %}";
+      document.getElementById("stamp-toast-body").innerText =
+        "{% trans 'product.stamp.assignment.successful.body' %}";
+      bootstrap.Toast.getOrCreateInstance(
+        document.getElementById('stamp-toast')).show();
+    });
+  }
+
+  function fetchCards(callback) {
+    let request = new HttpRequest("/cards/list/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).cards);
+    });
   }
 
   let nameInputTimeout = -1;
