@@ -20,23 +20,72 @@
             </div>
           </div>
           <div id="stamp-placeholder" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center">
-            <div class="flex-grow-1 mb-5">
-              <div>
+            <div class="flex-grow-1 mb-5 me-xl-5">
+              <div class="mb-3">
                 <h5>{% trans 'product.stamp.name' %}</h5>
-                <div class="mb-3 placeholder placeholder-wave rounded py-3 w-100"></div>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.stamp.assigned.card' %}</h5>
+                <div class="d-flex align-items-center w-100">
+                  <div class="flex-grow-1">
+                    <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="stamp-container ms-xl-5 mb-4">
+              <div class="stamp-icon-container">
+                <div class="placeholder placeholder-wave rounded py-3" style="width: 75px; height: 60px"></div>
+              </div>
+              <div class="m-2">
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
             </div>
           </div>
           <div id="stamp-body" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center placeholder-fade">
-            <div class="flex-grow-1 mb-5">
-              <div>
+            <div class="flex-grow-1 mb-5 me-xl-5">
+              <div class="mb-3">
                 <h5>{% trans 'product.stamp.name' %}</h5>
-                <input id="stamp-name-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.stamp.name.placeholder' %}">
+                <input id="stamp-name-input" autocomplete=off placeholder="{% trans 'product.stamp.name.placeholder' %}" maxlength="64">
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.stamp.assigned.card' %}</h5>
+                <div class="d-flex align-items-center w-100">
+                  <div class="dropdown flex-grow-1">
+                    <button class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      {% trans 'product.stamp.assigned.card.card' %}
+                    </button>
+                    <ul class="dropdown-menu w-100">
+                      <li><a class="dropdown-item" href="#">Action</a></li>
+                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                  </div>
+                  <div class="dropdown flex-grow-1 ms-3">
+                    <button class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      {% trans 'product.stamp.assigned.card.role' %}
+                    </button>
+                    <ul class="dropdown-menu w-100">
+                      <li><a class="dropdown-item" href="#">Action</a></li>
+                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                  </div>
+                  <a href="/cards/"><h3 class="fa-regular fa-share-from-square mb-0 ms-3"></h3></a>
+                </div>
               </div>
             </div>
             <div id="stamp-preview-container" class="stamp-container ms-xl-5 mb-4">
+              <div class="stamp-icon-container">
+                <i id="stamp-preview-icon" class="text-primary"></i>
+              </div>
+              <div class="m-2">
+                <h5 id="stamp-preview-name" class="fw-bold mb-0"></h5>
+              </div>
             </div>
           </div>
         </div>
@@ -91,24 +140,36 @@
       document.getElementById("stamp-activate").classList.remove("d-none");
     }
     document.getElementById("stamp-state-placeholder").classList.add("d-none");
-  }
-
-  let inputTimeout = -1;
-
-  function processStampInput() {
-    if (inputTimeout !== -1) {
-      clearTimeout(inputTimeout);
+    document.getElementById("stamp-preview-name").innerText = stamp.name;
+    document.getElementById("stamp-name-input").value = stamp.name;
+    let iconElement = document.getElementById("stamp-preview-icon");
+    if (stamp.type === "STAMP") {
+      iconElement.classList.add("fa-solid", "fa-stamp");
+      iconElement.style.fontSize = "70px";
+    } else {
+      iconElement.classList.add("material-symbols-outlined", "loaded");
+      iconElement.innerText = "nfc";
+      iconElement.style.fontSize = "100px";
     }
-    inputTimeout = setTimeout(function () {
-      inputTimeout = -1;
-      updateStamp();
-    }, 500);
   }
 
-  function updateStamp() {
-    let request = new HttpRequest("/stamp/update/", "POST", [], {});
-    request.send(function (status, responseText) {});
-  }
+  let nameInputTimeout = -1;
+
+  document.getElementById("stamp-name-input").addEventListener("input", function (event) {
+    stamp.name = document.getElementById("stamp-name-input").value;
+    document.getElementById("stamp-preview-name").innerText = stamp.name;
+    if (nameInputTimeout !== -1) {
+      clearTimeout(nameInputTimeout);
+    }
+    nameInputTimeout = setTimeout(function () {
+      nameInputTimeout = -1;
+      let request = new HttpRequest("/stamp/rename/", "POST", [],
+        {stamp: "{{id}}", name: stamp.name});
+      request.send(function (status, responseText) {
+
+      });
+    }, 500);
+  });
 
   document.getElementById("stamp-deactivate").onclick = function (event) {
     Swal.fire({

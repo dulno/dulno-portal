@@ -67,3 +67,50 @@
     color: #dc3545;
   }
 }
+
+.stamp-container {
+  width: min(300px, 100%);
+  padding: 15px;
+  border-radius: 12px;
+  transition-duration: 0.2s;
+}
+
+.dark .stamp-container {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  border: 1px solid #2f353a;
+  background-color: #212529;
+}
+
+.light .stamp-container {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid #dadada;
+  background-color: #ffffff;
+}
+
+.stamp-icon-container {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.dark .stamp-icon-container {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.light .stamp-icon-container {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#stamp-preview-name {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}

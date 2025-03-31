@@ -152,7 +152,9 @@
     if (stamp.type === "STAMP") {
       typeElement.classList.add("fa-solid", "fa-stamp");
     } else if (stamp.type === "TAG") {
-      typeElement.classList.add("fa-regular", "fa-circle");
+      typeElement.classList.add("material-symbols-outlined", "loaded");
+      typeElement.innerText = "nfc";
+      typeElement.style.fontSize = "35px";
     }
     typeContainer.appendChild(typeElement);
     entry.appendChild(typeContainer);
