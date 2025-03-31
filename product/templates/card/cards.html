@@ -16,15 +16,15 @@
           </div>
           <ul id="cards-placeholders" class="cards-list">
             <li class="card-container">
-              <div class="card placeholder-wave d-flex align-items-end justify-content-end">
-                <img class="card-logo placeholder rounded-4" src="" width="72px" height="72px" alt="">
-                <div class="w-100 placeholder rounded py-3"></div>
+              <div class="card d-flex align-items-end justify-content-end">
+                <div class="card-logo placeholder placeholder-wave rounded-4" style="width: 72px; height: 72px;"></div>
+                <div class="w-100 placeholder placeholder-wave rounded py-3"></div>
               </div>
             </li>
             <li class="card-container">
-              <div class="card placeholder-wave d-flex align-items-end justify-content-end">
-                <img class="card-logo placeholder rounded-4" src="" width="72px" height="72px" alt="">
-                <i class="card-type-member fa-solid fa-crown placeholder rounded"></i>
+              <div class="card d-flex align-items-end justify-content-end">
+                <div class="card-logo placeholder placeholder-wave rounded-4" style="width: 72px; height: 72px;"></div>
+                <div class="w-100 placeholder placeholder-wave rounded py-3"></div>
               </div>
             </li>
           </ul>
@@ -32,7 +32,7 @@
           </ul>
           <div id="cards-empty" class="d-none">
             <p id="cards-empty-headline" class="mb-sm-1 mb-3">{% trans 'product.cards.empty.headline' %}</p>
-            <span>{% trans 'product.cards.empty.text' %}</span><a href="/card/create/">{% trans 'product.cards.empty.link' %}</a><span>?</span>
+            <span>{% trans 'product.cards.empty.text' %}</span>
           </div>
         </div>
       </div>
@@ -92,7 +92,7 @@
     cardContainer.appendChild(cardElement);
     cardContainer.role = "button";
     cardContainer.onclick = function (event) {
-      window.location.href = "/card/" + card.id;
+      window.location.href = "/card/" + card.id + "/";
     }
     document.getElementById("cards-list").appendChild(cardContainer);
   }

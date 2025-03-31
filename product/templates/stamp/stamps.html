@@ -7,8 +7,76 @@
     {% include 'product-sidebar.html' %}
     <div class="sidebar-influenced">
       <div id="stamps-container">
-        <div id="stamps-wrapper" class="d-none">
-
+        <div id="stamps-wrapper">
+          <h1 class="text-center fw-bold my-5 py-4">{% trans 'product.stamps.headline' %}</h1>
+          <div id="stamps-header">
+            <div id="stamps-search-box">
+              <input id="stamps-search-input" placeholder="{% trans 'product.stamps.search' %}" type="text" class="form-control" value="" autocomplete="off">
+              <button type="button">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+            <button id="stamp-new" class="btn btn-primary fw-bold ms-5"><i class="fa-solid fa-plus me-1"></i> {% trans 'product.stamps.new' %}</button>
+          </div>
+          <ul id="stamps-table-description" class="mt-4 mb-0">
+            <li id="stamps-table-description-type">
+              <div></div>
+            </li>
+            <li id="stamps-table-description-name">
+              <div>
+                <span>{% trans 'product.stamps.name' %}</span>
+                <i class="stamps-table-description-sort fa-solid fa-sort-up ms-2" role="button" type="name"></i>
+              </div>
+            </li>
+            <li id="stamps-table-description-state">
+              <div>
+                <span>{% trans 'product.stamps.state' %}</span>
+                <i class="stamps-table-description-sort fa-solid fa-sort ms-2" role="button" type="state"></i>
+              </div>
+            </li>
+            <li id="stamps-table-description-creation">
+              <div>
+                <span>{% trans 'product.stamps.creation' %}</span>
+                <i class="stamps-table-description-sort fa-solid fa-sort ms-2" role="button" type="creation"></i>
+              </div>
+            </li>
+          </ul>
+          <ul id="stamps-placeholders" class="stamps-list">
+            <li class="stamp-entry">
+              <div class="stamp-entry-type">
+                <span class="placeholder placeholder-wave w-100 rounded py-3"></span>
+              </div>
+              <div class="stamp-entry-name">
+                <span class="placeholder placeholder-wave w-100 rounded py-3"></span>
+              </div>
+              <div class="stamp-entry-state">
+                <span class="placeholder placeholder-wave w-100 rounded" style="height: 51px"></span>
+              </div>
+              <div class="stamp-entry-creation">
+                <span class="placeholder placeholder-wave w-100 rounded py-3"></span>
+              </div>
+            </li>
+            <li class="stamp-entry">
+              <div class="stamp-entry-type">
+                <span class="placeholder placeholder-wave w-100 rounded py-3"></span>
+              </div>
+              <div class="stamp-entry-name">
+                <span class="placeholder placeholder-wave w-100 rounded py-3"></span>
+              </div>
+              <div class="stamp-entry-state">
+                <span class="placeholder placeholder-wave w-100 rounded" style="height: 51px"></span>
+              </div>
+              <div class="stamp-entry-creation">
+                <span class="placeholder placeholder-wave w-100 rounded py-3"></span>
+              </div>
+            </li>
+          </ul>
+          <ul id="stamps-list" class="stamps-list placeholder-fade">
+          </ul>
+          <div id="stamps-empty" class="d-none">
+            <p id="stamps-empty-headline" class="mb-sm-1 mb-3">{% trans 'product.stamps.empty.headline' %}</p>
+            <span>{% trans 'product.stamps.empty.text' %}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -16,19 +84,147 @@
 </html>
 
 <script>
-  $(document).ready(function() {
-    displayLoader();
-    removeLoader();
+  let stamps;
+  let listSearch = "";
+  let listSearchTimeout = -1;
+  let listSorting = "name";
+  let listOrderAscending = true;
+
+  $(document).ready(function () {
+    fetchStamps(function (result) {
+      stamps = result;
+      document.getElementById("stamps-list").classList.add("placeholder-fade-show");
+      document.getElementById("stamps-placeholders").classList.add("d-none");
+      displayStamps();
+    });
   });
 
-  function displayLoader() {
-    let loader = document.createElement("div");
-    loader.classList.add("loader");
-    document.getElementById("stamps-container").appendChild(loader);
+  function fetchStamps(callback) {
+    let request = new HttpRequest("/stamps/list/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).stamps);
+    });
   }
 
-  function removeLoader() {
-    document.getElementById("stamps-container").removeChild(document.getElementsByClassName("loader")[0]);
-    document.getElementById("stamps-wrapper").classList.remove("d-none");
+  function displayStamps() {
+    document.getElementById("stamps-list").innerHTML = "";
+    stamps = stamps.sort((a, b) => compareStamps(a, b))
+      .sort((a, b) => a.id.localeCompare(b.id));
+    if (listOrderAscending) {
+      stamps = stamps.reverse();
+    }
+    let displayedStamps = 0;
+    for (let i = 0; i < stamps.length; i++) {
+      let stamp = stamps[i];
+      if (!shouldDisplayStamp(stamp)) {
+        continue;
+      }
+      displayStamp(stamp);
+      displayedStamps++;
+    }
+    if (displayedStamps === 0) {
+      document.getElementById("stamps-empty").classList.remove("d-none");
+    } else {
+      document.getElementById("stamps-empty").classList.add("d-none");
+    }
   }
+
+  function shouldDisplayStamp(stamp) {
+    return listSearch === "" ||
+      stamp.name.toLowerCase().includes(listSearch.toLowerCase())
+  }
+
+  function compareStamps(a, b) {
+    if (listSorting === "creation") {
+      return b[listSorting] - a[listSorting];
+    }
+    return a[listSorting].localeCompare(b[listSorting]);
+  }
+
+  function displayStamp(stamp) {
+    let entry = document.createElement('li');
+    entry.role = "button";
+    entry.classList.add("stamp-entry");
+    let typeContainer = document.createElement("div");
+    typeContainer.classList.add("stamp-entry-type");
+    let typeElement = document.createElement("h3");
+    typeElement.classList.add("text-primary", "mb-0");
+    if (stamp.type === "STAMP") {
+      typeElement.classList.add("fa-solid", "fa-stamp");
+    } else if (stamp.type === "TAG") {
+      typeElement.classList.add("fa-regular", "fa-circle");
+    }
+    typeContainer.appendChild(typeElement);
+    entry.appendChild(typeContainer);
+    let nameContainer = document.createElement("div");
+    nameContainer.classList.add("stamp-entry-name");
+    let nameElement = document.createElement("span");
+    nameElement.innerText = stamp.name;
+    nameContainer.appendChild(nameElement);
+    entry.appendChild(nameContainer);
+    let stateContainer = document.createElement("div");
+    stateContainer.classList.add("stamp-entry-state");
+    let stateElement = document.createElement("span");
+    if (stamp.state === "ACTIVE") {
+      stateElement.innerText = "{% trans 'product.stamps.state.active' %}";
+      stateElement.classList.add("stamp-state-active");
+    } else {
+      stateElement.innerText = "{% trans 'product.stamps.state.deactivated' %}";
+      stateElement.classList.add("stamp-state-deactivated");
+    }
+    stateContainer.appendChild(stateElement);
+    entry.appendChild(stateContainer);
+    let creationContainer = document.createElement("div");
+    creationContainer.classList.add("stamp-entry-creation");
+    let creationElement = document.createElement("span");
+    creationElement.innerText = new Date(stamp.creation).toLocaleDateString();
+    creationContainer.appendChild(creationElement);
+    entry.appendChild(creationContainer);
+    entry.onclick = function () {
+      window.location.href = "/stamp/" + stamp.id + "/";
+    }
+    document.getElementById("stamps-list").appendChild(entry);
+  }
+
+  let sortingElements = document.getElementsByClassName("stamps-table-description-sort");
+  for (let i = 0; i < sortingElements.length; i++) {
+    let sortingElement = sortingElements[i];
+    sortingElement.onclick = function (event) {
+      updateSorting(sortingElement);
+    }
+  }
+
+  function updateSorting(selectedElement) {
+    for (let i = 0; i < sortingElements.length; i++) {
+      let sortingElement = sortingElements[i];
+      sortingElement.classList.remove("fa-sort-up", "fa-sort-down");
+      sortingElement.classList.add("fa-sort");
+    }
+    let selectedSorting = selectedElement.getAttribute("type");
+    selectedElement.classList.remove("fa-sort");
+    if (listSorting === selectedSorting) {
+      listOrderAscending = !listOrderAscending;
+      selectedElement.classList.add(!listOrderAscending ? "fa-sort-down" : "fa-sort-up");
+    } else {
+      listOrderAscending = true;
+      selectedElement.classList.add("fa-sort-up");
+    }
+    listSorting = selectedSorting;
+    displayStamps();
+  }
+
+  document.getElementById("stamps-search-input").oninput = function(event) {
+    if (listSearchTimeout !== -1) {
+      clearTimeout(listSearchTimeout);
+    }
+    listSearchTimeout = setTimeout(function () {
+      listSearchTimeout = -1;
+      listSearch = event.target.value;
+      displayStamps();
+    }, 500);
+  };
+
+  document.getElementById("stamp-new").addEventListener("click", function (event) {
+    window.location.href = "/accessories/";
+  });
 </script>

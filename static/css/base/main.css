@@ -60,6 +60,24 @@ h1 {
   text-align: left !important;
 }
 
+.light .placeholder {
+  background-color: #cacaca !important;
+}
+
+.light .placeholder-wave {
+  mask-image: linear-gradient(130deg, rgba(0, 0, 0, 0.9) 35%, rgba(0, 0, 0, 0.5) 45%,rgba(0, 0, 0, 0.5) 55%, rgba(0, 0, 0, 0.9) 65%) !important;
+  -webkit-mask-image: linear-gradient(130deg, rgba(0, 0, 0, 0.9) 35%, rgba(0, 0, 0, 0.5) 45%, rgba(0, 0, 0, 0.5) 55%, rgba(0, 0, 0, 0.9) 65%) !important;
+}
+
+.dark .placeholder {
+  background-color: #626367 !important;
+}
+
+.dark .placeholder-wave {
+  mask-image: linear-gradient(130deg, rgba(255, 255, 255, 0.9) 35%, rgba(255, 255, 255, 0.5) 45%,rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.9) 65%) !important;
+  -webkit-mask-image: linear-gradient(130deg, rgba(255, 255, 255, 0.9) 35%, rgba(255, 255, 255, 0.5) 45%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.9) 65%) !important;
+}
+
 .placeholder-fade {
   opacity: 0;
   visibility: hidden;

@@ -1,0 +1,156 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="stamp-container">
+        <div id="stamp-wrapper">
+          <div class="position-relative d-flex flex-lg-row flex-column justify-content-center align-items-lg-center my-5 py-4">
+            <div class="me-auto ms-lg-0 ms-auto">
+              <button id="stamp-page-back"><i class="fa-solid fa-arrow-left-long"></i></button>
+            </div>
+            <h1 class="fw-bold m-0 position-absolute start-50 translate-middle-x">{% trans 'product.stamp.headline' %}</h1>
+            <div class="ms-auto me-lg-0 me-auto mt-lg-0 mt-5 pt-lg-0 pt-5">
+              <button id="stamp-deactivate" class="btn btn-danger fw-bold d-none"><i class="fa-solid fa-circle-down me-1"></i> {% trans 'product.stamp.deactivate' %}</button>
+              <button id="stamp-activate" class="btn btn-success fw-bold d-none"><i class="fa-solid fa-circle-up me-1"></i> {% trans 'product.stamp.activate' %}</button>
+              <div id="stamp-state-placeholder" class="placeholder placeholder-wave rounded py-3" style="width: 200px"></div>
+            </div>
+          </div>
+          <div id="stamp-placeholder" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center">
+            <div class="flex-grow-1 mb-5">
+              <div>
+                <h5>{% trans 'product.stamp.name' %}</h5>
+                <div class="mb-3 placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+            </div>
+            <div class="stamp-container ms-xl-5 mb-4">
+            </div>
+          </div>
+          <div id="stamp-body" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center placeholder-fade">
+            <div class="flex-grow-1 mb-5">
+              <div>
+                <h5>{% trans 'product.stamp.name' %}</h5>
+                <input id="stamp-name-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.stamp.name.placeholder' %}">
+              </div>
+            </div>
+            <div id="stamp-preview-container" class="stamp-container ms-xl-5 mb-4">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let stamp;
+
+  $(document).ready(function () {
+    fetchStamp(function (stampResult) {
+      stamp = stampResult;
+      displayStamp();
+      for (let element of [...document.querySelectorAll('input[maxlength]')]) {
+        element.addEventListener('input', tickInputMaxLength)
+        element.parentElement.classList.add('max-length-badged');
+        tickInputMaxLength(element)
+      }
+      document.getElementById("stamp-body").classList.add("placeholder-fade-show");
+      document.getElementById("stamp-placeholder").classList.add("d-none");
+    });
+  });
+
+  function tickInputMaxLength(element) {
+    if (element.target) {
+      element = element.target
+    }
+    let limit = element.maxLength;
+    let parent = element.parentElement;
+    let length = element.value.length;
+    parent.dataset['limit'] = limit;
+    parent.dataset['remaining'] = limit - length;
+    parent.classList.remove('max-length-reached');
+    if (length === limit) {
+      parent.classList.add('max-length-reached');
+    }
+  }
+
+  function fetchStamp(callback) {
+    let request = new HttpRequest("/stamp/find/", "POST", [], {stamp: "{{id}}"});
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+
+  function displayStamp() {
+    if (stamp.state === "ACTIVE") {
+      document.getElementById("stamp-deactivate").classList.remove("d-none");
+    } else {
+      document.getElementById("stamp-activate").classList.remove("d-none");
+    }
+    document.getElementById("stamp-state-placeholder").classList.add("d-none");
+  }
+
+  let inputTimeout = -1;
+
+  function processStampInput() {
+    if (inputTimeout !== -1) {
+      clearTimeout(inputTimeout);
+    }
+    inputTimeout = setTimeout(function () {
+      inputTimeout = -1;
+      updateStamp();
+    }, 500);
+  }
+
+  function updateStamp() {
+    let request = new HttpRequest("/stamp/update/", "POST", [], {});
+    request.send(function (status, responseText) {});
+  }
+
+  document.getElementById("stamp-deactivate").onclick = function (event) {
+    Swal.fire({
+      title: "{% trans 'product.stamp.deactivate.title' %}",
+      text: "{% trans 'product.stamp.deactivate.body' %}",
+      icon: "warning",
+      confirmButtonColor: "#dc3545",
+      showCancelButton: true,
+      cancelButtonText: "{% trans 'popup.cancel' %}",
+    }).then(result => {
+      if (result.isConfirmed) {
+        changeStampState("DEACTIVATED");
+      }
+    });
+  }
+
+  document.getElementById("stamp-activate").onclick = function (event) {
+    Swal.fire({
+      title: "{% trans 'product.stamp.activate.title' %}",
+      text: "{% trans 'product.stamp.activate.body' %}",
+      icon: "warning",
+      confirmButtonColor: "#dc3545",
+      showCancelButton: true,
+      cancelButtonText: "{% trans 'popup.cancel' %}",
+    }).then(result => {
+      if (result.isConfirmed) {
+        changeStampState("ACTIVE");
+      }
+    });
+  }
+
+  function changeStampState(state) {
+    let request = new HttpRequest("/stamp/state/change/", "POST", [],
+      {stamp: "{{id}}", state: state});
+    request.send(function (status, responseText) {
+      Swal.fire("{% trans 'product.stamp.state.successful.title' %}",
+        "{% trans 'product.stamp.state.successful.body' %}", "success")
+        .then(success => window.location.reload());
+    });
+  }
+
+  document.getElementById("stamp-page-back").addEventListener("click", function (event) {
+    window.location.href = "/stamps/";
+  });
+</script>

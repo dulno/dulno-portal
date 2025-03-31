@@ -29,8 +29,8 @@
 
 .dark .card-container {
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-  border: 1px solid #1e2735;
-  background-color: #171e28;
+  border: 1px solid #2f353a;
+  background-color: #212529;
 }
 
 .light .card-container {
@@ -99,4 +99,22 @@
     width: 16px;
     height: 16px;
   }
+}
+
+
+#cards-empty {
+  flex-flow: wrap;
+  justify-content: center;
+  text-align: center;
+  margin-top: 6vh;
+}
+
+#cards-empty-headline {
+  font-size: 20px;
+  font-weight: bold;
+  width: 100%
+}
+
+#cards-empty a {
+  text-decoration: none;
 }

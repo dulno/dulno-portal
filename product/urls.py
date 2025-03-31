@@ -7,6 +7,7 @@ urlpatterns = [
   path('card/create/', card.createCard),
   path('card/<str:id>/', card.card),
   path('stamps/', stamp.stamps),
+  path('stamp/<str:id>/', stamp.stamp),
   path('partner/', partner.partner),
   path('analysis/', analysis.analysis),
   path('actions/', action.actions),

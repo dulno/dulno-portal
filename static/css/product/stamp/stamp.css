@@ -1,0 +1,69 @@
+#stamp-wrapper {
+  width: min(1200px, 95%);
+  margin: auto;
+}
+
+#stamp-page-back {
+  width: 52px;
+  height: 52px;
+  border: none;
+  background-color: transparent;
+  border-radius: 50%;
+  font-size: 25px;
+  transition-duration: 0.1s;
+}
+
+.dark #stamp-page-back {
+  color: #b5b5b5;
+}
+
+.light #stamp-page-back {
+  color: #656565;
+}
+
+.dark #stamp-page-back:hover {
+  background-color: #212937;
+}
+
+.light #stamp-page-back:hover {
+  background-color: #d3d3d3;
+  color: #545454;
+}
+
+#stamp-wrapper input {
+  width: 100%;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.dark #stamp-wrapper input {
+  background-color: #212529;
+  border: 1px solid #2f353a;
+}
+
+.light #stamp-wrapper input {
+  background-color: #f3f3f3;
+  border: 1px solid #d5d5d5;
+}
+
+#stamp-wrapper input[maxlength] {
+  position: relative;
+}
+
+.max-length-badged[data-remaining] {
+  position: relative;
+
+  &:after {
+    content: attr(data-remaining) " / " attr(data-limit);
+    display: inline-block;
+    position: absolute;
+    bottom: -20px;
+    right: 5px;
+    pointer-events: none;
+    font-size: 0.75em;
+  }
+
+  &.max-length-reached::after {
+    color: #dc3545;
+  }
+}

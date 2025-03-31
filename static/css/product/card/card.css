@@ -37,8 +37,8 @@
 }
 
 .dark #card-wrapper input {
-  background-color: #161d27;
-  border: 1px solid #1e2735;
+  background-color: #212529;
+  border: 1px solid #2f353a;
 }
 
 .light #card-wrapper input {
@@ -77,8 +77,8 @@
 
 .dark .card-container {
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-  border: 1px solid #1e2735;
-  background-color: #171e28;
+  border: 1px solid #2f353a;
+  background-color: #212529;
 }
 
 .light .card-container {
