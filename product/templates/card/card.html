@@ -7,18 +7,40 @@
     {% include 'product-sidebar.html' %}
     <div class="sidebar-influenced">
       <div id="card-container">
-        <div id="card-wrapper" class="d-none">
-          <div class="position-relative d-flex justify-content-center align-items-lg-center my-5 py-4">
-            <div class="me-lg-auto mb-lg-0 mb-5 pb-lg-0 pb-5">
+        <div id="card-wrapper">
+          <div class="position-relative d-flex flex-lg-row flex-column justify-content-center align-items-lg-center my-5 py-4">
+            <div class="me-auto ms-lg-0 ms-auto">
               <button id="card-page-back"><i class="fa-solid fa-arrow-left-long"></i></button>
             </div>
             <h1 class="fw-bold m-0 position-absolute start-50 translate-middle-x">{% trans 'product.card.headline' %}</h1>
-            <div class="ms-lg-auto mt-lg-0 mt-5 pt-lg-0 pt-5">
+            <div class="ms-auto me-lg-0 me-auto mt-lg-0 mt-5 pt-lg-0 pt-5">
               <button id="card-delete" class="btn btn-danger fw-bold"><i class="fa-solid fa-minus me-1"></i> {% trans 'product.card.delete' %}</button>
             </div>
           </div>
-          <div class="d-flex align-items-start justify-content-center">
-            <div class="flex-grow-1">
+          <div id="card-placeholder" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center">
+            <div class="flex-grow-1 mb-5">
+              <div class="placeholder-glow">
+                <h5>{% trans 'product.card.background.color' %}</h5>
+                <input class="mb-3 placeholder" type="color" autocomplete=off>
+              </div>
+              <div class="placeholder-glow">
+                <h5>{% trans 'product.card.foreground.color' %}</h5>
+                <input class="mb-3 placeholder" type="color" autocomplete=off>
+              </div>
+              <div class="placeholder-glow">
+                <h5>{% trans 'product.card.logo' %}</h5>
+                <input class="mb-3 placeholder" type="file" autocomplete=off accept="image/png, image/jpeg" />
+              </div>
+            </div>
+            <div class="card-container ms-xl-5 mb-4">
+              <div class="card placeholder-glow d-flex align-items-end justify-content-end">
+                <img class="card-logo placeholder rounded-4" src="" width="72px" height="72px" alt="">
+                <div class="w-100 placeholder rounded py-3"></div>
+              </div>
+            </div>
+          </div>
+          <div id="card-body" class="d-none d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center">
+            <div class="flex-grow-1 mb-5">
               <div>
                 <h5>{% trans 'product.card.background.color' %}</h5>
                 <input id="card-background-color-input" class="mb-3" type="color" autocomplete=off>
@@ -52,10 +74,10 @@
                 <input id="card-member-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.member.description.placeholder' %}">
               </div>
             </div>
-            <div id="card-preview-container" class="ms-xl-5">
-              <div id="card-preview" class="d-flex align-items-end">
-                <img id="card-preview-logo" alt=""/>
-                <div id="card-preview-stamps" class="d-none d-flex align-items-center justify-content-evenly w-100">
+            <div id="card-preview-container" class="card-container ms-xl-5 mb-4">
+              <div id="card-preview" class="d-flex align-items-end card">
+                <img id="card-preview-logo" class="card-logo" alt=""/>
+                <div id="card-preview-stamps" class="d-none d-flex align-items-center justify-content-evenly w-100 mt-auto">
                   <div class="card-preview-stamp card-preview-stamp-collected"></div>
                   <div class="card-preview-stamp card-preview-stamp-collected"></div>
                   <div class="card-preview-stamp card-preview-stamp-collected"></div>
@@ -81,7 +103,6 @@
   let card;
 
   $(document).ready(function () {
-    displayLoader();
     fetchCard(function (cardResult) {
       card = cardResult;
       displayCard();
@@ -90,7 +111,8 @@
         element.parentElement.classList.add('max-length-badged');
         tickInputMaxLength(element)
       }
-      removeLoader();
+      document.getElementById("card-body").classList.remove("d-none");
+      document.getElementById("card-placeholder").classList.add("d-none");
     });
   });
 
@@ -293,16 +315,4 @@
   document.getElementById("card-page-back").addEventListener("click", function (event) {
     window.location.href = "/cards/";
   });
-
-  function displayLoader() {
-    let loader = document.createElement("div");
-    loader.classList.add("loader");
-    document.getElementById("card-container").appendChild(loader);
-  }
-
-  function removeLoader() {
-    document.getElementById("card-container").removeChild(
-      document.getElementsByClassName("loader")[0]);
-    document.getElementById("card-wrapper").classList.remove("d-none");
-  }
 </script>

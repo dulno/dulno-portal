@@ -68,26 +68,26 @@
   }
 }
 
-#card-preview-container {
+.card-container {
   width: min(510px, 100%);
   padding: 15px;
   border-radius: 12px;
   transition-duration: 0.2s;
 }
 
-.dark #card-preview-container {
+.dark .card-container {
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
   border: 1px solid #3b3b3b;
   background-color: #171e28;
 }
 
-.light #card-preview-container {
+.light .card-container {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   border: 1px solid #dadada;
   background-color: #ffffff;
 }
 
-#card-preview {
+.card {
   position: relative;
   min-width: 100%;
   min-height: 180px;
@@ -96,7 +96,7 @@
   padding: 20px;
 }
 
-#card-preview-logo {
+.card-logo {
   width: auto;
   height: 72px;
   position: absolute;
