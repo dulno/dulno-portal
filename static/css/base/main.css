@@ -59,3 +59,14 @@ h1 {
 .cookie-banner-container {
   text-align: left !important;
 }
+
+.placeholder-fade {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.placeholder-fade-show {
+  opacity: 1;
+  visibility: visible;
+}
