@@ -1,0 +1,208 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="partner-link-container">
+        <div id="partner-link-wrapper">
+          <h1 class="text-center fw-bold my-5 py-4">{% trans 'product.partner.headline' %}</h1>
+          {% include 'partner-tab.html' %}
+          <div id="partner-link-placeholder">
+            <ul class="partner-link-list">
+              <li>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </li>
+            </ul>
+            <div class="text-center">
+              <div class="placeholder placeholder-wave rounded partner-link-add"></div>
+            </div>
+          </div>
+          <div id="partner-link-body" class="placeholder-fade">
+            <p id="partner-link-empty" class="text-center d-none">{% trans 'product.partner.link.empty' %}</p>
+            <ul id="partner-link-list" class="partner-link-list">
+            </ul>
+            <div id="partner-link-add" class="partner-link-add">
+              <i class="fa-solid fa-plus"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let partnerLinks;
+  let partnerLinkTypes;
+
+  $(document).ready(function () {
+    fetchPartnerLinks(function (linksResult) {
+      fetchPartnerLinkTypes(function (typesResult) {
+        partnerLinks = linksResult;
+        partnerLinks = partnerLinks.sort((a, b) => a.creation - b.creation);
+        partnerLinkTypes = typesResult;
+        displayPartnerLinks();
+        document.getElementById("partner-link-body").classList.add("placeholder-fade-show");
+        document.getElementById("partner-link-placeholder").classList.add("d-none");
+      });
+    });
+  });
+
+  function fetchPartnerLinks(callback) {
+    let request = new HttpRequest("/partner/links/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).links);
+    });
+  }
+
+  function fetchPartnerLinkTypes(callback) {
+    let request = new HttpRequest("/partner/link/types/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).types);
+    });
+  }
+
+  function displayPartnerLinks() {
+    for (let link of partnerLinks) {
+      createPartnerLinkEntry(link);
+    }
+    updatePartnerLinksEmpty();
+  }
+
+  function updatePartnerLinksEmpty() {
+    if (document.getElementById("partner-link-list").children.length === 0) {
+      document.getElementById("partner-link-empty").classList.remove("d-none");
+    } else {
+      document.getElementById("partner-link-empty").classList.add("d-none");
+    }
+  }
+
+  function createPartnerLinkEntry(link) {
+    link.previousType = link.type;
+    let entryElement = document.createElement("li");
+    let entryControl = document.createElement("div");
+    entryControl.classList.add("d-flex", "align-items-center");
+    entryControl.appendChild(createPartnerLinkDropdown(link));
+    let inputElement = document.createElement("input");
+    link.inputElement = inputElement;
+    inputElement.classList.add("w-100");
+    inputElement.placeholder = "{% trans 'product.partner.link.placeholder' %}";
+    inputElement.type = "text";
+    inputElement.value = link.link;
+    entryControl.appendChild(inputElement);
+    let removeElement = document.createElement("button");
+    removeElement.innerHTML = '<i class="fa-solid fa-xmark text-danger"></i>';
+    removeElement.onclick = function (event) {
+      new HttpRequest("/partner/link/remove/", "POST", [],
+        {type: link.type}).send(function (status, responseText) {});
+      entryElement.remove();
+      partnerLinks.splice(partnerLinks.indexOf(link), 1);
+      updateDropdownMenus();
+      updatePartnerLinksEmpty();
+    }
+    link.removeElement = removeElement;
+    entryControl.appendChild(removeElement);
+    entryElement.appendChild(entryControl);
+    let timeout = -1;
+    inputElement.addEventListener('input', function () {
+      link.link = inputElement.value;
+      if (timeout !== -1) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(function () {
+        timeout = -1;
+        updatePartnerLink(link);
+      }, 500);
+    });
+    document.getElementById("partner-link-list").appendChild(entryElement);
+  }
+
+  function createPartnerLinkDropdown(link) {
+    let dropdownElement = document.createElement("div");
+    dropdownElement.classList.add("dropdown", "me-3", "position-relative");
+    let dropdownButton = document.createElement("div");
+    link.dropdownButton = dropdownButton;
+    dropdownButton.classList.add("btn", "btn-secondary", "dropdown-toggle", "w-100");
+    dropdownButton.role = "button";
+    if (link.type !== "") {
+      dropdownButton.innerHTML = createPartnerLinkLabel(
+        partnerLinkTypes.filter(entry => entry.type === link.type)[0]);
+    } else {
+      dropdownButton.innerText = "{% trans 'product.partner.link.type' %}";
+    }
+    dropdownButton.setAttribute("data-bs-toggle", "dropdown");
+    dropdownElement.appendChild(dropdownButton);
+    let dropdownMenu = document.createElement("div");
+    link.dropdownMenu = dropdownMenu;
+    dropdownMenu.classList.add("dropdown-menu", "w-100");
+    fillDropdownMenu(link);
+    dropdownElement.appendChild(dropdownMenu);
+    return dropdownElement;
+  }
+
+  function fillDropdownMenu(link) {
+    link.dropdownMenu.innerHTML = "";
+    for (let type of partnerLinkTypes) {
+      if (partnerLinks.some(entry => entry.type === type.type)) {
+        continue;
+      }
+      let entryElement = document.createElement("li");
+      entryElement.classList.add("mb-0");
+      let nameElement = document.createElement("span");
+      nameElement.classList.add("dropdown-item");
+      nameElement.innerHTML = createPartnerLinkLabel(type);
+      entryElement.appendChild(nameElement);
+      entryElement.onclick = function () {
+        link.dropdownButton.innerHTML = createPartnerLinkLabel(type);
+        link.inputElement.value = "";
+        link.type = type.type;
+        link.link = "";
+        updateDropdownMenus();
+      }
+      link.dropdownMenu.appendChild(entryElement);
+    }
+    if (link.dropdownMenu.children.length === 0) {
+      var emptyElement = document.createElement("li");
+      emptyElement.classList.add("text-center", "mb-0");
+      emptyElement.innerText = "{% trans 'product.partner.link.types.empty' %}";
+      link.dropdownMenu.appendChild(emptyElement);
+    }
+  }
+
+  function createPartnerLinkLabel(type) {
+    let label = "";
+    if (type.type === "WEBSITE") {
+      label += '<i class="fa-solid fa-globe me-2"></i>';
+    } else if (type.type === "INSTAGRAM") {
+      label += '<i class="fa-brands fa-instagram me-2"></i>';
+    } else if (type.type === "FACEBOOK") {
+      label += '<i class="fa-brands fa-facebook me-2"></i>';
+    } else if (type.type === "TIKTOK") {
+      label += '<i class="fa-brands fa-tiktok me-2"></i>';
+    }
+    return label + type.name;
+  }
+
+  function updateDropdownMenus() {
+    for (let entry of partnerLinks) {
+      fillDropdownMenu(entry);
+    }
+  }
+
+  document.getElementById("partner-link-add").onclick = function (event) {
+    let link = {type: "", link: ""};
+    partnerLinks.push(link);
+    createPartnerLinkEntry(link);
+    updatePartnerLinksEmpty();
+  }
+
+  function updatePartnerLink(link) {
+    new HttpRequest("/partner/link/change/", "POST", [],
+      {previousType: link.previousType, newType: link.type, newLink: link.link})
+      .send(function (status, responseText) {});
+    link.previousType = link.type;
+  }
+</script>

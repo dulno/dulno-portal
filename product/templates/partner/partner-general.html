@@ -1,0 +1,208 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="partner-general-container">
+        <div id="partner-general-wrapper">
+          <h1 class="text-center fw-bold my-5 py-4">{% trans 'product.partner.headline' %}</h1>
+          {% include 'partner-tab.html' %}
+          <div id="partner-general-placeholder" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center">
+            <div class="flex-grow-1 mb-5 me-xl-5">
+              <div class="mb-3">
+                <h5>{% trans 'product.partner.general.name' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.partner.general.description' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.partner.general.logo' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+            </div>
+            <div class="partner-general-container ms-xl-5 mb-4">
+              <div class="partner-general-icon-container">
+                <div class="placeholder placeholder-wave rounded py-3" style="width: 128px; height: 128px"></div>
+              </div>
+              <div class="m-2">
+                <div class="placeholder placeholder-wave rounded py-3 w-100 mb-2"></div>
+                <div class="placeholder placeholder-wave rounded py-1 w-100"></div>
+              </div>
+            </div>
+          </div>
+          <div id="partner-general-body" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center placeholder-fade">
+            <div class="flex-grow-1 mb-5 me-xl-5">
+              <div class="mb-3">
+                <h5>{% trans 'product.partner.general.name' %}</h5>
+                <input id="partner-general-name-input" autocomplete=off placeholder="{% trans 'product.partner.general.name.placeholder' %}" maxlength="64">
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.partner.general.description' %}</h5>
+                <input id="partner-general-description-input" autocomplete=off placeholder="{% trans 'product.partner.general.description.placeholder' %}" maxlength="256">
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.partner.general.logo' %}</h5>
+                <input id="partner-general-logo-input" type="file" autocomplete=off accept="image/png, image/jpeg" />
+              </div>
+            </div>
+            <div id="partner-general-preview-container" class="partner-general-container ms-xl-5 mb-4">
+              <div class="partner-general-icon-container">
+                <img id="partner-general-preview-logo" class="partner-general-logo" alt=""/>
+              </div>
+              <div class="m-2">
+                <h5 id="partner-general-preview-name" class="fw-bold"></h5>
+                <p id="partner-general-preview-description" class="text-start text-secondary mb-0"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="partner-general-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <img class="dulno-logo me-2" alt="" width="32" height="32">
+            <strong id="partner-general-toast-title" class="me-auto"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div id="partner-general-toast-body" class="toast-body"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let partner;
+
+  $(document).ready(function () {
+    fetchPartner(function (partnerResult) {
+      fetchPartnerLogo(function (logoResult) {
+        partner = partnerResult;
+        displayPartner(logoResult);
+        for (let element of [...document.querySelectorAll('input[maxlength]')]) {
+          element.addEventListener('input', tickInputMaxLength)
+          element.parentElement.classList.add('max-length-badged');
+          tickInputMaxLength(element)
+        }
+        document.getElementById("partner-general-body").classList.add("placeholder-fade-show");
+        document.getElementById("partner-general-placeholder").classList.add("d-none");
+      });
+    });
+  });
+
+  function tickInputMaxLength(element) {
+    if (element.target) {
+      element = element.target
+    }
+    let limit = element.maxLength;
+    let parent = element.parentElement;
+    let length = element.value.length;
+    parent.dataset['limit'] = limit;
+    parent.dataset['remaining'] = limit - length;
+    parent.classList.remove('max-length-reached');
+    if (length === limit) {
+      parent.classList.add('max-length-reached');
+    }
+  }
+
+  function fetchPartner(callback) {
+    let request = new HttpRequest("/partner/find/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+
+  function fetchPartnerLogo(callback) {
+    let request = new HttpRequest("/partner/logo/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).logo);
+    });
+  }
+
+  function displayPartner(logo) {
+    document.getElementById("partner-general-name-input").value = partner.name;
+    document.getElementById("partner-general-preview-name").innerText = partner.name;
+    document.getElementById("partner-general-description-input").value = partner.description;
+    document.getElementById("partner-general-preview-description").innerText = partner.description;
+    document.getElementById("partner-general-preview-logo").src = "data:image/png;base64," + logo;
+  }
+
+  document.getElementById("partner-general-logo-input").addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        let logoElement = document.getElementById("partner-general-preview-logo");
+        let previousLogo = logoElement.src;
+        logoElement.src = e.target.result;
+        encodePartnerLogo(function (logo) {
+          let request = new HttpRequest("/partner/logo/update/", "POST", [],
+            {logo: logo});
+          request.send(function (status, responseText) {
+            document.getElementById("partner-general-toast-title").innerText =
+              "{% trans 'product.partner.general.logo.update.title' %}";
+            if (JSON.parse(responseText).success) {
+              document.getElementById("partner-general-toast-body").innerText =
+                "{% trans 'product.partner.general.logo.update.success.body' %}";
+            } else {
+              document.getElementById("partner-general-toast-body").innerText =
+                "{% trans 'product.partner.general.logo.update.failure.body' %}";
+              logoElement.src = previousLogo;
+            }
+            bootstrap.Toast.getOrCreateInstance(
+              document.getElementById('partner-general-toast')).show();
+          });
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  function encodePartnerLogo(callback) {
+    let reader = new FileReader();
+    reader.onload = function() {
+      let binary = '';
+      let bytes = new Uint8Array(reader.result);
+      for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      callback(btoa(binary));
+    }
+    reader.readAsArrayBuffer(document.getElementById("partner-general-logo-input").files[0]);
+  }
+
+  document.getElementById("partner-general-name-input").addEventListener("input", function (event) {
+    partner.name = document.getElementById("partner-general-name-input").value;
+    document.getElementById("partner-general-preview-name").innerText = partner.name;
+    processPartnerInput();
+  });
+
+  document.getElementById("partner-general-description-input").addEventListener("input", function (event) {
+    partner.description = document.getElementById("partner-general-description-input").value;
+    document.getElementById("partner-general-preview-description").innerText = partner.description;
+    processPartnerInput();
+  });
+
+  let inputTimeout = -1;
+
+  function processPartnerInput() {
+    if (inputTimeout !== -1) {
+      clearTimeout(inputTimeout);
+    }
+    inputTimeout = setTimeout(function () {
+      inputTimeout = -1;
+      updatePartner();
+    }, 500);
+  }
+
+  function updatePartner() {
+    let body = {name: partner.name, description: partner.description};
+    let request = new HttpRequest("/partner/labels/update/", "POST", [], body);
+    request.send(function (status, responseText) {});
+  }
+</script>

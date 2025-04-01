@@ -46,7 +46,7 @@
               </div>
             </div>
           </div>
-          <div id="stamp-body" class="d-none d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center placeholder-fade">
+          <div id="stamp-body" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center placeholder-fade">
             <div class="flex-grow-1 mb-5 me-xl-5">
               <div class="mb-3">
                 <h5>{% trans 'product.stamp.name' %}</h5>
@@ -112,7 +112,6 @@
           tickInputMaxLength(element)
         }
         document.getElementById("stamp-body").classList.add("placeholder-fade-show");
-        document.getElementById("stamp-body").classList.remove("d-none");
         document.getElementById("stamp-placeholder").classList.add("d-none");
       });
     });
@@ -205,8 +204,8 @@
     });
     if (stamp.assignedCard === id) {
       entry.click();
-      initial = false;
     }
+    initial = false;
     document.getElementById("stamp-card-selection").appendChild(entry);
   }
 
