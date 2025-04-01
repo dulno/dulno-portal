@@ -2,7 +2,7 @@
 {% load i18n %}
 <html lang="en">
   {% include 'head.html' %}
-  <body class="dark" data-bs-theme="dark">
+  <body class="light" data-bs-theme="light">
     {% include 'product-header.html' %}
     {% include 'product-sidebar.html' %}
     <div class="sidebar-influenced">
@@ -20,16 +20,6 @@
               <div id="dashboard-tip">
               </div>
             </div>
-            <div class="dashboard-content-entry">
-              <h2 class="fw-bold mb-4">{% trans 'product.dashboard.target.headline' %}</h2>
-              <ul id="dashboard-target-list">
-              </ul>
-            </div>
-            <div class="dashboard-content-entry">
-              <h2 class="fw-bold mb-4">{% trans 'product.dashboard.activity.headline' %}</h2>
-              <ul id="dashboard-activity-list">
-              </ul>
-            </div>
           </div>
         </div>
       </div>
@@ -41,160 +31,20 @@
   $(document).ready(function() {
     displayLoader();
     fetchUsername(function(username) {
-      fetchTargets(function (targets, currentTarget) {
-        fetchTutorial(function(tutorialActive) {
-          fetch2FA(function(twoFactorEnabled) {
-            fetchActivities(function (activities) {
-              displayDashboard(username, targets, currentTarget, activities,
-                tutorialActive, twoFactorEnabled);
-            });
-          });
-        });
+      fetch2FA(function(twoFactorEnabled) {
+        displayDashboard(username, currentTarget, twoFactorEnabled);
       });
     });
   });
 
-  function displayDashboard(username, targets, currentTarget, activities, tutorialActive, twoFactorEnabled) {
+  function displayDashboard(username, currentTarget, activities, tutorialActive, twoFactorEnabled) {
     document.getElementById("dashboard-headline").innerHTML += username;
     displayTip(tutorialActive, twoFactorEnabled);
-    displayTargets(targets, currentTarget);
-    displayActivities(activities);
     removeLoader();
   }
 
-  function displayTargets(targets, currentTarget) {
-    for (let i = 0; i < targets.length; i++) {
-      let target = targets[i];
-      if (i > 0) {
-        let separatorElement = document.createElement("div");
-        separatorElement.classList.add("dashboard-target-separator");
-        document.getElementById("dashboard-target-list").appendChild(separatorElement);
-      }
-      let targetEntry = document.createElement("li");
-      targetEntry.classList.add("dashboard-target");
-      let targetDescription = document.createElement("div");
-      targetDescription.classList.add("d-flex", "align-items-center");
-      targetDescription.appendChild(createTargetIcon(target));
-      let targetNameElement = document.createElement("span");
-      targetNameElement.classList.add("dashboard-target-name");
-      targetNameElement.innerText = target.name;
-      targetDescription.appendChild(targetNameElement);
-      targetEntry.appendChild(targetDescription);
-      targetEntry.appendChild(createTargetButton(target, target.id === currentTarget));
-      document.getElementById("dashboard-target-list").appendChild(targetEntry);
-    }
-  }
-
-  function createTargetIcon(target) {
-    let targetIconContainerElement = document.createElement("div");
-    targetIconContainerElement.classList.add("dashboard-target-icon");
-    let targetIconElement = document.createElement("i");
-    if (target.type === "PERSONAL") {
-      targetIconElement.classList.add("fa-solid", "fa-user");
-    } else {
-      targetIconElement.classList.add("fa-solid", "fa-users");
-    }
-    targetIconContainerElement.appendChild(targetIconElement);
-    return targetIconContainerElement;
-  }
-
-  function createTargetButton(target, selected) {
-    if (selected) {
-      let selectedBadgeContainer = document.createElement("h4");
-      selectedBadgeContainer.classList.add("mb-0");
-      let selectedBadge = document.createElement("span");
-      selectedBadge.classList.add("badge", "text-bg-success", "d-inline-flex",
-        "justify-content-center");
-      selectedBadge.style.width = "150px";
-      selectedBadge.innerText = "{% trans 'product.dashboard.target.selected' %}";
-      selectedBadgeContainer.appendChild(selectedBadge);
-      return selectedBadgeContainer;
-    }
-    let selectButton = document.createElement("button");
-    selectButton.classList.add("btn", Cookie.find("dulno-theme") === "dark" ?
-      "btn-outline-light" : "btn-outline-dark");
-    selectButton.style.width = "150px";
-    selectButton.innerText = "{% trans 'product.dashboard.target.select' %}";
-    selectButton.onclick = function (event) {
-      let request = new HttpRequest("/target/change/", "POST",
-        [], {target: target.id});
-      request.send(function (status, responseText) {
-        window.location.reload();
-      });
-    }
-    return selectButton;
-  }
-
-  function displayActivities(activities) {
-    for (let i = 0; i < activities.length; i++) {
-      let activity = activities[i];
-      document.getElementById("dashboard-activity-list")
-        .appendChild(createActivity(activity));
-    }
-    for (let i = activities.length; i < 3; i++) {
-      let emptyActivityElement = document.createElement("li");
-      emptyActivityElement.classList.add("dashboard-activity-empty");
-      let emptyTitleElement = document.createElement("div");
-      emptyTitleElement.classList.add("dashboard-activity-title-empty");
-      emptyActivityElement.appendChild(emptyTitleElement);
-      let emptyDescriptionElement = document.createElement("div");
-      emptyDescriptionElement.classList.add("dashboard-activity-description-empty");
-      emptyActivityElement.appendChild(emptyDescriptionElement);
-      document.getElementById("dashboard-activity-list").appendChild(emptyActivityElement);
-    }
-  }
-
-  function createActivity(activity) {
-    let activityElement = document.createElement("li");
-    activityElement.classList.add("dashboard-activity");
-    let firstContainer = document.createElement("div");
-    firstContainer.appendChild(createActivityIcon(activity));
-    let activityNameContainer = document.createElement("h4");
-    activityNameContainer.classList.add("text-center", "fw-bold", "mb-3");
-    let activityNameElement = document.createElement("span");
-    activityNameElement.classList.add("badge",
-      Cookie.find("dulno-theme") === "dark" ? "text-bg-light" : "text-bg-dark");
-    activityNameElement.innerText = activity.title;
-    activityNameContainer.appendChild(activityNameElement);
-    firstContainer.appendChild(activityNameContainer);
-    let activityDescriptionElement = document.createElement("p");
-    activityDescriptionElement.classList.add("text-center", "mb-0");
-    activityDescriptionElement.innerText = activity.description;
-    firstContainer.appendChild(activityDescriptionElement);
-    firstContainer.appendChild(document.createElement("br"));
-    activityElement.appendChild(firstContainer);
-    let secondContainer = document.createElement("div");
-    let activityTimeElement = document.createElement("p");
-    activityTimeElement.classList.add("text-center", "mb-0");
-    activityTimeElement.innerText = activity.time;
-    secondContainer.appendChild(activityTimeElement);
-    activityElement.appendChild(secondContainer);
-    return activityElement;
-  }
-
-  function createActivityIcon(activity) {
-    let activityIconContainerElement = document.createElement("div");
-    activityIconContainerElement.classList.add("dashboard-activity-icon");
-    let activityIconElement = document.createElement("i");
-    if (activity.type === "SETTING") {
-      activityIconElement.classList.add("fa-solid", "fa-gear");
-    } else if (activity.type === "ORGANIZATION") {
-      activityIconElement.classList.add("fa-solid", "fa-users");
-    } else if (activity.type === "DEVICE") {
-      activityIconElement.classList.add("fa-solid", "fa-desktop");
-    } else if (activity.type === "TICKET") {
-      activityIconElement.classList.add("fa-solid", "fa-envelope-open-text");
-    }
-    activityIconContainerElement.appendChild(activityIconElement);
-    return activityIconContainerElement;
-  }
-
   function displayTip(tutorialActive, twoFactorEnabled) {
-    if (tutorialActive) {
-      document.getElementById("dashboard-tip").appendChild(createTip(
-        "{% trans 'product.dashboard.tip.tutorial.headline' %}",
-        "{% trans 'product.dashboard.tip.tutorial.description' %}", "dashboard-tip-issue"));
-    } else if (!twoFactorEnabled) {
+    if (!twoFactorEnabled) {
       document.getElementById("dashboard-tip").appendChild(createTip(
         "{% trans 'product.dashboard.tip.2fa.headline' %}",
         "{% trans 'product.dashboard.tip.2fa.description' %}", "dashboard-tip-issue"));
@@ -220,30 +70,6 @@
     request.send(function (status, responseText) {
       let response = JSON.parse(responseText);
       callback(response.username);
-    });
-  }
-
-  function fetchTargets(callback) {
-    let request = new HttpRequest("/targets/all/", "GET", []);
-    request.send(function (status, responseText) {
-      let response = JSON.parse(responseText);
-      callback(response.targets, response.currentTarget);
-    });
-  }
-
-  function fetchActivities(callback) {
-    let request = new HttpRequest("/activities/", "GET", []);
-    request.send(function (status, responseText) {
-      let response = JSON.parse(responseText);
-      callback(response.activities);
-    });
-  }
-
-  function fetchTutorial(callback) {
-    let request = new HttpRequest("/tutorial/", "GET", []);
-    request.send(function (status, responseText) {
-      let response = JSON.parse(responseText);
-      callback(response.active);
     });
   }
 

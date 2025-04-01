@@ -1,12 +1,22 @@
 from django.urls import path, include
-from . import dashboard, package, help
+from . import dashboard, card, stamp, partner, analysis, action, package, accessory, help
 
 urlpatterns = [
   path('dashboard/', dashboard.dashboard),
+  path('cards/', card.cards),
+  path('card/create/', card.createCard),
+  path('card/<str:id>/', card.card),
+  path('stamps/', stamp.stamps),
+  path('stamp/<str:id>/', stamp.stamp),
+  path('partner/general/', partner.partnerGeneral),
+  path('partner/locations/', partner.partnerLocation),
+  path('partner/links/', partner.partnerLink),
+  path('analysis/', analysis.analysis),
+  path('actions/', action.actions),
   path('package/general/', package.packageGeneral),
-  path('package/limitations/', package.packageLimitation),
   path('package/payments/', package.packagePayment),
   path('package/upgrade/', package.packageUpgrade),
   path('package/termination/', package.packageTermination),
+  path('accessories/', accessory.accessories),
   path('help/', help.help),
 ]

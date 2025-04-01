@@ -1,0 +1,342 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="card-container">
+        <div id="card-wrapper">
+          <div class="position-relative d-flex flex-lg-row flex-column justify-content-center align-items-lg-center mt-lg-5 mt-0 mb-5 py-4">
+            <div class="me-auto ms-lg-0 ms-auto">
+              <button id="card-page-back"><i class="fa-solid fa-arrow-left-long"></i></button>
+            </div>
+            <h1 class="fw-bold m-0 position-absolute start-50 translate-middle-x">{% trans 'product.card.headline' %}</h1>
+            <div class="ms-auto me-lg-0 me-auto mt-lg-0 mt-5 pt-lg-0 pt-5">
+              <button id="card-delete" class="btn btn-danger fw-bold"><i class="fa-solid fa-minus me-1"></i> {% trans 'product.card.delete' %}</button>
+            </div>
+          </div>
+          <div id="card-placeholder" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center">
+            <div class="flex-grow-1 mb-5">
+              <div>
+                <h5>{% trans 'product.card.background.color' %}</h5>
+                <div class="mb-3 placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div>
+                <h5>{% trans 'product.card.foreground.color' %}</h5>
+                <div class="mb-3 placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div>
+                <h5>{% trans 'product.card.logo' %}</h5>
+                <div class="mb-3 placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+            </div>
+            <div class="card-container ms-xl-5 mb-4">
+              <div class="card d-flex align-items-end justify-content-end">
+                <div class="card-logo placeholder placeholder-wave rounded-4" style="width: 72px; height: 72px;"></div>
+                <div class="w-100 placeholder placeholder-wave rounded py-3"></div>
+              </div>
+            </div>
+          </div>
+          <div id="card-body" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center placeholder-fade">
+            <div class="flex-grow-1 mb-5">
+              <div>
+                <h5>{% trans 'product.card.background.color' %}</h5>
+                <input id="card-background-color-input" class="mb-3" type="color" autocomplete=off>
+              </div>
+              <div>
+                <h5>{% trans 'product.card.foreground.color' %}</h5>
+                <input id="card-foreground-color-input" class="mb-3" type="color" autocomplete=off>
+              </div>
+              <div>
+                <h5>{% trans 'product.card.logo' %}</h5>
+                <input id="card-logo-input" class="mb-3" type="file" autocomplete=off accept="image/png, image/jpeg" />
+              </div>
+              <div id="card-reward-number" class="d-none">
+                <h5>{% trans 'product.card.reward.number' %}</h5>
+                <input id="card-reward-number-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.card.reward.number.placeholder' %}">
+              </div>
+              <div id="card-reward-description" class="d-none">
+                <h5>{% trans 'product.card.reward.description' %}</h5>
+                <input id="card-reward-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.reward.description.placeholder' %}">
+              </div>
+              <div id="card-value-number" class="d-none">
+                <h5>{% trans 'product.card.value.number' %}</h5>
+                <input id="card-value-number-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.card.reward.value.placeholder' %}">
+              </div>
+              <div id="card-value-description" class="d-none">
+                <h5>{% trans 'product.card.value.description' %}</h5>
+                <input id="card-value-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.value.description.placeholder' %}">
+              </div>
+              <div id="card-member-description" class="d-none">
+                <h5>{% trans 'product.card.member.description' %}</h5>
+                <input id="card-member-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.member.description.placeholder' %}">
+              </div>
+            </div>
+            <div id="card-preview-container" class="card-container ms-xl-5 mb-4">
+              <div id="card-preview" class="d-flex align-items-end card">
+                <img id="card-preview-logo" class="card-logo" alt=""/>
+                <div id="card-preview-stamps" class="d-none d-flex align-items-center justify-content-evenly w-100 mt-auto">
+                  <div class="card-preview-stamp card-preview-stamp-collected"></div>
+                  <div class="card-preview-stamp card-preview-stamp-collected"></div>
+                  <div class="card-preview-stamp card-preview-stamp-collected"></div>
+                  <div class="card-preview-stamp"></div>
+                  <div class="card-preview-stamp"></div>
+                  <div class="card-preview-stamp"></div>
+                  <div class="card-preview-stamp"></div>
+                  <div class="card-preview-stamp"></div>
+                  <div class="card-preview-stamp"></div>
+                  <div class="card-preview-stamp"></div>
+                </div>
+                <i id="card-preview-type-member" class="d-none fa-solid fa-crown"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="card-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <img class="dulno-logo me-2" alt="" width="32" height="32">
+            <strong id="card-toast-title" class="me-auto"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div id="card-toast-body" class="toast-body"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let card;
+
+  $(document).ready(function () {
+    fetchCard(function (cardResult) {
+      card = cardResult;
+      displayCard();
+      for (let element of [...document.querySelectorAll('input[maxlength]')]) {
+        element.addEventListener('input', tickInputMaxLength)
+        element.parentElement.classList.add('max-length-badged');
+        tickInputMaxLength(element)
+      }
+      document.getElementById("card-body").classList.add("placeholder-fade-show");
+      document.getElementById("card-placeholder").classList.add("d-none");
+    });
+  });
+
+  function tickInputMaxLength(element) {
+    if (element.target) {
+      element = element.target
+    }
+    let limit = element.maxLength;
+    let parent = element.parentElement;
+    let length = element.value.length;
+    parent.dataset['limit'] = limit;
+    parent.dataset['remaining'] = limit - length;
+    parent.classList.remove('max-length-reached');
+    if (length === limit) {
+      parent.classList.add('max-length-reached');
+    }
+  }
+
+  function fetchCard(callback) {
+    let request = new HttpRequest("/card/find/", "POST", [], {card: "{{id}}"});
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+
+  function displayCard() {
+    if (card.type === "COLLECTION") {
+      document.getElementById("card-reward-number").classList.remove("d-none");
+      document.getElementById("card-reward-number-input").value =
+        card.rewardNumber;
+      document.getElementById("card-reward-description").classList.remove("d-none");
+      document.getElementById("card-reward-description-input").value =
+        card.rewardDescription;
+      document.getElementById("card-preview-stamps").classList.remove("d-none");
+    }
+    if (card.type === "VALUE") {
+      document.getElementById("card-value-number").classList.remove("d-none");
+      document.getElementById("card-value-number-input").value =
+        card.valueNumber;
+      document.getElementById("card-value-description").classList.remove("d-none");
+      document.getElementById("card-value-description-input").value =
+        card.valueDescription;
+      document.getElementById("card-preview-stamps").classList.remove("d-none");
+    }
+    if (card.type === "MEMBER") {
+      document.getElementById("card-member-description").classList.remove("d-none");
+      document.getElementById("card-member-description-input").value =
+        card.memberDescription;
+      document.getElementById("card-preview-type-member").classList.remove("d-none");
+    }
+    document.getElementById("card-preview-logo").src = "data:image/png;base64," + card.logo;
+    document.getElementById("card-background-color-input").value = card.backgroundColor;
+    document.getElementById("card-foreground-color-input").value = card.foregroundColor;
+    updateBackgroundColor();
+    updateForegroundColor();
+  }
+
+  document.getElementById("card-background-color-input").addEventListener("input", function () {
+    card.backgroundColor = document.getElementById("card-background-color-input").value;
+    updateBackgroundColor();
+    updateCard();
+  });
+
+  document.getElementById("card-foreground-color-input").addEventListener("input", function () {
+    card.foregroundColor = document.getElementById("card-foreground-color-input").value;
+    updateForegroundColor();
+    updateCard();
+  });
+
+  document.getElementById("card-logo-input").addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        let logoElement = document.getElementById("card-preview-logo");
+        let previousLogo = logoElement.src;
+        logoElement.src = e.target.result;
+        encodeCardLogo(function (logo) {
+          let request = new HttpRequest("/card/logo/update/", "POST", [],
+            {card: card.id, logo: logo});
+          request.send(function (status, responseText) {
+            document.getElementById("card-toast-title").innerText =
+              "{% trans 'product.card.logo.update.title' %}";
+            if (JSON.parse(responseText).success) {
+              document.getElementById("card-toast-body").innerText =
+                "{% trans 'product.card.logo.update.success.body' %}";
+            } else {
+              document.getElementById("card-toast-body").innerText =
+                "{% trans 'product.card.logo.update.failure.body' %}";
+              logoElement.src = previousLogo;
+            }
+            bootstrap.Toast.getOrCreateInstance(
+              document.getElementById('card-toast')).show();
+          });
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  function encodeCardLogo(callback) {
+    let reader = new FileReader();
+    reader.onload = function() {
+      let binary = '';
+      let bytes = new Uint8Array(reader.result);
+      for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      callback(btoa(binary));
+    }
+    reader.readAsArrayBuffer(document.getElementById("card-logo-input").files[0]);
+  }
+
+  function updateBackgroundColor() {
+    document.getElementById("card-preview").style.backgroundColor = card.backgroundColor;
+  }
+
+  function updateForegroundColor() {
+    if (card.type === "COLLECTION" || card.type === "VALUE") {
+      for (let element of document.getElementsByClassName("card-preview-stamp")) {
+        element.style.border = "3px solid " + card.foregroundColor;
+      }
+      for (let element of document.getElementsByClassName("card-preview-stamp-collected")) {
+        element.style.backgroundColor = card.foregroundColor;
+      }
+    } else if (card.type === "MEMBER") {
+      document.getElementById("card-preview-type-member").style.color = card.foregroundColor;
+    }
+  }
+
+  document.getElementById("card-reward-number-input").addEventListener("input", function (event) {
+    let value = document.getElementById("card-reward-number-input").value;
+    value = value.replace(/[^0-9]/g, "");
+    value = value.replace(/(?!^)-/g, "");
+    document.getElementById("card-reward-number-input").value = value;
+    card.rewardNumber = parseInt(value);
+    processCardInput();
+  });
+
+  document.getElementById("card-reward-description-input").addEventListener("input", function (event) {
+    card.rewardDescription = document.getElementById("card-reward-description-input").value;
+    processCardInput();
+  });
+
+  document.getElementById("card-value-number-input").addEventListener("input", function (event) {
+    let value = document.getElementById("card-value-number-input").value;
+    value = value.replace(/[^0-9-]/g, "");
+    value = value.replace(/(?!^)-/g, "");
+    document.getElementById("card-value-number-input").value = value;
+    card.valueNumber = parseInt(value);
+    processCardInput();
+  });
+
+  document.getElementById("card-value-description-input").addEventListener("input", function (event) {
+    card.valueDescription = document.getElementById("card-value-description-input").value;
+    processCardInput();
+  });
+
+  document.getElementById("card-member-description-input").addEventListener("input", function (event) {
+    card.memberDescription = document.getElementById("card-member-description-input").value;
+    processCardInput();
+  });
+
+  let inputTimeout = -1;
+
+  function processCardInput() {
+    if (inputTimeout !== -1) {
+      clearTimeout(inputTimeout);
+    }
+    inputTimeout = setTimeout(function () {
+      inputTimeout = -1;
+      updateCard();
+    }, 500);
+  }
+
+  function updateCard() {
+    let body = {card: card.id, backgroundColor: card.backgroundColor,
+      foregroundColor: card.foregroundColor};
+    let content = {};
+    if (card.type === "COLLECTION") {
+      content.rewardNumber = card.rewardNumber;
+      content.rewardDescription = card.rewardDescription;
+    } else if (card.type === "VALUE") {
+      content.valueNumber = card.valueNumber;
+      content.valueDescription = card.valueDescription;
+    } else if (card.type === "MEMBER") {
+      content.memberDescription = card.memberDescription;
+    }
+    body.content = content;
+    let request = new HttpRequest("/card/update/", "POST", [], body);
+    request.send(function (status, responseText) {});
+  }
+
+  document.getElementById("card-delete").onclick = function (event) {
+    Swal.fire({
+      title: "{% trans 'product.card.delete.title' %}",
+      text: "{% trans 'product.card.delete.body' %}",
+      icon: "warning",
+      confirmButtonColor: "#dc3545",
+      showCancelButton: true,
+      cancelButtonText: "{% trans 'popup.cancel' %}",
+    }).then(result => {
+      if (result.isConfirmed) {
+        let request = new HttpRequest("/card/delete/", "POST", [], {card: "{{id}}"});
+        request.send(function (status, responseText) {
+          Swal.fire("{% trans 'product.card.delete.successful.title' %}",
+            "{% trans 'product.card.delete.successful.body' %}", "success")
+            .then(success => window.location.href = "/cards/");
+        });
+      }
+    });
+  }
+
+  document.getElementById("card-page-back").addEventListener("click", function (event) {
+    window.location.href = "/cards/";
+  });
+</script>

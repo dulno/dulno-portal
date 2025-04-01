@@ -1,0 +1,34 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="actions-container">
+        <div id="actions-wrapper" class="d-none">
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  $(document).ready(function() {
+    displayLoader();
+    removeLoader();
+  });
+
+  function displayLoader() {
+    let loader = document.createElement("div");
+    loader.classList.add("loader");
+    document.getElementById("actions-container").appendChild(loader);
+  }
+
+  function removeLoader() {
+    document.getElementById("actions-container").removeChild(document.getElementsByClassName("loader")[0]);
+    document.getElementById("actions-wrapper").classList.remove("d-none");
+  }
+</script>

@@ -1,0 +1,131 @@
+#card-create-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+#card-create-wrapper {
+  width: min(1000px, 95%);
+  margin: 20vh auto auto;
+}
+
+#card-create-page-back {
+  width: 52px;
+  height: 52px;
+  border: none;
+  background-color: transparent;
+  border-radius: 50%;
+  font-size: 25px;
+  transition-duration: 0.1s;
+}
+
+.dark #card-create-page-back {
+  color: #b5b5b5;
+}
+
+.light #card-create-page-back {
+  color: #656565;
+}
+
+.dark #card-create-page-back:hover {
+  background-color: #212937;
+}
+
+.light #card-create-page-back:hover {
+  background-color: #d3d3d3;
+  color: #545454;
+}
+
+#card-create-type-container {
+  width: fit-content;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 50px;
+  row-gap: 50px;
+  padding: 0;
+}
+
+.card-create-type {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 200px;
+  text-align: center;
+  margin: auto;
+  border-radius: 15px;
+  border: none;
+  transition-duration: 0.2s;
+}
+
+.dark .card-create-type {
+  color: white;
+  background-color: #25272f;
+}
+
+.light .card-create-type {
+  color: black;
+  background-color: #fafafa;
+  border: 2px solid #eaeaea;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.dark .card-create-type:hover {
+  background-color: #32343f;
+}
+
+.light .card-create-type:hover {
+  background-color: #f5f5f5;
+}
+
+.card-create-type-icon {
+  width: 64px;
+  height: 64px;
+  font-size: 64px;
+  margin: 0 auto 32px;
+  color: #0d6efd;
+}
+
+.card-create-type-selected {
+  border: 2px rgba(13, 110, 253, 0.5) solid !important;
+  background-color: rgba(13, 110, 253, 0.05) !important;
+  box-shadow: 0 0 25px rgba(13, 110, 253, 0.2) !important;
+  position: relative;
+}
+
+.card-create-type-selected::before {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  top: -12.5px;
+  left: -12.5px;
+  padding: 10px;
+  color: white;
+  border-radius: 50%;
+  background-color: #0d6efd;
+  z-index: 10;
+  font-size: 15px;
+  width: 25px;
+  height: 25px;
+  font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f00c";
+}
+
+@media (max-width: 1300px) {
+  #card-create-wrapper {
+    margin-top: 10vh;
+  }
+
+  #card-create-type-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

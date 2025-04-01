@@ -2,7 +2,7 @@
 {% load i18n %}
 <html lang="en">
   {% include 'head.html' %}
-  <body class="dark" data-bs-theme="dark">
+  <body class="light" data-bs-theme="light">
     {% include 'product-header.html' %}
     {% include 'product-sidebar.html' %}
     <div class="sidebar-influenced">
@@ -11,8 +11,7 @@
           {% include 'package-tab.html' %}
           <div id="package-upgrade-disclaimer">
             <h4 class="fw-bold mb-4">{% trans 'product.package.upgrade.headline' %}</h4>
-            <p class="mb-3">{% trans 'product.package.upgrade.description.1' %}</p>
-            <b class="mb-0">{% trans 'product.package.upgrade.description.2' %}</b>
+            <p class="mb-3">{% trans 'product.package.upgrade.description' %}</p>
           </div>
           <div id="package-upgrade-limit-reached">
             <h4 class="fw-bold mb-4">{% trans 'product.package.upgrade.headline' %}</h4>
@@ -22,29 +21,41 @@
             <h4 class="fw-bold mb-4">{% trans 'product.package.upgrade.process.headline' %}</h4>
             <div id="package-upgrade-personalization">
               <div id="package-upgrade-runtime-selection" class="package-upgrade-switch">
-                <button id="package-upgrade-runtime-monthly" class="package-upgrade-switch-entry">{% trans 'home.pricing.runtime.monthly' %}</button>
-                <button id="package-upgrade-runtime-yearly" class="package-upgrade-switch-entry package-upgrade-switch-active">{% trans 'home.pricing.runtime.yearly' %}</button>
-              </div>
-              <div id="package-upgrade-class-selection" class="package-upgrade-switch mt-4">
-                <button id="package-upgrade-class-beginner" class="package-upgrade-switch-entry">{% trans 'home.pricing.class.beginner' %}</button>
-                <button id="package-upgrade-class-advanced" class="package-upgrade-switch-entry">{% trans 'home.pricing.class.advanced' %}</button>
-                <button id="package-upgrade-class-expert" class="package-upgrade-switch-entry package-upgrade-switch-active">{% trans 'home.pricing.class.expert' %}</button>
+                <button id="package-upgrade-runtime-monthly" class="package-upgrade-switch-entry">{% trans 'pricing.runtime.monthly' %}</button>
+                <button id="package-upgrade-runtime-yearly" class="package-upgrade-switch-entry package-upgrade-switch-active">{% trans 'pricing.runtime.yearly' %}</button>
               </div>
             </div>
-            <div id="package-upgrade-package" class="mt-5">
-              <div id="package-upgrade-package-container">
-                <h2 id="package-upgrade-package-title">{% trans 'home.pricing.individual.title' %}</h2>
-                <h1 id="package-upgrade-package-price"></h1>
-                <p id="package-upgrade-package-time">{% trans 'home.pricing.individual.time' %}</p>
-                <button type="button" id="package-upgrade-buy" class="btn btn-outline-light">{% trans 'home.pricing.buy' %}</button>
-                <p id="package-upgrade-package-features-headline">{% trans 'home.pricing.summary.headline' %}</p>
-                <ul id="package-upgrade-package-features">
-                  <li class="mb-3"><i class="fa-regular fa-clock me-3"></i><p id="package-upgrade-package-runtime" class="mb-0"></p></li>
-                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p id="package-upgrade-package-workflow-number" class="mb-0"></p></li>
-                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b id="package-upgrade-package-workflow-operation" class="mb-0"></b></li>
-                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p id="package-upgrade-package-process-number" class="mb-0"></p></li>
-                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p id="package-upgrade-package-database-number" class="mb-0"></p></li>
-                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p id="package-upgrade-package-database-data" class="mb-0"></p></li>
+            <div class="d-flex justify-content-center align-items-xl-stretch align-items-center flex-xl-row flex-column mt-5">
+              <div id="package-upgrade-professional-package" class="pricing-package m-3">
+                <h2 class="pricing-package-title">{% trans 'pricing.professional.title' %}</h2>
+                <div class="pricing-package-price-container">
+                  <h1 id="package-upgrade-professional-package-price" class="pricing-package-price">€</h1>
+                  <p class="pricing-package-time">{% trans 'pricing.per.month' %}</p>
+                </div>
+                <button id="package-upgrade-professional-buy" type="button" class="pricing-get-button btn btn-primary">{% trans 'pricing.buy' %}</button>
+                <p class="pricing-package-features-headline">{% trans 'pricing.summary.headline' %}</p>
+                <ul class="pricing-package-features">
+                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.collection.card' %}</p></li>
+                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.value.card' %}</b></li>
+                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.analysis' %}</b></li>
+                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.actions' %} & {% trans 'pricing.feature.notifications' %}</b></li>
+                </ul>
+              </div>
+              <div id="package-upgrade-premium-package" class="pricing-package m-3">
+                <h2 class="pricing-package-title">{% trans 'pricing.premium.title' %}</h2>
+                <div class="pricing-package-price-container">
+                  <h1 id="package-upgrade-premium-package-price" class="pricing-package-price">€</h1>
+                  <p class="pricing-package-time">{% trans 'pricing.per.month' %}</p>
+                </div>
+                <button id="package-upgrade-premium-buy" type="button" class="pricing-get-button btn btn-primary">{% trans 'pricing.buy' %}</button>
+                <p class="pricing-package-features-headline">{% trans 'pricing.summary.headline' %}</p>
+                <ul class="pricing-package-features">
+                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.collection.card' %}</p></li>
+                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.value.card' %}</p></li>
+                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.analysis' %}</p></li>
+                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.actions' %} & {% trans 'pricing.feature.notifications' %}</p></li>
+                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.member.card' %}</b></li>
+                  <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.multi.portal.user' %}</b></li>
                 </ul>
               </div>
             </div>
@@ -60,35 +71,27 @@
 </html>
 
 <script>
-  let bundleClass = "EXPERT";
   let bundleRuntime = "YEARLY";
-  let individualPackageData;
+  let professionalPackageData;
+  let premiumPackageData;
 
   $(document).ready(function() {
     displayLoader()
     fetchBundle(function (bundle) {
-      if (bundle.type !== "TRIAL" && bundle.type !== "INDIVIDUAL") {
-        window.location.href = "/";
-        return;
-      }
       displayUpgradeOptions(bundle);
       removeLoader();
     });
   });
 
   function displayUpgradeOptions(bundle) {
-    if (bundle.type === "INDIVIDUAL" && bundle.class === "EXPERT") {
+    if (bundle.type === "PROFESSIONAL") {
+      document.getElementById("package-upgrade-professional-package").classList.add("d-none");
+    }
+    if (bundle.type === "PREMIUM" || bundle.type === "ENTERPRISE") {
       document.getElementById("package-upgrade-disclaimer").classList.add("d-none");
       document.getElementById("package-upgrade-options").classList.add("d-none");
       document.getElementById("package-upgrade-process").classList.add("d-none");
     } else {
-      if (bundle.type === "INDIVIDUAL" && bundle.class === "BEGINNER") {
-        document.getElementById("package-upgrade-class-beginner").classList.add("d-none");
-      }
-      if (bundle.type === "INDIVIDUAL" && bundle.class === "ADVANCED") {
-        document.getElementById("package-upgrade-class-beginner").classList.add("d-none");
-        document.getElementById("package-upgrade-class-advanced").classList.add("d-none");
-      }
       document.getElementById("package-upgrade-limit-reached").classList.add("d-none");
       upgradeUpgradePackage();
     }
@@ -102,65 +105,29 @@
   }
 
   function upgradeUpgradePackage() {
-    fetchPackage("INDIVIDUAL", function (individualPackage) {
-      individualPackageData = individualPackage;
-      displayUpgradePackage(individualPackage);
+    fetchPackage("PROFESSIONAL", function (professionalPackage) {
+      fetchPackage("PREMIUM", function (premiumPackage) {
+        professionalPackageData = professionalPackage;
+        premiumPackageData = premiumPackage;
+        displayUpgradePackage("professional", professionalPackage);
+        displayUpgradePackage("premium", premiumPackage);
+      });
     });
   }
 
-  function displayUpgradePackage(individualPackage) {
-    document.getElementById("package-upgrade-package-price").innerHTML =
-      individualPackage.price + " €";
-    if (bundleRuntime === "MONTHLY") {
-      document.getElementById("package-upgrade-package-runtime").innerHTML =
-        "{% trans 'home.pricing.time.month' %}";
-    } else if (bundleRuntime === "YEARLY") {
-      document.getElementById("package-upgrade-package-runtime").innerHTML =
-        "{% trans 'home.pricing.time.year' %}";
-    }
-    document.getElementById("package-upgrade-package-workflow-number").innerHTML =
-      individualPackage.workflowNumberLimit + " " + "{% trans 'home.pricing.summary.workflow.number' %}";
-    document.getElementById("package-upgrade-package-workflow-operation").innerHTML =
-      individualPackage.workflowOperationLimit + " " + "{% trans 'home.pricing.summary.workflow.operation' %}";
-    document.getElementById("package-upgrade-package-process-number").innerHTML =
-      individualPackage.processNumberLimit + " " + "{% trans 'home.pricing.summary.process.number' %}";
-    document.getElementById("package-upgrade-package-database-number").innerHTML =
-      individualPackage.databaseNumberLimit + " " + "{% trans 'home.pricing.summary.database.number' %}";
-    document.getElementById("package-upgrade-package-database-data").innerHTML =
-      individualPackage.databaseDataLimit + " GB " + "{% trans 'home.pricing.summary.database.data' %}";
+  function displayUpgradePackage(packageName, packageData) {
+    let language = Cookie.find("dulno-home-language");
+    document.getElementById("package-upgrade-" + packageName + "-package-price").innerHTML =
+      (language === "de" ? packageData.price.toString().replaceAll(".", ",") : packageData.price) + " €";
   }
 
   function fetchPackage(packageName, callback) {
     let request = new HttpRequest("/bundle/preset/", "POST",
-      [], {type: packageName, class: bundleClass, runtime: bundleRuntime});
+      [], {type: packageName, runtime: bundleRuntime});
     request.send(function (status, responseText) {
       let response = JSON.parse(responseText);
       callback(response);
     });
-  }
-
-  document.getElementById("package-upgrade-class-beginner").onclick = function (event) {
-    bundleClass = "BEGINNER";
-    upgradeUpgradePackage();
-    document.getElementById("package-upgrade-class-beginner").classList.add("package-upgrade-switch-active");
-    document.getElementById("package-upgrade-class-advanced").classList.remove("package-upgrade-switch-active");
-    document.getElementById("package-upgrade-class-expert").classList.remove("package-upgrade-switch-active");
-  }
-
-  document.getElementById("package-upgrade-class-advanced").onclick = function (event) {
-    bundleClass = "ADVANCED";
-    upgradeUpgradePackage();
-    document.getElementById("package-upgrade-class-beginner").classList.remove("package-upgrade-switch-active");
-    document.getElementById("package-upgrade-class-advanced").classList.add("package-upgrade-switch-active");
-    document.getElementById("package-upgrade-class-expert").classList.remove("package-upgrade-switch-active");
-  }
-
-  document.getElementById("package-upgrade-class-expert").onclick = function (event) {
-    bundleClass = "EXPERT";
-    upgradeUpgradePackage();
-    document.getElementById("package-upgrade-class-beginner").classList.remove("package-upgrade-switch-active");
-    document.getElementById("package-upgrade-class-advanced").classList.remove("package-upgrade-switch-active");
-    document.getElementById("package-upgrade-class-expert").classList.add("package-upgrade-switch-active");
   }
 
   document.getElementById("package-upgrade-runtime-monthly").onclick = function (event) {
@@ -177,11 +144,22 @@
     document.getElementById("package-upgrade-runtime-yearly").classList.add("package-upgrade-switch-active");
   }
 
-  document.getElementById("package-upgrade-buy").onclick = function (event) {
-    Cookie.create("dulno-package-type", "INDIVIDUAL", 60 * 60 * 24);
-    Cookie.create("dulno-package-class", bundleClass, 60 * 60 * 24);
+  document.getElementById("package-upgrade-professional-buy").onclick = function (event) {
+    upgradePackage("PROFESSIONAL");
+  }
+
+  document.getElementById("package-upgrade-premium-buy").onclick = function (event) {
+    upgradePackage("PREMIUM");
+  }
+
+  function upgradePackage(type) {
+    Cookie.create("dulno-package-type", type, 60 * 60 * 24);
     Cookie.create("dulno-package-runtime", bundleRuntime, 60 * 60 * 24);
-    Cookie.create("dulno-package-price", individualPackageData.price, 60 * 60 * 24);
+    if (type === "PROFESSIONAL") {
+      Cookie.create("dulno-package-price", professionalPackageData.price, 60 * 60 * 24);
+    } else if (type === "PREMIUM") {
+      Cookie.create("dulno-package-price", premiumPackageData.price, 60 * 60 * 24);
+    }
     window.location.href = "/payment/";
   }
 

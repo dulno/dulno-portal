@@ -2,7 +2,7 @@
 {% load i18n %}
 <html lang="en">
   {% include 'head.html' %}
-  <body class="dark" data-bs-theme="dark">
+  <body class="light" data-bs-theme="light">
     {% include 'product-header.html' %}
     {% include 'product-sidebar.html' %}
     <div class="sidebar-influenced">
@@ -18,44 +18,6 @@
             <div id="help-support-question" class="accordion-collapse collapse" aria-labelledby="help-support-question-headline" data-bs-parent="#help-accordion">
               <div class="accordion-body">
                 {% trans 'product.help.question.support.answer' %}
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 id="help-tutorial-question-headline" class="accordion-header">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#help-tutorial-question" aria-expanded="true" aria-controls="help-tutorial-question">
-                {% trans 'product.help.question.tutorial.question' %}
-              </button>
-            </h2>
-            <div id="help-tutorial-question" class="accordion-collapse collapse" aria-labelledby="help-tutorial-question-headline" data-bs-parent="#help-accordion">
-              <div class="accordion-body">
-                {% trans 'product.help.question.tutorial.answer' %}
-                <br>
-                <button id="help-tutorial-restart" class="btn btn-success btn-block mt-3">{% trans 'product.help.question.tutorial.restart' %}</button>
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 id="help-organization-question-headline" class="accordion-header">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#help-organization-question" aria-expanded="true" aria-controls="help-organization-question">
-                {% trans 'product.help.question.organization.question' %}
-              </button>
-            </h2>
-            <div id="help-organization-question" class="accordion-collapse collapse" aria-labelledby="help-organization-question-headline" data-bs-parent="#help-accordion">
-              <div class="accordion-body">
-                {% trans 'product.help.question.organization.answer' %}
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 id="help-webhook-question-headline" class="accordion-header">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#help-webhook-question" aria-expanded="true" aria-controls="help-webhook-question">
-                {% trans 'product.help.question.webhook.question' %}
-              </button>
-            </h2>
-            <div id="help-webhook-question" class="accordion-collapse collapse" aria-labelledby="help-webhook-question-headline" data-bs-parent="#help-accordion">
-              <div class="accordion-body">
-                {% trans 'product.help.question.webhook.answer' %}
               </div>
             </div>
           </div>
@@ -76,12 +38,3 @@
     </div>
   </body>
 </html>
-
-<script>
-  document.getElementById("help-tutorial-restart").onclick = function() {
-    let request = new HttpRequest("/tutorial/restart/", "POST", []);
-    request.send(function (status, responseText) {
-      window.location.href = "/dashboard/";
-    });
-  }
-</script>

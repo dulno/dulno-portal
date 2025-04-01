@@ -5,7 +5,6 @@ import requests
 import json
 import jwt
 import datetime
-from home import home
 from app.settings import BACKEND_ENDPOINT, COOKIE_DOMAIN, ENVIRONMENT
 from django.utils import translation
 from django.conf import settings
