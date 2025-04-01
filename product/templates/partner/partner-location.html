@@ -1,0 +1,172 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="partner-location-container">
+        <div id="partner-location-wrapper">
+          <h1 class="text-center fw-bold my-5 py-4">{% trans 'product.partner.headline' %}</h1>
+          {% include 'partner-tab.html' %}
+          <div id="partner-location-placeholder">
+            <ul class="partner-location-list">
+              <li>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </li>
+            </ul>
+            <div class="text-center">
+              <div class="placeholder placeholder-wave rounded partner-location-add"></div>
+            </div>
+          </div>
+          <div id="partner-location-body" class="placeholder-fade">
+            <ul id="partner-location-list" class="partner-location-list">
+            </ul>
+            <div id="partner-location-add" class="partner-location-add">
+              <i class="fa-solid fa-plus"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let partnerLocations;
+
+  $(document).ready(function () {
+    fetchPartnerLocations(function (locationsResult) {
+      partnerLocations = locationsResult;
+      partnerLocations = partnerLocations.sort((a, b) => a.creation - b.creation);
+      displayPartnerLocations();
+      document.getElementById("partner-location-body").classList.add("placeholder-fade-show");
+      document.getElementById("partner-location-placeholder").classList.add("d-none");
+    });
+  });
+
+  function fetchPartnerLocations(callback) {
+    let request = new HttpRequest("/partner/locations/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).locations);
+    });
+  }
+
+  function displayPartnerLocations() {
+    for (let location of partnerLocations) {
+      createPartnerLocationEntry(location);
+    }
+  }
+
+  function createPartnerLocationEntry(location) {
+    location.previousAddress = location.address;
+    let entryElement = document.createElement("li");
+    let entryControl = document.createElement("div");
+    entryControl.classList.add("d-flex", "align-items-center");
+    let inputElement = document.createElement("input");
+    inputElement.placeholder = "{% trans 'product.partner.location.placeholder' %}";
+    inputElement.type = "text";
+    inputElement.value = location.address;
+    entryControl.appendChild(inputElement);
+    let removeElement = document.createElement("button");
+    removeElement.innerHTML = '<i class="fa-solid fa-xmark text-danger"></i>';
+    removeElement.onclick = function (event) {
+      new HttpRequest("/partner/location/remove/", "POST", [],
+        {address: location.address}).send(function (status, responseText) {});
+      entryElement.remove();
+      partnerLocations.splice(partnerLocations.indexOf(location), 1);
+      if (partnerLocations.length === 1) {
+        partnerLocations[0].removeElement.classList.add("d-none");
+      }
+    }
+    location.removeElement = removeElement;
+    entryControl.appendChild(removeElement);
+    entryElement.appendChild(entryControl);
+    if (partnerLocations.length === 1) {
+      removeElement.classList.add("d-none");
+    } else if (partnerLocations.length === 2) {
+      partnerLocations[0].removeElement.classList.remove("d-none");
+    }
+    let suggestionsElement = document.createElement("div");
+    suggestionsElement.classList.add("partner-location-suggestions");
+    let suggestionsContentElement = document.createElement("div");
+    suggestionsContentElement.classList.add("d-none", "partner-location-suggestions-content");
+    location.timeout = -1;
+    inputElement.addEventListener('input', function () {
+      location.address = inputElement.value;
+      processPartnerLocationInteraction(location, inputElement,
+        suggestionsContentElement);
+    });
+    inputElement.addEventListener('click', function () {
+      processPartnerLocationInteraction(location, inputElement,
+        suggestionsContentElement);
+    });
+    suggestionsElement.appendChild(suggestionsContentElement)
+    entryElement.appendChild(suggestionsElement);
+    document.getElementById("partner-location-list").appendChild(entryElement);
+    document.addEventListener('click', function(event) {
+      if (event.target !== inputElement) {
+        suggestionsContentElement.classList.add("d-none");
+      }
+    });
+  }
+
+  function processPartnerLocationInteraction(locationEntry, inputElement, suggestionsElement) {
+    if (locationEntry.timeout !== -1) {
+      clearTimeout(locationEntry.timeout);
+    }
+    locationEntry.timeout = setTimeout(function () {
+      locationEntry.timeout = -1;
+      updatePartnerLocation(locationEntry);
+      displayPartnerLocationSuggestions(locationEntry, inputElement, suggestionsElement);
+    }, 500);
+  }
+
+  function displayPartnerLocationSuggestions(locationEntry, inputElement, suggestionsElement) {
+    const query = inputElement.value;
+    if (query.length > 2) {
+      fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=5`)
+        .then(response => response.json())
+        .then(data => {
+          suggestionsElement.innerHTML = '';
+          if (data.length > 0) {
+            suggestionsElement.classList.remove("d-none");
+          }
+          data.forEach(item => {
+            const div = document.createElement('div');
+            div.classList.add('partner-location-suggestions-item');
+            div.textContent = item.display_name;
+            div.onclick = () => {
+              inputElement.value = item.display_name;
+              suggestionsElement.classList.add("d-none");
+              locationEntry.address = item.display_name;
+              locationEntry.latitude = item.lat;
+              locationEntry.longitude = item.lon;
+              updatePartnerLocation(locationEntry);
+            };
+            suggestionsElement.appendChild(div);
+          });
+        });
+    } else {
+      suggestionsElement.classList.add("d-none");
+    }
+  }
+
+  document.getElementById("partner-location-add").onclick = function (event) {
+    let location = {address: "", latitude: -1, longitude: -1};
+    partnerLocations.push(location);
+    createPartnerLocationEntry(location);
+  }
+
+  function updatePartnerLocation(location) {
+    if (location.address === location.previousAddress) {
+      return;
+    }
+    new HttpRequest("/partner/location/change/", "POST", [],
+      {previousAddress: location.previousAddress, newAddress: location.address,
+        newLatitude: location.latitude, newLongitude: location.longitude})
+      .send(function (status, responseText) {});
+    location.previousAddress = location.address;
+  }
+</script>

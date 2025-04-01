@@ -2,7 +2,7 @@
 {% load i18n %}
 <html lang="en">
   {% include 'head.html' %}
-  <body class="dark" data-bs-theme="dark">
+  <body class="light" data-bs-theme="light">
     {% include 'product-header.html' %}
     {% include 'product-sidebar.html' %}
     <div class="sidebar-influenced">
@@ -61,15 +61,9 @@
 <script>
   $(document).ready(function() {
     displayLoader()
-    fetchBundle(function (bundle) {
-      if (bundle.type !== "TRIAL" && bundle.type !== "INDIVIDUAL") {
-        window.location.href = "/";
-        return;
-      }
-      fetchPayments(function (payments) {
-        displayPayments(payments);
-        removeLoader();
-      });
+    fetchPayments(function (payments) {
+      displayPayments(payments);
+      removeLoader();
     });
   });
 
@@ -183,13 +177,6 @@
     request.send(function (status, responseText) {
       let response = JSON.parse(responseText);
       callback(response.payments);
-    });
-  }
-
-  function fetchBundle(callback) {
-    let request = new HttpRequest("/bundle/", "GET", []);
-    request.send(function (status, responseText) {
-      callback(JSON.parse(responseText));
     });
   }
 

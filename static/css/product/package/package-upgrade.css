@@ -53,7 +53,7 @@
 }
 
 .light #package-upgrade-disclaimer, .light #package-upgrade-limit-reached, .light #package-upgrade-process, .light #package-upgrade-options {
-  background-color: #dadada;
+  background-color: #ececec;
   border: 1px #a0a0a0 solid;
 }
 
@@ -78,7 +78,7 @@
 }
 
 .light .package-upgrade-switch {
-  background-color: #dadada;
+  background-color: #d9d9d9ff;
   border: 1px #a0a0a0 solid;
   color: black;
 }
@@ -104,80 +104,88 @@
 }
 
 .light .package-upgrade-switch-active {
-  background-color: #a4a4a4;
+  background-color: #4f5154;
+  color: white !important;
 }
 
-@media (max-width: 575px) {
-  #package-upgrade-class-selection {
-    flex-direction: column;
-    border-radius: 20px;
-  }
-
-  #package-upgrade-class-selection .package-upgrade-switch-entry {
-    margin-bottom: 10px;
-  }
-
-  #package-upgrade-class-selection .package-upgrade-switch-entry:last-child {
-    margin-bottom: 0;
-  }
-}
-
-#package-upgrade-package {
-  width: min(350px, 100%);
-  margin: auto;
+.pricing-package {
+  width: min(400px, 100%);
+  vertical-align: top;
+  text-align: center;
+  padding: 10px 30px;
   border-radius: 20px;
-  padding: 10px;
 }
 
-.dark #package-upgrade-package {
-  background-color: #324450;
-  color: white;
-}
-
-.light #package-upgrade-package {
-  background-color: #4e6a7d;
-  color: white;
-}
-
-#package-upgrade-package-container {
-  width: min(200px, 100%);
-  margin: auto;
-  position: relative;
-}
-
-#package-upgrade-package-title {
-  text-align: center;
+.pricing-package-title {
   font-weight: bold;
+  width: 100%;
   margin-top: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-#package-upgrade-package-price {
-  text-align: center;
+.pricing-package-price-container {
+  height: 80px;
+}
+
+.pricing-package-price {
   margin-top: 10%;
   font-weight: bold;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
-#package-upgrade-package-time {
-  text-align: center;
+.pricing-get-button {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 30px;
   margin-bottom: 30px;
 }
 
-#package-upgrade-buy {
-  width: 100%;
-  display: block;
-  margin: auto auto 30px;
+.pricing-package-features-headline {
+  text-align: left;
 }
 
-#package-upgrade-package-features-headline {
-  font-weight: bold;
-}
-
-#package-upgrade-package-features {
+.pricing-package-features {
   list-style: none;
   padding: 0;
+  font-weight: normal;
 }
 
-#package-upgrade-package-features li {
+.pricing-package-features li {
   display: flex;
   align-items: center;
+  font-size: 15px;
+  text-align: left;
+}
+
+@media (max-width: 1600px) {
+  .pricing-package {
+    padding: 10px 20px;
+  }
+}
+
+.light .pricing-package, .light #pricing-table-container-desktop .pricing-table tbody td:nth-child(n + 2) {
+  background-color: #d9d9d9ff;
+}
+
+.dark .pricing-package, .dark #pricing-table-container-desktop .pricing-table tbody td:nth-child(n + 2) {
+  background-color: #324450;
+}
+
+.pricing-package-enterprise-price {
+  margin-bottom: 60px;
+}
+
+.pricing-feature {
+  text-align: left !important;
+  width: 20% !important;
+  color: black !important;
 }

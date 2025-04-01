@@ -1,12 +1,72 @@
-form {
-  width: min(500px, 90%);
+#login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+}
+
+#login-wrapper {
+  width: min(500px, 95%);
   text-align: center;
-  margin-top: 5vh;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#login-header {
+  position: relative;
+  background-color: #475569;
+  color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+#home-languages {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+}
+
+.home-language-button {
+  background-color: transparent !important;
+}
+
+.home-language-button:hover, .home-language-button:focus {
+  background-color: #404c5e !important;
+}
+
+#home-languages .dropdown-menu {
+  background-color: #475569 !important;
+}
+
+#home-languages .dropdown-toggle {
+  border: 1px solid #53627a !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 600px) {
+  #home-languages {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    top: 0;
+    right: 0;
+    margin-top: 20px;
+  }
+}
+
+form {
+  width: 100%;
+  text-align: left;
   margin-left: auto;
   margin-right: auto;
   padding: 50px;
-  border: 1px #373b41 solid;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
 .dark input[type = "email"], .dark input[type = "password"] {
@@ -44,7 +104,7 @@ input:-webkit-autofill:active{
 
 .form-label {
   text-align: left;
-  width: 100%;
+  width: fit-content;
   font-size: 20px;
 }
 
@@ -62,6 +122,10 @@ input:-webkit-autofill:active{
   text-align: right;
   width: 100%;
   text-decoration: none;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
 }
 
 #remember-check {
@@ -78,7 +142,6 @@ input:-webkit-autofill:active{
   transition: transform .3s;
   width: 100px;
   height: auto;
-  margin-bottom: 50px;
 }
 
 #login-logo:hover {
@@ -86,74 +149,26 @@ input:-webkit-autofill:active{
 }
 
 #login {
-  margin-top: 5vh;
-  margin-bottom: 2vh;
   width: 100%;
-}
-
-#login-alternative {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 15px;
+  background-color: #4272f9;
+  color: white;
+  margin-top: 60px;
   margin-bottom: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  font-size: 22px;
   font-weight: bold;
+  transition: 0.5s ease;
 }
 
-.login-alternative-divider {
-  width: 100%;
-  height: 2px;
-  background-color: #464646;
+#login:hover {
+  filter: brightness(90%);
 }
 
-#login-external-services {
-  display: block;
-  text-align: center;
-  margin-top: 2%;
-}
-
-.login-external-service-button {
-  position: relative;
-  width: 100%;
-  margin-bottom: 2%;
-  padding: 10px !important;
-  color: white !important;
-  font-weight: bold !important;
-  border-radius: 5px !important;
-  transition: 0.2s;
-}
-
-.login-external-service-logo {
-  position: absolute;
-  left: 12px;
-  width: 24px;
-  height: 24px;
-  border-radius: 5px;
-}
-
-#login-external-service-google {
-  background-color: #151515;
-  border: 1px #383838 solid !important;
-}
-
-#login-external-service-google:hover {
-  background-color: #272727;
-}
-
-@media (max-width: 620px) {
+@media (max-width: 500px) {
   form {
-    padding: 0;
-    margin-top: 0;
-    border: none;
-    border-radius: 0;
-  }
-
-  #login-logo {
-    margin-top: 4vh;
-    margin-bottom: 3vh;
-  }
-
-  #login {
-    margin-top: 2vh;
+    padding: 20px;
   }
 }

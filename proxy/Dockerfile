@@ -16,6 +16,13 @@ FROM nginx
 ARG SERVER_NAME
 ENV SERVER_NAME=${SERVER_NAME}
 
+# FIXES CVE-2024-55549  & CVE-2025-24855
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
+    libxslt1.1=1.1.35-1+deb12u1 \
+    && apt-get clean
+
 COPY --from=builder /home/dulno/portal/static /home/dulno/portal/static/
 
 COPY proxy/nginx.conf /etc/nginx/nginx.conf

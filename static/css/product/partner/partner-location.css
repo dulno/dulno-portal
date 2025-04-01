@@ -1,0 +1,79 @@
+#partner-location-wrapper {
+  width: min(1200px, 95%);
+  margin: auto;
+}
+
+.partner-location-list input {
+  width: 100%;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.dark .partner-location-list input {
+  background-color: #212529;
+  border: 1px solid #2f353a;
+}
+
+.light .partner-location-list input {
+  background-color: #f3f3f3;
+  border: 1px solid #d5d5d5;
+}
+
+.partner-location-list {
+  width: min(800px, 100%);
+  margin: auto;
+}
+
+.partner-location-list li {
+  margin-bottom: 10px;
+}
+
+.partner-location-list li button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin-left: 10px;
+}
+
+.partner-location-suggestions {
+  position: relative;
+}
+
+.partner-location-suggestions-content {
+  position: absolute;
+  border: 1px solid #ddd;
+  background-color: white;
+  border-radius: 5px;
+  max-height: 200px;
+  margin-top: 5px;
+  overflow-y: auto;
+  z-index: 100;
+  width: 100%;
+}
+
+.partner-location-suggestions-item {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.partner-location-suggestions-item:hover {
+  background-color: #f0f0f0;
+}
+
+.partner-location-add {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #b5bbc3;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition-duration: 0.2s;
+  cursor: pointer;
+  margin: 20px auto auto;
+}
+
+.partner-location-add:hover {
+  background-color: #acb2b9;
+}
