@@ -1,0 +1,8 @@
+{% load static %}
+{% load i18n %}
+<div>
+  <ul class="partner-tabs">
+    <li class="{% if 'purchase' in request.path %}partner-tab-active{% endif %}"><a href="/accessory/purchase/">{% trans 'product.accessory.tab.purchase' %}</a></li>
+    <li class="{% if 'order' in request.path %}partner-tab-active{% endif %}"><a href="/accessory/orders/">{% trans 'product.accessory.tab.order' %}</a></li>
+  </ul>
+</div>

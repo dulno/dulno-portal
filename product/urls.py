@@ -17,6 +17,7 @@ urlpatterns = [
   path('package/payments/', package.packagePayment),
   path('package/upgrade/', package.packageUpgrade),
   path('package/termination/', package.packageTermination),
-  path('accessories/', accessory.accessories),
+  path('accessory/purchase/', accessory.accessoryPurchase),
+  path('accessory/orders/', accessory.accessoryOrder),
   path('help/', help.help),
 ]

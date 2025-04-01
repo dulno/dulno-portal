@@ -715,6 +715,36 @@ msgstr "Link"
 msgid "product.partner.link.empty"
 msgstr "Sie haben noch keine Links angegeben."
 
+# ACCESSORY
+msgid "product.accessory.headline"
+msgstr "Zubehör"
+msgid "product.accessory.tab.purchase"
+msgstr "KAUFEN"
+msgid "product.accessory.tab.order"
+msgstr "BESTELLUNGEN"
+
+# ACCESSORY - PURCHASE
+msgid "product.accessory.purchase.title"
+msgstr "Zubehör - Kaufen - Dulno"
+msgid "product.accessory.purchase.accessory.select"
+msgstr "Auswählen"
+msgid "product.accessory.purchase.accessories.empty"
+msgstr "Kein Zubehör ausgewählt."
+msgid "product.accessory.purchase.accessories.sum"
+msgstr "Summe"
+msgid "product.accessory.purchase.shopping.cart"
+msgstr "Ihr Einkaufswagen"
+msgid "product.accessory.purchase.accessories"
+msgstr "Zubehör:"
+msgid "product.accessory.purchase.redirect"
+msgstr "WEITER ZUR ZAHLUNG"
+msgid "product.accessory.purchase.methods"
+msgstr "Unterstützte Zahlungsarten:"
+
+# ACCESSORY - ORDER
+msgid "product.accessory.order.title"
+msgstr "Zubehör - Bestellungen - Dulno"
+
 # PACkAGE
 msgid "product.package.tab.general"
 msgstr "ALLGEMEIN"
