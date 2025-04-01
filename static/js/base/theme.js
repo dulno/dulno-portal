@@ -1,4 +1,8 @@
 window.addEventListener('DOMContentLoaded', function () {
+  updateTheme();
+});
+
+function updateTheme() {
   if (Cookie.find("dulno-theme") == null) {
     Cookie.create("dulno-theme", "light", 60 * 60 * 24 * 365);
   }
@@ -19,4 +23,4 @@ window.addEventListener('DOMContentLoaded', function () {
   for (let i = 0; i < logoElements.length; i++) {
     logoElements[i].src = "/static/img/" + logoSource;
   }
-});
+}

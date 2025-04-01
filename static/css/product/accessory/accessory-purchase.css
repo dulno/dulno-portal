@@ -7,23 +7,24 @@
   margin: auto;
 }
 
-#accessory-purchase-body {
+#accessory-purchase-body, #accessory-purchase-placeholder {
   display: flex;
   align-items: center;
   height: var(--accessory-purchase-body-height);
   border-radius: 15px;
 }
 
-.dark #accessory-purchase-body {
-
+.dark #accessory-purchase-body, .dark #accessory-purchase-placeholder {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  border: 1px solid #2f353a;
 }
 
-.light #accessory-purchase-body {
+.light #accessory-purchase-body, .light #accessory-purchase-placeholder {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border: 1px solid #c0c0c0;
 }
 
-#accessory-purchase-accessories {
+.accessory-purchase-accessories {
   width: 80%;
   height: 100%;
   border-top-left-radius: 15px;
@@ -31,7 +32,7 @@
   padding: 15px;
 }
 
-#accessory-purchase-accessories-list {
+.accessory-purchase-accessories-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: stretch;
@@ -45,14 +46,23 @@
 
 .accessory-purchase-accessory {
   text-align: start;
-  background-color: white;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  border: 1px solid #d7d7d7;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   transition-duration: 0.2s;
+}
+
+.dark .accessory-purchase-accessory {
+  background-color: #0d1117;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+  border: 1px solid #2f353a;
+}
+
+.light .accessory-purchase-accessory {
+  background-color: white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d7d7d7;
 }
 
 .accessory-purchase-accessory:hover {
@@ -65,9 +75,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f0f0f0;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+}
+
+.dark .accessory-purchase-accessory-logo {
+  background-color: #19212c;
+}
+
+.light .accessory-purchase-accessory-logo {
+  background-color: #f0f0f0;
 }
 
 .accessory-purchase-accessory-logo img {
@@ -95,11 +112,10 @@
   background-color: #626262;
 }
 
-#accessory-purchase-overview {
+.accessory-purchase-overview {
   width: 20%;
   height: 100%;
   padding: 20px;
-  background-color: #f3f3f3;
   border-bottom-right-radius: 15px;
   border-top-right-radius: 15px;
   display: flex;
@@ -108,17 +124,25 @@
   flex-direction: column;
 }
 
+.dark .accessory-purchase-overview {
+  background-color: #19212c;
+}
+
+.light .accessory-purchase-overview {
+  background-color: #f3f3f3;
+}
+
 #accessory-purchase-pay-redirect {
   width: 100%;
 }
 
-#accessory-purchase-pay-method-list {
+.accessory-purchase-pay-method-list {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#accessory-purchase-pay-method-list img {
+.accessory-purchase-pay-method-list img {
   height: 20px;
   margin-left: 5px;
   margin-right: 5px;
