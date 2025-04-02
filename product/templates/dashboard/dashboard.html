@@ -32,18 +32,18 @@
     displayLoader();
     fetchUsername(function(username) {
       fetch2FA(function(twoFactorEnabled) {
-        displayDashboard(username, currentTarget, twoFactorEnabled);
+        displayDashboard(username, twoFactorEnabled);
       });
     });
   });
 
-  function displayDashboard(username, currentTarget, activities, tutorialActive, twoFactorEnabled) {
+  function displayDashboard(username, twoFactorEnabled) {
     document.getElementById("dashboard-headline").innerHTML += username;
-    displayTip(tutorialActive, twoFactorEnabled);
+    displayTip(twoFactorEnabled);
     removeLoader();
   }
 
-  function displayTip(tutorialActive, twoFactorEnabled) {
+  function displayTip(twoFactorEnabled) {
     if (!twoFactorEnabled) {
       document.getElementById("dashboard-tip").appendChild(createTip(
         "{% trans 'product.dashboard.tip.2fa.headline' %}",
