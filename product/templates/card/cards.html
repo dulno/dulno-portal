@@ -81,7 +81,9 @@
     cardLogo.src = "data:image/png;base64," + card.logo;
     cardElement.appendChild(cardLogo);
     if (card.type === "COLLECTION" || card.type === "VALUE") {
-      cardElement.appendChild(createCardStamps(card.foregroundColor));
+      cardElement.appendChild(createCardStamps(cardContainer, cardElement,
+        card.type === "COLLECTION" ? card.rewardNumber : card.valueNumber,
+        card.foregroundColor));
     } else if (card.type === "MEMBER") {
       let memberElement = document.createElement("i");
       memberElement.classList.add("card-type-member", "fa-solid",
@@ -97,20 +99,25 @@
     document.getElementById("cards-list").appendChild(cardContainer);
   }
 
-  function createCardStamps(foregroundColor) {
+  function createCardStamps(cardContainer, cardElement, number, foregroundColor) {
     let cardStampContainer = document.createElement("div");
-    cardStampContainer.classList.add("d-flex", "align-items-center",
-      "justify-content-evenly", "w-100");
-    for (let i = 0; i < 10; i++) {
+    cardStampContainer.classList.add("card-stamps");
+    number = Math.max(1, Math.min(200, number));
+    for (let i = 0; i < number; i++) {
       let cardStampElement = document.createElement("div");
       cardStampElement.classList.add("card-stamp");
       cardStampElement.style.border = "3px solid " + foregroundColor;
       if (i < 3) {
-        cardStampElement.classList.add("signup-card-stamp-collected");
         cardStampElement.style.backgroundColor = foregroundColor;
       }
       cardStampContainer.appendChild(cardStampElement);
     }
+    setTimeout(function () {
+      cardStampContainer.style.width = Math.min(number * (32 + 10),
+        cardElement.clientWidth - 40) + "px";
+      cardContainer.style.height = (180 + cardStampContainer.clientHeight) + "px";
+      cardElement.style.height = (150 + cardStampContainer.clientHeight) + "px";
+    }, 0);
     return cardStampContainer;
   }
 

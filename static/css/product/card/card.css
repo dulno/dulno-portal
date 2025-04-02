@@ -98,16 +98,32 @@
 
 .card-logo {
   width: auto;
-  height: 72px;
+  max-width: calc(100% - 40px);
+  max-height: 72px;
+  object-fit: contain;
   position: absolute;
   top: 15px;
   right: 20px;
 }
 
+:root {
+  --card-preview-row-stamps: 10;
+  --card-preview-stamps-gap: 10px;
+  --card-preview-stamp-size: 32px;
+}
+
+#card-preview-stamps {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-preview-stamp-size), 1fr));
+  margin: 0 auto;
+  gap: var(--card-preview-stamps-gap);
+  justify-content: center;
+}
+
 .card-preview-stamp {
   background-color: transparent;
-  width: 32px;
-  height: 32px;
+  width: var(--card-preview-stamp-size);
+  aspect-ratio : 1 / 1;
   border-radius: 50%;
 }
 
@@ -117,30 +133,4 @@
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 56px;
-}
-
-@media (max-width: 500px) {
-  #card-preview {
-    height: 160px;
-  }
-
-  .card-preview-stamp {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-@media (max-width: 400px) {
-  #card-preview {
-    height: 140px;
-  }
-
-  #card-preview-logo {
-    height: 64px;
-  }
-
-  .card-preview-stamp {
-    width: 16px;
-    height: 16px;
-  }
 }
