@@ -4,8 +4,8 @@
   --signup-bullet-border-size: 1px;
   --signup-step-padding: 10px;
   --signup-page-number: 6;
-  --signup-card-background-color: #475569;
-  --signup-card-foreground-color: #ffffff;
+  --signup-card-background-color: #ffffff;
+  --signup-card-foreground-color: #000000;
 }
 
 #signup-container {

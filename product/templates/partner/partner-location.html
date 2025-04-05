@@ -118,7 +118,6 @@
     }
     locationEntry.timeout = setTimeout(function () {
       locationEntry.timeout = -1;
-      updatePartnerLocation(locationEntry);
       displayPartnerLocationSuggestions(locationEntry, inputElement, suggestionsElement);
     }, 500);
   }
