@@ -611,7 +611,7 @@ msgstr "Erstellung"
 msgid "product.stamps.empty.headline"
 msgstr "Keine Stempel vorhanden."
 msgid "product.stamps.empty.text"
-msgstr "Es konnten keine Stempel gefunden werden. Es kann einige Zeit dauern, bis neu gekaufte Stempel hier erscheinen. Wenn Sie neue Stempel kaufen möchten, können Sie dies <a href='/accessories/'>hier</a> tun."
+msgstr "Es konnten keine Stempel gefunden werden. Es kann einige Zeit dauern, bis neu gekaufte Stempel hier erscheinen. Wenn Sie neue Stempel kaufen möchten, können Sie dies <a href='/accessory/purchase/'>hier</a> tun."
 
 # STAMP
 msgid "product.stamp.title"

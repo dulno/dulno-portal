@@ -611,7 +611,7 @@ msgstr "Creation"
 msgid "product.stamps.empty.headline"
 msgstr "No stamps available."
 msgid "product.stamps.empty.text"
-msgstr "No stamps could be found. It may take some time for newly purchased stamps to appear here. If you want to buy new stamps, you can do so <a href='/accessories/'>here</a>."
+msgstr "No stamps could be found. It may take some time for newly purchased stamps to appear here. If you want to buy new stamps, you can do so <a href='/accessory/purchase/'>here</a>."
 
 # STAMP
 msgid "product.stamp.title"
