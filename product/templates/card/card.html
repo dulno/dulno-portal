@@ -183,6 +183,7 @@
       cardStampElement.style.border = "3px solid " + card.foregroundColor;
       if (i < 3) {
         cardStampElement.style.backgroundColor = card.foregroundColor;
+        cardStampElement.classList.add("card-preview-stamp-collected");
       }
       cardStampContainer.appendChild(cardStampElement);
     }
