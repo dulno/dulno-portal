@@ -83,11 +83,11 @@
     if (card.type === "COLLECTION" || card.type === "VALUE") {
       cardElement.appendChild(createCardStamps(cardContainer, cardElement,
         card.type === "COLLECTION" ? card.rewardNumber : card.valueNumber,
-        card.foregroundColor));
+        card.foregroundColor, card.stampIcon));
     } else if (card.type === "MEMBER") {
       let memberElement = document.createElement("i");
       memberElement.classList.add("card-type-member", "fa-solid",
-        "fa-crown");
+        "fa-" + card.memberIcon);
       memberElement.style.color = card.foregroundColor;
       cardElement.appendChild(memberElement);
     }
@@ -99,16 +99,19 @@
     document.getElementById("cards-list").appendChild(cardContainer);
   }
 
-  function createCardStamps(cardContainer, cardElement, number, foregroundColor) {
+  function createCardStamps(cardContainer, cardElement, number, foregroundColor, icon) {
     let cardStampContainer = document.createElement("div");
     cardStampContainer.classList.add("card-stamps");
     number = Math.max(1, Math.min(200, number));
     for (let i = 0; i < number; i++) {
-      let cardStampElement = document.createElement("div");
+      let cardStampElement = document.createElement("i");
       cardStampElement.classList.add("card-stamp");
-      cardStampElement.style.border = "3px solid " + foregroundColor;
+      cardStampElement.style.color = foregroundColor;
+      cardStampElement.classList.add("fa-" + icon);
       if (i < 3) {
-        cardStampElement.style.backgroundColor = foregroundColor;
+        cardStampElement.classList.add("fa-solid");
+      } else {
+        cardStampElement.classList.add("fa-regular");
       }
       cardStampContainer.appendChild(cardStampElement);
     }

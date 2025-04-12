@@ -123,8 +123,10 @@
 .card-preview-stamp {
   background-color: transparent;
   width: var(--card-preview-stamp-size);
+  font-size: var(--card-preview-stamp-size);
   aspect-ratio : 1 / 1;
   border-radius: 50%;
+  text-align: center;
 }
 
 #card-preview-type-member {

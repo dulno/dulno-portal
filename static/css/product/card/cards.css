@@ -79,8 +79,10 @@
 .card-stamp {
   background-color: transparent;
   width: var(--card-stamp-size);
+  font-size: var(--card-stamp-size);
   aspect-ratio : 1 / 1;
   border-radius: 50%;
+  text-align: center;
 }
 
 .card-type-member {
