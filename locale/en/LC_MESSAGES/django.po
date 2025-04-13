@@ -777,6 +777,22 @@ msgstr "Failed"
 msgid "product.campaign.create.failed.times"
 msgstr "Make sure that the end time of the campaign is later than the start time"
 
+# CAMPAIGN
+msgid "product.campaign.title"
+msgstr "Campaign - Dulno"
+msgid "product.campaign.headline"
+msgstr "Campaign"
+msgid "product.campaign.delete"
+msgstr "DELETE"
+msgid "product.campaign.delete.title"
+msgstr "Delete campaign?"
+msgid "product.campaign.delete.body"
+msgstr "Are you sure you want to delete this campaign?"
+msgid "product.campaign.delete.successful.title"
+msgstr "Campaign deleted"
+msgid "product.campaign.delete.successful.body"
+msgstr "You have successfully deleted this campaign"
+
 # ACCESSORY
 msgid "product.accessory.headline"
 msgstr "Accessory"

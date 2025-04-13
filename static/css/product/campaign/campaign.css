@@ -1,0 +1,31 @@
+#campaign-wrapper {
+  width: min(1200px, 95%);
+  margin: auto;
+}
+
+#campaign-page-back {
+  width: 52px;
+  height: 52px;
+  border: none;
+  background-color: transparent;
+  border-radius: 50%;
+  font-size: 25px;
+  transition-duration: 0.1s;
+}
+
+.dark #campaign-page-back {
+  color: #b5b5b5;
+}
+
+.light #campaign-page-back {
+  color: #656565;
+}
+
+.dark #campaign-page-back:hover {
+  background-color: #212937;
+}
+
+.light #campaign-page-back:hover {
+  background-color: #d3d3d3;
+  color: #545454;
+}

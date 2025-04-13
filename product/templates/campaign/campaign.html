@@ -1,0 +1,159 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="campaign-container">
+        <div id="campaign-wrapper">
+          <div class="position-relative d-flex flex-lg-row flex-column justify-content-center align-items-lg-center mt-lg-5 mt-0 mb-5 py-4">
+            <div class="me-auto ms-lg-0 ms-auto">
+              <button id="campaign-page-back"><i class="fa-solid fa-arrow-left-long"></i></button>
+            </div>
+            <h1 class="fw-bold m-0 position-absolute start-50 translate-middle-x">{% trans 'product.campaign.headline' %}</h1>
+            <div class="ms-auto me-lg-0 me-auto mt-lg-0 mt-5 pt-lg-0 pt-5">
+              <button id="campaign-delete" class="btn btn-danger fw-bold"><i class="fa-solid fa-minus me-1"></i> {% trans 'product.campaign.delete' %}</button>
+            </div>
+          </div>
+          <div id="campaign-body" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center placeholder-fade">
+            <div>
+              <div class="mb-3">
+                <h5>{% trans 'product.campaign.create.input.title' %}</h5>
+                <input id="campaign-create-title-input" autocomplete=off maxlength="64" placeholder="{% trans 'product.campaign.create.input.title.placeholder' %}">
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.campaign.create.input.description' %}</h5>
+                <textarea id="campaign-create-description-input" autocomplete=off maxlength="256" placeholder="{% trans 'product.campaign.create.input.description.placeholder' %}"></textarea>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.campaign.create.input.type' %}</h5>
+                <div class="dropdown w-100">
+                  <button id="campaign-create-type-button" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% trans 'product.campaign.create.input.type' %}
+                  </button>
+                  <ul id="campaign-create-type-list" class="dropdown-menu w-100">
+                  </ul>
+                </div>
+              </div>
+              <div class="d-flex flex-xl-row flex-column justify-content-center align-items-center w-100">
+                <div class="flex-grow-1">
+                  <h5>{% trans 'product.campaign.create.input.start' %}</h5>
+                  <input id="campaign-create-start-input" autocomplete=off type="date">
+                </div>
+                <div class="flex-grow-1 ms-xl-2">
+                  <h5>{% trans 'product.campaign.create.input.end' %}</h5>
+                  <input id="campaign-create-end-input" autocomplete=off type="date">
+                </div>
+              </div>
+            </div>
+            <div class="text-end my-5">
+              <button id="campaign-continue" class="btn btn-primary fw-bold disabled">{% trans 'product.campaign.create.continue' %}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let campaign;
+  let types;
+
+  $(document).ready(function () {
+    fetchCampaign(function (campaignResult) {
+      campaign = campaignResult;
+      fetchCampaignTypes(function (typeResult) {
+        types = typeResult;
+        displayCampaign();
+        for (let element of [...document.querySelectorAll('input[maxlength], textarea[maxlength]')]) {
+          element.addEventListener('input', tickInputMaxLength)
+          element.parentElement.classList.add('max-length-badged');
+          tickInputMaxLength(element)
+        }
+        document.getElementById("campaign-body").classList.add("placeholder-fade-show");
+        document.getElementById("campaign-placeholder").classList.add("d-none");
+      });
+    });
+  });
+
+  function tickInputMaxLength(element) {
+    if (element.target) {
+      element = element.target
+    }
+    let limit = element.maxLength;
+    let parent = element.parentElement;
+    let length = element.value.length;
+    parent.dataset['limit'] = limit;
+    parent.dataset['remaining'] = limit - length;
+    parent.classList.remove('max-length-reached');
+    if (length === limit) {
+      parent.classList.add('max-length-reached');
+    }
+  }
+
+  function fetchCampaign(callback) {
+    let request = new HttpRequest("/campaign/find/", "POST", [], {campaign: "{{id}}"});
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+
+  function fetchCampaignTypes(callback) {
+    let request = new HttpRequest("/campaign/types/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).types);
+    });
+  }
+
+  function fillTypesDropdown(types) {
+    for (let type of types) {
+      let entryElement = document.createElement("li");
+      entryElement.classList.add("mb-0");
+      let typeElement = document.createElement("div");
+      typeElement.classList.add("dropdown-item");
+      let symbolElement = document.createElement("i");
+      symbolElement.classList.add("fa-solid", "fa-" + type.icon, "me-2",
+        "text-center");
+      symbolElement.style.width = "20px";
+      typeElement.appendChild(symbolElement);
+      let nameElement = document.createElement("span");
+      nameElement.innerText = type.name;
+      typeElement.appendChild(nameElement);
+      entryElement.appendChild(typeElement);
+      entryElement.onclick = function () {
+        document.getElementById("campaign-create-type-button").innerHTML =
+          typeElement.innerHTML;
+        selectedType = type.type;
+        checkContinuation();
+      }
+      document.getElementById("campaign-create-type-list").appendChild(entryElement);
+    }
+  }
+
+  document.getElementById("campaign-delete").onclick = function (event) {
+    Swal.fire({
+      title: "{% trans 'product.campaign.delete.title' %}",
+      text: "{% trans 'product.campaign.delete.body' %}",
+      icon: "warning",
+      confirmButtonColor: "#dc3545",
+      showCancelButton: true,
+      cancelButtonText: "{% trans 'popup.cancel' %}",
+    }).then(result => {
+      if (result.isConfirmed) {
+        let request = new HttpRequest("/campaign/delete/", "POST", [], {campaign: "{{id}}"});
+        request.send(function (status, responseText) {
+          Swal.fire("{% trans 'product.campaign.delete.successful.title' %}",
+            "{% trans 'product.campaign.delete.successful.body' %}", "success")
+            .then(success => window.location.href = "/campaigns/");
+        });
+      }
+    });
+  }
+
+  document.getElementById("campaign-page-back").addEventListener("click", function (event) {
+    window.location.href = "/campaigns/";
+  });
+</script>

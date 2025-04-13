@@ -777,6 +777,22 @@ msgstr "Fehlgeschlagen"
 msgid "product.campaign.create.failed.times"
 msgstr "Stellen Sie sicher, dass die Endzeit der Kampagne nach der Startzeit liegt"
 
+# CAMPAIGN
+msgid "product.campaign.title"
+msgstr "Kampagne - Dulno"
+msgid "product.campaign.headline"
+msgstr "Kampagne"
+msgid "product.campaign.delete"
+msgstr "LÖSCHEN"
+msgid "product.campaign.delete.title"
+msgstr "Kampagne löschen?"
+msgid "product.campaign.delete.body"
+msgstr "Sind Sie sicher, dass Sie diese Kampagne löschen möchten?"
+msgid "product.campaign.delete.successful.title"
+msgstr "Kampagne gelöscht"
+msgid "product.campaign.delete.successful.body"
+msgstr "Sie haben diese Kampagne erfolgreich gelöscht"
+
 # ACCESSORY
 msgid "product.accessory.headline"
 msgstr "Zubehör"
