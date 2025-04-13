@@ -24,7 +24,7 @@
             </div>
             <div class="mb-3">
               <h5>{% trans 'product.campaign.create.input.description' %}</h5>
-              <textarea id="campaign-create-description-input" autocomplete=off maxlength="256"  placeholder="{% trans 'product.campaign.create.input.description.placeholder' %}"></textarea>
+              <textarea id="campaign-create-description-input" autocomplete=off maxlength="256" placeholder="{% trans 'product.campaign.create.input.description.placeholder' %}"></textarea>
             </div>
             <div class="mb-3">
               <h5>{% trans 'product.campaign.create.input.type' %}</h5>
@@ -57,7 +57,12 @@
 </html>
 
 <script>
+  let selectedType;
+
   $(document).ready(function () {
+    fetchCampaignTypes(function (types) {
+      fillTypesDropdown(types);
+    });
     for (let element of [...document.querySelectorAll('input[maxlength], textarea[maxlength]')]) {
       element.addEventListener('input', tickInputMaxLength)
       element.parentElement.classList.add('max-length-badged');
@@ -80,16 +85,98 @@
     }
   }
 
-  document.getElementById("campaign-continue").addEventListener("click", function (event) {
-    document.getElementById("campaign-continue").classList.add("disabled");
-    document.getElementById("campaign-continue").innerHTML = "{% trans 'product.campaign.create.continue' %}" + `
+  function fetchCampaignTypes(callback) {
+    let request = new HttpRequest("/campaign/types/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).types);
+    });
+  }
+
+  function fillTypesDropdown(types) {
+    for (let type of types) {
+      let entryElement = document.createElement("li");
+      entryElement.classList.add("mb-0");
+      let typeElement = document.createElement("div");
+      typeElement.classList.add("dropdown-item");
+      let symbolElement = document.createElement("i");
+      symbolElement.classList.add("fa-solid", "fa-" + type.icon, "me-2",
+        "text-center");
+      symbolElement.style.width = "20px";
+      typeElement.appendChild(symbolElement);
+      let nameElement = document.createElement("span");
+      nameElement.innerText = type.name;
+      typeElement.appendChild(nameElement);
+      entryElement.appendChild(typeElement);
+      entryElement.onclick = function () {
+        document.getElementById("campaign-create-type-button").innerHTML =
+          typeElement.innerHTML;
+        selectedType = type.type;
+        checkContinuation();
+      }
+      document.getElementById("campaign-create-type-list").appendChild(entryElement);
+    }
+  }
+
+  let titleInput = document.getElementById("campaign-create-title-input");
+  titleInput.oninput = function (event) {
+    checkContinuation();
+  }
+
+  let descriptionInput = document.getElementById("campaign-create-description-input");
+  descriptionInput.oninput = function (event) {
+    checkContinuation();
+  }
+
+  let startInput = document.getElementById("campaign-create-start-input");
+  startInput.oninput = function (event) {
+    checkContinuation();
+  }
+
+  let endInput = document.getElementById("campaign-create-end-input");
+  endInput.oninput = function (event) {
+    checkContinuation();
+  }
+
+  let continueButton = document.getElementById("campaign-continue");
+
+  function checkContinuation() {
+    if (!selectedType || selectedType === "" || titleInput.value === "" ||
+      descriptionInput.value === "" || startInput.value === "" ||
+      endInput.value === ""
+    ) {
+      continueButton.classList.add("disabled");
+      return;
+    }
+    continueButton.classList.remove("disabled");
+  }
+
+  continueButton.addEventListener("click", function (event) {
+    let start = new Date(startInput.value).getTime();
+    let end = new Date(endInput.value).getTime();
+    if (start > end) {
+      Swal.fire("{% trans 'product.campaign.create.failed.title' %}",
+        "{% trans 'product.campaign.create.failed.times' %}", "error");
+      return;
+    }
+    continueButton.classList.add("disabled");
+    continueButton.innerHTML = "{% trans 'product.campaign.create.continue' %}" + `
       <span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span>
       <span class="visually-hidden" role="status">Loading...</span>
     `;
     let request = new HttpRequest("/campaign/create/", "POST", [],
-      {type: selectedType.toUpperCase()});
+      {title: titleInput.value, description: descriptionInput.value,
+        type: selectedType.toUpperCase(), start: start, end: end});
     request.send(function (status, responseText) {
-      window.location.href = "/campaign/" + JSON.parse(responseText).campaign + "/";
+      let response = JSON.parse(responseText);
+      if (response.success) {
+        window.location.href = "/campaign/" + response.campaign + "/";
+        return;
+      }
+      let error = response.error;
+      if (error === 1000) {
+        Swal.fire("{% trans 'product.campaign.create.failed.title' %}",
+          "{% trans 'product.campaign.create.failed.times' %}", "error");
+      }
     });
   });
 

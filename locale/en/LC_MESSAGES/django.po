@@ -772,6 +772,10 @@ msgid "product.campaign.create.input.end"
 msgstr "End"
 msgid "product.campaign.create.continue"
 msgstr "CONTINUE"
+msgid "product.campaign.create.failed.title"
+msgstr "Failed"
+msgid "product.campaign.create.failed.times"
+msgstr "Make sure that the end time of the campaign is later than the start time"
 
 # ACCESSORY
 msgid "product.accessory.headline"
