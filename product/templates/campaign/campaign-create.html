@@ -1,0 +1,99 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="campaign-create-container">
+        <div id="campaign-create-wrapper">
+          <div class="text-center mb-5">
+            <div class="position-relative d-flex justify-content-center align-items-center">
+              <div class="me-auto">
+                <button id="campaign-create-page-back"><i class="fa-solid fa-arrow-left-long"></i></button>
+              </div>
+              <h1 class="fw-bold m-0 position-absolute start-50 translate-middle-x">{% trans 'product.campaign.create.headline' %}</h1>
+            </div>
+            <p class="text-secondary">{% trans 'product.campaign.create.description' %}</p>
+          </div>
+          <div>
+            <div class="mb-3">
+              <h5>{% trans 'product.campaign.create.input.title' %}</h5>
+              <input id="campaign-create-title-input" autocomplete=off maxlength="64" placeholder="{% trans 'product.campaign.create.input.title.placeholder' %}">
+            </div>
+            <div class="mb-3">
+              <h5>{% trans 'product.campaign.create.input.description' %}</h5>
+              <textarea id="campaign-create-description-input" autocomplete=off maxlength="256"  placeholder="{% trans 'product.campaign.create.input.description.placeholder' %}"></textarea>
+            </div>
+            <div class="mb-3">
+              <h5>{% trans 'product.campaign.create.input.type' %}</h5>
+              <div class="dropdown w-100">
+                <button id="campaign-create-type-button" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {% trans 'product.campaign.create.input.type' %}
+                </button>
+                <ul id="campaign-create-type-list" class="dropdown-menu w-100">
+                </ul>
+              </div>
+            </div>
+            <div class="d-flex flex-xl-row flex-column justify-content-center align-items-center w-100">
+              <div class="flex-grow-1">
+                <h5>{% trans 'product.campaign.create.input.start' %}</h5>
+                <input id="campaign-create-start-input" autocomplete=off type="date">
+              </div>
+              <div class="flex-grow-1 ms-xl-2">
+                <h5>{% trans 'product.campaign.create.input.end' %}</h5>
+                <input id="campaign-create-end-input" autocomplete=off type="date">
+              </div>
+            </div>
+          </div>
+          <div class="text-end my-5">
+            <button id="campaign-continue" class="btn btn-primary fw-bold disabled">{% trans 'product.campaign.create.continue' %}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  $(document).ready(function () {
+    for (let element of [...document.querySelectorAll('input[maxlength], textarea[maxlength]')]) {
+      element.addEventListener('input', tickInputMaxLength)
+      element.parentElement.classList.add('max-length-badged');
+      tickInputMaxLength(element)
+    }
+  });
+
+  function tickInputMaxLength(element) {
+    if (element.target) {
+      element = element.target
+    }
+    let limit = element.maxLength;
+    let parent = element.parentElement;
+    let length = element.value.length;
+    parent.dataset['limit'] = limit;
+    parent.dataset['remaining'] = limit - length;
+    parent.classList.remove('max-length-reached');
+    if (length === limit) {
+      parent.classList.add('max-length-reached');
+    }
+  }
+
+  document.getElementById("campaign-continue").addEventListener("click", function (event) {
+    document.getElementById("campaign-continue").classList.add("disabled");
+    document.getElementById("campaign-continue").innerHTML = "{% trans 'product.campaign.create.continue' %}" + `
+      <span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span>
+      <span class="visually-hidden" role="status">Loading...</span>
+    `;
+    let request = new HttpRequest("/campaign/create/", "POST", [],
+      {type: selectedType.toUpperCase()});
+    request.send(function (status, responseText) {
+      window.location.href = "/campaign/" + JSON.parse(responseText).campaign + "/";
+    });
+  });
+
+  document.getElementById("campaign-create-page-back").addEventListener("click", function (event) {
+    window.location.href = "/campaigns/";
+  });
+</script>
