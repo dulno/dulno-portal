@@ -56,7 +56,7 @@
               <div id="card-stamp-icon" class="d-none">
                 <h5>{% trans 'product.card.stamp.icon' %}</h5>
                 <div class="dropdown w-100 mb-3">
-                  <button id="card-stamp-icon-button" class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <button id="card-stamp-icon-button" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {% trans 'product.card.stamp.icon' %}
                   </button>
                   <ul id="card-stamp-icon-list" class="dropdown-menu w-100">
@@ -82,7 +82,7 @@
               <div id="card-member-icon" class="d-none">
                 <h5>{% trans 'product.card.member.icon' %}</h5>
                 <div class="dropdown w-100 mb-3">
-                  <button id="card-member-icon-button" class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <button id="card-member-icon-button" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {% trans 'product.card.member.icon' %}
                   </button>
                   <ul id="card-member-icon-list" class="dropdown-menu w-100">
@@ -222,7 +222,7 @@
       fillIconDropdown("memberIcon", document.getElementById("card-member-icon-list"),
         document.getElementById("card-member-icon-button"), icons, card.memberIcon);
       document.getElementById("card-preview-type-member").classList
-        .add("fa-" + card.memberIcon);
+        .add("fa-" + card.memberIconName);
     }
     document.getElementById("card-preview-logo").src = "data:image/png;base64," + card.logo;
     document.getElementById("card-background-color-input").value = card.backgroundColor;
@@ -238,7 +238,9 @@
       let iconElement = document.createElement("div");
       iconElement.classList.add("dropdown-item");
       let symbolElement = document.createElement("i");
-      symbolElement.classList.add("fa-solid", "fa-" + icon.icon, "me-2");
+      symbolElement.classList.add("fa-solid", "fa-" + icon.icon, "me-2",
+        "text-center");
+      symbolElement.style.width = "20px";
       iconElement.appendChild(symbolElement);
       let nameElement = document.createElement("span");
       nameElement.innerText = icon.name;

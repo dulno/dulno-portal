@@ -30,18 +30,18 @@
   color: #545454;
 }
 
-#card-wrapper input {
+#card-wrapper input, #card-stamp-icon-button, #card-member-icon-button {
   width: 100%;
   border-radius: 5px;
   padding: 5px 10px;
 }
 
-.dark #card-wrapper input {
+.dark #card-wrapper input, .dark #card-stamp-icon-button, .dark #card-member-icon-button {
   background-color: #212529;
   border: 1px solid #2f353a;
 }
 
-.light #card-wrapper input {
+.light #card-wrapper input, .light #card-stamp-icon-button, .light #card-member-icon-button {
   background-color: #f3f3f3;
   border: 1px solid #d5d5d5;
 }
