@@ -83,11 +83,11 @@
     if (card.type === "COLLECTION" || card.type === "VALUE") {
       cardElement.appendChild(createCardStamps(cardContainer, cardElement,
         card.type === "COLLECTION" ? card.rewardNumber : card.valueNumber,
-        card.foregroundColor, card.stampIcon));
+        card.foregroundColor, card.stampIconName));
     } else if (card.type === "MEMBER") {
       let memberElement = document.createElement("i");
       memberElement.classList.add("card-type-member", "fa-solid",
-        "fa-" + card.memberIcon);
+        "fa-" + card.memberIconName);
       memberElement.style.color = card.foregroundColor;
       cardElement.appendChild(memberElement);
     }

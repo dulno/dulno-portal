@@ -232,15 +232,13 @@
   }
 
   function fillIconDropdown(identifier, menu, button, icons, current) {
-    let iconStyle = (card.type === "COLLECTION" || card.type === "VALUE") ?
-      "fa-regular" : "fa-solid";
     for (let icon of icons) {
       let entryElement = document.createElement("li");
       entryElement.classList.add("mb-0");
       let iconElement = document.createElement("div");
       iconElement.classList.add("dropdown-item");
       let symbolElement = document.createElement("i");
-      symbolElement.classList.add(iconStyle, "fa-" + icon.icon, "me-2");
+      symbolElement.classList.add("fa-solid", "fa-" + icon.icon, "me-2");
       iconElement.appendChild(symbolElement);
       let nameElement = document.createElement("span");
       nameElement.innerText = icon.name;
