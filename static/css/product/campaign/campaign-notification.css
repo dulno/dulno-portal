@@ -70,4 +70,19 @@
 
 .toast-container {
   z-index: 10 !important;
+  min-width: 350px !important;
+}
+
+@media (max-width: 500px) {
+  .toast-container {
+    min-width: 300px !important;
+    width: 300px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .toast-container {
+    min-width: 275px !important;
+    width: 275px !important;
+  }
 }
