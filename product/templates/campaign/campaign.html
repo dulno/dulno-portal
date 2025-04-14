@@ -230,7 +230,7 @@
   }
 
   function displayNotifications() {
-    let notifications = campaign.notifications;
+    let notifications = campaign.notifications.filter(entry => entry.state === "PENDING");
     if (notifications.length === 0) {
       document.getElementById("campaign-notifications-empty").classList.remove("d-none");
       return;
