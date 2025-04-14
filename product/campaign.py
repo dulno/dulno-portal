@@ -20,7 +20,7 @@ async def campaign(request, id):
     'id': id})
 
 @authentication_required
-async def campaignNotification(request, id):
+async def campaignNotification(request, campaign, notification):
   return render(request, 'campaign/campaign-notification.html', {'title': gettext('product.campaign.notification.title'),
     'css': ['css/base/product-header.css', 'css/base/product-sidebar.css', 'css/product/campaign/campaign-notification.css'],
-    'id': id})
+    'campaign': campaign, 'notification': notification})

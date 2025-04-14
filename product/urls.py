@@ -14,7 +14,7 @@ urlpatterns = [
   path('analysis/', analysis.analysis),
   path('campaigns/', campaign.campaigns),
   path('campaign/create/', campaign.createCampaign),
-  path('campaign/notification/<str:id>/', campaign.campaignNotification),
+  path('campaign/<str:campaign>/notification/<str:notification>/', campaign.campaignNotification),
   path('campaign/<str:id>/', campaign.campaign),
   path('package/general/', package.packageGeneral),
   path('package/payments/', package.packagePayment),

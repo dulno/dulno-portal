@@ -9,13 +9,13 @@
       <div id="campaign-create-container">
         <div id="campaign-create-wrapper">
           <div class="text-center mb-5">
-            <div class="position-relative d-flex justify-content-center align-items-center">
+            <div class="position-relative d-flex justify-content-center align-items-center mb-xl-0 mb-4">
               <div class="me-auto">
                 <button id="campaign-create-page-back"><i class="fa-solid fa-arrow-left-long"></i></button>
               </div>
               <h1 class="fw-bold m-0 position-absolute start-50 translate-middle-x">{% trans 'product.campaign.create.headline' %}</h1>
             </div>
-            <p class="text-secondary">{% trans 'product.campaign.create.description' %}</p>
+            <p class="text-secondary mx-3">{% trans 'product.campaign.create.description' %}</p>
           </div>
           <div>
             <div class="mb-3">
@@ -37,11 +37,11 @@
               </div>
             </div>
             <div class="d-flex flex-xl-row flex-column justify-content-center align-items-center w-100">
-              <div class="flex-grow-1">
+              <div class="flex-grow-1 mb-3 w-100">
                 <h5>{% trans 'product.campaign.create.input.start' %}</h5>
                 <input id="campaign-create-start-input" autocomplete=off type="date">
               </div>
-              <div class="flex-grow-1 ms-xl-2">
+              <div class="flex-grow-1 mb-3 w-100 ms-xl-2">
                 <h5>{% trans 'product.campaign.create.input.end' %}</h5>
                 <input id="campaign-create-end-input" autocomplete=off type="date">
               </div>
@@ -153,9 +153,13 @@
   continueButton.addEventListener("click", function (event) {
     let start = new Date(startInput.value).getTime();
     let end = new Date(endInput.value).getTime();
-    if (start > end) {
+    if (start < Date.now()) {
       Swal.fire("{% trans 'product.campaign.create.failed.title' %}",
-        "{% trans 'product.campaign.create.failed.times' %}", "error");
+        "{% trans 'product.campaign.create.failed.start.past' %}", "error");
+      return;
+    } else if (start > end) {
+      Swal.fire("{% trans 'product.campaign.create.failed.title' %}",
+        "{% trans 'product.campaign.create.failed.start.greater.end' %}", "error");
       return;
     }
     continueButton.classList.add("disabled");
@@ -170,12 +174,6 @@
       let response = JSON.parse(responseText);
       if (response.success) {
         window.location.href = "/campaign/" + response.campaign + "/";
-        return;
-      }
-      let error = response.error;
-      if (error === 1000) {
-        Swal.fire("{% trans 'product.campaign.create.failed.title' %}",
-          "{% trans 'product.campaign.create.failed.times' %}", "error");
       }
     });
   });

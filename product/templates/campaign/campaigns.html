@@ -94,7 +94,7 @@
       items.push(createTimelineCampaign(campaign.id, new Date(campaign.start),
         new Date(campaign.end)));
       for (let notification of campaign.notifications) {
-        items.push(createTimelineNotification(notification.id,
+        items.push(createTimelineNotification(campaign.id, notification.id,
           new Date(notification.dispatch)));
       }
     }
@@ -134,7 +134,7 @@
     };
   }
 
-  function createTimelineNotification(id, date) {
+  function createTimelineNotification(campaign, notification, date) {
     let element = document.createElement("div");
     let icon = document.createElement("i");
     icon.classList.add("fa-regular", "fa-bell", "me-2");
@@ -142,10 +142,11 @@
     let label = document.createElement("span");
     label.innerText = "{% trans 'product.campaigns.notification' %}";
     element.appendChild(label);
-    timelineRedirects.push("/campaigns/notification/" + id + "/");
+    timelineRedirects.push("/campaign/" + campaign + "/notification/" +
+      notification + "/");
     currentItemIndex++;
     return {
-      id: currentItemIndex++,
+      id: currentItemIndex,
       content: element,
       start: date,
       type: 'box',
