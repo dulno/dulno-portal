@@ -281,7 +281,7 @@
     toastElement.appendChild(toastBody);
     toastContainer.appendChild(toastElement);
     toastContainer.onclick = function (event) {
-      window.location.href = "/campaign/{{id}}/notification/" + entry.id + "/";
+      window.location.href = "/campaign/" + "{{id}}" + "/notification/" + entry.id + "/";
     }
     entryElement.appendChild(toastContainer);
     document.getElementById("campaign-notifications").appendChild(entryElement);
@@ -364,7 +364,7 @@
   }
 
   document.getElementById("campaign-notification-create").addEventListener("click", function (event) {
-    window.location.href = "/campaign/{{id}}/notification/create/";
+    window.location.href = "/campaign/" + "{{id}}" + "/notification/create/";
   });
 
   document.getElementById("campaign-page-back").addEventListener("click", function (event) {
