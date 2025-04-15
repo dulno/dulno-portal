@@ -193,9 +193,9 @@
     document.getElementById("campaign-title-input").value = campaign.title;
     document.getElementById("campaign-description-input").value = campaign.description;
     document.getElementById("campaign-start-input").value =
-      new Date(campaign.start).toISOString().split('T')[0];
+      new Date(campaign.start).toLocaleDateString("en-CA")
     document.getElementById("campaign-end-input").value =
-      new Date(campaign.end).toISOString().split('T')[0];
+      new Date(campaign.end).toLocaleDateString("en-CA");
     fillTypesDropdown();
     displayNotifications();
   }
@@ -301,13 +301,13 @@
 
   let startInput = document.getElementById("campaign-start-input");
   startInput.oninput = function (event) {
-    campaign.start = new Date(startInput.value).getTime();
+    campaign.start = new Date(startInput.value).setHours(0, 0, 0, 0);
     updateCampaign();
   }
 
   let endInput = document.getElementById("campaign-end-input");
   endInput.oninput = function (event) {
-    campaign.end = new Date(endInput.value).getTime();
+    campaign.end = new Date(endInput.value).setHours(23, 59, 59, 999);
     updateCampaign();
   }
 

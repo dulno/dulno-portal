@@ -151,8 +151,8 @@
   }
 
   continueButton.addEventListener("click", function (event) {
-    let start = new Date(startInput.value).getTime();
-    let end = new Date(endInput.value).getTime();
+    let start = new Date(startInput.value).setHours(0, 0, 0, 0);
+    let end = new Date(endInput.value).setHours(23, 59, 59, 999);
     if (start > end) {
       Swal.fire("{% trans 'product.campaign.create.failed.title' %}",
         "{% trans 'product.campaign.create.failed.start.greater.end' %}", "error");
