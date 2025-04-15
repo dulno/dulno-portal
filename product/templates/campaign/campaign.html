@@ -324,11 +324,7 @@
   }
 
   function updateCampaign() {
-    if (campaign.start < Date.now()) {
-      Swal.fire("{% trans 'product.campaign.update.failed.title' %}",
-        "{% trans 'product.campaign.update.failed.start.past' %}", "error");
-      return;
-    } else if (campaign.start > campaign.end) {
+    if (campaign.start > campaign.end) {
       Swal.fire("{% trans 'product.campaign.update.failed.title' %}",
         "{% trans 'product.campaign.update.failed.start.greater.end' %}", "error");
       return;
