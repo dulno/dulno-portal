@@ -1,5 +1,5 @@
 #analysis-wrapper {
-  width: min(1400px, 95%);
+  width: min(1500px, 95%);
   margin: auto;
 }
 
@@ -50,6 +50,8 @@
 }
 
 .analysis-header-value {
+  display: flex;
+  flex-direction: column;
   margin-left: 20px;
 }
 
@@ -58,6 +60,7 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 40px;
   margin-top: 25px;
+  margin-bottom: 50px;
 }
 
 .analysis-center-entry {

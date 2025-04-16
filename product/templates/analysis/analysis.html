@@ -9,69 +9,119 @@
       <div id="analysis-container">
         <div id="analysis-wrapper">
           <h1 class="fw-bold text-center my-5 pt-lg-4">{% trans 'product.analysis.headline' %}</h1>
-          <div class="d-flex justify-content-end">
-            <div class="analysis-interval me-4">
-              <input id="analysis-start-input" type="date">
-              <i class="fa-solid fa-minus mx-1 my-auto"></i>
-              <input id="analysis-end-input" type="date">
+          <div id="analysis-placeholder">
+            <div class="d-flex justify-content-end">
+              <div class="placeholder placeholder-wave rounded py-4 me-4" style="width: 300px"></div>
+              <div class="placeholder placeholder-wave rounded py-4" style="width: 250px"></div>
             </div>
-            <button id="analysis-view-button" class="analysis-view-button">
-              <i class="fa-regular fa-clock me-2"></i>
-              <span id="analysis-view-selection">{% trans 'product.analysis.view.week.title' %}</span>
-            </button>
+            <div class="analysis-header">
+              <div class="analysis-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="analysis-header-icon placeholder placeholder-wave"></div>
+                  <div class="analysis-header-value">
+                    <div class="placeholder placeholder-wave rounded py-2 mb-2" style="width: 100px"></div>
+                    <div class="placeholder placeholder-wave rounded py-2" style="width: 75px"></div>
+                  </div>
+                </div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 100px"></div>
+              </div>
+              <div class="analysis-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="analysis-header-icon placeholder placeholder-wave"></div>
+                  <div class="analysis-header-value">
+                    <div class="placeholder placeholder-wave rounded py-2 mb-2" style="width: 100px"></div>
+                    <div class="placeholder placeholder-wave rounded py-2" style="width: 75px"></div>
+                  </div>
+                </div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 100px"></div>
+              </div>
+              <div class="analysis-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="analysis-header-icon placeholder placeholder-wave"></div>
+                  <div class="analysis-header-value">
+                    <div class="placeholder placeholder-wave rounded py-2 mb-2" style="width: 100px"></div>
+                    <div class="placeholder placeholder-wave rounded py-2" style="width: 75px"></div>
+                  </div>
+                </div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 100px"></div>
+              </div>
+            </div>
+            <div class="analysis-center">
+              <div class="analysis-center-entry">
+                <div class="placeholder placeholder-wave rounded py-3 mb-3" style="width: 200px"></div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 350px"></div>
+              </div>
+              <div class="analysis-center-entry">
+                <div class="placeholder placeholder-wave rounded py-3 mb-3" style="width: 200px"></div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 350px"></div>
+              </div>
+            </div>
           </div>
-          <div class="analysis-header">
-            <div class="analysis-header-entry">
-              <div class="d-flex align-items-center mb-3">
-                <div class="analysis-header-icon">
-                  <i class="fa-solid fa-stamp"></i>
-                </div>
-                <div class="analysis-header-value">
-                  <h4 id="analysis-stamp-value" class="fw-bold"></h4>
-                  <label class="text-secondary">{% trans 'product.analysis.stamps' %}</label>
-                </div>
+          <div id="analysis-body" class="placeholder-fade">
+            <div class="d-flex justify-content-end">
+              <div class="analysis-interval me-4">
+                <input id="analysis-start-input" type="date">
+                <i class="fa-solid fa-minus mx-1 my-auto"></i>
+                <input id="analysis-end-input" type="date">
               </div>
-              <canvas id="analysis-header-stamp" height="75"></canvas>
+              <button id="analysis-view-button" class="analysis-view-button">
+                <i class="fa-regular fa-clock me-2"></i>
+                <span id="analysis-view-selection">{% trans 'product.analysis.view.week.title' %}</span>
+              </button>
             </div>
-            <div class="analysis-header-entry">
-              <div class="d-flex align-items-center mb-3">
-                <div class="analysis-header-icon">
-                  <i class="fa-solid fa-user"></i>
+            <div class="analysis-header">
+              <div class="analysis-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="analysis-header-icon">
+                    <i class="fa-solid fa-stamp"></i>
+                  </div>
+                  <div class="analysis-header-value">
+                    <h4 id="analysis-stamp-value" class="fw-bold"></h4>
+                    <label class="text-secondary">{% trans 'product.analysis.stamps' %}</label>
+                  </div>
                 </div>
-                <div class="analysis-header-value">
-                  <h4 id="analysis-user-value" class="fw-bold"></h4>
-                  <label class="text-secondary">{% trans 'product.analysis.users' %}</label>
-                </div>
+                <canvas id="analysis-header-stamp" height="75"></canvas>
               </div>
-              <canvas id="analysis-header-user" height="75"></canvas>
+              <div class="analysis-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="analysis-header-icon">
+                    <i class="fa-solid fa-user"></i>
+                  </div>
+                  <div class="analysis-header-value">
+                    <h4 id="analysis-user-value" class="fw-bold"></h4>
+                    <label class="text-secondary">{% trans 'product.analysis.users' %}</label>
+                  </div>
+                </div>
+                <canvas id="analysis-header-user" height="75"></canvas>
+              </div>
+              <div class="analysis-header-entry">
+                <div class="d-flex align-items-center  mb-3">
+                  <div class="analysis-header-icon">
+                    <i class="fa-solid fa-credit-card"></i>
+                  </div>
+                  <div class="analysis-header-value">
+                    <h4 id="analysis-card-value" class="fw-bold"></h4>
+                    <label class="text-secondary">{% trans 'product.analysis.cards' %}</label>
+                  </div>
+                </div>
+                <canvas id="analysis-header-card" height="75"></canvas>
+              </div>
             </div>
-            <div class="analysis-header-entry">
-              <div class="d-flex align-items-center  mb-3">
-                <div class="analysis-header-icon">
-                  <i class="fa-solid fa-credit-card"></i>
+            <div class="analysis-center">
+              <div class="analysis-center-entry">
+                <div class="d-flex align-items-center mb-3" data-bs-toggle="tooltip-parent">
+                  <h4 class="fw-bold mb-0">{% trans 'product.analysis.new.users' %}</h4>
+                  <h5 class="fa-regular fa-circle-question ms-3 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'product.analysis.new.users.tooltip' %}"></h5>
                 </div>
-                <div class="analysis-header-value">
-                  <h4 id="analysis-card-value" class="fw-bold"></h4>
-                  <label class="text-secondary">{% trans 'product.analysis.cards' %}</label>
+                <canvas id="analysis-center-new-users" height="150"></canvas>
+              </div>
+              <div class="analysis-center-entry">
+                <div class="d-flex align-items-center mb-3" data-bs-toggle="tooltip-parent">
+                  <h4 class="fw-bold mb-0">{% trans 'product.analysis.activity' %}</h4>
+                  <h5 class="fa-regular fa-circle-question ms-3 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'product.analysis.activity.tooltip' %}"></h5>
                 </div>
+                <canvas id="analysis-center-activity" height="150"></canvas>
               </div>
-              <canvas id="analysis-header-card" height="75"></canvas>
-            </div>
-          </div>
-          <div class="analysis-center">
-            <div class="analysis-center-entry">
-              <div class="d-flex align-items-center mb-3" data-bs-toggle="tooltip-parent">
-                <h4 class="fw-bold mb-0">{% trans 'product.analysis.new.users' %}</h4>
-                <h5 class="fa-regular fa-circle-question ms-3 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'product.analysis.new.users.tooltip' %}"></h5>
-              </div>
-              <canvas id="analysis-center-new-users" height="150"></canvas>
-            </div>
-            <div class="analysis-center-entry">
-              <div class="d-flex align-items-center mb-3" data-bs-toggle="tooltip-parent">
-                <h4 class="fw-bold mb-0">{% trans 'product.analysis.activity' %}</h4>
-                <h5 class="fa-regular fa-circle-question ms-3 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'product.analysis.activity.tooltip' %}"></h5>
-              </div>
-              <canvas id="analysis-center-activity" height="150"></canvas>
             </div>
           </div>
         </div>
@@ -91,6 +141,8 @@
       setupViewSelection();
       setupTooltips();
       displayAnalysis();
+      document.getElementById("analysis-body").classList.add("placeholder-fade-show");
+      document.getElementById("analysis-placeholder").classList.add("d-none");
     });
   });
 
@@ -110,7 +162,9 @@
       generateRandomTimestamps(500, new Date('2024-08-01'), new Date());
     result.activityTimestamps =
       generateRandomTimestamps(10000, new Date('2024-08-01'), new Date());
-    callback(result);
+    setTimeout(function() {
+      callback(result);
+    }, 2000);
   }
 
   function generateRandomTimestamps(count, startDate, endDate) {
@@ -484,9 +538,7 @@
     };
 
     timestamps.forEach(ts => {
-      const inRange = interval === 'week'
-        ? ts >= startTime && ts <= endTime + 24 * 60 * 60 * 1000 - 1
-        : ts >= startTime && ts <= endTime;
+      const inRange = ts >= startTime && ts <= endTime + 24 * 60 * 60 * 1000 - 1;
       if (!inRange) {
         return;
       }
