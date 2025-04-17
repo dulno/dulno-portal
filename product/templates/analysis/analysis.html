@@ -361,6 +361,7 @@
   function createNewUserChart(chartElement, timestamps) {
     const ctx = chartElement.getContext('2d');
     const { labels, data } = groupAndFilterTimestamps(timestamps);
+    let gridColor = createChardGridColor();
     const chartData = {
       labels,
       datasets: [{
@@ -386,10 +387,22 @@
               maxRotation: 0,
               autoSkip: true,
               maxTicksLimit: 12
+            },
+            grid: {
+              color: gridColor
+            },
+            border: {
+              color: gridColor
             }
           },
           y: {
             beginAtZero: true,
+            grid: {
+              color: gridColor
+            },
+            border: {
+              color: gridColor
+            }
           }
         }
       }
@@ -403,6 +416,7 @@
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, 'rgba(13, 110, 253, 0.4)');
     gradient.addColorStop(1, 'rgba(255,255,255,0)');
+    let gridColor = createChardGridColor();
     const chartData = {
       labels,
       datasets: [{
@@ -430,10 +444,22 @@
               maxRotation: 0,
               autoSkip: true,
               maxTicksLimit: 12
+            },
+            grid: {
+              color: gridColor
+            },
+            border: {
+              color: gridColor
             }
           },
           y: {
             beginAtZero: true,
+            grid: {
+              color: gridColor
+            },
+            border: {
+              color: gridColor
+            }
           }
         }
       }
@@ -504,6 +530,7 @@
         return formatter.format(date);
       });
     };
+    let gridColor = createChardGridColor();
     const chartData = {
       labels: getLocalizedWeekdays(),
       datasets: [{
@@ -533,12 +560,26 @@
             },
             ticks: {
               display: false
-            }
+            },
+            grid: {
+              color: gridColor
+            },
+            border: {
+              color: gridColor
+            },
+            angleLines: {
+              color: gridColor
+            },
           }
         }
       }
     };
     charts.push(new Chart(ctx, config));
+  }
+
+  function createChardGridColor() {
+    let isDark = document.body.classList.contains("dark");
+    return isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)";
   }
 
   function createChartBackgroundColors() {
