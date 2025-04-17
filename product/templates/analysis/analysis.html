@@ -56,6 +56,20 @@
                 <div class="placeholder placeholder-wave rounded w-100" style="height: 350px"></div>
               </div>
             </div>
+            <div class="analysis-footer">
+              <div class="analysis-footer-entry">
+                <div class="placeholder placeholder-wave rounded py-3 mb-3" style="width: 200px"></div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 340px"></div>
+              </div>
+              <div class="analysis-footer-entry">
+                <div class="placeholder placeholder-wave rounded py-3 mb-3" style="width: 200px"></div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 340px"></div>
+              </div>
+              <div class="analysis-footer-entry">
+                <div class="placeholder placeholder-wave rounded py-3 mb-3" style="width: 200px"></div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 340px"></div>
+              </div>
+            </div>
           </div>
           <div id="analysis-body" class="placeholder-fade">
             <div class="d-flex justify-content-end">
@@ -129,14 +143,21 @@
                   <h4 class="fw-bold mb-0">{% trans 'product.analysis.language' %}</h4>
                   <h5 class="fa-regular fa-circle-question ms-3 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'product.analysis.language.tooltip' %}"></h5>
                 </div>
-                <canvas id="analysis-footer-language" height="50"></canvas>
+                <canvas id="analysis-footer-language" class="mx-4"></canvas>
               </div>
               <div class="analysis-footer-entry">
                 <div class="d-flex align-items-center mb-3" data-bs-toggle="tooltip-parent">
                   <h4 class="fw-bold mb-0">{% trans 'product.analysis.card.usage' %}</h4>
                   <h5 class="fa-regular fa-circle-question ms-3 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'product.analysis.card.usage.tooltip' %}"></h5>
                 </div>
-                <canvas id="analysis-footer-card-usage" height="50"></canvas>
+                <canvas id="analysis-footer-card-usage" class="mx-4"></canvas>
+              </div>
+              <div class="analysis-footer-entry">
+                <div class="d-flex align-items-center mb-3" data-bs-toggle="tooltip-parent">
+                  <h4 class="fw-bold mb-0">{% trans 'product.analysis.weekday' %}</h4>
+                  <h5 class="fa-regular fa-circle-question ms-3 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'product.analysis.weekday.tooltip' %}"></h5>
+                </div>
+                <canvas id="analysis-footer-weekday" class="mx-4"></canvas>
               </div>
             </div>
           </div>
@@ -178,9 +199,12 @@
       generateRandomTimestamps(500, new Date('2024-08-01'), new Date());
     result.activityTimestamps =
       generateRandomTimestamps(10000, new Date('2024-08-01'), new Date());
+    result.languages = {languages: ["Deutsch", "Englisch"], shares: [80, 20]};
+    result.cardUsages = {states: ["Unbenutzt", "Benutzt", "Aufgebraucht"], usages: [40, 35, 25]};
+    result.weekdays = [12, 14, 9, 15, 11, 0, 0];
     setTimeout(function() {
       callback(result);
-    }, 2000);
+    }, 1000);
   }
 
   function generateRandomTimestamps(count, startDate, endDate) {
@@ -237,6 +261,7 @@
     displayActivityGraph();
     displayLanguageGraph();
     displayCardUsageGraph();
+    displayWeekdayGraph();
     document.getElementById("analysis-stamp-value").innerText =
       new Intl.NumberFormat().format(analysis.stamps);
     document.getElementById("analysis-user-value").innerText =
@@ -272,12 +297,17 @@
 
   function displayLanguageGraph() {
     createLanguageChart(document.getElementById('analysis-footer-language'),
-      analysis.activityTimestamps);
+      analysis.languages);
   }
 
   function displayCardUsageGraph() {
     createCardUsageChart(document.getElementById('analysis-footer-card-usage'),
-      analysis.activityTimestamps);
+      analysis.cardUsages);
+  }
+
+  function displayWeekdayGraph() {
+    createWeekdayChart(document.getElementById('analysis-footer-weekday'),
+      analysis.weekdays);
   }
 
   function createHeaderChart(chartElement, timestamps) {
@@ -414,22 +444,11 @@
   function createLanguageChart(chartElement, data) {
     const ctx = chartElement.getContext('2d');
     const chartData = {
-      labels: ['Red', 'Blue'],
+      labels: data.languages,
       datasets: [{
-        label: 'My Dataset',
-        data: [80, 20],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.3)',
-          'rgba(54, 162, 235, 0.3)',
-          'rgba(255, 206, 86, 0.3)',
-          'rgba(75, 192, 192, 0.3)'
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)'
-        ],
+        data: data.shares,
+        backgroundColor: createChartBackgroundColors(),
+        borderColor: createChartBorderColors(),
         borderWidth: 1
       }]
     };
@@ -440,7 +459,7 @@
         responsive: true,
         plugins: {
           legend: {
-            display: false
+            display: true,
           },
         }
       }
@@ -451,22 +470,11 @@
   function createCardUsageChart(chartElement, data) {
     const ctx = chartElement.getContext('2d');
     const chartData = {
-      labels: ['Red', 'Blue'],
+      labels: data.states,
       datasets: [{
-        label: 'My Dataset',
-        data: [45, 35, 20],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.3)',
-          'rgba(54, 162, 235, 0.3)',
-          'rgba(255, 206, 86, 0.3)',
-          'rgba(75, 192, 192, 0.3)'
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)'
-        ],
+        data: data.usages,
+        backgroundColor: createChartBackgroundColors(),
+        borderColor: createChartBorderColors(),
         borderWidth: 1
       }]
     };
@@ -477,12 +485,86 @@
         responsive: true,
         plugins: {
           legend: {
-            display: false
+            display: true
           },
         }
       }
     };
     charts.push(new Chart(ctx, config));
+  }
+
+  function createWeekdayChart(chartElement, data) {
+    const ctx = chartElement.getContext('2d');
+    const getLocalizedWeekdays = () => {
+      const formatter = new Intl.DateTimeFormat(navigator.language, { weekday: 'long' });
+      const referenceDate = new Date(2021, 0, 4);
+      return Array.from({ length: 7 }, (_, i) => {
+        const date = new Date(referenceDate);
+        date.setDate(referenceDate.getDate() + i);
+        return formatter.format(date);
+      });
+    };
+    const chartData = {
+      labels: getLocalizedWeekdays(),
+      datasets: [{
+        data: data,
+        backgroundColor: 'rgba(13, 110, 253, 0.3)',
+        borderColor: 'rgba(13, 110, 253, 0.75)',
+        borderWidth: 1
+      }]
+    };
+    const config = {
+      type: 'radar',
+      data: chartData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          },
+        },
+        scales: {
+          r: {
+            pointLabels: {
+              padding: 0,
+              font: {
+                size: 10
+              }
+            },
+            ticks: {
+              display: false
+            }
+          }
+        }
+      }
+    };
+    charts.push(new Chart(ctx, config));
+  }
+
+  function createChartBackgroundColors() {
+    return [
+      'rgba(13, 110, 253, 0.2)',
+      'rgba(253, 13, 47, 0.2)',
+      'rgba(253, 110, 13, 0.2)',
+      'rgba(253, 221, 13, 0.2)',
+      'rgba(13, 253, 110, 0.2)',
+      'rgba(13, 253, 221, 0.2)',
+      'rgba(142, 13, 253, 0.2)',
+      'rgba(253, 13, 142, 0.2)',
+    ];
+  }
+
+  function createChartBorderColors() {
+    return [
+      'rgba(13, 110, 253, 1)',
+      'rgba(253, 13, 47, 1)',
+      'rgba(253, 110, 13, 1)',
+      'rgba(253, 221, 13, 1)',
+      'rgba(13, 253, 110, 1)',
+      'rgba(13, 253, 221, 1)',
+      'rgba(142, 13, 253, 1)',
+      'rgba(253, 13, 142, 1)',
+    ];
   }
 
   document.getElementById("analysis-view-button").onclick = function () {
