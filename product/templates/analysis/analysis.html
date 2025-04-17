@@ -184,8 +184,14 @@
   });
 
   function fetchAnalysis(callback) {
-    //TODO: IMPLEMENT
-    let result = {};
+    let request = new HttpRequest("/analysis/", "GET", []);
+    request.send(function (status, responseText) {
+      let response = JSON.parse(responseText);
+      response.activityTimestamps = response.stampTimestamps;
+      response.newUsersTimestamps = response.userTimestamps;
+      callback(response);
+    });
+    /*let result = {};
     result.stamps = 5632;
     result.users = 285;
     result.cards = 439;
@@ -204,7 +210,7 @@
     result.weekdays = [12, 14, 9, 15, 11, 0, 0];
     setTimeout(function() {
       callback(result);
-    }, 1000);
+    }, 1000);*/
   }
 
   function generateRandomTimestamps(count, startDate, endDate) {
@@ -297,7 +303,7 @@
 
   function displayLanguageGraph() {
     createLanguageChart(document.getElementById('analysis-footer-language'),
-      analysis.languages);
+      analysis.languageDistribution);
   }
 
   function displayCardUsageGraph() {
@@ -307,7 +313,7 @@
 
   function displayWeekdayGraph() {
     createWeekdayChart(document.getElementById('analysis-footer-weekday'),
-      analysis.weekdays);
+      analysis.weekdayDistribution);
   }
 
   function createHeaderChart(chartElement, timestamps) {
