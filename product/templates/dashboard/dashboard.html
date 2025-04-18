@@ -20,6 +20,7 @@
               <div id="dashboard-tip">
               </div>
             </div>
+            <div id="map"></div>
           </div>
         </div>
       </div>
@@ -33,6 +34,7 @@
     fetchUsername(function(username) {
       fetch2FA(function(twoFactorEnabled) {
         displayDashboard(username, twoFactorEnabled);
+        displayMap();
       });
     });
   });
@@ -63,6 +65,43 @@
     descriptionElement.innerHTML = description;
     tipElement.appendChild(descriptionElement);
     return tipElement;
+  }
+
+  function displayMap() {
+// initialize map
+    var map = L.map('map', { zoomControl: false })
+      .setView([51.1657, 10.4515], 5);
+
+    L.tileLayer(
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', // OSM Tile Layer
+      {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        detectRetina: true
+      }
+    ).addTo(map);
+
+
+// Sample locations in Germany
+    var locations = [
+      { name: 'Berlin',    coords: [52.52,   13.405] },
+      { name: 'Munich',    coords: [48.1351, 11.582] },
+      { name: 'Hamburg',   coords: [53.5511,  9.9937] },
+      { name: 'Frankfurt', coords: [50.1109,  8.6821] }
+    ];
+
+// Add blue circle markers (with popups)
+    locations.forEach(function(loc) {
+      L.circleMarker(loc.coords, {
+        radius: 8,
+        color: 'blue',
+        fillColor: 'blue',
+        fillOpacity: 0.8
+      })
+        .bindPopup(loc.name)
+        .addTo(map);
+    });
+
   }
 
   function fetchUsername(callback) {

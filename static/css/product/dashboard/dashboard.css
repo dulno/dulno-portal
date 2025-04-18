@@ -233,3 +233,19 @@
 .dark .dashboard-tip-issue a {
   color: #0000EE;
 }
+
+#map {
+  height: 600px;
+  width: 800px;
+  margin: 20px auto;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.10);
+}
+
+.leaflet-control-attribution svg {
+  display: none !important;
+}
+
+.leaflet-control-attribution, .leaflet-control-attribution a {
+  color: #959595 !important;
+}
