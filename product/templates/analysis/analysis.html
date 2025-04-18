@@ -758,13 +758,10 @@
           }
           break;
         case 'week':
-          while (current <= end) {
-            labels.push(current.toISOString().split('T')[0]);
-            current.setDate(current.getDate() + 1);
-          }
-          break;
         case 'month':
-          while (current <= end) {
+          const adjustedEnd = new Date(end);
+          adjustedEnd.setDate(adjustedEnd.getDate() + 1);
+          while (current < adjustedEnd) {
             labels.push(current.toISOString().split('T')[0]);
             current.setDate(current.getDate() + 1);
           }
