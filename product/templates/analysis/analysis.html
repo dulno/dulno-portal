@@ -10,8 +10,8 @@
         <div id="analysis-wrapper">
           <h1 class="fw-bold text-center my-5 pt-lg-4">{% trans 'product.analysis.headline' %}</h1>
           <div id="analysis-placeholder">
-            <div class="d-flex justify-content-end">
-              <div class="placeholder placeholder-wave rounded py-4 me-4" style="width: 300px"></div>
+            <div class="d-flex flex-xl-row flex-column justify-content-xl-end justify-content-center align-items-center">
+              <div class="placeholder placeholder-wave rounded py-4 me-xl-4 mb-xl-0 mb-3" style="width: 300px"></div>
               <div class="placeholder placeholder-wave rounded py-4" style="width: 250px"></div>
             </div>
             <div class="analysis-header">
@@ -72,8 +72,8 @@
             </div>
           </div>
           <div id="analysis-body" class="placeholder-fade">
-            <div class="d-flex justify-content-end">
-              <div class="analysis-interval me-4">
+            <div class="d-flex flex-xl-row flex-column justify-content-xl-end justify-content-center align-items-center">
+              <div class="analysis-interval me-xl-4 mb-xl-0 mb-3">
                 <input id="analysis-start-input" type="date">
                 <i class="fa-solid fa-minus mx-1 my-auto"></i>
                 <input id="analysis-end-input" type="date">
@@ -187,41 +187,8 @@
     let request = new HttpRequest("/analysis/", "GET", []);
     request.send(function (status, responseText) {
       let response = JSON.parse(responseText);
-      response.activityTimestamps = response.stampTimestamps;
-      response.newUsersTimestamps = response.userTimestamps;
       callback(response);
     });
-    /*let result = {};
-    result.stamps = 5632;
-    result.users = 285;
-    result.cards = 439;
-    result.stampTimestamps =
-      generateRandomTimestamps(10000, new Date('2024-08-01'), new Date());
-    result.userTimestamps =
-      generateRandomTimestamps(500, new Date('2024-08-01'), new Date());
-    result.cardTimestamps =
-      generateRandomTimestamps(1000, new Date('2024-08-01'), new Date());
-    result.newUsersTimestamps =
-      generateRandomTimestamps(500, new Date('2024-08-01'), new Date());
-    result.activityTimestamps =
-      generateRandomTimestamps(10000, new Date('2024-08-01'), new Date());
-    result.languages = {languages: ["Deutsch", "Englisch"], shares: [80, 20]};
-    result.cardUsages = {states: ["Unbenutzt", "Benutzt", "Aufgebraucht"], usages: [40, 35, 25]};
-    result.weekdays = [12, 14, 9, 15, 11, 0, 0];
-    setTimeout(function() {
-      callback(result);
-    }, 1000);*/
-  }
-
-  function generateRandomTimestamps(count, startDate, endDate) {
-    const timestamps = [];
-    const start = startDate.getTime();
-    const end = endDate.getTime();
-    for (let i = 0; i < count; i++) {
-      const ts = Math.floor(Math.random() * (end - start) + start);
-      timestamps.push(ts);
-    }
-    return timestamps.sort();
   }
 
   function setupViewSelection() {
@@ -293,12 +260,12 @@
 
   function displayNewUserGraph() {
     createNewUserChart(document.getElementById('analysis-center-new-users'),
-      analysis.newUsersTimestamps);
+      analysis.userTimestamps);
   }
 
   function displayActivityGraph() {
     createActivityChart(document.getElementById('analysis-center-activity'),
-      analysis.activityTimestamps);
+      analysis.stampTimestamps);
   }
 
   function displayLanguageGraph() {
@@ -318,7 +285,7 @@
 
   function createHeaderChart(chartElement, timestamps) {
     const ctx = chartElement.getContext('2d');
-    const { labels, data } = groupAndFilterTimestamps(timestamps);
+    const { labels, data } = groupAndFilterTimestamps(timestamps, true);
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, 'rgba(13, 110, 253, 0.4)');
     gradient.addColorStop(0.3, 'rgba(255,255,255,0)');
@@ -366,7 +333,7 @@
 
   function createNewUserChart(chartElement, timestamps) {
     const ctx = chartElement.getContext('2d');
-    const { labels, data } = groupAndFilterTimestamps(timestamps);
+    const { labels, data } = groupAndFilterTimestamps(timestamps, false);
     let gridColor = createChardGridColor();
     const chartData = {
       labels,
@@ -418,7 +385,7 @@
 
   function createActivityChart(chartElement, timestamps) {
     const ctx = chartElement.getContext('2d');
-    const { labels, data } = groupAndFilterTimestamps(timestamps);
+    const { labels, data } = groupAndFilterTimestamps(timestamps, false);
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, 'rgba(13, 110, 253, 0.4)');
     gradient.addColorStop(1, 'rgba(255,255,255,0)');
@@ -741,7 +708,7 @@
     displayAnalysis();
   }
 
-  function groupAndFilterTimestamps(timestamps) {
+  function groupAndFilterTimestamps(timestamps, isCumulative) {
     const grouped = {};
     const startInput = document.getElementById('analysis-start-input').value;
     const endInput = document.getElementById('analysis-end-input').value;
@@ -813,7 +780,16 @@
     };
 
     const labels = fillLabels();
-    const data = labels.map(label => grouped[label] || 0);
+    let data = [];
+    if (isCumulative) {
+      let cumulative = 0;
+      labels.forEach(label => {
+        cumulative += grouped[label] || 0;
+        data.push(cumulative);
+      });
+    } else {
+      data = labels.map(label => grouped[label] || 0);
+    }
     return { labels, data };
   }
 
