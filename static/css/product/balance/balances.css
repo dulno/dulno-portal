@@ -93,6 +93,23 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.10);
 }
 
+.balances-header-change-positive, .balances-header-change-negative {
+  padding: 4px 8px;
+  border-radius: 25px;
+  margin-left: 15px;
+  font-size: 14px;
+}
+
+.balances-header-change-positive {
+  background-color: #daf8d7;
+  color: #1f721c;
+}
+
+.balances-header-change-negative {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
 @media (max-width: 1400px) {
   .balances-header {
     grid-template-columns: repeat(2, 1fr);
@@ -144,13 +161,6 @@
   background-color: var(--bs-body);
   border-color: var(--bs-primary);
   box-shadow: 0 0 0 2px var(--bs-primary);
-}
-
-#balances-transactions-header {
-  margin-top: 5vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 #balances-transactions-search-box {
@@ -245,7 +255,7 @@
   padding: 30px 20px;
   display: flex;
   flex-direction: column;
-  width: 25%;
+  width: calc(100% / 3);
   text-align: left;
 }
 
@@ -265,7 +275,7 @@
 }
 
 #balances-transactions-table-description li {
-  width: 25%;
+  width: calc(100% / 3);
   padding: 20px;
   font-weight: bold;
   font-size: 20px;
