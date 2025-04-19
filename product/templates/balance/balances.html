@@ -1,0 +1,290 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="balances-container">
+        <div id="balances-wrapper">
+          <h1 class="text-center fw-bold my-5 py-lg-4">{% trans 'product.balances.headline' %}</h1>
+          <div>
+            <div class="d-flex flex-xl-row flex-column justify-content-xl-end justify-content-center align-items-center">
+              <div class="balances-interval me-xl-4 mb-xl-0 mb-3">
+                <input id="balances-start-input" type="date">
+                <i class="fa-solid fa-minus mx-1 my-auto"></i>
+                <input id="balances-end-input" type="date">
+              </div>
+              <button id="balances-view-button" class="balances-view-button">
+                <i class="fa-regular fa-clock me-2"></i>
+                <span id="balances-view-selection">{% trans 'product.balances.view.week.title' %}</span>
+              </button>
+            </div>
+            <div class="balances-header">
+              <div class="balances-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="balances-header-icon">
+                    <i class="fa-solid fa-stamp"></i>
+                  </div>
+                  <div class="balances-header-value">
+                    <h4 id="balances-stamp-value" class="fw-bold"></h4>
+                    <label class="text-secondary">{% trans 'product.balances.stamps' %}</label>
+                  </div>
+                </div>
+                <canvas id="balances-header-stamp" height="75"></canvas>
+              </div>
+              <div class="balances-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="balances-header-icon">
+                    <i class="fa-solid fa-user"></i>
+                  </div>
+                  <div class="balances-header-value">
+                    <h4 id="balances-user-value" class="fw-bold"></h4>
+                    <label class="text-secondary">{% trans 'product.balances.users' %}</label>
+                  </div>
+                </div>
+                <canvas id="balances-header-user" height="75"></canvas>
+              </div>
+              <div class="balances-header-entry">
+                <div class="d-flex align-items-center  mb-3">
+                  <div class="balances-header-icon">
+                    <i class="fa-solid fa-credit-card"></i>
+                  </div>
+                  <div class="balances-header-value">
+                    <h4 id="balances-card-value" class="fw-bold"></h4>
+                    <label class="text-secondary">{% trans 'product.balances.cards' %}</label>
+                  </div>
+                </div>
+                <canvas id="balances-header-card" height="75"></canvas>
+              </div>
+            </div>
+            <div id="balances-transactions-header">
+              <div id="balances-transactions-search-box">
+                <input id="balances-transactions-search-input" placeholder="{% trans 'product.balances.transactions.search' %}" type="text" class="form-control" value="" autocomplete="off">
+                <button type="button">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+            <ul id="balances-transactions-table-description" class="mt-4 mb-0">
+              <li id="balances-transactions-table-description-date">
+                <div>
+                  <span>{% trans 'product.balances.transactions.time' %}</span>
+                  <i class="balances-transactions-table-description-sort fa-solid fa-sort-up ms-2" role="button" type="date"></i>
+                </div>
+              </li>
+              <li id="balances-transactions-table-description-value">
+                <div>
+                  <span>{% trans 'product.balances.transactions.value' %}</span>
+                  <i class="balances-transactions-table-description-sort fa-solid fa-sort ms-2" role="button" type="value"></i>
+                </div>
+              </li>
+              <li id="balances-transactions-table-description-type">
+                <div>
+                  <span>{% trans 'product.balances.transactions.type' %}</span>
+                  <i class="balances-transactions-table-description-sort fa-solid fa-sort ms-2" role="button" type="type"></i>
+                </div>
+              </li>
+            </ul>
+            <ul id="balances.transactions-list" class="balances-transactions-list">
+            </ul>
+            <div id="balances-transactions-empty" class="d-none">
+              <p id="balances-transactions-empty-headline" class="mb-sm-1 mb-3">{% trans 'product.balances.empty' %}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let balances;
+  let listSearch = "";
+  let listSearchTimeout = -1;
+  let listSorting = "name";
+  let listOrderAscending = true;
+
+  $(document).ready(function () {
+    fetchBalances(function (result) {
+      balances = result;
+      //document.getElementById("balances-list").classList.add("placeholder-fade-show");
+      //document.getElementById("balances-placeholders").classList.add("d-none");
+      displayBalances();
+    });
+  });
+
+  function fetchBalances(callback) {
+    callback([]);
+    /*let request = new HttpRequest("/balances/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).balances);
+    });*/
+  }
+
+  function createHeaderChart(chartElement, timestamps) {
+    const ctx = chartElement.getContext('2d');
+    const { labels, data } = groupAndFilterTimestamps(timestamps, true);
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(13, 110, 253, 0.4)');
+    gradient.addColorStop(0.3, 'rgba(255,255,255,0)');
+    const chartData = {
+      labels: labels,
+      datasets: [{
+        data: data,
+        fill: true,
+        backgroundColor: gradient,
+        borderColor: 'rgba(13, 110, 253, 0.75)',
+        tension: 0.4,
+        pointRadius: 4,
+        pointHoverRadius: 6
+      }]
+    };
+    const config = {
+      type: 'line',
+      data: chartData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          x: {
+            display: false,
+          },
+          y: {
+            display: false,
+          },
+        },
+        elements:{
+          point:{
+            borderWidth: 0,
+            radius: 0,
+            backgroundColor: 'rgba(0,0,0,0)'
+          }
+        }
+      }
+    };
+    charts.push(new Chart(ctx, config));
+  }
+
+  function displayBalances() {
+    document.getElementById("balances-list").innerHTML = "";
+    balances = balances.sort((a, b) => compareBalances(a, b))
+      .sort((a, b) => a.id.localeCompare(b.id));
+    if (listOrderAscending) {
+      balances = balances.reverse();
+    }
+    let displayedBalances = 0;
+    for (let i = 0; i < balances.length; i++) {
+      let balance = balances[i];
+      if (!shouldDisplayBalance(balance)) {
+        continue;
+      }
+      displayBalance(balance);
+      displayedBalances++;
+    }
+    if (displayedBalances === 0) {
+      document.getElementById("balances-empty").classList.remove("d-none");
+    } else {
+      document.getElementById("balances-empty").classList.add("d-none");
+    }
+  }
+
+  function shouldDisplayBalance(balance) {
+    return listSearch === "" ||
+      balance.name.toLowerCase().includes(listSearch.toLowerCase())
+  }
+
+  function compareBalances(a, b) {
+    if (listSorting === "creation") {
+      return b[listSorting] - a[listSorting];
+    }
+    return a[listSorting].localeCompare(b[listSorting]);
+  }
+
+  function displayBalance(balance) {
+    let entry = document.createElement('li');
+    entry.role = "button";
+    entry.classList.add("balance-entry");
+    let typeContainer = document.createElement("div");
+    typeContainer.classList.add("balance-entry-type");
+    let typeElement = document.createElement("h3");
+    typeElement.classList.add("text-primary", "mb-0");
+    if (balance.type === "STAMP") {
+      typeElement.classList.add("fa-solid", "fa-balance");
+    } else if (balance.type === "TAG") {
+      typeElement.classList.add("material-symbols-outlined", "loaded");
+      typeElement.innerText = "nfc";
+      typeElement.style.fontSize = "35px";
+    }
+    typeContainer.appendChild(typeElement);
+    entry.appendChild(typeContainer);
+    let nameContainer = document.createElement("div");
+    nameContainer.classList.add("balance-entry-name");
+    let nameElement = document.createElement("span");
+    nameElement.innerText = balance.name;
+    nameContainer.appendChild(nameElement);
+    entry.appendChild(nameContainer);
+    let stateContainer = document.createElement("div");
+    stateContainer.classList.add("balance-entry-state");
+    let stateElement = document.createElement("span");
+    if (balance.state === "ACTIVE") {
+      stateElement.innerText = "{% trans 'product.balances.state.active' %}";
+      stateElement.classList.add("balance-state-active");
+    } else {
+      stateElement.innerText = "{% trans 'product.balances.state.deactivated' %}";
+      stateElement.classList.add("balance-state-deactivated");
+    }
+    stateContainer.appendChild(stateElement);
+    entry.appendChild(stateContainer);
+    let creationContainer = document.createElement("div");
+    creationContainer.classList.add("balance-entry-creation");
+    let creationElement = document.createElement("span");
+    creationElement.innerText = new Date(balance.creation).toLocaleDateString();
+    creationContainer.appendChild(creationElement);
+    entry.appendChild(creationContainer);
+    document.getElementById("balances-list").appendChild(entry);
+  }
+
+  let sortingElements = document.getElementsByClassName("balances-transactions-table-description-sort");
+  for (let i = 0; i < sortingElements.length; i++) {
+    let sortingElement = sortingElements[i];
+    sortingElement.onclick = function (event) {
+      updateSorting(sortingElement);
+    }
+  }
+
+  function updateSorting(selectedElement) {
+    for (let i = 0; i < sortingElements.length; i++) {
+      let sortingElement = sortingElements[i];
+      sortingElement.classList.remove("fa-sort-up", "fa-sort-down");
+      sortingElement.classList.add("fa-sort");
+    }
+    let selectedSorting = selectedElement.getAttribute("type");
+    selectedElement.classList.remove("fa-sort");
+    if (listSorting === selectedSorting) {
+      listOrderAscending = !listOrderAscending;
+      selectedElement.classList.add(!listOrderAscending ? "fa-sort-down" : "fa-sort-up");
+    } else {
+      listOrderAscending = true;
+      selectedElement.classList.add("fa-sort-up");
+    }
+    listSorting = selectedSorting;
+    displayBalances();
+  }
+
+  document.getElementById("balances-search-input").oninput = function(event) {
+    if (listSearchTimeout !== -1) {
+      clearTimeout(listSearchTimeout);
+    }
+    listSearchTimeout = setTimeout(function () {
+      listSearchTimeout = -1;
+      listSearch = event.target.value;
+      displayBalances();
+    }, 500);
+  };
+</script>

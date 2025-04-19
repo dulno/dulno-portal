@@ -1,5 +1,5 @@
 from django.urls import path, include
-from . import dashboard, card, stamp, partner, analysis, campaign, package, accessory, help
+from . import dashboard, card, stamp, partner, analysis, balance, campaign, package, accessory, help
 
 urlpatterns = [
   path('dashboard/', dashboard.dashboard),
@@ -12,6 +12,7 @@ urlpatterns = [
   path('partner/locations/', partner.partnerLocation),
   path('partner/links/', partner.partnerLink),
   path('analysis/', analysis.analysis),
+  path('balances/', balance.balances),
   path('campaigns/', campaign.campaigns),
   path('campaign/create/', campaign.createCampaign),
   path('campaign/<str:campaign>/notification/<str:notification>/', campaign.campaignNotification),
