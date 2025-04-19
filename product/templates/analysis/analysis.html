@@ -672,7 +672,7 @@
     let start;
     switch (analysisView) {
       case 'day':
-        start = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+        start = now;
         break;
       case 'week':
         start = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -709,85 +709,121 @@
   }
 
   function groupAndFilterTimestamps(timestamps, isCumulative) {
-    const grouped = {};
     const startInput = document.getElementById('analysis-start-input').value;
     const endInput = document.getElementById('analysis-end-input').value;
     if (!startInput || !endInput) {
       return { labels: [], data: [] };
     }
-
-    const startTime = new Date(startInput).getTime();
-    const endTime = new Date(endInput).getTime();
-    let interval = determineInterval(startTime, endTime);
-
-    const getLabel = (date) => {
-      switch (interval) {
-        case 'day':
-          return `${String(date.getHours()).padStart(2, '0')}:00`;
-        case 'week':
-          return date.toISOString().split('T')[0];
-        case 'month':
-          return date.toISOString().split('T')[0];
-        case 'year':
-          return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-        default:
-          return '';
-      }
-    };
-
-    timestamps.forEach(ts => {
-      const inRange = ts >= startTime && ts <= endTime + 24 * 60 * 60 * 1000 - 1;
-      if (!inRange) {
-        return;
-      }
-      const date = new Date(ts);
-      const label = getLabel(date);
-      grouped[label] = (grouped[label] || 0) + 1;
-    });
-
-    const fillLabels = () => {
-      const labels = [];
-      const current = new Date(startTime);
-      const end = new Date(endTime);
-
-      switch (interval) {
-        case 'day':
-          while (current <= end) {
-            labels.push(`${String(current.getHours()).padStart(2, '0')}:00`);
-            current.setHours(current.getHours() + 1);
-          }
-          break;
-        case 'week':
-        case 'month':
-          const adjustedEnd = new Date(end);
-          adjustedEnd.setDate(adjustedEnd.getDate() + 1);
-          while (current < adjustedEnd) {
-            labels.push(current.toISOString().split('T')[0]);
-            current.setDate(current.getDate() + 1);
-          }
-          break;
-        case 'year':
-          while (current <= end) {
-            labels.push(`${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}`);
-            current.setMonth(current.getMonth() + 1);
-          }
-          break;
-      }
-      return labels;
-    };
-
-    const labels = fillLabels();
+    let start = new Date(startInput);
+    let end = new Date(endInput);
+    adjustTodayInterval(start, end);
+    const interval = determineInterval(start.getTime(), end.getTime());
+    const grouped = countGroupedTimestamps(timestamps, start.getTime(), end.getTime(), interval);
+    const labels = generateLabels(start, end, interval);
     let data = [];
     if (isCumulative) {
-      let cumulative = 0;
-      labels.forEach(label => {
-        cumulative += grouped[label] || 0;
-        data.push(cumulative);
-      });
+      data = accumulateData(labels, grouped);
     } else {
       data = labels.map(label => grouped[label] || 0);
     }
     return { labels, data };
+  }
+
+  function adjustTodayInterval(start, end) {
+    if (isSameDay(start, end)) {
+      const now = new Date();
+      if (isSameDay(start, now)) {
+        start.setDate(start.getDate() - 1);
+        start.setHours(now.getHours(), now.getMinutes(), now.getSeconds(),
+          now.getMilliseconds());
+        end.setHours(now.getHours(), now.getMinutes(), now.getSeconds(),
+          now.getMilliseconds());
+      } else {
+        end.setDate(end.getDate() + 1);
+      }
+      return;
+    }
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+  }
+
+  function isSameDay(first, second) {
+    return first.getFullYear() === second.getFullYear() &&
+      first.getMonth() === second.getMonth() && first.getDate() === second.getDate();
+  }
+
+  function countGroupedTimestamps(timestamps, startTime, endTime, interval) {
+    const grouped = {};
+    for (const ts of timestamps) {
+      if (ts < startTime || ts > endTime) {
+        continue;
+      }
+      const label = formatLabel(new Date(ts), interval);
+      if (!grouped[label]) {
+        grouped[label] = 0;
+      }
+      grouped[label] += 1;
+    }
+    return grouped;
+  }
+
+  function formatLabel(date, interval) {
+    switch (interval) {
+      case 'day': {
+        return `${String(date.getHours()).padStart(2, '0')}:00`;
+      }
+      case 'week':
+      case 'month': {
+        return date.toISOString().split('T')[0];
+      }
+      case 'year': {
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      }
+      default: {
+        return '';
+      }
+    }
+  }
+
+  function generateLabels(start, end, interval) {
+    const labels = [];
+    const current = new Date(start);
+    switch (interval) {
+      case 'day': {
+        while (current <= end) {
+          labels.push(`${String(current.getHours()).padStart(2, '0')}:00`);
+          current.setHours(current.getHours() + 1);
+        }
+        break;
+      }
+      case 'week':
+      case 'month': {
+        while (current <= end) {
+          labels.push(current.toISOString().split('T')[0]);
+          current.setDate(current.getDate() + 1);
+        }
+        break;
+      }
+      case 'year': {
+        const adjustedEnd = new Date(end.getFullYear(), end.getMonth() + 1, 1);
+        while (current < adjustedEnd) {
+          labels.push(`${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}`);
+          current.setMonth(current.getMonth() + 1);
+        }
+        break;
+      }
+    }
+    return labels;
+  }
+
+  function accumulateData(labels, grouped) {
+    const data = [];
+    let cumulative = 0;
+    for (const label of labels) {
+      cumulative += grouped[label] || 0;
+      data.push(cumulative);
+    }
+    return data;
   }
 
   function timeChartTicks(value, index) {
