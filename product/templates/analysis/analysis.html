@@ -716,8 +716,8 @@
     }
     let start = new Date(startInput);
     let end = new Date(endInput);
-    adjustTodayInterval(start, end);
     const interval = determineInterval(start.getTime(), end.getTime());
+    adjustTodayInterval(start, end, interval);
     const grouped = countGroupedTimestamps(timestamps, start.getTime(), end.getTime(), interval);
     const labels = generateLabels(start, end, interval);
     let data = [];
@@ -729,22 +729,23 @@
     return { labels, data };
   }
 
-  function adjustTodayInterval(start, end) {
+  function adjustTodayInterval(start, end, interval) {
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
     if (isSameDay(start, end)) {
       const now = new Date();
       if (isSameDay(start, now)) {
         start.setDate(start.getDate() - 1);
-        start.setHours(now.getHours(), now.getMinutes(), now.getSeconds(),
+        start.setHours(now.getHours() + 1, now.getMinutes(), now.getSeconds(),
           now.getMilliseconds());
-        end.setHours(now.getHours(), now.getMinutes(), now.getSeconds(),
+        end.setHours(now.getHours() + 1, now.getMinutes(), now.getSeconds(),
           now.getMilliseconds());
       } else {
         end.setDate(end.getDate() + 1);
       }
-      return;
+    } else if (interval === "week" || interval === "month") {
+      end.setDate(end.getDate() + 1);
     }
-    start.setHours(0, 0, 0, 0);
-    end.setHours(0, 0, 0, 0);
   }
 
   function isSameDay(first, second) {
@@ -755,7 +756,7 @@
   function countGroupedTimestamps(timestamps, startTime, endTime, interval) {
     const grouped = {};
     for (const ts of timestamps) {
-      if (ts < startTime || ts > endTime) {
+      if (ts < startTime || ts >= endTime) {
         continue;
       }
       const label = formatLabel(new Date(ts), interval);
@@ -790,7 +791,7 @@
     const current = new Date(start);
     switch (interval) {
       case 'day': {
-        while (current <= end) {
+        while (current < end) {
           labels.push(`${String(current.getHours()).padStart(2, '0')}:00`);
           current.setHours(current.getHours() + 1);
         }
@@ -798,6 +799,7 @@
       }
       case 'week':
       case 'month': {
+        current.setDate(current.getDate() + 1);
         while (current <= end) {
           labels.push(current.toISOString().split('T')[0]);
           current.setDate(current.getDate() + 1);
