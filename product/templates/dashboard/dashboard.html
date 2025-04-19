@@ -7,20 +7,141 @@
     {% include 'product-sidebar.html' %}
     <div class="sidebar-influenced">
       <div id="dashboard-container">
-        <div id="dashboard-wrapper" class="d-none">
-          <div id="dashboard-header">
-            <div id="dashboard-header-content">
-              <img id="dashboard-header-logo" src="{% static 'img/logo-light.webp' %}">
-              <h1 id="dashboard-headline">{% trans 'product.dashboard.welcome' %}<br> </h1>
-            </div>
-          </div>
-          <div id="dashboard-content">
-            <div id="dashboard-tip-container" class="dashboard-content-entry">
-              <h2 class="fw-bold mb-4">{% trans 'product.dashboard.tip.headline' %}</h2>
-              <div id="dashboard-tip">
+        <div id="dashboard-wrapper">
+          <div id="dashboard-placeholder">
+            <div class="dashboard-header">
+              <div class="dashboard-header-content">
+                <img class="dashboard-header-logo" src="{% static 'img/logo-light.webp' %}">
+                <h1 class="dashboard-headline">{% trans 'product.dashboard.welcome' %}<br><div class="placeholder placeholder-wave rounded py-3" style="width: 300px"></div></h1>
               </div>
             </div>
-            <div id="map"></div>
+            <div class="dashboard-content">
+              <div class="position-relative d-flex justify-content-center align-items-lg-center mb-5 pb-lg-4">
+                <div class="d-lg-block d-none">
+                  <div class="placeholder placeholder-wave rounded py-3" style="width: 200px"></div>
+                </div>
+                <div class="d-lg-none d-block">
+                  <div class="position-absolute start-50 translate-middle-x placeholder placeholder-wave rounded py-3" style="width: 200px"></div>
+                </div>
+                <div class="ms-lg-auto mt-lg-0 mt-5 pt-lg-0 pt-3">
+                  <div class="placeholder placeholder-wave rounded py-3" style="width: 150px"></div>
+                </div>
+              </div>
+              <div class="d-flex flex-xl-row flex-column-reverse align-items-xl-stretch align-items-center mb-5">
+                <div class="dashboard-partner-map flex-grow-1 w-100 my-0 me-xl-5 p-2">
+                  <div class="placeholder placeholder-wave rounded w-100 h-100"></div>
+                </div>
+                <div class="dashboard-partner-container ms-xl-5 mb-xl-0 mb-5">
+                  <div class="dashboard-partner-icon-container">
+                    <div class="placeholder placeholder-wave rounded py-3" style="width: 128px; height: 128px"></div>
+                  </div>
+                  <div class="m-2">
+                    <div class="placeholder placeholder-wave rounded py-3 w-75 mb-2"></div>
+                    <div class="placeholder placeholder-wave rounded py-1 w-100 mb-1"></div>
+                    <div class="placeholder placeholder-wave rounded py-1 w-100 mb-1"></div>
+                    <div class="placeholder placeholder-wave rounded py-1 w-50 mb-1"></div>
+                  </div>
+                  <div class="dashboard-partner-values mb-2">
+                    <div class="dashboard-partner-values-entry">
+                      <div class="placeholder placeholder-wave rounded py-3 w-100" style="height: 60px"></div>
+                    </div>
+                    <div class="dashboard-partner-values-entry">
+                      <div class="placeholder placeholder-wave rounded py-3 w-100" style="height: 60px"></div>
+                    </div>
+                    <div class="dashboard-partner-values-entry">
+                      <div class="placeholder placeholder-wave rounded py-3 w-100" style="height: 60px"></div>
+                    </div>
+                    <div class="dashboard-partner-values-entry">
+                      <div class="placeholder placeholder-wave rounded py-3 w-100" style="height: 60px"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="dashboard-body" class="placeholder-fade">
+            <div class="dashboard-header">
+              <div class="dashboard-header-content">
+                <img class="dashboard-header-logo" src="{% static 'img/logo-light.webp' %}">
+                <h1 id="dashboard-headline" class="dashboard-headline">{% trans 'product.dashboard.welcome' %}<br></h1>
+              </div>
+            </div>
+            <div class="dashboard-content">
+              <div id="dashboard-tip-container" class="dashboard-content-entry">
+                <h2 class="fw-bold mb-4">{% trans 'product.dashboard.tip.headline' %}</h2>
+                <div id="dashboard-tip">
+                </div>
+              </div>
+              <div class="position-relative d-flex justify-content-center align-items-lg-center mb-5 pb-lg-4">
+                <div class="d-lg-block d-none">
+                  <h2 class="fw-bold m-0">{% trans 'product.dashboard.headline' %}</h2>
+                </div>
+                <div class="d-lg-none d-block">
+                  <h2 class="fw-bold m-0 position-absolute start-50 translate-middle-x">{% trans 'product.dashboard.headline' %}</h2>
+                </div>
+                <div class="ms-lg-auto mt-lg-0 mt-5 pt-lg-0 pt-3">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle fw-bold" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-gear me-1"></i> {% trans 'product.dashboard.manage' %}</button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="/cards/"><i class="dashboard-manage-icon text-primary fa-solid fa-credit-card me-2"></i> {% trans 'product.dashboard.cards' %}</a></li>
+                      <li><a class="dropdown-item" href="/stamps/"><i class="dashboard-manage-icon text-primary fa-solid fa-stamp me-2"></i> {% trans 'product.dashboard.stamps' %}</a></li>
+                      <li><a class="dropdown-item" href="/partner/general/"><i class="dashboard-manage-icon text-primary fa-solid fa-shop me-2"></i> {% trans 'product.dashboard.partner' %}</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-xl-row flex-column-reverse align-items-xl-stretch align-items-center mb-5">
+                <div id="dashboard-partner-map" class="dashboard-partner-map flex-grow-1 w-100 my-0 me-xl-5"></div>
+                <div class="dashboard-partner-container ms-xl-5 mb-xl-0 mb-5">
+                  <div class="dashboard-partner-icon-container">
+                    <button id="dashboard-partner-edit"><i class="fa-solid fa-pen"></i></button>
+                    <img id="dashboard-partner-logo" class="dashboard-partner-logo" alt=""/>
+                  </div>
+                  <div class="m-2">
+                    <h5 id="dashboard-partner-name" class="fw-bold"></h5>
+                    <p id="dashboard-partner-description" class="text-start text-secondary mb-0"></p>
+                  </div>
+                  <div class="dashboard-partner-values mb-2">
+                    <div class="dashboard-partner-values-entry">
+                      <div class="dashboard-partner-values-icon">
+                        <i class="fa-solid fa-credit-card"></i>
+                      </div>
+                      <div class="d-flex flex-column flex-grow-1 ms-2">
+                        <h5 id="dashboard-partner-cards" class="fw-bold mb-1"></h5>
+                        <small class="text-secondary">{% trans 'product.dashboard.cards' %}</small>
+                      </div>
+                    </div>
+                    <div class="dashboard-partner-values-entry">
+                      <div class="dashboard-partner-values-icon">
+                        <i class="fa-solid fa-stamp"></i>
+                      </div>
+                      <div class="d-flex flex-column flex-grow-1 ms-2">
+                        <h5 id="dashboard-partner-stamps" class="fw-bold mb-1"></h5>
+                        <small class="text-secondary">{% trans 'product.dashboard.stamps' %}</small>
+                      </div>
+                    </div>
+                    <div class="dashboard-partner-values-entry">
+                      <div class="dashboard-partner-values-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                      </div>
+                      <div class="d-flex flex-column flex-grow-1 ms-2">
+                        <h5 id="dashboard-partner-locations" class="fw-bold mb-1"></h5>
+                        <small class="text-secondary">{% trans 'product.dashboard.locations' %}</small>
+                      </div>
+                    </div>
+                    <div class="dashboard-partner-values-entry">
+                      <div class="dashboard-partner-values-icon">
+                        <i class="fa-solid fa-paperclip"></i>
+                      </div>
+                      <div class="d-flex flex-column flex-grow-1 ms-2">
+                        <h5 id="dashboard-partner-links" class="fw-bold mb-1"></h5>
+                        <small class="text-secondary">{% trans 'product.dashboard.links' %}</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -30,19 +151,99 @@
 
 <script>
   $(document).ready(function() {
-    displayLoader();
     fetchUsername(function(username) {
       fetch2FA(function(twoFactorEnabled) {
-        displayDashboard(username, twoFactorEnabled);
-        displayMap();
+        fetchPartner(function (partner) {
+          fetchPartnerLogo(function (logo) {
+            fetchCards(function (cards) {
+              fetchStamps(function (stamps) {
+                fetchPartnerLocations(function (locations) {
+                  fetchPartnerLinks(function (links) {
+                    displayDashboard(username, twoFactorEnabled, partner, logo,
+                      cards, stamps, locations, links);
+                    document.getElementById("dashboard-body").classList.add("placeholder-fade-show");
+                    document.getElementById("dashboard-placeholder").classList.add("d-none");
+                  });
+                });
+              });
+            });
+          });
+        });
       });
     });
   });
 
-  function displayDashboard(username, twoFactorEnabled) {
+  function fetchUsername(callback) {
+    let request = new HttpRequest("/settings/profile/username/", "GET", []);
+    request.send(function (status, responseText) {
+      let response = JSON.parse(responseText);
+      callback(response.username);
+    });
+  }
+
+  function fetch2FA(callback) {
+    let request = new HttpRequest("/settings/2fa/", "GET", []);
+    request.send(function (status, responseText) {
+      let response = JSON.parse(responseText);
+      callback(response.enabled);
+    });
+  }
+
+  function fetchPartner(callback) {
+    let request = new HttpRequest("/partner/find/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+
+  function fetchPartnerLogo(callback) {
+    let request = new HttpRequest("/partner/logo/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).logo);
+    });
+  }
+
+  function fetchCards(callback) {
+    let request = new HttpRequest("/cards/list/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).cards);
+    });
+  }
+
+  function fetchStamps(callback) {
+    let request = new HttpRequest("/stamps/list/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).stamps);
+    });
+  }
+
+  function fetchPartnerLocations(callback) {
+    let request = new HttpRequest("/partner/locations/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).locations);
+    });
+  }
+
+  function fetchPartnerLinks(callback) {
+    let request = new HttpRequest("/partner/links/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).links);
+    });
+  }
+
+  function displayDashboard(
+    username, twoFactorEnabled, partner, logo, cards, stamps, locations, links
+  ) {
     document.getElementById("dashboard-headline").innerHTML += username;
     displayTip(twoFactorEnabled);
-    removeLoader();
+    displayMap(locations);
+    document.getElementById("dashboard-partner-name").innerText = partner.name;
+    document.getElementById("dashboard-partner-description").innerText = partner.description;
+    document.getElementById("dashboard-partner-logo").src = "data:image/png;base64," + logo;
+    document.getElementById("dashboard-partner-cards").innerText = cards.length;
+    document.getElementById("dashboard-partner-stamps").innerText = stamps.length;
+    document.getElementById("dashboard-partner-locations").innerText = locations.length;
+    document.getElementById("dashboard-partner-links").innerText = links.length;
   }
 
   function displayTip(twoFactorEnabled) {
@@ -67,67 +268,31 @@
     return tipElement;
   }
 
-  function displayMap() {
-// initialize map
-    var map = L.map('map', { zoomControl: false })
+  function displayMap(locations) {
+    var map = L.map('dashboard-partner-map', { zoomControl: false })
       .setView([51.1657, 10.4515], 5);
-
     L.tileLayer(
-      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', // OSM Tile Layer
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       {
         maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        attribution: '<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         detectRetina: true
       }
     ).addTo(map);
-
-
-// Sample locations in Germany
-    var locations = [
-      { name: 'Berlin',    coords: [52.52,   13.405] },
-      { name: 'Munich',    coords: [48.1351, 11.582] },
-      { name: 'Hamburg',   coords: [53.5511,  9.9937] },
-      { name: 'Frankfurt', coords: [50.1109,  8.6821] }
-    ];
-
-// Add blue circle markers (with popups)
-    locations.forEach(function(loc) {
-      L.circleMarker(loc.coords, {
+    locations.forEach(function(location) {
+      L.circleMarker([location.latitude, location.longitude], {
         radius: 8,
-        color: 'blue',
-        fillColor: 'blue',
-        fillOpacity: 0.8
-      })
-        .bindPopup(loc.name)
-        .addTo(map);
+        color: '#0d6efd',
+        fillColor: '#0d6efd',
+        fillOpacity: 0.5
+      }).addTo(map);
     });
-
+    setTimeout(function () {
+      map.invalidateSize();
+    }, 100);
   }
 
-  function fetchUsername(callback) {
-    let request = new HttpRequest("/settings/profile/username/", "GET", []);
-    request.send(function (status, responseText) {
-      let response = JSON.parse(responseText);
-      callback(response.username);
-    });
-  }
-
-  function fetch2FA(callback) {
-    let request = new HttpRequest("/settings/2fa/", "GET", []);
-    request.send(function (status, responseText) {
-      let response = JSON.parse(responseText);
-      callback(response.enabled);
-    });
-  }
-
-  function displayLoader() {
-    let loader = document.createElement("div");
-    loader.classList.add("loader");
-    document.getElementById("dashboard-container").appendChild(loader);
-  }
-
-  function removeLoader() {
-    document.getElementById("dashboard-container").removeChild(document.getElementsByClassName("loader")[0]);
-    document.getElementById("dashboard-wrapper").classList.remove("d-none");
+  document.getElementById("dashboard-partner-edit").onclick = function (event) {
+    window.location.href = "/partner/general/";
   }
 </script>
