@@ -85,6 +85,22 @@
   padding: 20px;
 }
 
+@media (min-width: 1400px) {
+  .analysis-header-entry {
+    min-height: 190px;
+  }
+
+  .analysis-center-entry {
+    min-height: 300px;
+  }
+}
+
+@media (min-width: 1800px) {
+  .analysis-center-entry {
+    min-height: 420px;
+  }
+}
+
 .dark .analysis-header-entry, .dark .analysis-center-entry, .dark .analysis-footer-entry {
   background-color: #131922;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.10);
