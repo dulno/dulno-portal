@@ -71,13 +71,13 @@
                 <h5>{% trans 'product.card.reward.description' %}</h5>
                 <input id="card-reward-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.reward.description.placeholder' %}">
               </div>
-              <div id="card-value-number" class="d-none">
-                <h5>{% trans 'product.card.value.number' %}</h5>
-                <input id="card-value-number-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.card.value.number.placeholder' %}">
-              </div>
               <div id="card-value-price" class="d-none">
                 <h5>{% trans 'product.card.value.price' %}</h5>
                 <input id="card-value-price-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.card.value.price.placeholder' %}">
+              </div>
+              <div id="card-value-number" class="d-none">
+                <h5>{% trans 'product.card.value.number' %}</h5>
+                <input id="card-value-number-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.card.value.number.placeholder' %}">
               </div>
               <div id="card-value-description" class="d-none">
                 <h5>{% trans 'product.card.value.description' %}</h5>
@@ -225,10 +225,10 @@
 
   function displayValueCard() {
     document.getElementById("card-stamp-icon").classList.remove("d-none");
-    document.getElementById("card-value-number").classList.remove("d-none");
-    document.getElementById("card-value-number-input").value = card.valueNumber;
     document.getElementById("card-value-price").classList.remove("d-none");
     document.getElementById("card-value-price-input").value = card.valuePrice;
+    document.getElementById("card-value-number").classList.remove("d-none");
+    document.getElementById("card-value-number-input").value = card.valueNumber;
     document.getElementById("card-value-description").classList.remove("d-none");
     document.getElementById("card-value-description-input").value =
       card.valueDescription;
@@ -427,6 +427,15 @@
     processCardInput();
   });
 
+  document.getElementById("card-value-price-input").addEventListener("input", function (event) {
+    let value = document.getElementById("card-value-price-input").value;
+    value = value.replace(/[^0-9]/g, "");
+    value = value.replace(/(?!^)-/g, "");
+    document.getElementById("card-value-price-input").value = value;
+    card.valuePrice = parseInt(value);
+    processCardInput();
+  });
+
   document.getElementById("card-value-number-input").addEventListener("input", function (event) {
     let value = document.getElementById("card-value-number-input").value;
     value = value.replace(/[^0-9]/g, "");
@@ -439,6 +448,15 @@
 
   document.getElementById("card-value-description-input").addEventListener("input", function (event) {
     card.valueDescription = document.getElementById("card-value-description-input").value;
+    processCardInput();
+  });
+
+  document.getElementById("card-member-price-input").addEventListener("input", function (event) {
+    let value = document.getElementById("card-member-price-input").value;
+    value = value.replace(/[^0-9]/g, "");
+    value = value.replace(/(?!^)-/g, "");
+    document.getElementById("card-member-price-input").value = value;
+    card.memberPrice = parseInt(value);
     processCardInput();
   });
 

@@ -743,7 +743,7 @@
       } else {
         end.setDate(end.getDate() + 1);
       }
-    } else if (interval === "week" || interval === "month") {
+    } else if (interval === "week" || interval === "month" || interval === "year") {
       end.setDate(end.getDate() + 1);
     }
   }
@@ -807,7 +807,8 @@
         break;
       }
       case 'year': {
-        const adjustedEnd = new Date(end.getFullYear(), end.getMonth() + 1, 1);
+        const adjustedEnd = new Date(end.getFullYear(), end.getMonth(), end.getDate() - 1);
+        adjustedEnd.setMonth(adjustedEnd.getMonth() + 1, 1);
         while (current < adjustedEnd) {
           labels.push(`${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}`);
           current.setMonth(current.getMonth() + 1);
