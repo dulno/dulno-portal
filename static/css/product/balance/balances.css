@@ -93,11 +93,16 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.10);
 }
 
-.balances-header-change-positive, .balances-header-change-negative {
+.balances-header-change-neutral, .balances-header-change-positive, .balances-header-change-negative {
   padding: 4px 8px;
   border-radius: 25px;
   margin-left: 15px;
   font-size: 14px;
+}
+
+.balances-header-change-neutral {
+  background-color: #efefef;
+  color: #5b5b5b;
 }
 
 .balances-header-change-positive {
@@ -219,9 +224,10 @@
   position: relative;
   list-style-type: none;
   padding: 0;
+  margin-bottom: 100px;
 }
 
-.balance-transaction-entry {
+.balances-transaction-entry {
   border-radius: 8px;
   margin-bottom: 15px;
   width: 100%;
@@ -233,36 +239,99 @@
   transition-duration: 0.1s;
 }
 
-.dark .balance-transaction-entry {
+.dark .balances-transaction-entry {
   border: 1px solid #34404c;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.06);
 }
 
-.light .balance-transaction-entry {
+.light .balances-transaction-entry {
   border: 1px solid #dddddd;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.12);
 }
 
-.dark .balance-transaction-entry:hover {
+.dark .balances-transaction-entry:hover {
   background-color: #121820 !important;
 }
 
-.light .balance-transaction-entry:hover {
+.light .balances-transaction-entry:hover {
   background-color: #efefef !important;
 }
 
-.balance-transaction-entry div {
+.balances-transaction-entry div {
   padding: 30px 20px;
   display: flex;
   flex-direction: column;
-  width: calc(100% / 3);
+  width: 25%;
   text-align: left;
 }
 
-.balance-transaction-entry div span {
+.balances-transaction-entry div span {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.balances-transaction-entry .balances-transaction-entry-icon {
+  width: 100px;
+}
+
+.balances-transaction-entry .balances-transaction-entry-settings {
+  width: 75px;
+}
+
+.balances-transaction-entry .balances-transaction-entry-time {
+  width: calc(50% - 175px);
+}
+
+.balances-transaction-entry-icon * {
+  text-align: center;
+}
+
+.balances-transaction-entry-type span {
+  padding: 10px;
+  border-radius: 5px;
+  width: fit-content;
+}
+
+.balances-transaction-type-value {
+  border: 2px solid #1c3d72;
+  background-color: #f4f8fb;
+  color: #1c3d72;
+}
+
+.balances-transaction-type-member {
+  border: 2px solid #e6c842;
+  background-color: #fdf7d7;
+  color: #7a5e1c;
+}
+
+.balances-transaction-type-unknown {
+  border: 2px solid #cccccc;
+  background-color: #f5f5f5;
+  color: #333333;
+}
+
+.balances-transaction-entry-settings-button {
+  background-color: transparent;
+  border: none;
+  float: right;
+  width: 100% !important;
+}
+
+.dark .balances-transaction-entry-settings-button {
+  color: white;
+}
+
+.light .balances-transaction-entry-settings-button {
+  color: black;
+}
+
+.balances-transaction-entry-settings-dropdown-entry i {
+  width: 20px;
+}
+
+.balances-transaction-entry-settings-dropdown-entry label {
+  margin-left: 10px;
 }
 
 #balances-transactions-table-description {
@@ -275,10 +344,22 @@
 }
 
 #balances-transactions-table-description li {
-  width: calc(100% / 3);
+  width: 25%;
   padding: 20px;
   font-weight: bold;
   font-size: 20px;
+}
+
+#balances-transactions-table-description #balances-transactions-table-description-icon {
+  width: 100px;
+}
+
+#balances-transactions-table-description #balances-transactions-table-description-settings {
+  width: 75px;
+}
+
+#balances-transactions-table-description #balances-transactions-table-description-time {
+  width: calc(50% - 175px);
 }
 
 #balances-transactions-table-description button {

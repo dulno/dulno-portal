@@ -108,8 +108,7 @@
 
   function displayStamps() {
     document.getElementById("stamps-list").innerHTML = "";
-    stamps = stamps.sort((a, b) => compareStamps(a, b))
-      .sort((a, b) => a.id.localeCompare(b.id));
+    stamps = stamps.sort((a, b) => compareStamps(a, b));
     if (listOrderAscending) {
       stamps = stamps.reverse();
     }

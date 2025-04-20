@@ -29,8 +29,8 @@
                   </div>
                   <div class="balances-header-value">
                     <div class="d-flex align-items-center mb-2">
-                      <h4 id="balances-revenue-value" class="fw-bold mb-0">520 €</h4>
-                      <span id="balances-revenue-change" class="balances-header-change-positive">+ 2.5 %</span>
+                      <h4 id="balances-revenue-value" class="fw-bold mb-0"></h4>
+                      <span id="balances-revenue-change"></span>
                     </div>
                     <label class="text-secondary">{% trans 'product.balances.revenue' %}</label>
                   </div>
@@ -44,8 +44,8 @@
                   </div>
                   <div class="balances-header-value">
                     <div class="d-flex align-items-center mb-2">
-                      <h4 id="balances-active-cards-value" class="fw-bold mb-0">16</h4>
-                      <span id="balances-active-cards-change" class="balances-header-change-negative">- 1.5 %</span>
+                      <h4 id="balances-active-cards-value" class="fw-bold mb-0"></h4>
+                      <span id="balances-active-cards-change"></span>
                     </div>
                     <label class="text-secondary">{% trans 'product.balances.active.cards' %}</label>
                   </div>
@@ -59,8 +59,8 @@
                   </div>
                   <div class="balances-header-value">
                     <div class="d-flex align-items-center mb-2">
-                      <h4 id="balances-open-stamps-value" class="fw-bold mb-0">357</h4>
-                      <span id="balances-open-stamps-change" class="balances-header-change-positive">+ 5.6 %</span>
+                      <h4 id="balances-open-stamps-value" class="fw-bold mb-0"></h4>
+                      <span id="balances-open-stamps-change"></span>
                     </div>
                     <label class="text-secondary">{% trans 'product.balances.open.stamps' %}</label>
                   </div>
@@ -79,10 +79,13 @@
                 </div>
               </div>
               <ul id="balances-transactions-table-description" class="mt-4 mb-0">
-                <li id="balances-transactions-table-description-date">
+                <li id="balances-transactions-table-description-icon">
+                  <div></div>
+                </li>
+                <li id="balances-transactions-table-description-time">
                   <div>
                     <span>{% trans 'product.balances.transactions.time' %}</span>
-                    <i class="balances-transactions-table-description-sort fa-solid fa-sort-up ms-2" role="button" type="date"></i>
+                    <i class="balances-transactions-table-description-sort fa-solid fa-sort-down ms-2" role="button" type="time"></i>
                   </div>
                 </li>
                 <li id="balances-transactions-table-description-value">
@@ -96,6 +99,9 @@
                     <span>{% trans 'product.balances.transactions.type' %}</span>
                     <i class="balances-transactions-table-description-sort fa-solid fa-sort ms-2" role="button" type="type"></i>
                   </div>
+                </li>
+                <li id="balances-transactions-table-description-settings">
+                  <div></div>
                 </li>
               </ul>
               <ul id="balances-transactions-list" class="balances-transactions-list">
@@ -117,8 +123,8 @@
   let balances;
   let listSearch = "";
   let listSearchTimeout = -1;
-  let listSorting = "name";
-  let listOrderAscending = true;
+  let listSorting = "time";
+  let listOrderAscending = false;
 
   $(document).ready(function () {
     fetchBalances(function (result) {
@@ -132,11 +138,10 @@
   });
 
   function fetchBalances(callback) {
-    callback({transactions: []});
-    /*let request = new HttpRequest("/balances/", "GET", []);
+    let request = new HttpRequest("/balances/", "GET", []);
     request.send(function (status, responseText) {
-      callback(JSON.parse(responseText).balances);
-    });*/
+      callback(JSON.parse(responseText));
+    });
   }
 
   function setupViewSelection() {
@@ -162,8 +167,7 @@
 
   function displayTransactions() {
     document.getElementById("balances-transactions-list").innerHTML = "";
-    let transactions = balances.transactions.sort((a, b) => compareTransactions(a, b))
-      .sort((a, b) => a.id.localeCompare(b.id));
+    let transactions = balances.transactions.sort((a, b) => compareTransactions(a, b));
     if (listOrderAscending) {
       transactions = transactions.reverse();
     }
@@ -183,13 +187,14 @@
     }
   }
 
-  function shouldDisplayTransaction(balance) {
+  function shouldDisplayTransaction(transaction) {
     return listSearch === "" ||
-      balance.name.toLowerCase().includes(listSearch.toLowerCase())
+      new Date(transaction.time).toLocaleString().toLowerCase()
+        .includes(listSearch.toLowerCase())
   }
 
   function compareTransactions(a, b) {
-    if (listSorting === "time") {
+    if (listSorting === "time" || listSorting === "value") {
       return b[listSorting] - a[listSorting];
     }
     return a[listSorting].localeCompare(b[listSorting]);
@@ -197,9 +202,107 @@
 
   function displayTransaction(transaction) {
     let entry = document.createElement('li');
-    entry.role = "button";
-    entry.classList.add("balances-transaction");
+    entry.classList.add("balances-transaction-entry");
+    let iconContainer = document.createElement("div");
+    iconContainer.classList.add("balances-transaction-entry-icon");
+    let iconElement = document.createElement("h3");
+    iconElement.classList.add("text-primary", "mb-0");
+    iconElement.classList.add("fa-solid", "fa-money-bill-transfer");
+    iconContainer.appendChild(iconElement);
+    entry.appendChild(iconContainer);
+    let timeContainer = document.createElement("div");
+    timeContainer.classList.add("balances-transaction-entry-time");
+    let timeElement = document.createElement("span");
+    timeElement.innerText = new Date(transaction.time).toLocaleString();
+    timeContainer.appendChild(timeElement);
+    entry.appendChild(timeContainer);
+    let valueContainer = document.createElement("div");
+    valueContainer.classList.add("balances-transaction-entry-value");
+    let valueElement = document.createElement("span");
+    valueElement.classList.add("fw-bold");
+    valueElement.innerText = transaction.value + " €";
+    valueContainer.appendChild(valueElement);
+    entry.appendChild(valueContainer);
+    let typeContainer = document.createElement("div");
+    typeContainer.classList.add("balances-transaction-entry-type");
+    let typeElement = document.createElement("span");
+    if (!transaction.type) {
+      typeElement.innerHTML = '<i class="fa-solid fa-circle-question me-3 ms-1"></i>';
+      typeElement.innerHTML += "{% trans 'product.balances.transactions.type.unknown' %}";
+      typeElement.classList.add("balances-transaction-type-unknown");
+    } else if (transaction.type === "VALUE") {
+      typeElement.innerHTML = '<i class="fa-solid fa-wallet me-3 ms-1"></i>';
+      typeElement.innerHTML += "{% trans 'product.balances.transactions.type.value' %}";
+      typeElement.classList.add("balances-transaction-type-value");
+    } else {
+      typeElement.innerHTML = '<i class="fa-solid fa-crown me-3 ms-1"></i>';
+      typeElement.innerHTML += "{% trans 'product.balances.transactions.type.member' %}";
+      typeElement.classList.add("balances-transaction-type-member");
+    }
+    typeContainer.appendChild(typeElement);
+    entry.appendChild(typeContainer);
+    entry.appendChild(createSettingsButton(transaction));
     document.getElementById("balances-transactions-list").appendChild(entry);
+  }
+
+  function createSettingsButton(transaction) {
+    let settingsDiv = document.createElement("div");
+    settingsDiv.classList.add("balances-transaction-entry-settings", "dropdown");
+    let settingsButton = document.createElement("button");
+    settingsButton.type = "button";
+    settingsButton.classList.add("balances-transaction-entry-settings-button",
+      "fa-solid", "fa-ellipsis-vertical");
+    settingsButton.setAttribute("data-bs-toggle", "dropdown");
+    settingsButton.setAttribute("aria-expanded", "false");
+    settingsDiv.appendChild(settingsButton);
+    let dropdown = createSettingsDropdown([
+      {icon: "fa-arrow-up-right-from-square",
+        content: "{% trans 'product.balances.transactions.card.redirect' %}",
+        click: () => transactionCardRedirect(transaction)},
+    ]);
+    settingsDiv.appendChild(dropdown);
+    return settingsDiv;
+  }
+
+  function createSettingsDropdown(buttons) {
+    let dropdown = document.createElement("ul");
+    dropdown.classList.add("balances-transaction-entry-settings-dropdown",
+      "dropdown-menu");
+    for (let i = 0; i < buttons.length; i++) {
+      let button = buttons[i];
+      dropdown.appendChild(createSettingsDropdownButton(dropdown, button.icon,
+        button.content, button.color, button.click));
+    }
+    return dropdown;
+  }
+
+  function createSettingsDropdownButton(dropdown, icon, content, color, click) {
+    let dropdownEntry = document.createElement("li");
+    var dropdownEntryContainer = document.createElement("button");
+    dropdownEntryContainer.classList.add(
+      "balances-transaction-entry-settings-dropdown-entry", "dropdown-item");
+    let dropdownEntryIcon = document.createElement("i");
+    dropdownEntryIcon.classList.add("fa-solid", icon);
+    dropdownEntryContainer.appendChild(dropdownEntryIcon);
+    let dropdownEntryLabel = document.createElement("label");
+    dropdownEntryLabel.innerText = content;
+    dropdownEntryContainer.appendChild(dropdownEntryLabel);
+    if (color !== undefined) {
+      dropdownEntryIcon.classList.add(color);
+      dropdownEntryLabel.classList.add(color);
+    }
+    dropdownEntryContainer.onclick = function (event) {
+      $(dropdown).dropdown('toggle');
+      click();
+    };
+    dropdownEntry.appendChild(dropdownEntryContainer);
+    return dropdownEntry;
+  }
+
+  function transactionCardRedirect(transaction) {
+    if (transaction.card) {
+      window.location.href = "/card/" + transaction.card + "/";
+    }
   }
 
   let sortingElements = document.getElementsByClassName("balances-transactions-table-description-sort");
@@ -226,7 +329,7 @@
       selectedElement.classList.add("fa-sort-up");
     }
     listSorting = selectedSorting;
-    displayBalancesTransactions();
+    displayTransactions();
   }
 
   document.getElementById("balances-transactions-search-input").oninput = function(event) {
@@ -245,33 +348,80 @@
       chart.destroy();
     }
     charts = [];
-    displayHeaderRevenueGraph();
-    displayHeaderActiveCardGraph();
-    displayHeaderOpenStampsGraph();
+    displayHeaderRevenue();
+    displayHeaderActiveCard();
+    displayHeaderOpenStamps();
   }
 
-  function displayHeaderRevenueGraph() {
-    createHeaderChart(document.getElementById('balances-header-revenue'), []);
+  function displayHeaderRevenue() {
+    let { start, end } = createHeaderChart(
+      document.getElementById('balances-header-revenue'),
+      balances.transactions, "time", "value");
+    let revenue = 0;
+    for (let transaction of balances.transactions) {
+      revenue += transaction.value;
+    }
+    document.getElementById("balances-revenue-value").innerText = revenue + " €";
+    displayHeaderChange(document.getElementById("balances-revenue-change"),
+      start, end);
   }
 
-  function displayHeaderActiveCardGraph() {
-    createHeaderChart(document.getElementById('balances-header-active-cards'), []);
+  function displayHeaderActiveCard() {
+    let { start, end } = createHeaderChart(
+      document.getElementById('balances-header-active-cards'),
+      balances.activeCards, "date", "change");
+    let activeCards = 0;
+    for (let activeCard of balances.activeCards) {
+      activeCards += activeCard.change;
+    }
+    document.getElementById("balances-active-cards-value").innerText = activeCards;
+    displayHeaderChange(document.getElementById("balances-active-cards-change"),
+      start, end);
   }
 
-  function displayHeaderOpenStampsGraph() {
-    createHeaderChart(document.getElementById('balances-header-open-stamps'), []);
+  function displayHeaderOpenStamps() {
+    let { start, end } = createHeaderChart(
+      document.getElementById('balances-header-open-stamps'),
+      balances.openStamps, "date", "change");
+    let openStamps = 0;
+    for (let openStamp of balances.openStamps) {
+      openStamps += openStamp.change;
+    }
+    document.getElementById("balances-open-stamps-value").innerText = openStamps;
+    displayHeaderChange(document.getElementById("balances-open-stamps-change"),
+      start, end);
   }
 
-  function createHeaderChart(chartElement, timestamps) {
+  function displayHeaderChange(changeElement, start, end) {
+    let change = 0;
+    if (start > 0) {
+      change = ((end - start) / start) * 100;
+    } else if (start === 0 && end > 0) {
+      change = 100;
+    }
+    let prefix = "+";
+    if (change > 0) {
+      changeElement.classList.add("balances-header-change-positive");
+    } else if (change < 0) {
+      changeElement.classList.add("balances-header-change-negative");
+      prefix = "-";
+    } else {
+      changeElement.classList.add("balances-header-change-neutral");
+    }
+    changeElement.innerText = prefix + " " + Math.abs(change) + " %";
+  }
+
+  function createHeaderChart(chartElement, data, timestampKey, valueKey) {
     const ctx = chartElement.getContext('2d');
-    const { labels, data } = groupAndFilterTimestamps(timestamps, true);
+    const { datasetLabels, datasetData } = groupAndFilterTimestamps(data,
+      timestampKey, valueKey);
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, 'rgba(13, 110, 253, 0.4)');
     gradient.addColorStop(0.3, 'rgba(255,255,255,0)');
     const chartData = {
-      labels: labels,
+      labels: datasetLabels,
       datasets: [{
-        data: data,
+        data: datasetData,
         fill: true,
         backgroundColor: gradient,
         borderColor: 'rgba(13, 110, 253, 0.75)',
@@ -308,6 +458,7 @@
       }
     };
     charts.push(new Chart(ctx, config));
+    return {start: datasetData[0], end: datasetData[datasetData.length - 1]};
   }
 
 
@@ -438,25 +589,22 @@
     displayBalancesHeader();
   }
 
-  function groupAndFilterTimestamps(timestamps, isCumulative) {
+  function groupAndFilterTimestamps(data, timestampKey, valueKey) {
     const startInput = document.getElementById('balances-start-input').value;
     const endInput = document.getElementById('balances-end-input').value;
     if (!startInput || !endInput) {
-      return { labels: [], data: [] };
+      return { datasetLabels: [], datasetData: [] };
     }
     let start = new Date(startInput);
     let end = new Date(endInput);
     const interval = determineInterval(start.getTime(), end.getTime());
     adjustTodayInterval(start, end, interval);
-    const grouped = countGroupedTimestamps(timestamps, start.getTime(), end.getTime(), interval);
-    const labels = generateLabels(start, end, interval);
-    let data = [];
-    if (isCumulative) {
-      data = accumulateData(labels, grouped);
-    } else {
-      data = labels.map(label => grouped[label] || 0);
-    }
-    return { labels, data };
+    const grouped = countGroupedTimestamps(data, timestampKey, valueKey,
+      start.getTime(), end.getTime(), interval);
+    const datasetLabels = generateLabels(start, end, interval);
+    let datasetData = [];
+    datasetData = accumulateData(datasetLabels, grouped);
+    return { datasetLabels, datasetData };
   }
 
   function adjustTodayInterval(start, end, interval) {
@@ -473,7 +621,7 @@
       } else {
         end.setDate(end.getDate() + 1);
       }
-    } else if (interval === "week" || interval === "month") {
+    } else if (interval === "week" || interval === "month" || interval === "year") {
       end.setDate(end.getDate() + 1);
     }
   }
@@ -483,17 +631,21 @@
       first.getMonth() === second.getMonth() && first.getDate() === second.getDate();
   }
 
-  function countGroupedTimestamps(timestamps, startTime, endTime, interval) {
+  function countGroupedTimestamps(
+    data, timestampKey, valueKey, startTime, endTime, interval
+  ) {
     const grouped = {};
-    for (const ts of timestamps) {
-      if (ts < startTime || ts >= endTime) {
+    for (const entry of data) {
+      const timestamp = entry[timestampKey];
+      const value = entry[valueKey];
+      if (timestamp < startTime || timestamp >= endTime) {
         continue;
       }
-      const label = formatLabel(new Date(ts), interval);
+      const label = formatLabel(new Date(timestamp), interval);
       if (!grouped[label]) {
         grouped[label] = 0;
       }
-      grouped[label] += 1;
+      grouped[label] += value;
     }
     return grouped;
   }
@@ -537,7 +689,8 @@
         break;
       }
       case 'year': {
-        const adjustedEnd = new Date(end.getFullYear(), end.getMonth() + 1, 1);
+        const adjustedEnd = new Date(end.getFullYear(), end.getMonth(), end.getDate() - 1);
+        adjustedEnd.setMonth(adjustedEnd.getMonth() + 1, 1);
         while (current < adjustedEnd) {
           labels.push(`${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}`);
           current.setMonth(current.getMonth() + 1);
