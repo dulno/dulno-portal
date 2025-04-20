@@ -69,7 +69,7 @@
               </div>
               <div id="card-reward-description" class="d-none">
                 <h5>{% trans 'product.card.reward.description' %}</h5>
-                <input id="card-reward-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.reward.description.placeholder' %}">
+                <textarea id="card-reward-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.reward.description.placeholder' %}"></textarea>
               </div>
               <div id="card-value-price" class="d-none">
                 <h5>{% trans 'product.card.value.price' %}</h5>
@@ -81,7 +81,7 @@
               </div>
               <div id="card-value-description" class="d-none">
                 <h5>{% trans 'product.card.value.description' %}</h5>
-                <input id="card-value-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.value.description.placeholder' %}">
+                <textarea id="card-value-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.value.description.placeholder' %}"></textarea>
               </div>
               <div id="card-member-icon" class="d-none">
                 <h5>{% trans 'product.card.member.icon' %}</h5>
@@ -99,7 +99,7 @@
               </div>
               <div id="card-member-description" class="d-none">
                 <h5>{% trans 'product.card.member.description' %}</h5>
-                <input id="card-member-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.member.description.placeholder' %}">
+                <textarea id="card-member-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.member.description.placeholder' %}"></textarea>
               </div>
             </div>
             <div id="card-preview-container" class="card-container ms-xl-5 mb-4">
@@ -138,7 +138,7 @@
       fetchIcons(card.type, function (iconResult) {
         icons = iconResult;
         displayCard();
-        for (let element of [...document.querySelectorAll('input[maxlength]')]) {
+        for (let element of [...document.querySelectorAll('input[maxlength], textarea[maxlength]')]) {
           element.addEventListener('input', tickInputMaxLength)
           element.parentElement.classList.add('max-length-badged');
           tickInputMaxLength(element)

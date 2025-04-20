@@ -18,7 +18,7 @@
               </div>
               <div class="mb-3">
                 <h5>{% trans 'product.partner.general.description' %}</h5>
-                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+                <div class="placeholder placeholder-wave rounded py-4 w-100"></div>
               </div>
               <div class="mb-3">
                 <h5>{% trans 'product.partner.general.logo' %}</h5>
@@ -45,7 +45,7 @@
               </div>
               <div class="mb-3">
                 <h5>{% trans 'product.partner.general.description' %}</h5>
-                <input id="partner-general-description-input" autocomplete=off placeholder="{% trans 'product.partner.general.description.placeholder' %}" maxlength="256">
+                <textarea id="partner-general-description-input" autocomplete=off placeholder="{% trans 'product.partner.general.description.placeholder' %}" maxlength="256"></textarea>
               </div>
               <div class="mb-3">
                 <h5>{% trans 'product.partner.general.logo' %}</h5>
@@ -86,7 +86,7 @@
       fetchPartnerLogo(function (logoResult) {
         partner = partnerResult;
         displayPartner(logoResult);
-        for (let element of [...document.querySelectorAll('input[maxlength]')]) {
+        for (let element of [...document.querySelectorAll('input[maxlength], textarea[maxlength]')]) {
           element.addEventListener('input', tickInputMaxLength)
           element.parentElement.classList.add('max-length-badged');
           tickInputMaxLength(element)
