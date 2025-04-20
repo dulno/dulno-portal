@@ -9,7 +9,118 @@
       <div id="balances-container">
         <div id="balances-wrapper">
           <h1 class="text-center fw-bold my-5 py-lg-4">{% trans 'product.balances.headline' %}</h1>
-          <div>
+          <div id="balances-placeholder">
+            <div class="d-flex flex-xl-row flex-column justify-content-xl-end justify-content-center align-items-center">
+              <div class="placeholder placeholder-wave rounded py-4 me-xl-4 mb-xl-0 mb-3" style="width: 300px"></div>
+              <div class="placeholder placeholder-wave rounded py-4" style="width: 250px"></div>
+            </div>
+            <div class="balances-header">
+              <div class="balances-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="balances-header-icon placeholder placeholder-wave"></div>
+                  <div class="balances-header-value">
+                    <div class="placeholder placeholder-wave rounded py-2 mb-2" style="width: 100px"></div>
+                    <div class="placeholder placeholder-wave rounded py-2" style="width: 75px"></div>
+                  </div>
+                </div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 100px"></div>
+              </div>
+              <div class="balances-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="balances-header-icon placeholder placeholder-wave"></div>
+                  <div class="balances-header-value">
+                    <div class="placeholder placeholder-wave rounded py-2 mb-2" style="width: 100px"></div>
+                    <div class="placeholder placeholder-wave rounded py-2" style="width: 75px"></div>
+                  </div>
+                </div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 100px"></div>
+              </div>
+              <div class="balances-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="balances-header-icon placeholder placeholder-wave"></div>
+                  <div class="balances-header-value">
+                    <div class="placeholder placeholder-wave rounded py-2 mb-2" style="width: 100px"></div>
+                    <div class="placeholder placeholder-wave rounded py-2" style="width: 75px"></div>
+                  </div>
+                </div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 100px"></div>
+              </div>
+            </div>
+            <div class="balances-transactions">
+              <h2 class="fw-bold my-5">{% trans 'product.balances.transactions' %}</h2>
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="balances-transactions-search-box">
+                  <input placeholder="{% trans 'product.balances.transactions.search' %}" type="text" class="form-control" value="" autocomplete="off">
+                  <button type="button">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+              <ul class="balances-transactions-table-description mt-4 mb-0">
+                <li class="balances-transactions-table-description-icon">
+                  <div></div>
+                </li>
+                <li class="balances-transactions-table-description-time">
+                  <div>
+                    <span>{% trans 'product.balances.transactions.time' %}</span>
+                    <i class="balances-transactions-table-description-sort fa-solid fa-sort-down ms-2" role="button" type="time"></i>
+                  </div>
+                </li>
+                <li class="balances-transactions-table-description-value">
+                  <div>
+                    <span>{% trans 'product.balances.transactions.value' %}</span>
+                    <i class="balances-transactions-table-description-sort fa-solid fa-sort ms-2" role="button" type="value"></i>
+                  </div>
+                </li>
+                <li class="balances-transactions-table-description-type">
+                  <div>
+                    <span>{% trans 'product.balances.transactions.type' %}</span>
+                    <i class="balances-transactions-table-description-sort fa-solid fa-sort ms-2" role="button" type="type"></i>
+                  </div>
+                </li>
+                <li class="balances-transactions-table-description-settings">
+                  <div></div>
+                </li>
+              </ul>
+              <ul class="balances-transactions-list">
+                <li class="balances-transaction-entry">
+                  <div class="balances-transaction-entry-icon">
+                    <span class="placeholder placeholder-wave w-100 rounded py-3"></span>
+                  </div>
+                  <div class="balances-transaction-entry-time">
+                    <span class="placeholder placeholder-wave w-100 rounded py-3"></span>
+                  </div>
+                  <div class="balances-transaction-entry-value">
+                    <span class="placeholder placeholder-wave w-100 rounded" style="height: 51px"></span>
+                  </div>
+                  <div class="balances-transaction-entry-type">
+                    <span class="placeholder placeholder-wave w-100 rounded py-3"></span>
+                  </div>
+                  <div class="balances-transaction-entry-settings">
+                    <span class="placeholder placeholder-wave w-100 rounded py-3"></span>
+                  </div>
+                </li>
+                <li class="balances-transaction-entry">
+                  <div class="balances-transaction-entry-icon">
+                    <span class="placeholder placeholder-wave w-100 rounded py-3"></span>
+                  </div>
+                  <div class="balances-transaction-entry-time">
+                    <span class="placeholder placeholder-wave w-100 rounded py-3"></span>
+                  </div>
+                  <div class="balances-transaction-entry-value">
+                    <span class="placeholder placeholder-wave w-100 rounded" style="height: 51px"></span>
+                  </div>
+                  <div class="balances-transaction-entry-type">
+                    <span class="placeholder placeholder-wave w-100 rounded py-3"></span>
+                  </div>
+                  <div class="balances-transaction-entry-settings">
+                    <span class="placeholder placeholder-wave w-100 rounded py-3"></span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div id="balances-body" class="placeholder-fade">
             <div class="d-flex flex-xl-row flex-column justify-content-xl-end justify-content-center align-items-center">
               <div class="balances-interval me-xl-4 mb-xl-0 mb-3">
                 <input id="balances-start-input" type="date">
@@ -71,36 +182,36 @@
             <div class="balances-transactions">
               <h2 class="fw-bold my-5">{% trans 'product.balances.transactions' %}</h2>
               <div class="d-flex justify-content-center align-items-center">
-                <div id="balances-transactions-search-box">
+                <div class="balances-transactions-search-box">
                   <input id="balances-transactions-search-input" placeholder="{% trans 'product.balances.transactions.search' %}" type="text" class="form-control" value="" autocomplete="off">
                   <button type="button">
                     <i class="fa fa-search"></i>
                   </button>
                 </div>
               </div>
-              <ul id="balances-transactions-table-description" class="mt-4 mb-0">
-                <li id="balances-transactions-table-description-icon">
+              <ul class="balances-transactions-table-description mt-4 mb-0">
+                <li class="balances-transactions-table-description-icon">
                   <div></div>
                 </li>
-                <li id="balances-transactions-table-description-time">
+                <li class="balances-transactions-table-description-time">
                   <div>
                     <span>{% trans 'product.balances.transactions.time' %}</span>
                     <i class="balances-transactions-table-description-sort fa-solid fa-sort-down ms-2" role="button" type="time"></i>
                   </div>
                 </li>
-                <li id="balances-transactions-table-description-value">
+                <li class="balances-transactions-table-description-value">
                   <div>
                     <span>{% trans 'product.balances.transactions.value' %}</span>
                     <i class="balances-transactions-table-description-sort fa-solid fa-sort ms-2" role="button" type="value"></i>
                   </div>
                 </li>
-                <li id="balances-transactions-table-description-type">
+                <li class="balances-transactions-table-description-type">
                   <div>
                     <span>{% trans 'product.balances.transactions.type' %}</span>
                     <i class="balances-transactions-table-description-sort fa-solid fa-sort ms-2" role="button" type="type"></i>
                   </div>
                 </li>
-                <li id="balances-transactions-table-description-settings">
+                <li class="balances-transactions-table-description-settings">
                   <div></div>
                 </li>
               </ul>
@@ -130,10 +241,10 @@
     fetchBalances(function (result) {
       balances = result;
       setupViewSelection();
-      //document.getElementById("balances-body").classList.add("placeholder-fade-show");
-      //document.getElementById("balances-placeholders").classList.add("d-none");
       displayTransactions();
       displayBalancesHeader();
+      document.getElementById("balances-body").classList.add("placeholder-fade-show");
+      document.getElementById("balances-placeholder").classList.add("d-none");
     });
   });
 
@@ -196,6 +307,9 @@
   function compareTransactions(a, b) {
     if (listSorting === "time" || listSorting === "value") {
       return b[listSorting] - a[listSorting];
+    }
+    if (!a[listSorting] || !b[listSorting]) {
+      return 0;
     }
     return a[listSorting].localeCompare(b[listSorting]);
   }
