@@ -522,7 +522,7 @@
     } else {
       changeElement.classList.add("balances-header-change-neutral");
     }
-    changeElement.innerText = prefix + " " + Math.abs(change) + " %";
+    changeElement.innerText = prefix + " " + Math.abs(Math.trunc(change)) + " %";
   }
 
   function createHeaderChart(chartElement, data, timestampKey, valueKey) {
