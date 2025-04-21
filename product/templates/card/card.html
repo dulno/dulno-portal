@@ -497,7 +497,17 @@
     }
     body.content = content;
     let request = new HttpRequest("/card/update/", "POST", [], body);
-    request.send(function (status, responseText) {});
+    request.send(function (status, responseText) {
+      let response = JSON.parse(responseText);
+      if (response.success) {
+        return;
+      }
+      let error = response.error;
+      if (error === 1000) {
+        Swal.fire("{% trans 'product.card.update.failed.title' %}",
+          "{% trans 'product.card.update.failed.used' %}", "error");
+      }
+    });
   }
 
   document.getElementById("card-delete").onclick = function (event) {
@@ -512,9 +522,18 @@
       if (result.isConfirmed) {
         let request = new HttpRequest("/card/delete/", "POST", [], {card: "{{id}}"});
         request.send(function (status, responseText) {
-          Swal.fire("{% trans 'product.card.delete.successful.title' %}",
-            "{% trans 'product.card.delete.successful.body' %}", "success")
-            .then(success => window.location.href = "/cards/");
+          let response = JSON.parse(responseText);
+          if (response.success) {
+            Swal.fire("{% trans 'product.card.delete.successful.title' %}",
+              "{% trans 'product.card.delete.successful.body' %}", "success")
+              .then(success => window.location.href = "/cards/");
+          } else {
+            let error = response.error;
+            if (error === 1000) {
+              Swal.fire("{% trans 'product.card.delete.failed.title' %}",
+                "{% trans 'product.card.delete.failed.used' %}", "error");
+            }
+          }
         });
       }
     });
