@@ -188,7 +188,7 @@
   align-items: center;
   text-align: center;
   font-size: 18px;
-  transition-duration: 0.3s;
+  transition-duration: 0.2s;
 }
 
 .dark #tickets-list li:hover {
@@ -196,7 +196,7 @@
 }
 
 .light #tickets-list li:hover {
-  background-color: #cecece !important;
+  background-color: #efefef !important;
 }
 
 #tickets-list li div {
@@ -377,7 +377,7 @@
 }
 
 .light .tickets-page:hover {
-  background: #b3b3b3 !important;
+  background: #c7c7c7 !important;
 }
 
 .tickets-page-disabled {
@@ -397,7 +397,7 @@
 }
 
 .light .tickets-page-disabled:hover {
-  background-color: #d7d7d7 !important;
+  background-color: #cccccc !important;
 }
 
 .tickets-page-active {
@@ -409,7 +409,7 @@
 }
 
 .light .tickets-page-active {
-  background: #878787 !important;
+  background: #dedede !important;
 }
 
 .dark .tickets-paging-ellipsis {
