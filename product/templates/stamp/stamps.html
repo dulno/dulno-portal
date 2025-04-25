@@ -8,7 +8,7 @@
     <div class="sidebar-influenced">
       <div id="stamps-container">
         <div id="stamps-wrapper">
-          <h1 class="text-center fw-bold my-5 py-4">{% trans 'product.stamps.headline' %}</h1>
+          <h1 class="text-center fw-bold my-5 py-lg-4">{% trans 'product.stamps.headline' %}</h1>
           <div id="stamps-header">
             <div id="stamps-search-box">
               <input id="stamps-search-input" placeholder="{% trans 'product.stamps.search' %}" type="text" class="form-control" value="" autocomplete="off">
@@ -16,7 +16,7 @@
                 <i class="fa fa-search"></i>
               </button>
             </div>
-            <button id="stamp-new" class="btn btn-primary fw-bold ms-5"><i class="fa-solid fa-plus me-1"></i> {% trans 'product.stamps.new' %}</button>
+            <button id="stamp-new" class="btn btn-primary fw-bold text-nowrap ms-md-5 ms-3"><i class="fa-solid fa-plus me-1"></i> {% trans 'product.stamps.new' %}</button>
           </div>
           <ul id="stamps-table-description" class="mt-4 mb-0">
             <li id="stamps-table-description-type">
@@ -108,8 +108,7 @@
 
   function displayStamps() {
     document.getElementById("stamps-list").innerHTML = "";
-    stamps = stamps.sort((a, b) => compareStamps(a, b))
-      .sort((a, b) => a.id.localeCompare(b.id));
+    stamps = stamps.sort((a, b) => compareStamps(a, b));
     if (listOrderAscending) {
       stamps = stamps.reverse();
     }
@@ -227,6 +226,6 @@
   };
 
   document.getElementById("stamp-new").addEventListener("click", function (event) {
-    window.location.href = "/accessories/";
+    window.location.href = "/accessory/purchase/";
   });
 </script>

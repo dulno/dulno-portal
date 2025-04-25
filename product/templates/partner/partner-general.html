@@ -8,7 +8,7 @@
     <div class="sidebar-influenced">
       <div id="partner-general-container">
         <div id="partner-general-wrapper">
-          <h1 class="text-center fw-bold my-5 py-4">{% trans 'product.partner.headline' %}</h1>
+          <h1 class="text-center fw-bold my-5 py-lg-4">{% trans 'product.partner.headline' %}</h1>
           {% include 'partner-tab.html' %}
           <div id="partner-general-placeholder" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center">
             <div class="flex-grow-1 mb-5 me-xl-5">
@@ -18,7 +18,7 @@
               </div>
               <div class="mb-3">
                 <h5>{% trans 'product.partner.general.description' %}</h5>
-                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+                <div class="placeholder placeholder-wave rounded py-4 w-100"></div>
               </div>
               <div class="mb-3">
                 <h5>{% trans 'product.partner.general.logo' %}</h5>
@@ -30,12 +30,14 @@
                 <div class="placeholder placeholder-wave rounded py-3" style="width: 128px; height: 128px"></div>
               </div>
               <div class="m-2">
-                <div class="placeholder placeholder-wave rounded py-3 w-100 mb-2"></div>
-                <div class="placeholder placeholder-wave rounded py-1 w-100"></div>
+                <div class="placeholder placeholder-wave rounded py-3 w-75 mb-2"></div>
+                <div class="placeholder placeholder-wave rounded py-1 w-100 mb-1"></div>
+                <div class="placeholder placeholder-wave rounded py-1 w-100 mb-1"></div>
+                <div class="placeholder placeholder-wave rounded py-1 w-50 mb-1"></div>
               </div>
             </div>
           </div>
-          <div id="partner-general-body" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center placeholder-fade">
+          <div id="partner-general-body" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center placeholder-fade mx-xl-3">
             <div class="flex-grow-1 mb-5 me-xl-5">
               <div class="mb-3">
                 <h5>{% trans 'product.partner.general.name' %}</h5>
@@ -43,7 +45,7 @@
               </div>
               <div class="mb-3">
                 <h5>{% trans 'product.partner.general.description' %}</h5>
-                <input id="partner-general-description-input" autocomplete=off placeholder="{% trans 'product.partner.general.description.placeholder' %}" maxlength="256">
+                <textarea id="partner-general-description-input" autocomplete=off placeholder="{% trans 'product.partner.general.description.placeholder' %}" maxlength="256"></textarea>
               </div>
               <div class="mb-3">
                 <h5>{% trans 'product.partner.general.logo' %}</h5>
@@ -84,7 +86,7 @@
       fetchPartnerLogo(function (logoResult) {
         partner = partnerResult;
         displayPartner(logoResult);
-        for (let element of [...document.querySelectorAll('input[maxlength]')]) {
+        for (let element of [...document.querySelectorAll('input[maxlength], textarea[maxlength]')]) {
           element.addEventListener('input', tickInputMaxLength)
           element.parentElement.classList.add('max-length-badged');
           tickInputMaxLength(element)

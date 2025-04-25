@@ -7,8 +7,160 @@
     {% include 'product-sidebar.html' %}
     <div class="sidebar-influenced">
       <div id="analysis-container">
-        <div id="analysis-wrapper" class="d-none">
-
+        <div id="analysis-wrapper">
+          <h1 class="fw-bold text-center my-5 pt-lg-4">{% trans 'product.analysis.headline' %}</h1>
+          <div id="analysis-placeholder">
+            <div class="d-flex flex-xl-row flex-column justify-content-xl-end justify-content-center align-items-center">
+              <div class="placeholder placeholder-wave rounded py-4 me-xl-4 mb-xl-0 mb-3" style="width: 300px"></div>
+              <div class="placeholder placeholder-wave rounded py-4" style="width: 250px"></div>
+            </div>
+            <div class="analysis-header">
+              <div class="analysis-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="analysis-header-icon placeholder placeholder-wave"></div>
+                  <div class="analysis-header-value">
+                    <div class="placeholder placeholder-wave rounded py-2 mb-2" style="width: 100px"></div>
+                    <div class="placeholder placeholder-wave rounded py-2" style="width: 75px"></div>
+                  </div>
+                </div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 100px"></div>
+              </div>
+              <div class="analysis-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="analysis-header-icon placeholder placeholder-wave"></div>
+                  <div class="analysis-header-value">
+                    <div class="placeholder placeholder-wave rounded py-2 mb-2" style="width: 100px"></div>
+                    <div class="placeholder placeholder-wave rounded py-2" style="width: 75px"></div>
+                  </div>
+                </div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 100px"></div>
+              </div>
+              <div class="analysis-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="analysis-header-icon placeholder placeholder-wave"></div>
+                  <div class="analysis-header-value">
+                    <div class="placeholder placeholder-wave rounded py-2 mb-2" style="width: 100px"></div>
+                    <div class="placeholder placeholder-wave rounded py-2" style="width: 75px"></div>
+                  </div>
+                </div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 100px"></div>
+              </div>
+            </div>
+            <div class="analysis-center">
+              <div class="analysis-center-entry">
+                <div class="placeholder placeholder-wave rounded py-3 mb-3" style="width: 200px"></div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 350px"></div>
+              </div>
+              <div class="analysis-center-entry">
+                <div class="placeholder placeholder-wave rounded py-3 mb-3" style="width: 200px"></div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 350px"></div>
+              </div>
+            </div>
+            <div class="analysis-footer">
+              <div class="analysis-footer-entry">
+                <div class="placeholder placeholder-wave rounded py-3 mb-3" style="width: 200px"></div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 340px"></div>
+              </div>
+              <div class="analysis-footer-entry">
+                <div class="placeholder placeholder-wave rounded py-3 mb-3" style="width: 200px"></div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 340px"></div>
+              </div>
+              <div class="analysis-footer-entry">
+                <div class="placeholder placeholder-wave rounded py-3 mb-3" style="width: 200px"></div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 340px"></div>
+              </div>
+            </div>
+          </div>
+          <div id="analysis-body" class="placeholder-fade">
+            <div class="d-flex flex-xl-row flex-column justify-content-xl-end justify-content-center align-items-center">
+              <div class="analysis-interval me-xl-4 mb-xl-0 mb-3">
+                <input id="analysis-start-input" type="date">
+                <i class="fa-solid fa-minus mx-1 my-auto"></i>
+                <input id="analysis-end-input" type="date">
+              </div>
+              <button id="analysis-view-button" class="analysis-view-button">
+                <i class="fa-regular fa-clock me-2"></i>
+                <span id="analysis-view-selection">{% trans 'product.analysis.view.week.title' %}</span>
+              </button>
+            </div>
+            <div class="analysis-header">
+              <div class="analysis-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="analysis-header-icon">
+                    <i class="fa-solid fa-stamp"></i>
+                  </div>
+                  <div class="analysis-header-value">
+                    <h4 id="analysis-stamp-value" class="fw-bold"></h4>
+                    <label class="text-secondary">{% trans 'product.analysis.stamps' %}</label>
+                  </div>
+                </div>
+                <canvas id="analysis-header-stamp" height="75"></canvas>
+              </div>
+              <div class="analysis-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="analysis-header-icon">
+                    <i class="fa-solid fa-user"></i>
+                  </div>
+                  <div class="analysis-header-value">
+                    <h4 id="analysis-user-value" class="fw-bold"></h4>
+                    <label class="text-secondary">{% trans 'product.analysis.users' %}</label>
+                  </div>
+                </div>
+                <canvas id="analysis-header-user" height="75"></canvas>
+              </div>
+              <div class="analysis-header-entry">
+                <div class="d-flex align-items-center  mb-3">
+                  <div class="analysis-header-icon">
+                    <i class="fa-solid fa-credit-card"></i>
+                  </div>
+                  <div class="analysis-header-value">
+                    <h4 id="analysis-card-value" class="fw-bold"></h4>
+                    <label class="text-secondary">{% trans 'product.analysis.cards' %}</label>
+                  </div>
+                </div>
+                <canvas id="analysis-header-card" height="75"></canvas>
+              </div>
+            </div>
+            <div class="analysis-center">
+              <div class="analysis-center-entry">
+                <div class="d-flex align-items-center mb-3" data-bs-toggle="tooltip-parent">
+                  <h4 class="fw-bold mb-0">{% trans 'product.analysis.new.users' %}</h4>
+                  <h5 class="fa-regular fa-circle-question ms-3 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'product.analysis.new.users.tooltip' %}"></h5>
+                </div>
+                <canvas id="analysis-center-new-users" height="150"></canvas>
+              </div>
+              <div class="analysis-center-entry">
+                <div class="d-flex align-items-center mb-3" data-bs-toggle="tooltip-parent">
+                  <h4 class="fw-bold mb-0">{% trans 'product.analysis.activity' %}</h4>
+                  <h5 class="fa-regular fa-circle-question ms-3 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'product.analysis.activity.tooltip' %}"></h5>
+                </div>
+                <canvas id="analysis-center-activity" height="150"></canvas>
+              </div>
+            </div>
+            <div class="analysis-footer">
+              <div class="analysis-footer-entry">
+                <div class="d-flex align-items-center mb-3" data-bs-toggle="tooltip-parent">
+                  <h4 class="fw-bold mb-0">{% trans 'product.analysis.language' %}</h4>
+                  <h5 class="fa-regular fa-circle-question ms-3 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'product.analysis.language.tooltip' %}"></h5>
+                </div>
+                <canvas id="analysis-footer-language" class="mx-4"></canvas>
+              </div>
+              <div class="analysis-footer-entry">
+                <div class="d-flex align-items-center mb-3" data-bs-toggle="tooltip-parent">
+                  <h4 class="fw-bold mb-0">{% trans 'product.analysis.card.usage' %}</h4>
+                  <h5 class="fa-regular fa-circle-question ms-3 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'product.analysis.card.usage.tooltip' %}"></h5>
+                </div>
+                <canvas id="analysis-footer-card-usage" class="mx-4"></canvas>
+              </div>
+              <div class="analysis-footer-entry">
+                <div class="d-flex align-items-center mb-3" data-bs-toggle="tooltip-parent">
+                  <h4 class="fw-bold mb-0">{% trans 'product.analysis.weekday' %}</h4>
+                  <h5 class="fa-regular fa-circle-question ms-3 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'product.analysis.weekday.tooltip' %}"></h5>
+                </div>
+                <canvas id="analysis-footer-weekday" class="mx-4"></canvas>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -16,19 +168,706 @@
 </html>
 
 <script>
+  let analysisView = "week";
+  let charts = [];
+  let analysis;
+
   $(document).ready(function() {
-    displayLoader();
-    removeLoader();
+    fetchAnalysis(function (analysisResult) {
+      analysis = analysisResult;
+      setupViewSelection();
+      setupTooltips();
+      displayAnalysis();
+      document.getElementById("analysis-body").classList.add("placeholder-fade-show");
+      document.getElementById("analysis-placeholder").classList.add("d-none");
+    });
   });
 
-  function displayLoader() {
-    let loader = document.createElement("div");
-    loader.classList.add("loader");
-    document.getElementById("analysis-container").appendChild(loader);
+  function fetchAnalysis(callback) {
+    let request = new HttpRequest("/analysis/", "GET", []);
+    request.send(function (status, responseText) {
+      let response = JSON.parse(responseText);
+      callback(response);
+    });
   }
 
-  function removeLoader() {
-    document.getElementById("analysis-container").removeChild(document.getElementsByClassName("loader")[0]);
-    document.getElementById("analysis-wrapper").classList.remove("d-none");
+  function setupViewSelection() {
+    if (sessionStorage.getItem("dulno-analysis-view") !== null) {
+      analysisView = sessionStorage.getItem("dulno-analysis-view");
+      updateViewSelection();
+    }
+    updateInterval();
+  }
+
+  function updateViewSelection() {
+    let selectionElement = document.getElementById("analysis-view-selection");
+    if (analysisView === "day") {
+      selectionElement.innerText = "{% trans 'product.analysis.view.day.title' %}";
+    } else if (analysisView === "week") {
+      selectionElement.innerText = "{% trans 'product.analysis.view.week.title' %}";
+    } else if (analysisView === "month") {
+      selectionElement.innerText = "{% trans 'product.analysis.view.month.title' %}";
+    } else if (analysisView === "year") {
+      selectionElement.innerText = "{% trans 'product.analysis.view.year.title' %}";
+    }
+  }
+
+  function setupTooltips() {
+    let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip-parent"]'))
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+      tooltipTriggerEl.classList.add("position-relative");
+      return new bootstrap.Tooltip(tooltipTriggerEl.querySelectorAll('[data-bs-toggle="tooltip"]')[0], {
+        container: tooltipTriggerEl
+      });
+    });
+  }
+
+  function displayAnalysis() {
+    for (let chart of charts) {
+      chart.destroy();
+    }
+    charts = [];
+    displayHeaderStampGraph();
+    displayHeaderUserGraph();
+    displayHeaderCardGraph();
+    displayNewUserGraph();
+    displayActivityGraph();
+    displayLanguageGraph();
+    displayCardUsageGraph();
+    displayWeekdayGraph();
+    document.getElementById("analysis-stamp-value").innerText =
+      new Intl.NumberFormat().format(analysis.stamps);
+    document.getElementById("analysis-user-value").innerText =
+      new Intl.NumberFormat().format(analysis.users);
+    document.getElementById("analysis-card-value").innerText =
+      new Intl.NumberFormat().format(analysis.cards);
+  }
+
+  function displayHeaderStampGraph() {
+    createHeaderChart(document.getElementById('analysis-header-stamp'),
+      analysis.stampTimestamps);
+  }
+
+  function displayHeaderUserGraph() {
+    createHeaderChart(document.getElementById('analysis-header-user'),
+      analysis.userTimestamps);
+  }
+
+  function displayHeaderCardGraph() {
+    createHeaderChart(document.getElementById('analysis-header-card'),
+      analysis.cardTimestamps);
+  }
+
+  function displayNewUserGraph() {
+    createNewUserChart(document.getElementById('analysis-center-new-users'),
+      analysis.userTimestamps);
+  }
+
+  function displayActivityGraph() {
+    createActivityChart(document.getElementById('analysis-center-activity'),
+      analysis.stampTimestamps);
+  }
+
+  function displayLanguageGraph() {
+    createLanguageChart(document.getElementById('analysis-footer-language'),
+      analysis.languageDistribution);
+  }
+
+  function displayCardUsageGraph() {
+    createCardUsageChart(document.getElementById('analysis-footer-card-usage'),
+      analysis.cardUsages);
+  }
+
+  function displayWeekdayGraph() {
+    createWeekdayChart(document.getElementById('analysis-footer-weekday'),
+      analysis.weekdayDistribution);
+  }
+
+  function createHeaderChart(chartElement, timestamps) {
+    const ctx = chartElement.getContext('2d');
+    const { labels, data } = groupAndFilterTimestamps(timestamps, true);
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(13, 110, 253, 0.4)');
+    gradient.addColorStop(0.3, 'rgba(255,255,255,0)');
+    const chartData = {
+      labels: labels,
+      datasets: [{
+        data: data,
+        fill: true,
+        backgroundColor: gradient,
+        borderColor: 'rgba(13, 110, 253, 0.75)',
+        tension: 0.4,
+        pointRadius: 4,
+        pointHoverRadius: 6
+      }]
+    };
+    const config = {
+      type: 'line',
+      data: chartData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          x: {
+            display: false,
+          },
+          y: {
+            display: false,
+          },
+        },
+        elements:{
+          point:{
+            borderWidth: 0,
+            radius: 0,
+            backgroundColor: 'rgba(0,0,0,0)'
+          }
+        }
+      }
+    };
+    charts.push(new Chart(ctx, config));
+  }
+
+  function createNewUserChart(chartElement, timestamps) {
+    const ctx = chartElement.getContext('2d');
+    const { labels, data } = groupAndFilterTimestamps(timestamps, false);
+    let gridColor = createChardGridColor();
+    const chartData = {
+      labels,
+      datasets: [{
+        data: data,
+        backgroundColor: 'rgba(13, 110, 253, 0.1)',
+        borderColor: 'rgba(13, 110, 253, 0.8)',
+        borderWidth: 2,
+        borderRadius: 8
+      }]
+    };
+    const config = {
+      type: 'bar',
+      data: chartData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          x: {
+            ticks: {
+              callback: timeChartTicks,
+              maxRotation: 0,
+              autoSkip: true,
+              maxTicksLimit: 12
+            },
+            grid: {
+              color: gridColor
+            },
+            border: {
+              color: gridColor
+            }
+          },
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: gridColor
+            },
+            border: {
+              color: gridColor
+            }
+          }
+        }
+      }
+    };
+    charts.push(new Chart(ctx, config));
+  }
+
+  function createActivityChart(chartElement, timestamps) {
+    const ctx = chartElement.getContext('2d');
+    const { labels, data } = groupAndFilterTimestamps(timestamps, false);
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(13, 110, 253, 0.4)');
+    gradient.addColorStop(1, 'rgba(255,255,255,0)');
+    let gridColor = createChardGridColor();
+    const chartData = {
+      labels,
+      datasets: [{
+        data,
+        fill: true,
+        backgroundColor: gradient,
+        borderColor: 'rgba(13, 110, 253, 0.75)',
+        tension: 0.4,
+        pointRadius: 4,
+        pointHoverRadius: 6
+      }]
+    };
+    const config = {
+      type: 'line',
+      data: chartData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          x: {
+            ticks: {
+              callback: timeChartTicks,
+              maxRotation: 0,
+              autoSkip: true,
+              maxTicksLimit: 12
+            },
+            grid: {
+              color: gridColor
+            },
+            border: {
+              color: gridColor
+            }
+          },
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: gridColor
+            },
+            border: {
+              color: gridColor
+            }
+          }
+        }
+      }
+    };
+    charts.push(new Chart(ctx, config));
+  }
+
+  function createLanguageChart(chartElement, data) {
+    const ctx = chartElement.getContext('2d');
+    const chartData = {
+      labels: data.languages,
+      datasets: [{
+        data: data.shares,
+        backgroundColor: createChartBackgroundColors(),
+        borderColor: createChartBorderColors(),
+        borderWidth: 1
+      }]
+    };
+    const config = {
+      type: 'pie',
+      data: chartData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+          },
+        }
+      }
+    };
+    charts.push(new Chart(ctx, config));
+  }
+
+  function createCardUsageChart(chartElement, data) {
+    const ctx = chartElement.getContext('2d');
+    const chartData = {
+      labels: data.states,
+      datasets: [{
+        data: data.usages,
+        backgroundColor: createChartBackgroundColors(),
+        borderColor: createChartBorderColors(),
+        borderWidth: 1
+      }]
+    };
+    const config = {
+      type: 'doughnut',
+      data: chartData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true
+          },
+        }
+      }
+    };
+    charts.push(new Chart(ctx, config));
+  }
+
+  function createWeekdayChart(chartElement, data) {
+    const ctx = chartElement.getContext('2d');
+    const getLocalizedWeekdays = () => {
+      const formatter = new Intl.DateTimeFormat(navigator.language, { weekday: 'long' });
+      const referenceDate = new Date(2021, 0, 4);
+      return Array.from({ length: 7 }, (_, i) => {
+        const date = new Date(referenceDate);
+        date.setDate(referenceDate.getDate() + i);
+        return formatter.format(date);
+      });
+    };
+    let gridColor = createChardGridColor();
+    const chartData = {
+      labels: getLocalizedWeekdays(),
+      datasets: [{
+        data: data,
+        backgroundColor: 'rgba(13, 110, 253, 0.2)',
+        borderColor: 'rgba(13, 110, 253, 0.75)',
+        borderWidth: 1
+      }]
+    };
+    const config = {
+      type: 'radar',
+      data: chartData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          },
+        },
+        scales: {
+          r: {
+            pointLabels: {
+              padding: 0,
+              font: {
+                size: 10
+              }
+            },
+            ticks: {
+              display: false
+            },
+            grid: {
+              color: gridColor
+            },
+            border: {
+              color: gridColor
+            },
+            angleLines: {
+              color: gridColor
+            },
+          }
+        }
+      }
+    };
+    charts.push(new Chart(ctx, config));
+  }
+
+  function createChardGridColor() {
+    let isDark = document.body.classList.contains("dark");
+    return isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)";
+  }
+
+  function createChartBackgroundColors() {
+    return [
+      'rgba(13, 110, 253, 0.2)',
+      'rgba(253, 13, 47, 0.2)',
+      'rgba(253, 110, 13, 0.2)',
+      'rgba(253, 221, 13, 0.2)',
+      'rgba(13, 253, 110, 0.2)',
+      'rgba(13, 253, 221, 0.2)',
+      'rgba(142, 13, 253, 0.2)',
+      'rgba(253, 13, 142, 0.2)',
+    ];
+  }
+
+  function createChartBorderColors() {
+    return [
+      'rgba(13, 110, 253, 1)',
+      'rgba(253, 13, 47, 1)',
+      'rgba(253, 110, 13, 1)',
+      'rgba(253, 221, 13, 1)',
+      'rgba(13, 253, 110, 1)',
+      'rgba(13, 253, 221, 1)',
+      'rgba(142, 13, 253, 1)',
+      'rgba(253, 13, 142, 1)',
+    ];
+  }
+
+  document.getElementById("analysis-view-button").onclick = function () {
+    let content = document.createElement("div");
+    content.classList.add("d-flex", "flex-column", "align-items-center",
+      "justify-content-center");
+    let options = document.createElement("div");
+    options.classList.add("list-group", "list-group-radio", "d-grid", "gap-2",
+      "border-0");
+    options.appendChild(createAnalysisViewOption("day",
+      "{% trans 'product.analysis.view.day.title' %}",
+      "{% trans 'product.analysis.view.day.description' %}",
+      analysisView === "day"));
+    options.appendChild(createAnalysisViewOption("week",
+      "{% trans 'product.analysis.view.week.title' %}",
+      "{% trans 'product.analysis.view.week.description' %}",
+      analysisView === "week"));
+    options.appendChild(createAnalysisViewOption("month",
+      "{% trans 'product.analysis.view.month.title' %}",
+      "{% trans 'product.analysis.view.month.description' %}",
+      analysisView === "month"));
+    options.appendChild(createAnalysisViewOption("year",
+      "{% trans 'product.analysis.view.year.title' %}",
+      "{% trans 'product.analysis.view.year.description' %}",
+      analysisView === "year"));
+    content.appendChild(options);
+    Swal.fire({
+      title: "{% trans 'product.analysis.view.title' %}",
+      html: content,
+      showConfirmButton: false,
+      showCancelButton: true,
+      cancelButtonText: "{% trans 'popup.cancel' %}",
+      didOpen: () => {
+        const checkedInput = document.querySelector(
+          'input[name="analysis-view-option"]:checked'
+        );
+        if (checkedInput) {
+          checkedInput.focus();
+        }
+      },
+    });
+  }
+
+  function createAnalysisViewOption(type, title, description, checked) {
+    let element = document.createElement("div");
+    element.classList.add("position-relative");
+    let input = document.createElement("input");
+    input.classList.add("form-check-input", "position-absolute", "top-50",
+      "end-0", "me-3", "fs-5");
+    input.type = "radio";
+    input.name = "analysis-view-option";
+    input.id = "analysis-view-option-" + type;
+    input.value = "";
+    if (checked) {
+      input.setAttribute("checked", checked);
+    }
+    input.onchange = () => {
+      if (input.checked) {
+        analysisView = type;
+        updateInterval();
+        displayAnalysis();
+        document.getElementById("analysis-view-selection").innerText = title;
+        Swal.close();
+        sessionStorage.setItem("dulno-analysis-view", type);
+      }
+    }
+    element.appendChild(input);
+    let label = document.createElement("label");
+    label.classList.add("list-group-item", "py-3", "pe-5");
+    label.htmlFor = "analysis-view-option-" + type;
+    let titleElement = document.createElement("strong");
+    titleElement.classList.add("fw-semibold");
+    titleElement.innerText = title;
+    label.appendChild(titleElement);
+    let descriptionElement = document.createElement("span");
+    descriptionElement.classList.add("d-block", "small", "opacity-75");
+    descriptionElement.innerHTML = description;
+    label.appendChild(descriptionElement);
+    element.appendChild(label);
+    return element;
+  }
+
+  function updateInterval() {
+    const { start, end } = findIntervalRange();
+    document.getElementById("analysis-start-input").value = start;
+    document.getElementById("analysis-end-input").value = end;
+  }
+
+  function findIntervalRange() {
+    const now = new Date();
+    let start;
+    switch (analysisView) {
+      case 'day':
+        start = now;
+        break;
+      case 'week':
+        start = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case 'month':
+        start = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        break;
+      case 'year':
+        start = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+        break;
+      default:
+        start = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    }
+    return {
+      start: start.toISOString().split('T')[0],
+      end: now.toISOString().split('T')[0]
+    };
+  }
+
+  document.getElementById("analysis-start-input").onchange = function () {
+    changeIntervalSelection();
+  }
+
+  document.getElementById("analysis-end-input").onchange = function () {
+    changeIntervalSelection();
+  }
+
+  function changeIntervalSelection() {
+    const startInput = new Date(document.getElementById('analysis-start-input').value).getTime();
+    const endInput = new Date(document.getElementById('analysis-end-input').value).getTime();
+    analysisView = determineInterval(startInput, endInput);
+    updateViewSelection();
+    displayAnalysis();
+  }
+
+  function groupAndFilterTimestamps(timestamps, isCumulative) {
+    const startInput = document.getElementById('analysis-start-input').value;
+    const endInput = document.getElementById('analysis-end-input').value;
+    if (!startInput || !endInput) {
+      return { labels: [], data: [] };
+    }
+    let start = new Date(startInput);
+    let end = new Date(endInput);
+    const interval = determineInterval(start.getTime(), end.getTime());
+    adjustTodayInterval(start, end, interval);
+    const grouped = countGroupedTimestamps(timestamps, start.getTime(), end.getTime(), interval);
+    const labels = generateLabels(start, end, interval);
+    let data = [];
+    if (isCumulative) {
+      data = accumulateData(labels, grouped);
+    } else {
+      data = labels.map(label => grouped[label] || 0);
+    }
+    return { labels, data };
+  }
+
+  function adjustTodayInterval(start, end, interval) {
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+    if (isSameDay(start, end)) {
+      const now = new Date();
+      if (isSameDay(start, now)) {
+        start.setDate(start.getDate() - 1);
+        start.setHours(now.getHours() + 1, now.getMinutes(), now.getSeconds(),
+          now.getMilliseconds());
+        end.setHours(now.getHours() + 1, now.getMinutes(), now.getSeconds(),
+          now.getMilliseconds());
+      } else {
+        end.setDate(end.getDate() + 1);
+      }
+    } else if (interval === "week" || interval === "month" || interval === "year") {
+      end.setDate(end.getDate() + 1);
+    }
+  }
+
+  function isSameDay(first, second) {
+    return first.getFullYear() === second.getFullYear() &&
+      first.getMonth() === second.getMonth() && first.getDate() === second.getDate();
+  }
+
+  function countGroupedTimestamps(timestamps, startTime, endTime, interval) {
+    const grouped = {};
+    for (const ts of timestamps) {
+      if (ts < startTime || ts >= endTime) {
+        continue;
+      }
+      const label = formatLabel(new Date(ts), interval);
+      if (!grouped[label]) {
+        grouped[label] = 0;
+      }
+      grouped[label] += 1;
+    }
+    return grouped;
+  }
+
+  function formatLabel(date, interval) {
+    switch (interval) {
+      case 'day': {
+        return `${String(date.getHours()).padStart(2, '0')}:00`;
+      }
+      case 'week':
+      case 'month': {
+        return date.toISOString().split('T')[0];
+      }
+      case 'year': {
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      }
+      default: {
+        return '';
+      }
+    }
+  }
+
+  function generateLabels(start, end, interval) {
+    const labels = [];
+    const current = new Date(start);
+    switch (interval) {
+      case 'day': {
+        while (current < end) {
+          labels.push(`${String(current.getHours()).padStart(2, '0')}:00`);
+          current.setHours(current.getHours() + 1);
+        }
+        break;
+      }
+      case 'week':
+      case 'month': {
+        current.setDate(current.getDate() + 1);
+        while (current <= end) {
+          labels.push(current.toISOString().split('T')[0]);
+          current.setDate(current.getDate() + 1);
+        }
+        break;
+      }
+      case 'year': {
+        const adjustedEnd = new Date(end.getFullYear(), end.getMonth(), end.getDate() - 1);
+        adjustedEnd.setMonth(adjustedEnd.getMonth() + 1, 1);
+        while (current < adjustedEnd) {
+          labels.push(`${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}`);
+          current.setMonth(current.getMonth() + 1);
+        }
+        break;
+      }
+    }
+    return labels;
+  }
+
+  function accumulateData(labels, grouped) {
+    const data = [];
+    let cumulative = 0;
+    for (const label of labels) {
+      cumulative += grouped[label] || 0;
+      data.push(cumulative);
+    }
+    return data;
+  }
+
+  function timeChartTicks(value, index) {
+    const raw = this.getLabelForValue(index);
+    const startInput = new Date(document.getElementById('analysis-start-input').value).getTime();
+    const endInput = new Date(document.getElementById('analysis-end-input').value).getTime();
+    if (!startInput || !endInput) {
+      return raw;
+    }
+    const interval = determineInterval(startInput, endInput);
+    const userLocale = navigator.language || 'en-US';
+    if (interval === 'day') {
+      return raw.replace(':00', '') + ':00';
+    }
+    if (interval === 'week') {
+      const date = new Date(raw);
+      return date.toLocaleDateString(userLocale, { weekday: 'short' });
+    }
+    if (interval === 'month') {
+      const date = new Date(raw);
+      return `${date.getDate()}. ${date.toLocaleString(userLocale, { month: 'short' })}`;
+    }
+    if (interval === 'year') {
+      const [year, month] = raw.split('-');
+      const date = new Date(`${year}-${month}-01`);
+      return date.toLocaleString(userLocale, { month: 'short' });
+    }
+    return raw;
+  }
+
+  function determineInterval(startTime, endTime) {
+    const rangeMs = endTime - startTime;
+    const oneDay = 24 * 60 * 60 * 1000;
+    if (rangeMs <= oneDay) {
+      return 'day';
+    } else if (rangeMs <= 7 * oneDay) {
+      return 'week';
+    } else if (rangeMs <= 31 * oneDay) {
+      return 'month';
+    } else {
+      return 'year';
+    }
   }
 </script>

@@ -1,0 +1,341 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="accessory-purchase-container">
+        <div id="accessory-purchase-wrapper">
+          <h1 class="text-center fw-bold my-5 py-4">{% trans 'product.accessory.headline' %}</h1>
+          {% include 'accessory-tab.html' %}
+          <div id="accessory-purchase-placeholder" class="mx-xl-3 mb-5">
+            <div class="accessory-purchase-accessories">
+              <div class="accessory-purchase-accessories-list">
+                <div class="accessory-purchase-accessory">
+                  <div class="accessory-purchase-accessory-logo placeholder placeholder-wave">
+                  </div>
+                  <div class="m-2 d-flex flex-column justify-content-between flex-grow-1">
+                    <div class="mb-3">
+                      <div class="mb-3 placeholder placeholder-wave rounded py-3 w-75"></div>
+                      <div class="placeholder placeholder-wave rounded py-4 w-100"></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <div class="placeholder placeholder-wave rounded py-3 w-25"></div>
+                      <div class="placeholder placeholder-wave rounded py-3 w-50"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accessory-purchase-accessory">
+                  <div class="accessory-purchase-accessory-logo placeholder placeholder-wave">
+                  </div>
+                  <div class="m-2 d-flex flex-column justify-content-between flex-grow-1">
+                    <div class="mb-3">
+                      <div class="mb-3 placeholder placeholder-wave rounded py-3 w-75"></div>
+                      <div class="placeholder placeholder-wave rounded py-4 w-100"></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <div class="placeholder placeholder-wave rounded py-3 w-25"></div>
+                      <div class="placeholder placeholder-wave rounded py-3 w-50"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accessory-purchase-accessory">
+                  <div class="accessory-purchase-accessory-logo placeholder placeholder-wave">
+                  </div>
+                  <div class="m-2 d-flex flex-column justify-content-between flex-grow-1">
+                    <div class="mb-3">
+                      <div class="mb-3 placeholder placeholder-wave rounded py-3 w-75"></div>
+                      <div class="placeholder placeholder-wave rounded py-4 w-100"></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <div class="placeholder placeholder-wave rounded py-3 w-25"></div>
+                      <div class="placeholder placeholder-wave rounded py-3 w-50"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accessory-purchase-accessory">
+                  <div class="accessory-purchase-accessory-logo placeholder placeholder-wave">
+                  </div>
+                  <div class="m-2 d-flex flex-column justify-content-between flex-grow-1">
+                    <div class="mb-3">
+                      <div class="mb-3 placeholder placeholder-wave rounded py-3 w-75"></div>
+                      <div class="placeholder placeholder-wave rounded py-4 w-100"></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <div class="placeholder placeholder-wave rounded py-3 w-25"></div>
+                      <div class="placeholder placeholder-wave rounded py-3 w-50"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accessory-purchase-accessory">
+                  <div class="accessory-purchase-accessory-logo placeholder placeholder-wave">
+                  </div>
+                  <div class="m-2 d-flex flex-column justify-content-between flex-grow-1">
+                    <div class="mb-3">
+                      <div class="mb-3 placeholder placeholder-wave rounded py-3 w-75"></div>
+                      <div class="placeholder placeholder-wave rounded py-4 w-100"></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <div class="placeholder placeholder-wave rounded py-3 w-25"></div>
+                      <div class="placeholder placeholder-wave rounded py-3 w-50"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accessory-purchase-accessory">
+                  <div class="accessory-purchase-accessory-logo placeholder placeholder-wave">
+                  </div>
+                  <div class="m-2 d-flex flex-column justify-content-between flex-grow-1">
+                    <div class="mb-3">
+                      <div class="mb-3 placeholder placeholder-wave rounded py-3 w-75"></div>
+                      <div class="placeholder placeholder-wave rounded py-4 w-100"></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <div class="placeholder placeholder-wave rounded py-3 w-25"></div>
+                      <div class="placeholder placeholder-wave rounded py-3 w-50"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accessory-purchase-overview">
+              <div>
+                <h4 class="text-center fw-bold mb-4">{% trans 'product.accessory.purchase.shopping.cart' %}</h4>
+                <div>
+                  <h5 class="text-start fw-bold">{% trans 'product.accessory.purchase.accessories' %}</h5>
+                  <div class="placeholder placeholder-wave rounded py-5 w-100"></div>
+                </div>
+              </div>
+              <div>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+                <p class="accessory-purchase-pay-method-headline text-center mt-3 mb-2">{% trans 'product.accessory.purchase.methods' %}</p>
+                <div class="accessory-purchase-pay-method-list">
+                  <img src="https://js.stripe.com/v3/fingerprinted/img/amex-b933c9009eeaf8cfd07e789c549b8c57.svg">
+                  <img src="https://js.stripe.com/v3/fingerprinted/img/mastercard-86e9a2b929496a34918767093c470935.svg">
+                  <img src="https://js.stripe.com/v3/fingerprinted/img/visa-fb36094822f73d7bc581f6c0bad1c201.svg">
+                  <img src="https://js.stripe.com/v3/fingerprinted/img/sepa_debit-dark-2267c20803e67b8bb19eda68d42b20df.svg">
+                  <img src="https://js.stripe.com/v3/fingerprinted/img/paypal-dark-b75755d2b5f200ed5a3d4e57fb111a8e.svg">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="accessory-purchase-body" class="mx-xl-3 mb-5 placeholder-fade">
+            <div id="accessory-purchase-accessories" class="accessory-purchase-accessories">
+              <div id="accessory-purchase-accessories-list"class="accessory-purchase-accessories-list">
+              </div>
+            </div>
+            <div id="accessory-purchase-overview" class="accessory-purchase-overview">
+              <div>
+                <h4 class="text-center fw-bold mb-4">{% trans 'product.accessory.purchase.shopping.cart' %}</h4>
+                <div>
+                  <h5 class="text-start fw-bold">{% trans 'product.accessory.purchase.accessories' %}</h5>
+                  <div id="accessory-purchase-selected-accessories-list">
+                  </div>
+                  <div id="accessory-purchase-selected-accessories-sum-container" class="d-flex align-items-center justify-content-between d-none mt-3 mb-5">
+                    <p class="mb-0">{% trans 'product.accessory.purchase.accessories.sum' %}</p>
+                    <b id="accessory-purchase-selected-accessories-sum" style="margin-right: 23px"></b>
+                  </div>
+                  <p id="accessory-purchase-selected-accessories-empty" class="mb-5">{% trans 'product.accessory.purchase.accessories.empty' %}</p>
+                </div>
+              </div>
+              <div>
+                  <button type="button" id="accessory-purchase-pay-redirect" class="btn btn-primary d-block mx-auto disabled">{% trans 'product.accessory.purchase.redirect' %}</button>
+                <p class="accessory-purchase-pay-method-headline text-center mt-3 mb-2">{% trans 'product.accessory.purchase.methods' %}</p>
+                <div class="accessory-purchase-pay-method-list">
+                  <img src="https://js.stripe.com/v3/fingerprinted/img/amex-b933c9009eeaf8cfd07e789c549b8c57.svg">
+                  <img src="https://js.stripe.com/v3/fingerprinted/img/mastercard-86e9a2b929496a34918767093c470935.svg">
+                  <img src="https://js.stripe.com/v3/fingerprinted/img/visa-fb36094822f73d7bc581f6c0bad1c201.svg">
+                  <img src="https://js.stripe.com/v3/fingerprinted/img/sepa_debit-dark-2267c20803e67b8bb19eda68d42b20df.svg">
+                  <img src="https://js.stripe.com/v3/fingerprinted/img/paypal-dark-b75755d2b5f200ed5a3d4e57fb111a8e.svg">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let selectedAccessories = [];
+
+  $(document).ready(function() {
+    fetchAccessories(function (accessories) {
+      displayAccessories(accessories);
+      document.getElementById("accessory-purchase-body").classList.add("placeholder-fade-show");
+      document.getElementById("accessory-purchase-placeholder").classList.add("d-none");
+    });
+  });
+
+  function displayAccessories(accessories) {
+    for (let accessory of accessories) {
+      displayAccessory(accessory);
+    }
+    updateTheme();
+  }
+
+  function displayAccessory(accessory) {
+    let accessoryElement = document.createElement("div");
+    accessoryElement.classList.add("accessory-purchase-accessory");
+    let accessoryLogoContainer = document.createElement("div");
+    accessoryLogoContainer.classList.add("accessory-purchase-accessory-logo");
+    let accessoryLogo = document.createElement("img");
+    accessoryLogo.classList.add("dulno-logo");
+    accessoryLogoContainer.appendChild(accessoryLogo);
+    accessoryElement.appendChild(accessoryLogoContainer);
+    let accessoryBody = document.createElement("div");
+    accessoryBody.classList.add("m-2", "d-flex", "flex-column", "justify-content-between", "flex-grow-1");
+    let accessoryText = document.createElement("div");
+    accessoryText.classList.add("mb-3");
+    let accessoryNameElement = document.createElement("h5");
+    accessoryNameElement.classList.add("fw-bold");
+    accessoryNameElement.innerText = accessory.name;
+    accessoryText.appendChild(accessoryNameElement);
+    let accessoryDescriptionElement = document.createElement("p");
+    accessoryDescriptionElement.innerText = accessory.description;
+    accessoryDescriptionElement.classList.add("text-secondary", "mb-0");
+    accessoryText.appendChild(accessoryDescriptionElement);
+    accessoryBody.appendChild(accessoryText);
+    let accessoryFooter = document.createElement("div");
+    accessoryFooter.classList.add("d-flex", "justify-content-between", "align-items-center");
+    let accessoryPrice = document.createElement("b");
+    let language = Cookie.find("dulno-home-language");
+    accessoryPrice.innerText = (language === "de" ?
+      accessory.price.toString().replaceAll(".", ",") : accessory.price) + " €";
+    accessoryFooter.appendChild(accessoryPrice);
+    let accessorySelection = document.createElement("button");
+    accessorySelection.classList.add("btn", "btn-success")
+    accessorySelection.innerText = "{% trans 'product.accessory.purchase.accessory.select' %}";
+    accessorySelection.onclick = function (event) {
+      selectAccessory(accessory);
+    }
+    accessoryFooter.appendChild(accessorySelection);
+    accessoryBody.appendChild(accessoryFooter);
+    accessoryElement.appendChild(accessoryBody);
+    document.getElementById("accessory-purchase-accessories-list").appendChild(accessoryElement);
+  }
+
+  function selectAccessory(accessory) {
+    let filteredEntries = selectedAccessories.filter(entry => entry.id === accessory.id);
+    let selectedAccessoryEntry;
+    if (filteredEntries.length === 0) {
+      selectedAccessoryEntry = {id: accessory.id, name: accessory.name,
+        unitPrice: accessory.price, amount: 0};
+      let selectedAccessoryElement = document.createElement("div");
+      selectedAccessoryElement.classList.add("d-flex", "justify-content-between",
+        "align-items-center", "mb-1");
+      let selectedAccessoryType = document.createElement("p");
+      selectedAccessoryType.classList.add("mb-0");
+      selectedAccessoryElement.appendChild(selectedAccessoryType);
+      let selectedAccessorySuffix = document.createElement("div");
+      selectedAccessorySuffix.classList.add("d-flex", "align-items-center");
+      let selectedAccessoryPrice = document.createElement("b");
+      selectedAccessorySuffix.appendChild(selectedAccessoryPrice);
+      let selectedAccessoryRemove = document.createElement("div");
+      selectedAccessoryRemove.classList.add("accessory-purchase-selected-accessory-remove");
+      selectedAccessoryRemove.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+      selectedAccessorySuffix.appendChild(selectedAccessoryRemove);
+      selectedAccessoryRemove.onclick = function (event) {
+        unselectAccessory(selectedAccessoryEntry);
+      }
+      selectedAccessoryElement.appendChild(selectedAccessorySuffix);
+      document.getElementById("accessory-purchase-selected-accessories-list")
+        .appendChild(selectedAccessoryElement);
+      selectedAccessoryEntry.element = selectedAccessoryElement;
+      selectedAccessoryEntry.typeElement = selectedAccessoryType;
+      selectedAccessoryEntry.priceElement = selectedAccessoryPrice;
+      selectedAccessories.push(selectedAccessoryEntry);
+    } else {
+      selectedAccessoryEntry = selectedAccessories
+        .filter(entry => entry.id === accessory.id)[0];
+    }
+    selectedAccessoryEntry.amount = selectedAccessoryEntry.amount + 1;
+    updateSelectedAccessoryDisplay(selectedAccessoryEntry);
+  }
+
+  function unselectAccessory(selectedAccessoryEntry) {
+    if (selectedAccessoryEntry.amount === 1) {
+      selectedAccessoryEntry.element.remove();
+      selectedAccessories.splice(selectedAccessories.indexOf(selectedAccessoryEntry), 1);
+      updateSelectedAccessorySum();
+      if (selectedAccessories.length === 0) {
+        document.getElementById("accessory-purchase-selected-accessories-empty").classList.remove("d-none");
+        document.getElementById("accessory-purchase-selected-accessories-sum-container").classList.add("d-none");
+        document.getElementById("accessory-purchase-pay-redirect").classList.add("disabled");
+
+      }
+      return;
+    }
+    selectedAccessoryEntry.amount = selectedAccessoryEntry.amount - 1;
+    updateSelectedAccessoryDisplay(selectedAccessoryEntry);
+  }
+
+  function updateSelectedAccessoryDisplay(selectedAccessoryEntry) {
+    selectedAccessoryEntry.typeElement.innerText = selectedAccessoryEntry.amount + "x " +
+      selectedAccessoryEntry.name;
+    let totalPrice = Math.round(selectedAccessoryEntry.amount *
+      selectedAccessoryEntry.unitPrice * 100) / 100;
+    let language = Cookie.find("dulno-home-language");
+    selectedAccessoryEntry.priceElement.innerText = (language === "de" ?
+      totalPrice.toString().replaceAll(".", ",") : totalPrice) + " €";
+    updateSelectedAccessorySum();
+    document.getElementById("accessory-purchase-selected-accessories-empty").classList.add("d-none");
+    document.getElementById("accessory-purchase-pay-redirect").classList.remove("disabled");
+  }
+
+  function updateSelectedAccessorySum() {
+    let sum = 0;
+    for (let entry of selectedAccessories) {
+      sum += entry.amount * entry.unitPrice;
+    }
+    sum = Math.round(sum * 100) / 100;
+    let language = Cookie.find("dulno-home-language");
+    document.getElementById("accessory-purchase-selected-accessories-sum").innerText =
+      (language === "de" ? sum.toString().replaceAll(".", ",") : sum) + " €";
+    document.getElementById("accessory-purchase-selected-accessories-sum-container").classList.remove("d-none");
+  }
+
+  function fetchAccessories(callback) {
+    let language = Cookie.find("dulno-home-language");
+    if (language == null) {
+      language = "en";
+    }
+    let request = new HttpRequest("/accessories/list/", "POST", [],
+      {language: language});
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).accessories);
+    });
+  }
+
+  document.getElementById("accessory-purchase-pay-redirect").onclick = function (event) {
+    let packageType = Cookie.find("dulno-package-type");
+    let packageRuntime = Cookie.find("dulno-package-runtime");
+    let accessories = [];
+    for (let entry of selectedAccessories) {
+      accessories.push({id: entry.id, amount: entry.amount});
+    }
+    processPayment(packageType, packageRuntime, accessories);
+  }
+
+  function processPayment(packageType, packageRuntime, accessories) {
+    let redirectButton = document.getElementById("accessory-purchase-pay-redirect");
+    redirectButton.classList.add("disabled");
+    redirectButton.innerHTML = "{% trans 'product.accessory.purchase.redirect' %}" + `
+      <span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span>
+      <span class="visually-hidden" role="status">Loading...</span>
+    `;
+    let request = new HttpRequest("/accessory/checkout/", "POST",
+      [], {accessories: accessories});
+    request.send(function (status, responseText) {
+      let response = JSON.parse(responseText);
+      if (response.success === true) {
+        window.location.href = response.link;
+        return;
+      }
+      redirectButton.innerHTML = "{% trans 'product.accessory.purchase.redirect' %}";
+      redirectButton.classList.remove("disabled");
+    });
+  }
+</script>

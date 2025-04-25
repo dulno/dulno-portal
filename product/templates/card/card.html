@@ -53,43 +53,61 @@
                 <h5>{% trans 'product.card.logo' %}</h5>
                 <input id="card-logo-input" class="mb-3" type="file" autocomplete=off accept="image/png, image/jpeg" />
               </div>
+              <div id="card-stamp-icon" class="d-none">
+                <h5>{% trans 'product.card.stamp.icon' %}</h5>
+                <div class="dropdown w-100 mb-3">
+                  <button id="card-stamp-icon-button" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% trans 'product.card.stamp.icon' %}
+                  </button>
+                  <ul id="card-stamp-icon-list" class="dropdown-menu w-100">
+                  </ul>
+                </div>
+              </div>
               <div id="card-reward-number" class="d-none">
                 <h5>{% trans 'product.card.reward.number' %}</h5>
                 <input id="card-reward-number-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.card.reward.number.placeholder' %}">
               </div>
               <div id="card-reward-description" class="d-none">
                 <h5>{% trans 'product.card.reward.description' %}</h5>
-                <input id="card-reward-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.reward.description.placeholder' %}">
+                <textarea id="card-reward-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.reward.description.placeholder' %}"></textarea>
+              </div>
+              <div id="card-value-price" class="d-none">
+                <h5>{% trans 'product.card.value.price' %}</h5>
+                <input id="card-value-price-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.card.value.price.placeholder' %}">
               </div>
               <div id="card-value-number" class="d-none">
                 <h5>{% trans 'product.card.value.number' %}</h5>
-                <input id="card-value-number-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.card.reward.value.placeholder' %}">
+                <input id="card-value-number-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.card.value.number.placeholder' %}">
               </div>
               <div id="card-value-description" class="d-none">
                 <h5>{% trans 'product.card.value.description' %}</h5>
-                <input id="card-value-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.value.description.placeholder' %}">
+                <textarea id="card-value-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.value.description.placeholder' %}"></textarea>
+              </div>
+              <div id="card-member-icon" class="d-none">
+                <h5>{% trans 'product.card.member.icon' %}</h5>
+                <div class="dropdown w-100 mb-3">
+                  <button id="card-member-icon-button" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% trans 'product.card.member.icon' %}
+                  </button>
+                  <ul id="card-member-icon-list" class="dropdown-menu w-100">
+                  </ul>
+                </div>
+              </div>
+              <div id="card-member-price" class="d-none">
+                <h5>{% trans 'product.card.member.price' %}</h5>
+                <input id="card-member-price-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.card.member.price.placeholder' %}">
               </div>
               <div id="card-member-description" class="d-none">
                 <h5>{% trans 'product.card.member.description' %}</h5>
-                <input id="card-member-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.member.description.placeholder' %}">
+                <textarea id="card-member-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.member.description.placeholder' %}"></textarea>
               </div>
             </div>
             <div id="card-preview-container" class="card-container ms-xl-5 mb-4">
               <div id="card-preview" class="d-flex align-items-end card">
                 <img id="card-preview-logo" class="card-logo" alt=""/>
-                <div id="card-preview-stamps" class="d-none d-flex align-items-center justify-content-evenly w-100 mt-auto">
-                  <div class="card-preview-stamp card-preview-stamp-collected"></div>
-                  <div class="card-preview-stamp card-preview-stamp-collected"></div>
-                  <div class="card-preview-stamp card-preview-stamp-collected"></div>
-                  <div class="card-preview-stamp"></div>
-                  <div class="card-preview-stamp"></div>
-                  <div class="card-preview-stamp"></div>
-                  <div class="card-preview-stamp"></div>
-                  <div class="card-preview-stamp"></div>
-                  <div class="card-preview-stamp"></div>
-                  <div class="card-preview-stamp"></div>
+                <div id="card-preview-stamps" class="d-none mt-auto">
                 </div>
-                <i id="card-preview-type-member" class="d-none fa-solid fa-crown"></i>
+                <i id="card-preview-type-member" class="d-none fa-solid"></i>
               </div>
             </div>
           </div>
@@ -111,18 +129,23 @@
 
 <script>
   let card;
+  let icons;
+  let selectedIcon;
 
   $(document).ready(function () {
     fetchCard(function (cardResult) {
       card = cardResult;
-      displayCard();
-      for (let element of [...document.querySelectorAll('input[maxlength]')]) {
-        element.addEventListener('input', tickInputMaxLength)
-        element.parentElement.classList.add('max-length-badged');
-        tickInputMaxLength(element)
-      }
-      document.getElementById("card-body").classList.add("placeholder-fade-show");
-      document.getElementById("card-placeholder").classList.add("d-none");
+      fetchIcons(card.type, function (iconResult) {
+        icons = iconResult;
+        displayCard();
+        for (let element of [...document.querySelectorAll('input[maxlength], textarea[maxlength]')]) {
+          element.addEventListener('input', tickInputMaxLength)
+          element.parentElement.classList.add('max-length-badged');
+          tickInputMaxLength(element)
+        }
+        document.getElementById("card-body").classList.add("placeholder-fade-show");
+        document.getElementById("card-placeholder").classList.add("d-none");
+      });
     });
   });
 
@@ -148,30 +171,36 @@
     });
   }
 
+  function fetchIcons(type, callback) {
+    if (type === "COLLECTION" || type === "VALUE") {
+      fetchStampIcons(callback);
+    }
+    if (type === "MEMBER") {
+      fetchMemberIcons(callback);
+    }
+  }
+
+  function fetchStampIcons(callback) {
+    let request = new HttpRequest("/card/stamp/icons/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).icons);
+    });
+  }
+
+  function fetchMemberIcons(callback) {
+    let request = new HttpRequest("/card/member/icons/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).icons);
+    });
+  }
+
   function displayCard() {
     if (card.type === "COLLECTION") {
-      document.getElementById("card-reward-number").classList.remove("d-none");
-      document.getElementById("card-reward-number-input").value =
-        card.rewardNumber;
-      document.getElementById("card-reward-description").classList.remove("d-none");
-      document.getElementById("card-reward-description-input").value =
-        card.rewardDescription;
-      document.getElementById("card-preview-stamps").classList.remove("d-none");
-    }
-    if (card.type === "VALUE") {
-      document.getElementById("card-value-number").classList.remove("d-none");
-      document.getElementById("card-value-number-input").value =
-        card.valueNumber;
-      document.getElementById("card-value-description").classList.remove("d-none");
-      document.getElementById("card-value-description-input").value =
-        card.valueDescription;
-      document.getElementById("card-preview-stamps").classList.remove("d-none");
-    }
-    if (card.type === "MEMBER") {
-      document.getElementById("card-member-description").classList.remove("d-none");
-      document.getElementById("card-member-description-input").value =
-        card.memberDescription;
-      document.getElementById("card-preview-type-member").classList.remove("d-none");
+      displayCollectionCard();
+    } else if (card.type === "VALUE") {
+      displayValueCard();
+    } else if (card.type === "MEMBER") {
+      displayMemberCard();
     }
     document.getElementById("card-preview-logo").src = "data:image/png;base64," + card.logo;
     document.getElementById("card-background-color-input").value = card.backgroundColor;
@@ -179,6 +208,139 @@
     updateBackgroundColor();
     updateForegroundColor();
   }
+
+  function displayCollectionCard() {
+    document.getElementById("card-stamp-icon").classList.remove("d-none");
+    document.getElementById("card-reward-number").classList.remove("d-none");
+    document.getElementById("card-reward-number-input").value =
+      card.rewardNumber;
+    document.getElementById("card-reward-description").classList.remove("d-none");
+    document.getElementById("card-reward-description-input").value =
+      card.rewardDescription;
+    document.getElementById("card-preview-stamps").classList.remove("d-none");
+    fillIconDropdown("stampIcon", document.getElementById("card-stamp-icon-list"),
+      document.getElementById("card-stamp-icon-button"), icons, card.stampIcon);
+    displayCardStamps(true);
+  }
+
+  function displayValueCard() {
+    document.getElementById("card-stamp-icon").classList.remove("d-none");
+    document.getElementById("card-value-price").classList.remove("d-none");
+    document.getElementById("card-value-price-input").value = card.valuePrice;
+    document.getElementById("card-value-number").classList.remove("d-none");
+    document.getElementById("card-value-number-input").value = card.valueNumber;
+    document.getElementById("card-value-description").classList.remove("d-none");
+    document.getElementById("card-value-description-input").value =
+      card.valueDescription;
+    document.getElementById("card-preview-stamps").classList.remove("d-none");
+    fillIconDropdown("stampIcon", document.getElementById("card-stamp-icon-list"),
+      document.getElementById("card-stamp-icon-button"), icons, card.stampIcon);
+    displayCardStamps(true);
+  }
+
+  function displayMemberCard() {
+    document.getElementById("card-member-icon").classList.remove("d-none");
+    document.getElementById("card-member-price").classList.remove("d-none");
+    document.getElementById("card-member-price-input").value = card.memberPrice;
+    document.getElementById("card-member-description").classList.remove("d-none");
+    document.getElementById("card-member-description-input").value =
+      card.memberDescription;
+    document.getElementById("card-preview-type-member").classList.remove("d-none");
+    fillIconDropdown("memberIcon", document.getElementById("card-member-icon-list"),
+      document.getElementById("card-member-icon-button"), icons, card.memberIcon);
+    document.getElementById("card-preview-type-member").classList
+      .add("fa-" + card.memberIconName);
+  }
+
+  function fillIconDropdown(identifier, menu, button, icons, current) {
+    for (let icon of icons) {
+      let entryElement = document.createElement("li");
+      entryElement.classList.add("mb-0");
+      let iconElement = document.createElement("div");
+      iconElement.classList.add("dropdown-item");
+      let symbolElement = document.createElement("i");
+      symbolElement.classList.add("fa-solid", "fa-" + icon.icon, "me-2",
+        "text-center");
+      symbolElement.style.width = "20px";
+      iconElement.appendChild(symbolElement);
+      let nameElement = document.createElement("span");
+      nameElement.innerText = icon.name;
+      iconElement.appendChild(nameElement);
+      entryElement.appendChild(iconElement);
+      entryElement.onclick = function () {
+        selectIcon(identifier, button, icon, iconElement);
+      }
+      menu.appendChild(entryElement);
+      if (current === icon.type) {
+        button.innerHTML = iconElement.innerHTML;
+        selectedIcon = icon;
+      }
+    }
+  }
+
+  function selectIcon(identifier, button, icon, iconElement) {
+    if ((card.type === "COLLECTION" || card.type === "VALUE")  && selectedIcon) {
+      for (let element of document.getElementsByClassName("card-preview-stamp")) {
+        element.classList.remove("fa-" + selectedIcon.icon);
+      }
+    } else if (card.type === "MEMBER" && selectedIcon) {
+      document.getElementById("card-preview-type-member").classList
+        .remove("fa-" + selectedIcon.icon);
+    }
+    button.innerHTML = iconElement.innerHTML;
+    selectedIcon = icon;
+    card[identifier] = icon.type;
+    updateCard();
+    if (card.type === "COLLECTION" || card.type === "VALUE") {
+      for (let element of document.getElementsByClassName("card-preview-stamp")) {
+        element.classList.add("fa-" + icon.icon);
+      }
+    } else if (card.type === "MEMBER") {
+      document.getElementById("card-preview-type-member").classList
+        .add("fa-" + icon.icon);
+    }
+  }
+
+  function displayCardStamps(initial) {
+    let cardStampContainer = document.getElementById("card-preview-stamps");
+    cardStampContainer.innerHTML = "";
+    let number = card.type === "COLLECTION" ? card.rewardNumber : card.valueNumber;
+    number = Math.max(1, Math.min(200, isNaN(number) ? 1 : number));
+    for (let i = 0; i < number; i++) {
+      let cardStampElement = document.createElement("i");
+      cardStampElement.classList.add("card-preview-stamp");
+      cardStampElement.style.color = card.foregroundColor;
+      cardStampElement.classList.add("fa-" + selectedIcon.icon);
+      if (i < 3) {
+        cardStampElement.classList.add("fa-solid");
+      } else {
+        cardStampElement.classList.add("fa-regular");
+      }
+      cardStampContainer.appendChild(cardStampElement);
+    }
+    if (initial) {
+      setTimeout(function () {
+        resize();
+      }, 0);
+    } else {
+      resize();
+    }
+    function resize() {
+      let previewElement = document.getElementById("card-preview");
+      cardStampContainer.style.width = Math.min(number * (32 + 10),
+        previewElement.clientWidth - 40) + "px";
+      previewElement.style.minHeight = (150 + cardStampContainer.clientHeight) + "px";
+    }
+  }
+
+  window.addEventListener('resize', function(event) {
+    if (!card) {
+      return;
+    }
+    if (card.type === "COLLECTION" || card.type === "VALUE") {
+      displayCardStamps(false);
+    }
+  });
 
   document.getElementById("card-background-color-input").addEventListener("input", function () {
     card.backgroundColor = document.getElementById("card-background-color-input").value;
@@ -243,10 +405,7 @@
   function updateForegroundColor() {
     if (card.type === "COLLECTION" || card.type === "VALUE") {
       for (let element of document.getElementsByClassName("card-preview-stamp")) {
-        element.style.border = "3px solid " + card.foregroundColor;
-      }
-      for (let element of document.getElementsByClassName("card-preview-stamp-collected")) {
-        element.style.backgroundColor = card.foregroundColor;
+        element.style.color = card.foregroundColor;
       }
     } else if (card.type === "MEMBER") {
       document.getElementById("card-preview-type-member").style.color = card.foregroundColor;
@@ -260,6 +419,7 @@
     document.getElementById("card-reward-number-input").value = value;
     card.rewardNumber = parseInt(value);
     processCardInput();
+    displayCardStamps(false);
   });
 
   document.getElementById("card-reward-description-input").addEventListener("input", function (event) {
@@ -267,17 +427,36 @@
     processCardInput();
   });
 
+  document.getElementById("card-value-price-input").addEventListener("input", function (event) {
+    let value = document.getElementById("card-value-price-input").value;
+    value = value.replace(/[^0-9]/g, "");
+    value = value.replace(/(?!^)-/g, "");
+    document.getElementById("card-value-price-input").value = value;
+    card.valuePrice = parseInt(value);
+    processCardInput();
+  });
+
   document.getElementById("card-value-number-input").addEventListener("input", function (event) {
     let value = document.getElementById("card-value-number-input").value;
-    value = value.replace(/[^0-9-]/g, "");
+    value = value.replace(/[^0-9]/g, "");
     value = value.replace(/(?!^)-/g, "");
     document.getElementById("card-value-number-input").value = value;
     card.valueNumber = parseInt(value);
     processCardInput();
+    displayCardStamps(false);
   });
 
   document.getElementById("card-value-description-input").addEventListener("input", function (event) {
     card.valueDescription = document.getElementById("card-value-description-input").value;
+    processCardInput();
+  });
+
+  document.getElementById("card-member-price-input").addEventListener("input", function (event) {
+    let value = document.getElementById("card-member-price-input").value;
+    value = value.replace(/[^0-9]/g, "");
+    value = value.replace(/(?!^)-/g, "");
+    document.getElementById("card-member-price-input").value = value;
+    card.memberPrice = parseInt(value);
     processCardInput();
   });
 
@@ -303,17 +482,32 @@
       foregroundColor: card.foregroundColor};
     let content = {};
     if (card.type === "COLLECTION") {
+      content.stampIcon = card.stampIcon;
       content.rewardNumber = card.rewardNumber;
       content.rewardDescription = card.rewardDescription;
     } else if (card.type === "VALUE") {
+      content.stampIcon = card.stampIcon;
       content.valueNumber = card.valueNumber;
+      content.valuePrice = card.valuePrice;
       content.valueDescription = card.valueDescription;
     } else if (card.type === "MEMBER") {
+      content.memberIcon = card.memberIcon;
+      content.memberPrice = card.memberPrice;
       content.memberDescription = card.memberDescription;
     }
     body.content = content;
     let request = new HttpRequest("/card/update/", "POST", [], body);
-    request.send(function (status, responseText) {});
+    request.send(function (status, responseText) {
+      let response = JSON.parse(responseText);
+      if (response.success) {
+        return;
+      }
+      let error = response.error;
+      if (error === 1000) {
+        Swal.fire("{% trans 'product.card.update.failed.title' %}",
+          "{% trans 'product.card.update.failed.used' %}", "error");
+      }
+    });
   }
 
   document.getElementById("card-delete").onclick = function (event) {
@@ -328,9 +522,18 @@
       if (result.isConfirmed) {
         let request = new HttpRequest("/card/delete/", "POST", [], {card: "{{id}}"});
         request.send(function (status, responseText) {
-          Swal.fire("{% trans 'product.card.delete.successful.title' %}",
-            "{% trans 'product.card.delete.successful.body' %}", "success")
-            .then(success => window.location.href = "/cards/");
+          let response = JSON.parse(responseText);
+          if (response.success) {
+            Swal.fire("{% trans 'product.card.delete.successful.title' %}",
+              "{% trans 'product.card.delete.successful.body' %}", "success")
+              .then(success => window.location.href = "/cards/");
+          } else {
+            let error = response.error;
+            if (error === 1000) {
+              Swal.fire("{% trans 'product.card.delete.failed.title' %}",
+                "{% trans 'product.card.delete.failed.used' %}", "error");
+            }
+          }
         });
       }
     });

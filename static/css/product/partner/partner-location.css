@@ -22,6 +22,8 @@
 .partner-location-list {
   width: min(800px, 100%);
   margin: auto;
+  list-style-type: none;
+  padding: 0;
 }
 
 .partner-location-list li {

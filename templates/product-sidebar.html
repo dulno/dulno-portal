@@ -20,15 +20,18 @@
       <li id="sidebar-analysis" class="sidebar-item {% if 'analysis' in request.path %}sidebar-active{% endif %}">
         <a href="/analysis/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">monitoring</span><span>{% trans 'product.sidebar.analysis' %}</span></a>
       </li>
-      <li id="sidebar-actions" class="sidebar-item {% if 'action' in request.path %}sidebar-active{% endif %}">
-        <a href="/actions/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">play_arrow</span><span>{% trans 'product.sidebar.actions' %}</span></a>
+      <li id="sidebar-balances" class="sidebar-item {% if 'balance' in request.path %}sidebar-active{% endif %}">
+        <a href="/balances/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">payments</span><span>{% trans 'product.sidebar.balances' %}</span></a>
+      </li>
+      <li id="sidebar-campaigns" class="sidebar-item {% if 'campaign' in request.path %}sidebar-active{% endif %}">
+        <a href="/campaigns/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">campaign</span><span>{% trans 'product.sidebar.campaigns' %}</span></a>
       </li>
       <li class="sidebar-divider"></li>
       <li id="sidebar-package" class="sidebar-item {% if 'package' in request.path %}sidebar-active{% endif %}">
         <a href="/package/general/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">account_balance</span><span>{% trans 'product.sidebar.package' %}</span></a>
       </li>
-      <li id="sidebar-accessories" class="sidebar-item {% if 'accessories' in request.path %}sidebar-active{% endif %}">
-        <a href="/accessories/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">shopping_cart</span><span>{% trans 'product.sidebar.accessories' %}</span></a>
+      <li id="sidebar-accessories" class="sidebar-item {% if 'accessory' in request.path %}sidebar-active{% endif %}">
+        <a href="/accessory/purchase/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">shopping_cart</span><span>{% trans 'product.sidebar.accessories' %}</span></a>
       </li>
       <li class="sidebar-divider mt-auto"></li>
       <li class="sidebar-item mb-2 {% if request.path == '/help/' %}sidebar-active{% endif %}">

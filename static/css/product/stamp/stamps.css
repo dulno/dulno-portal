@@ -112,16 +112,16 @@
   white-space: nowrap;
 }
 
-.stamp-entry-type {
-  width: 100px !important;
+.stamp-entry .stamp-entry-type {
+  width: 100px;
+}
+
+.stamp-entry .stamp-entry-name {
+  width: calc(50% - 100px);
 }
 
 .stamp-entry-type * {
   text-align: center;
-}
-
-.stamp-entry-name {
-  width: calc(50% - 100px) !important;
 }
 
 .stamp-entry-state span {
@@ -158,12 +158,12 @@
   font-size: 20px;
 }
 
-#stamps-table-description-type {
-  width: 100px !important;
+#stamps-table-description #stamps-table-description-type {
+  width: 100px;
 }
 
-#stamps-table-description-name {
-  width: calc(50% - 100px) !important;
+#stamps-table-description #stamps-table-description-name {
+  width: calc(50% - 100px);
 }
 
 #stamps-table-description button {
@@ -178,6 +178,34 @@
 .light #stamps-table-description button {
   background-color: #cacaca;
   color: #232323;
+}
+
+@media (max-width: 1200px) {
+  #stamps-table-description li, .stamp-entry div {
+    width: 35%;
+  }
+
+  #stamps-table-description #stamps-table-description-type, .stamp-entry .stamp-entry-type {
+    width: 80px;
+  }
+
+  #stamps-table-description #stamps-table-description-name, .stamp-entry .stamp-entry-name {
+    width: calc(65% - 80px);
+  }
+
+  #stamps-table-description #stamps-table-description-creation, .stamp-entry .stamp-entry-creation {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  #stamps-table-description #stamps-table-description-name, .stamp-entry .stamp-entry-name {
+    width: calc(100% - 80px);
+  }
+
+  #stamps-table-description #stamps-table-description-state, .stamp-entry .stamp-entry-state {
+    display: none;
+  }
 }
 
 #stamps-empty {

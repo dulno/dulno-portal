@@ -1,0 +1,285 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="campaign-notification-container">
+        <div id="campaign-notification-wrapper">
+          <div class="position-relative d-flex flex-lg-row flex-column justify-content-center align-items-lg-center mt-lg-5 mt-0 mb-5 py-4">
+            <div class="me-auto ms-lg-0 ms-auto">
+              <button id="campaign-notification-page-back"><i class="fa-solid fa-arrow-left-long"></i></button>
+            </div>
+            <h1 class="fw-bold m-0 position-absolute start-50 translate-middle-x">{% trans 'product.campaign.notification.headline' %}</h1>
+            <div class="ms-auto me-lg-0 me-auto mt-lg-0 mt-5 pt-lg-0 pt-5">
+              <button id="campaign-notification-delete" class="d-none btn btn-danger fw-bold"><i class="fa-solid fa-minus me-1"></i> {% trans 'product.campaign.notification.delete' %}</button>
+            </div>
+          </div>
+          <div id="campaign-notification-placeholder" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center">
+            <div class="w-100 mb-5">
+              <div class="mb-3 w-100">
+                <h5>{% trans 'product.campaign.notification.input.title' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div class="mb-3 w-100">
+                <h5>{% trans 'product.campaign.notification.input.body' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-5 w-100"></div>
+              </div>
+              <div class="d-flex flex-xl-row flex-column justify-content-center align-items-center w-100">
+                <div class="mb-3 w-100">
+                  <h5>{% trans 'product.campaign.notification.input.date' %}</h5>
+                  <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+                </div>
+                <div class="mb-3 w-100 ms-xl-2">
+                  <h5>{% trans 'product.campaign.notification.input.time' %}</h5>
+                  <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-5 ms-xl-5">
+              <div class="toast-container pt-2 position-relative" role="button">
+                <div class="toast show" role="alert" aria-live="assertive" atomic="true">
+                  <div class="toast-header">
+                    <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+                  </div>
+                  <div class="toast-body">
+                    <div class="placeholder placeholder-wave rounded py-2 w-100"></div>
+                    <div class="placeholder placeholder-wave rounded py-2 w-75 mt-2"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="campaign-notification-body" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center placeholder-fade">
+            <div class="w-100 mb-5">
+              <div class="mb-3 w-100">
+                <h5>{% trans 'product.campaign.notification.input.title' %}</h5>
+                <input id="campaign-notification-title-input" autocomplete=off maxlength="64" placeholder="{% trans 'product.campaign.notification.input.title.placeholder' %}">
+              </div>
+              <div class="mb-3 w-100">
+                <h5>{% trans 'product.campaign.notification.input.body' %}</h5>
+                <textarea id="campaign-notification-body-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.campaign.notification.input.body.placeholder' %}"></textarea>
+              </div>
+              <div class="d-flex flex-xl-row flex-column justify-content-center align-items-center w-100">
+                <div class="mb-3 w-100">
+                  <h5>{% trans 'product.campaign.notification.input.date' %}</h5>
+                  <input id="campaign-notification-date-input" autocomplete=off type="date">
+                </div>
+                <div class="mb-3 w-100 ms-xl-2">
+                  <h5>{% trans 'product.campaign.notification.input.time' %}</h5>
+                  <input id="campaign-notification-time-input" autocomplete=off type="time">
+                </div>
+              </div>
+            </div>
+            <div class="mb-5 ms-xl-5">
+              <div class="toast-container position-relative">
+                <div id="campaign-notification-preview" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                  <div class="toast-header">
+                    <img class="dulno-logo me-2" alt="" width="32" height="32">
+                    <strong id="campaign-notification-preview-title" class="me-auto text-truncate">{% trans 'product.campaign.notification.input.title' %}</strong>
+                    <i class="fa-regular fa-bell mx-2"></i>
+                    <small>{% trans 'product.campaign.notification.now' %}</small>
+                  </div>
+                  <div id="campaign-notification-preview-body" class="toast-body">{% trans 'product.campaign.notification.input.body' %}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let notification = {};
+  let created = false;
+
+  $(document).ready(function () {
+    for (let element of [...document.querySelectorAll('input[maxlength], textarea[maxlength]')]) {
+      element.addEventListener('input', tickInputMaxLength)
+      element.parentElement.classList.add('max-length-badged');
+      tickInputMaxLength(element)
+    }
+    if ("{{notification}}" === "create") {
+      document.getElementById("campaign-notification-body").classList.add("placeholder-fade-show");
+      document.getElementById("campaign-notification-placeholder").classList.add("d-none");
+      return;
+    }
+    fetchCampaignNotification(function (notificationResult) {
+      notification = notificationResult;
+      displayCampaignNotification();
+      document.getElementById("campaign-notification-body").classList.add("placeholder-fade-show");
+      document.getElementById("campaign-notification-placeholder").classList.add("d-none");
+    });
+  });
+
+  function tickInputMaxLength(element) {
+    if (element.target) {
+      element = element.target
+    }
+    let limit = element.maxLength;
+    let parent = element.parentElement;
+    let length = element.value.length;
+    parent.dataset['limit'] = limit;
+    parent.dataset['remaining'] = limit - length;
+    parent.classList.remove('max-length-reached');
+    if (length === limit) {
+      parent.classList.add('max-length-reached');
+    }
+  }
+
+  function fetchCampaignNotification(callback) {
+    let request = new HttpRequest("/campaign/notification/find/", "POST", [],
+      {notification: "{{notification}}"});
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+
+  function displayCampaignNotification() {
+    document.getElementById("campaign-notification-delete").classList.remove("d-none");
+    document.getElementById("campaign-notification-title-input").value = notification.title;
+    document.getElementById("campaign-notification-preview-title").innerText = notification.title;
+    document.getElementById("campaign-notification-body-input").value = notification.body;
+    document.getElementById("campaign-notification-preview-body").innerText = notification.body;
+    let date = new Date(notification.dispatch);
+    document.getElementById("campaign-notification-date-input").value =
+      date.toISOString().split('T')[0];
+    document.getElementById("campaign-notification-time-input").value =
+      date.toTimeString().split(':').slice(0,2).join(':');
+  }
+
+  let titleInput = document.getElementById("campaign-notification-title-input");
+  titleInput.oninput = function (event) {
+    notification.title = titleInput.value;
+    document.getElementById("campaign-notification-preview-title").innerText = notification.title;
+    processCampaignNotificationInput();
+  }
+
+  let bodyInput = document.getElementById("campaign-notification-body-input");
+  bodyInput.oninput = function (event) {
+    notification.body = bodyInput.value;
+    document.getElementById("campaign-notification-preview-body").innerText = notification.body;
+    processCampaignNotificationInput();
+  }
+
+  let dateInput = document.getElementById("campaign-notification-date-input");
+  dateInput.oninput = function (event) {
+    updateNotificationDispatch();
+  }
+
+  let timeInput = document.getElementById("campaign-notification-time-input");
+  timeInput.oninput = function (event) {
+    updateNotificationDispatch();
+  }
+
+  function updateNotificationDispatch() {
+    if (dateInput.value === "" || timeInput.value === "") {
+      return;
+    }
+    let dateContent = new Date(dateInput.value);
+    let date = dateContent.getTime();
+    let timeContent = timeInput.value.split(":");
+    let time = timeContent[0] * 1000 * 60 * 60 + timeContent[1] * 1000 * 60 +
+      dateContent.getTimezoneOffset() * 1000 * 60;
+    notification.dispatch = date + time;
+    updateCampaignNotification();
+  }
+
+  let inputTimeout = -1;
+
+  function processCampaignNotificationInput() {
+    if (inputTimeout !== -1) {
+      clearTimeout(inputTimeout);
+    }
+    inputTimeout = setTimeout(function () {
+      inputTimeout = -1;
+      updateCampaignNotification();
+    }, 500);
+  }
+
+  function updateCampaignNotification() {
+    if (notification.dispatch < Date.now()) {
+      Swal.fire("{% trans 'product.campaign.notification.update.failed.title' %}",
+        "{% trans 'product.campaign.notification.update.failed.dispatch.past' %}", "error");
+      return;
+    }
+    if ("{{notification}}" === "create" && !created) {
+      createCampaignNotification();
+      return;
+    }
+    let body = {notification: notification.id, title: notification.title,
+      body: notification.body, dispatch: notification.dispatch};
+    let request = new HttpRequest("/campaign/notification/update/", "POST", [], body);
+    request.send(function (status, responseText) {
+      let response = JSON.parse(responseText);
+      if (response.success) {
+        return;
+      }
+      if (response.error === 1001) {
+        Swal.fire("{% trans 'product.campaign.notification.update.failed.title' %}",
+          "{% trans 'product.campaign.notification.update.failed.spacing' %}", "error");
+      } else if (response.error === 1002) {
+        Swal.fire("{% trans 'product.campaign.notification.update.failed.title' %}",
+          "{% trans 'product.campaign.notification.update.failed.sent' %}", "error");
+      }
+    });
+  }
+
+  function createCampaignNotification() {
+    if (!notification.title || !notification.body || !notification.dispatch) {
+      return;
+    }
+    let body = {campaign: "{{campaign}}", title: notification.title,
+      body: notification.body, dispatch: notification.dispatch};
+    let request = new HttpRequest("/campaign/notification/create/", "POST", [], body);
+    request.send(function (status, responseText) {
+      let response = JSON.parse(responseText);
+      if (response.success) {
+        notification.id = response.notification;
+        created = true;
+        return;
+      }
+      if (response.error === 1001) {
+        Swal.fire("{% trans 'product.campaign.notification.update.failed.title' %}",
+          "{% trans 'product.campaign.notification.update.failed.spacing' %}", "error");
+      }
+    });
+  }
+
+  document.getElementById("campaign-notification-delete").onclick = function (event) {
+    Swal.fire({
+      title: "{% trans 'product.campaign.notification.delete.title' %}",
+      text: "{% trans 'product.campaign.notification.delete.body' %}",
+      icon: "warning",
+      confirmButtonColor: "#dc3545",
+      showCancelButton: true,
+      cancelButtonText: "{% trans 'popup.cancel' %}",
+    }).then(result => {
+      if (result.isConfirmed) {
+        let request = new HttpRequest("/campaign/notification/delete/", "POST",
+          [], {notification: "{{notification}}"});
+        request.send(function (status, responseText) {
+          let response = JSON.parse(responseText);
+          if (response.success) {
+            Swal.fire("{% trans 'product.campaign.notification.delete.successful.title' %}",
+              "{% trans 'product.campaign.notification.delete.successful.body' %}", "success")
+              .then(success => window.location.href = "/campaign/" + "{{campaign}}" + "/");
+            return;
+          }
+          if (response.error === 1000) {
+            Swal.fire("{% trans 'product.campaign.notification.delete.failed.title' %}",
+              "{% trans 'product.campaign.notification.delete.failed.sent' %}", "error");
+          }
+        });
+      }
+    });
+  }
+
+  document.getElementById("campaign-notification-page-back").addEventListener("click", function (event) {
+    window.location.href = "/campaign/" + "{{campaign}}" + "/";
+  });
+</script>

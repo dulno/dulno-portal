@@ -8,11 +8,18 @@
   list-style-type: none;
 }
 
+.dark .package-tabs {
+  border-bottom: 2px solid #5d6169;
+}
+
+.light .package-tabs {
+  border-bottom: 2px solid #dedede;
+}
+
 .package-tabs li {
   padding-bottom: 8px;
-  margin-left: 5px;
-  margin-right: 5px;
-  margin-bottom: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
   text-decoration: none;
 }
 
@@ -31,34 +38,20 @@
 }
 
 .dark .package-tabs a:hover {
-  background-color: #242d3b;
+  background-color: #36383d;
 }
 
 .light .package-tabs a:hover {
-  background-color: #dcdcdc;
+  background-color: #efefef;
 }
 
 .package-tab-active {
-  border-bottom: 3px solid;
-  border-image-slice: 1;
+  border-bottom: 3px solid var(--bs-blue);
+  margin-bottom: -2px;
+  background-color: transparent;
 }
 
-.dark .package-tab-active {
-  border-image-source: linear-gradient(90deg, #648bc6, #2f61ac);
-}
-
-.dark .package-tab-active a {
-  background-image: linear-gradient(90deg, #C7D5EA, #B3C6E1) !important;
-  color: transparent !important;
-  background-clip: text;
-}
-
-.light .package-tab-active {
-  border-image-source: linear-gradient(90deg, #243957, #3871c7);
-}
-
-.light .package-tab-active a {
-  background-image: linear-gradient(90deg, #1d2a3d, #284f8f) !important;
-  color: transparent !important;
-  background-clip: text;
+.package-tab-active a {
+  color: var(--bs-blue) !important;
+  background-color: transparent !important;
 }
