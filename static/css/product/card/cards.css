@@ -54,17 +54,35 @@
 
 .card-logo {
   width: auto;
-  height: 72px;
+  max-width: calc(100% - 40px);
+  max-height: 72px;
+  object-fit: contain;
   position: absolute;
   top: 15px;
   right: 20px;
 }
 
+:root {
+  --card-row-stamps: 10;
+  --card-stamps-gap: 10px;
+  --card-stamp-size: 32px;
+}
+
+.card-stamps {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-stamp-size), 1fr));
+  margin: 0 auto;
+  gap: var(--card-stamps-gap);
+  justify-content: center;
+}
+
 .card-stamp {
   background-color: transparent;
-  width: 32px;
-  height: 32px;
+  width: var(--card-stamp-size);
+  font-size: var(--card-stamp-size);
+  aspect-ratio : 1 / 1;
   border-radius: 50%;
+  text-align: center;
 }
 
 .card-type-member {
@@ -74,33 +92,6 @@
   transform: translate(-50%, -50%);
   font-size: 56px;
 }
-
-@media (max-width: 500px) {
-  .card {
-    height: 160px;
-  }
-
-  .card-stamp {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-@media (max-width: 400px) {
-  .card {
-    height: 140px;
-  }
-
-  .card-logo {
-    height: 64px;
-  }
-
-  .card-stamp {
-    width: 16px;
-    height: 16px;
-  }
-}
-
 
 #cards-empty {
   flex-flow: wrap;

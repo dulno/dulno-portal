@@ -3,23 +3,23 @@
   margin: auto;
 }
 
-#partner-general-wrapper input {
+#partner-general-wrapper input, #partner-general-wrapper textarea {
   width: 100%;
   border-radius: 5px;
   padding: 5px 10px;
 }
 
-.dark #partner-general-wrapper input {
+.dark #partner-general-wrapper input, .dark #partner-general-wrapper textarea {
   background-color: #212529;
   border: 1px solid #2f353a;
 }
 
-.light #partner-general-wrapper input {
+.light #partner-general-wrapper input, .light #partner-general-wrapper textarea {
   background-color: #f3f3f3;
   border: 1px solid #d5d5d5;
 }
 
-#partner-general-wrapper input[maxlength] {
+#partner-general-wrapper input[maxlength], #partner-general-wrapper textarea[maxlength] {
   position: relative;
 }
 

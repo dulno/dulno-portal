@@ -29,4 +29,4 @@ class ExceptionHandler(logging.Handler):
         }
         requests.post("http://10.96.0.9/v1/cluster/error/report/", json=body)
     except Exception as exception:
-      print(f"Exception in ExceptionHandler: {e}")
+      print(f"Exception in ExceptionHandler: {exception}")

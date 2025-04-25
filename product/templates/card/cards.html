@@ -8,9 +8,9 @@
     <div class="sidebar-influenced">
       <div id="cards-container">
         <div id="cards-wrapper">
-          <div class="position-relative d-flex justify-content-center align-items-lg-center my-5 py-4">
+          <div class="position-relative d-flex justify-content-center align-items-lg-center my-5 py-lg-4">
             <h1 class="fw-bold m-0 position-absolute start-50 translate-middle-x">{% trans 'product.cards.headline' %}</h1>
-            <div class="ms-lg-auto mt-lg-0 mt-5 pt-lg-0 pt-5">
+            <div class="ms-lg-auto mt-lg-0 mt-5 pt-lg-0 pt-3">
               <button id="card-create" class="btn btn-primary fw-bold"><i class="fa-solid fa-plus me-1"></i> {% trans 'product.cards.create' %}</button>
             </div>
           </div>
@@ -81,11 +81,13 @@
     cardLogo.src = "data:image/png;base64," + card.logo;
     cardElement.appendChild(cardLogo);
     if (card.type === "COLLECTION" || card.type === "VALUE") {
-      cardElement.appendChild(createCardStamps(card.foregroundColor));
+      cardElement.appendChild(createCardStamps(cardContainer, cardElement,
+        card.type === "COLLECTION" ? card.rewardNumber : card.valueNumber,
+        card.foregroundColor, card.stampIconName));
     } else if (card.type === "MEMBER") {
       let memberElement = document.createElement("i");
       memberElement.classList.add("card-type-member", "fa-solid",
-        "fa-crown");
+        "fa-" + card.memberIconName);
       memberElement.style.color = card.foregroundColor;
       cardElement.appendChild(memberElement);
     }
@@ -97,20 +99,28 @@
     document.getElementById("cards-list").appendChild(cardContainer);
   }
 
-  function createCardStamps(foregroundColor) {
+  function createCardStamps(cardContainer, cardElement, number, foregroundColor, icon) {
     let cardStampContainer = document.createElement("div");
-    cardStampContainer.classList.add("d-flex", "align-items-center",
-      "justify-content-evenly", "w-100");
-    for (let i = 0; i < 10; i++) {
-      let cardStampElement = document.createElement("div");
+    cardStampContainer.classList.add("card-stamps");
+    number = Math.max(1, Math.min(200, number));
+    for (let i = 0; i < number; i++) {
+      let cardStampElement = document.createElement("i");
       cardStampElement.classList.add("card-stamp");
-      cardStampElement.style.border = "3px solid " + foregroundColor;
+      cardStampElement.style.color = foregroundColor;
+      cardStampElement.classList.add("fa-" + icon);
       if (i < 3) {
-        cardStampElement.classList.add("signup-card-stamp-collected");
-        cardStampElement.style.backgroundColor = foregroundColor;
+        cardStampElement.classList.add("fa-solid");
+      } else {
+        cardStampElement.classList.add("fa-regular");
       }
       cardStampContainer.appendChild(cardStampElement);
     }
+    setTimeout(function () {
+      cardStampContainer.style.width = Math.min(number * (32 + 10),
+        cardElement.clientWidth - 40) + "px";
+      cardContainer.style.height = (180 + cardStampContainer.clientHeight) + "px";
+      cardElement.style.height = (150 + cardStampContainer.clientHeight) + "px";
+    }, 0);
     return cardStampContainer;
   }
 

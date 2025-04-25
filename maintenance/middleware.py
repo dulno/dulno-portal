@@ -23,11 +23,15 @@ class MaintenanceMiddleware(object):
     ):
       self.applyLanguage(request)
       return await self.get_response(request)
-    running = await self.isRunning(request)
-    if (running):
-      self.applyLanguage(request)
+    try:
+      running = await self.isRunning(request)
+      if (running):
+        self.applyLanguage(request)
+        return redirect("/maintenance/")
+      return await self.get_response(request)
+    except Exception as exception:
+      print(f"Exception in MaintenanceMiddleware: {exception}")
       return redirect("/maintenance/")
-    return await self.get_response(request)
 
   async def isRunning(self, request):
     response = await asyncio.get_event_loop().run_in_executor(None,

@@ -6,6 +6,10 @@
   border-radius: 20px;
 }
 
+.light .swal2-image {
+  border: 1px solid #dadada;
+}
+
 .settings-2fa-qrcode-steps {
   list-style-type: decimal;
   text-align: left;

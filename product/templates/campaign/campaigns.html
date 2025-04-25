@@ -1,0 +1,284 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="campaigns-container">
+        <div id="campaigns-wrapper">
+          <div class="position-relative d-flex justify-content-center align-items-lg-center my-5 py-lg-4">
+            <h1 class="fw-bold m-0 position-absolute start-50 translate-middle-x">{% trans 'product.campaigns.headline' %}</h1>
+            <div class="ms-lg-auto mt-lg-0 mt-5 pt-lg-0 pt-3">
+              <button id="campaign-create" class="btn btn-primary fw-bold"><i class="fa-solid fa-plus me-1"></i> {% trans 'product.campaigns.create' %}</button>
+            </div>
+          </div>
+          <div id="campaigns-placeholder">
+            <div class="campaigns-control">
+              <button class="placeholder placeholder-wave"></button>
+              <button class="placeholder placeholder-wave"></button>
+            </div>
+            <div class="placeholder placeholder-wave w-100 rounded-3" style="height: 160px"></div>
+          </div>
+          <div id="campaigns-body" class="placeholder-fade">
+            <div class="campaigns-control">
+              <button id="campaigns-control-previous"><i class="fa-solid fa-angle-left"></i></button>
+              <button id="campaigns-control-next"><i class="fa-solid fa-angle-right"></i></button>
+            </div>
+            <div id="campaigns-timeline"></div>
+            <div class="d-flex justify-content-end mt-2 mb-5"><button id="campaigns-view-button"><i class="fa-solid fa-table-cells"></i></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let timeline;
+  let currentItemIndex = 0;
+  let timelineRedirects = [];
+  let timelineView = "month";
+
+  $(document).ready(function () {
+    fetchCampaigns(function (campaigns) {
+      displayTimeline(campaigns);
+      document.getElementById("campaigns-body").classList.add("placeholder-fade-show");
+      document.getElementById("campaigns-placeholder").classList.add("d-none");
+    });
+  });
+
+  function fetchCampaigns(callback) {
+    let request = new HttpRequest("/campaigns/list/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).campaigns);
+    });
+  }
+
+  function displayTimeline(campaigns) {
+    if (sessionStorage.getItem("dulno-campaigns-view") !== null) {
+      timelineView = sessionStorage.getItem("dulno-campaigns-view");
+    }
+    let { start: currentMonthStart, end: currentMonthEnd } = getViewRange(new Date());
+    const options = {
+      start: currentMonthStart,
+      end: currentMonthEnd,
+      editable: false,
+      selectable: false,
+      stack: true,
+      margin: {
+        item: 10,
+        axis: 5
+      },
+      zoomMin: 1000 * 60 * 60 * 24,
+      zoomMax: 1000 * 60 * 60 * 24 * 31 * 12,
+      moment: function (date) {
+        return vis.moment(date).locale(Cookie.find("dulno-language"));
+      }
+    };
+    const container = document.getElementById('campaigns-timeline');
+    let items = createItems(campaigns);
+    let groups = createGroups();
+    timeline = new vis.Timeline(container, items, groups, options);
+    timeline.on('click', function (properties) {
+      if (properties.item) {
+        window.location.href = timelineRedirects[properties.item - 1];
+      }
+    });
+  }
+
+  function createItems(campaigns) {
+    let items = [];
+    for (let campaign of campaigns) {
+      items.push(createTimelineCampaign(campaign.id, new Date(campaign.start),
+        new Date(campaign.end)));
+      for (let notification of campaign.notifications) {
+        items.push(createTimelineNotification(campaign.id, notification.id,
+          new Date(notification.dispatch)));
+      }
+    }
+    return new vis.DataSet(items);
+  }
+
+  function createGroups() {
+    let campaignGroupElement = document.createElement("span");
+    campaignGroupElement.innerText = "{% trans 'product.campaigns.campaigns' %}";
+    campaignGroupElement.classList.add("fw-bold", "mx-2");
+    let notificationGroupElement = document.createElement("span");
+    notificationGroupElement.innerText = "{% trans 'product.campaigns.notifications' %}";
+    notificationGroupElement.classList.add("fw-bold", "mx-2");
+    return new vis.DataSet([
+      { id: 'campaigns', content: campaignGroupElement, order: 1 },
+      { id: 'notifications', content: notificationGroupElement, order: 2 }
+    ]);
+  }
+
+  function createTimelineCampaign(id, start, end) {
+    let element = document.createElement("div");
+    let icon = document.createElement("i");
+    icon.classList.add("fa-solid", "fa-bullhorn", "me-2");
+    element.appendChild(icon);
+    let label = document.createElement("span");
+    label.innerText = "{% trans 'product.campaigns.campaign' %}";
+    element.appendChild(label);
+    timelineRedirects.push("/campaign/" + id + "/");
+    currentItemIndex++;
+    return {
+      id: currentItemIndex,
+      content: element,
+      start: start,
+      end: end,
+      type: 'range',
+      group: 'campaigns'
+    };
+  }
+
+  function createTimelineNotification(campaign, notification, date) {
+    let element = document.createElement("div");
+    let icon = document.createElement("i");
+    icon.classList.add("fa-regular", "fa-bell", "me-2");
+    element.appendChild(icon);
+    let label = document.createElement("span");
+    label.innerText = "{% trans 'product.campaigns.notification' %}";
+    element.appendChild(label);
+    timelineRedirects.push("/campaign/" + campaign + "/notification/" +
+      notification + "/");
+    currentItemIndex++;
+    return {
+      id: currentItemIndex,
+      content: element,
+      start: date,
+      type: 'box',
+      group: 'notifications'
+    };
+  }
+
+  document.getElementById('campaigns-control-previous').addEventListener('click', () => {
+    const windowStart = timeline.getWindow().start;
+    const targetDate = getShiftedDate(windowStart, -1);
+    setTimelineToView(targetDate);
+  });
+
+  document.getElementById('campaigns-control-next').addEventListener('click', () => {
+    const windowStart = timeline.getWindow().start;
+    const targetDate = getShiftedDate(windowStart, 1);
+    setTimelineToView(targetDate);
+  });
+
+  function getShiftedDate(date, delta) {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    if (timelineView === "day") {
+      const newDate = new Date(date);
+      newDate.setDate(day + delta);
+      return newDate;
+    } else if (timelineView === "month") {
+      return new Date(year, month + delta, 1);
+    } else if (timelineView === "year") {
+      return new Date(year + delta, 0, 1);
+    }
+  }
+
+  function setTimelineToView(date) {
+    const { start, end } = getViewRange(date);
+    timeline.setWindow(start, end, { animation: true });
+  }
+
+  function getViewRange(date) {
+    let start, end;
+    if (timelineView === "day") {
+      start = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      end = new Date(start);
+      end.setDate(end.getDate() + 1);
+    } else if (timelineView === "month") {
+      start = new Date(date.getFullYear(), date.getMonth(), 1);
+      end = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+    } else if (timelineView === "year") {
+      start = new Date(date.getFullYear(), 0, 1);
+      end = new Date(date.getFullYear() + 1, 0, 1);
+    }
+    return { start, end };
+  }
+
+  document.getElementById("campaigns-view-button").onclick = function () {
+    let content = document.createElement("div");
+    content.classList.add("d-flex", "flex-column", "align-items-center",
+      "justify-content-center");
+    let options = document.createElement("div");
+    options.classList.add("list-group", "list-group-radio", "d-grid", "gap-2",
+      "border-0");
+    options.appendChild(createCampaignViewOption("day",
+      "{% trans 'product.campaigns.view.day.title' %}",
+      "{% trans 'product.campaigns.view.day.description' %}",
+      timelineView === "day"));
+    options.appendChild(createCampaignViewOption("month",
+      "{% trans 'product.campaigns.view.month.title' %}",
+      "{% trans 'product.campaigns.view.month.description' %}",
+      timelineView === "month"));
+    options.appendChild(createCampaignViewOption("year",
+      "{% trans 'product.campaigns.view.year.title' %}",
+      "{% trans 'product.campaigns.view.year.description' %}",
+      timelineView === "year"));
+    content.appendChild(options);
+    Swal.fire({
+      title: "{% trans 'product.campaigns.view.title' %}",
+      html: content,
+      showConfirmButton: false,
+      showCancelButton: true,
+      cancelButtonText: "{% trans 'popup.cancel' %}",
+      didOpen: () => {
+        const checkedInput = document.querySelector(
+          'input[name="campaign-view-option"]:checked'
+        );
+        if (checkedInput) {
+          checkedInput.focus();
+        }
+      },
+    });
+  }
+
+  function createCampaignViewOption(type, title, description, checked) {
+    let element = document.createElement("div");
+    element.classList.add("position-relative");
+    let input = document.createElement("input");
+    input.classList.add("form-check-input", "position-absolute", "top-50",
+      "end-0", "me-3", "fs-5");
+    input.type = "radio";
+    input.name = "campaign-view-option";
+    input.id = "campaign-view-option-" + type;
+    input.value = "";
+    if (checked) {
+      input.setAttribute("checked", checked);
+    }
+    input.onchange = () => {
+      if (input.checked) {
+        timelineView = type;
+        const now = new Date();
+        const { start, end } = getViewRange(now);
+        timeline.setWindow(start, end, { animation: true });
+        Swal.close();
+        sessionStorage.setItem("dulno-campaigns-view", type);
+      }
+    }
+    element.appendChild(input);
+    let label = document.createElement("label");
+    label.classList.add("list-group-item", "py-3", "pe-5");
+    label.htmlFor = "campaign-view-option-" + type;
+    let titleElement = document.createElement("strong");
+    titleElement.classList.add("fw-semibold");
+    titleElement.innerText = title;
+    label.appendChild(titleElement);
+    let descriptionElement = document.createElement("span");
+    descriptionElement.classList.add("d-block", "small", "opacity-75");
+    descriptionElement.innerText = description;
+    label.appendChild(descriptionElement);
+    element.appendChild(label);
+    return element;
+  }
+
+  document.getElementById("campaign-create").addEventListener("click", function (event) {
+    window.location.href = "/campaign/create/";
+  });
+</script>
