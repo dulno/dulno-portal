@@ -182,7 +182,7 @@
     let accessoryLogoContainer = document.createElement("div");
     accessoryLogoContainer.classList.add("accessory-purchase-accessory-logo");
     let accessoryLogo = document.createElement("img");
-    accessoryLogo.classList.add("dulno-logo");
+    accessoryLogo.src = "/static/img/accessory/" + accessory.id + ".webp";
     accessoryLogoContainer.appendChild(accessoryLogo);
     accessoryElement.appendChild(accessoryLogoContainer);
     let accessoryBody = document.createElement("div");
