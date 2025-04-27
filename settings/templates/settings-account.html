@@ -91,14 +91,16 @@
       newPasswordElement.value = "";
       newPasswordRepetitionElement.value = "";
       updatePasswordProgress();
-      Swal.fire("{% trans 'settings.account.password.mismatch.title' %}", "{% trans 'settings.account.password.mismatch.body' %}", "error");
+      Swal.fire("{% trans 'settings.account.password.mismatch.title' %}",
+        "{% trans 'settings.account.password.mismatch.body' %}", "error");
       return;
     }
     if (!newPasswordElement.checkValidity()) {
       newPasswordElement.value = "";
       newPasswordRepetitionElement.value = "";
       updatePasswordProgress();
-      Swal.fire("{% trans 'settings.account.password.insecure.title' %}", "{% trans 'settings.account.password.insecure.body' %}", "error");
+      Swal.fire("{% trans 'settings.account.password.insecure.title' %}",
+        "{% trans 'settings.account.password.insecure.body' %}", "error");
       return;
     }
     let request = new HttpRequest("/settings/account/password/change/", "POST",
@@ -106,9 +108,11 @@
     request.send(function (status, responseText) {
       let response = JSON.parse(responseText);
       if (response.success === false) {
-        Swal.fire("{% trans 'settings.account.password.wrong.title' %}", "{% trans 'settings.account.password.wrong.body' %}", "error");
+        Swal.fire("{% trans 'settings.account.password.wrong.title' %}",
+          "{% trans 'settings.account.password.wrong.body' %}", "error");
       } else {
-        Swal.fire("{% trans 'settings.account.password.successful.title' %}", "{% trans 'settings.account.password.successful.body' %}", "success");
+        Swal.fire("{% trans 'settings.account.password.successful.title' %}",
+          "{% trans 'settings.account.password.successful.body' %}", "success");
       }
       currentPasswordElement.value = "";
       newPasswordElement.value = "";
@@ -173,11 +177,19 @@
         let request = new HttpRequest("/settings/account/delete/", "POST",
           [], {password: input.value});
         request.send(function (status, responseText) {
-          let success = JSON.parse(responseText).success;
-          if (success === true) {
-            Swal.fire("{% trans 'settings.account.delete.successful.title' %}", "{% trans 'settings.account.delete.successful.body' %}", "success").then(success => logout());
-          } else {
-            Swal.fire("{% trans 'settings.account.delete.failed.title' %}", "{% trans 'settings.account.delete.failed.body' %}", "error");
+          let response = JSON.parse(responseText);
+          if (response.success === true) {
+            Swal.fire("{% trans 'settings.account.delete.successful.title' %}",
+              "{% trans 'settings.account.delete.successful.body' %}", "success")
+              .then(success => logout());
+            return;
+          }
+          if (response.error === 1000) {
+            Swal.fire("{% trans 'settings.account.delete.failed.title' %}",
+              "{% trans 'settings.account.delete.failed.password' %}", "error");
+          } else if (response.error === 1001) {
+            Swal.fire("{% trans 'settings.account.delete.failed.title' %}",
+              "{% trans 'settings.account.delete.failed.bundle' %}", "error");
           }
         });
       }
@@ -188,7 +200,9 @@
     let request = new HttpRequest("/settings/account/unlock/", "GET",
       []);
     request.send(function (status, responseText) {
-      Swal.fire("{% trans 'settings.account.password.set.successful.title' %}", "{% trans 'settings.account.password.set.successful.body' %}", "success").then(success => logout());
+      Swal.fire("{% trans 'settings.account.password.set.successful.title' %}",
+        "{% trans 'settings.account.password.set.successful.body' %}", "success")
+        .then(success => logout());
     });
   };
 
