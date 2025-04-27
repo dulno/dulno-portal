@@ -38,8 +38,7 @@
   align-items: stretch;
   column-gap: 40px;
   row-gap: 40px;
-  margin: 10px;
-  padding: 10px;
+  padding: 20px;
   max-height: calc(var(--accessory-purchase-body-height) - 50px);
   overflow-y: auto;
 }
@@ -88,8 +87,8 @@
 }
 
 .accessory-purchase-accessory-logo img {
-  width: 96px;
-  height: 96px;
+  width: auto;
+  height: 140px;
 }
 
 .accessory-purchase-selected-accessory-remove {
