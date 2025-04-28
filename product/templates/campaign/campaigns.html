@@ -42,10 +42,17 @@
   let timelineView = "month";
 
   $(document).ready(function () {
-    fetchCampaigns(function (campaigns) {
-      displayTimeline(campaigns);
-      document.getElementById("campaigns-body").classList.add("placeholder-fade-show");
-      document.getElementById("campaigns-placeholder").classList.add("d-none");
+    fetchBundle(function (bundle) {
+      if (!bundle.campaignAccess) {
+        Swal.fire("{% trans 'product.campaigns.failed.title' %}",
+          "{% trans 'product.campaigns.failed.body' %}", "error");
+        return;
+      }
+      fetchCampaigns(function (campaigns) {
+        displayTimeline(campaigns);
+        document.getElementById("campaigns-body").classList.add("placeholder-fade-show");
+        document.getElementById("campaigns-placeholder").classList.add("d-none");
+      });
     });
   });
 
@@ -53,6 +60,13 @@
     let request = new HttpRequest("/campaigns/list/", "GET", []);
     request.send(function (status, responseText) {
       callback(JSON.parse(responseText).campaigns);
+    });
+  }
+
+  function fetchBundle(callback) {
+    let request = new HttpRequest("/bundle/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
     });
   }
 
