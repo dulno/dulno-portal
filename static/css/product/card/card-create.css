@@ -39,7 +39,7 @@
   color: #545454;
 }
 
-#card-create-type-container {
+.card-create-type-container {
   width: fit-content;
   margin: auto;
   display: grid;

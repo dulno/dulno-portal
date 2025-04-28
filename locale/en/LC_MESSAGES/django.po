@@ -556,6 +556,10 @@ msgid "product.card.create.type.member"
 msgstr "Member card"
 msgid "product.card.create.continue"
 msgstr "CONTINUE"
+msgid "product.card.create.failed.title"
+msgstr "Failed"
+msgid "product.card.create.failed.body"
+msgstr "The card type you have selected is not available for selection in your current product. Please upgrade your package to also create cards with this type"
 
 # CARD
 msgid "product.card.title"
