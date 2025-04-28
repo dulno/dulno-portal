@@ -187,6 +187,11 @@
     let request = new HttpRequest("/analysis/", "GET", []);
     request.send(function (status, responseText) {
       let response = JSON.parse(responseText);
+      if (!response.success) {
+        Swal.fire("{% trans 'product.analysis.failed.title' %}",
+          "{% trans 'product.analysis.failed.body' %}", "error");
+        return;
+      }
       callback(response);
     });
   }

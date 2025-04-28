@@ -38,7 +38,9 @@
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.collection.card' %}</p></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.value.card' %}</b></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.analysis' %}</b></li>
-          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.campaigns' %} & {% trans 'pricing.feature.notifications' %}</b></li>
+          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.balances' %}</b></li>
+          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.campaigns' %}</b></li>
+          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.notifications' %}</b></li>
         </ul>
       </th>
       <th class="pricing-package-premium pricing-package">
@@ -54,9 +56,10 @@
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.collection.card' %}</p></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.value.card' %}</p></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.analysis' %}</p></li>
-          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.campaigns' %} & {% trans 'pricing.feature.notifications' %}</p></li>
+          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.balances' %}</p></li>
+          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.campaigns' %}</p></li>
+          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.notifications' %}</p></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.member.card' %}</b></li>
-          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.multi.portal.user' %}</b></li>
         </ul>
       </th>
       <th class="pricing-package-enterprise pricing-package">
@@ -87,6 +90,13 @@
         <td class="pricing-runtime-professional"></td>
         <td class="pricing-runtime-premium"></td>
         <td class="pricing-runtime-enterprise"></td>
+      </tr>
+      <tr>
+        <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.tip' %}"></h5></td>
+        <td class="pricing-portal-basic"></td>
+        <td class="pricing-portal-professional"></td>
+        <td class="pricing-portal-premium"></td>
+        <td class="pricing-portal-enterprise"></td>
       </tr>
     </tbody>
     <tbody>
@@ -123,7 +133,7 @@
     </tbody>
     <tbody>
       <tr class="pricing-feature-bundle-headline">
-        <td>{% trans 'pricing.feature.loyalty' %}</td>
+        <td>{% trans 'pricing.feature.evaluation' %}</td>
         <td></td>
         <td></td>
         <td></td>
@@ -139,6 +149,24 @@
         <td class="pricing-analysis-enterprise"></td>
       </tr>
       <tr>
+        <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.balances' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.balances.tip' %}"></h5></td>
+        <td class="pricing-balance-basic"></td>
+        <td class="pricing-balance-professional"></td>
+        <td class="pricing-balance-premium"></td>
+        <td class="pricing-balance-enterprise"></td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr class="pricing-feature-bundle-headline">
+        <td>{% trans 'pricing.feature.loyalty' %}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
         <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.campaigns' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.campaigns.tip' %}"></h5></td>
         <td class="pricing-campaign-basic"></td>
         <td class="pricing-campaign-professional"></td>
@@ -151,38 +179,6 @@
         <td class="pricing-notification-professional"></td>
         <td class="pricing-notification-premium"></td>
         <td class="pricing-notification-enterprise"></td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="pricing-feature-bundle-headline">
-        <td>{% trans 'pricing.feature.management' %}</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr>
-        <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.tip' %}"></h5></td>
-        <td class="pricing-portal-basic"></td>
-        <td class="pricing-portal-professional"></td>
-        <td class="pricing-portal-premium"></td>
-        <td class="pricing-portal-enterprise"></td>
-      </tr>
-      <tr>
-        <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.multi.portal.user' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.multi.portal.user.tip' %}"></h5></td>
-        <td class="pricing-multi-portal-user-basic"></td>
-        <td class="pricing-multi-portal-user-professional"></td>
-        <td class="pricing-multi-portal-user-premium"></td>
-        <td class="pricing-multi-portal-user-enterprise"></td>
-      </tr>
-      <tr>
-        <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal.permission' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.permission.tip' %}"></h5></td>
-        <td class="pricing-portal-permission-basic"></td>
-        <td class="pricing-portal-permission-professional"></td>
-        <td class="pricing-portal-permission-premium"></td>
-        <td class="pricing-portal-permission-enterprise"></td>
       </tr>
     </tbody>
   </table>
@@ -206,6 +202,7 @@
               <p class="pricing-package-description">{% trans 'pricing.basic.description' %}</p>
               <div class="pricing-package-price-container">
                 <h1 class="pricing-price-basic pricing-package-price">€</h1>
+                <p class="pricing-package-time">{% trans 'pricing.per.month' %}</p>
               </div>
               <button type="button" class="pricing-package-basic-buy pricing-get-button btn btn-outline-dark">{% trans 'pricing.buy' %}</button>
               <p class="pricing-package-features-headline">{% trans 'pricing.summary.headline' %}</p>
@@ -221,6 +218,10 @@
             <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.runtime' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.runtime.tip' %}"></h5></td>
               <td class="pricing-runtime-basic pricing-feature-basic"></td>
+            </tr>
+            <tr>
+              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.tip' %}"></h5></td>
+              <td class="pricing-portal-basic"></td>
             </tr>
           </tbody>
           <tbody>
@@ -245,7 +246,7 @@
           </tbody>
           <tbody>
             <tr class="pricing-feature-bundle-headline">
-              <td>{% trans 'pricing.feature.loyalty' %}</td>
+              <td>{% trans 'pricing.feature.evaluation' %}</td>
               <td></td>
             </tr>
           </tbody>
@@ -255,32 +256,24 @@
               <td class="pricing-analysis-basic"></td>
             </tr>
             <tr>
+              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.balances' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.balances.tip' %}"></h5></td>
+              <td class="pricing-balance-basic"></td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr class="pricing-feature-bundle-headline">
+              <td>{% trans 'pricing.feature.loyalty' %}</td>
+              <td></td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.campaigns' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.campaigns.tip' %}"></h5></td>
               <td class="pricing-campaign-basic"></td>
             </tr>
             <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.notifications' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.notifications.tip' %}"></h5></td>
               <td class="pricing-notification-basic"></td>
-            </tr>
-          </tbody>
-          <tbody>
-            <tr class="pricing-feature-bundle-headline">
-              <td>{% trans 'pricing.feature.management' %}</td>
-              <td></td>
-            </tr>
-          </tbody>
-          <tbody>
-            <tr>
-              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.tip' %}"></h5></td>
-              <td class="pricing-portal-basic"></td>
-            </tr>
-            <tr>
-              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.multi.portal.user' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.multi.portal.user.tip' %}"></h5></td>
-              <td class="pricing-multi-portal-user-basic"></td>
-            </tr>
-            <tr>
-              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal.permission' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.permission.tip' %}"></h5></td>
-              <td class="pricing-portal-permission-basic"></td>
             </tr>
           </tbody>
         </table>
@@ -303,7 +296,9 @@
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.collection.card' %}</p></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.value.card' %}</b></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.analysis' %}</b></li>
-                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.campaigns' %} & {% trans 'pricing.feature.notifications' %}</b></li>
+                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.balances' %}</b></li>
+                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.campaigns' %}</b></li>
+                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.notifications' %}</b></li>
               </ul>
             </th>
           </thead>
@@ -314,6 +309,10 @@
             <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.runtime' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.runtime.tip' %}"></h5></td>
               <td class="pricing-runtime-premium pricing-feature-premium"></td>
+            </tr>
+            <tr>
+              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.tip' %}"></h5></td>
+              <td class="pricing-portal-professional"></td>
             </tr>
           </tbody>
           <tbody>
@@ -338,7 +337,7 @@
           </tbody>
           <tbody>
             <tr class="pricing-feature-bundle-headline">
-              <td>{% trans 'pricing.feature.loyalty' %}</td>
+              <td>{% trans 'pricing.feature.evaluation' %}</td>
               <td></td>
             </tr>
           </tbody>
@@ -348,32 +347,24 @@
               <td class="pricing-analysis-professional"></td>
             </tr>
             <tr>
+              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.balances' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.balances.tip' %}"></h5></td>
+              <td class="pricing-balance-professional"></td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr class="pricing-feature-bundle-headline">
+              <td>{% trans 'pricing.feature.loyalty' %}</td>
+              <td></td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.campaigns' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.campaigns.tip' %}"></h5></td>
               <td class="pricing-campaign-professional"></td>
             </tr>
             <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.notifications' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.notifications.tip' %}"></h5></td>
               <td class="pricing-notification-professional"></td>
-            </tr>
-          </tbody>
-          <tbody>
-            <tr class="pricing-feature-bundle-headline">
-              <td>{% trans 'pricing.feature.management' %}</td>
-              <td></td>
-            </tr>
-          </tbody>
-          <tbody>
-            <tr>
-              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.tip' %}"></h5></td>
-              <td class="pricing-portal-professional"></td>
-            </tr>
-            <tr>
-              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.multi.portal.user' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.multi.portal.user.tip' %}"></h5></td>
-              <td class="pricing-multi-portal-user-professional"></td>
-            </tr>
-            <tr>
-              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal.permission' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.permission.tip' %}"></h5></td>
-              <td class="pricing-portal-permission-professional"></td>
             </tr>
           </tbody>
         </table>
@@ -396,9 +387,10 @@
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.collection.card' %}</p></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.value.card' %}</p></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.analysis' %}</p></li>
-                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.campaigns' %} & {% trans 'pricing.feature.notifications' %}</p></li>
+                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.balances' %}</p></li>
+                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.campaigns' %}</p></li>
+                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.notifications' %}</p></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.member.card' %}</b></li>
-                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.multi.portal.user' %}</b></li>
               </ul>
             </th>
           </thead>
@@ -409,6 +401,10 @@
             <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.runtime' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.runtime.tip' %}"></h5></td>
               <td class="pricing-runtime-premium pricing-feature-premium"></td>
+            </tr>
+            <tr>
+              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.tip' %}"></h5></td>
+              <td class="pricing-portal-premium"></td>
             </tr>
           </tbody>
           <tbody>
@@ -432,10 +428,10 @@
             </tr>
           </tbody>
           <tbody>
-            <tr class="pricing-feature-bundle-headline">
-              <td>{% trans 'pricing.feature.loyalty' %}</td>
-              <td></td>
-            </tr>
+          <tr class="pricing-feature-bundle-headline">
+            <td>{% trans 'pricing.feature.evaluation' %}</td>
+            <td></td>
+          </tr>
           </tbody>
           <tbody>
             <tr>
@@ -443,32 +439,24 @@
               <td class="pricing-analysis-premium"></td>
             </tr>
             <tr>
+              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.balances' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.balances.tip' %}"></h5></td>
+              <td class="pricing-balance-premium"></td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr class="pricing-feature-bundle-headline">
+              <td>{% trans 'pricing.feature.loyalty' %}</td>
+              <td></td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.campaigns' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.campaigns.tip' %}"></h5></td>
               <td class="pricing-campaign-premium"></td>
             </tr>
             <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.notifications' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.notifications.tip' %}"></h5></td>
               <td class="pricing-notification-premium"></td>
-            </tr>
-          </tbody>
-          <tbody>
-            <tr class="pricing-feature-bundle-headline">
-              <td>{% trans 'pricing.feature.management' %}</td>
-              <td></td>
-            </tr>
-          </tbody>
-          <tbody>
-            <tr>
-              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.tip' %}"></h5></td>
-              <td class="pricing-portal-premium"></td>
-            </tr>
-            <tr>
-              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.multi.portal.user' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.multi.portal.user.tip' %}"></h5></td>
-              <td class="pricing-multi-portal-user-premium"></td>
-            </tr>
-            <tr>
-              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal.permission' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.permission.tip' %}"></h5></td>
-              <td class="pricing-portal-permission-premium"></td>
             </tr>
           </tbody>
         </table>
@@ -495,6 +483,10 @@
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.runtime' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.runtime.tip' %}"></h5></td>
               <td class="pricing-runtime-enterprise pricing-feature-enterprise"></td>
             </tr>
+            <tr>
+              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.tip' %}"></h5></td>
+              <td class="pricing-portal-enterprise"></td>
+            </tr>
           </tbody>
           <tbody>
             <tr class="pricing-feature-bundle-headline">
@@ -518,7 +510,7 @@
           </tbody>
           <tbody>
             <tr class="pricing-feature-bundle-headline">
-              <td>{% trans 'pricing.feature.loyalty' %}</td>
+              <td>{% trans 'pricing.feature.evaluation' %}</td>
               <td></td>
             </tr>
           </tbody>
@@ -528,32 +520,24 @@
               <td class="pricing-analysis-enterprise"></td>
             </tr>
             <tr>
+              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.balances' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.balances.tip' %}"></h5></td>
+              <td class="pricing-balance-enterprise"></td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr class="pricing-feature-bundle-headline">
+              <td>{% trans 'pricing.feature.loyalty' %}</td>
+              <td></td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.campaigns' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.campaigns.tip' %}"></h5></td>
               <td class="pricing-campaign-enterprise"></td>
             </tr>
             <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.notifications' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.notifications.tip' %}"></h5></td>
               <td class="pricing-notification-enterprise"></td>
-            </tr>
-          </tbody>
-          <tbody>
-            <tr class="pricing-feature-bundle-headline">
-              <td>{% trans 'pricing.feature.management' %}</td>
-              <td></td>
-            </tr>
-          </tbody>
-          <tbody>
-            <tr>
-              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.tip' %}"></h5></td>
-              <td class="pricing-portal-enterprise"></td>
-            </tr>
-            <tr>
-              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.multi.portal.user' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.multi.portal.user.tip' %}"></h5></td>
-              <td class="pricing-multi-portal-user-enterprise"></td>
-            </tr>
-            <tr>
-              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal.permission' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.permission.tip' %}"></h5></td>
-              <td class="pricing-portal-permission-enterprise"></td>
             </tr>
           </tbody>
         </table>
@@ -698,15 +682,14 @@
     }
     displayPackageCell("pricing-runtime-", packageName, (bundleRuntime === "MONTHLY" ?
       "{% trans 'pricing.time.month' %}" : "{% trans 'pricing.time.year' %}"));
+    displayPackageCell("pricing-portal-", packageName, packageData.portalAccess);
     displayPackageCell("pricing-collection-card-", packageName, packageData.collectionCardAccess);
     displayPackageCell("pricing-value-card-", packageName, packageData.valueCardAccess);
     displayPackageCell("pricing-member-card-", packageName, packageData.memberCardAccess);
     displayPackageCell("pricing-analysis-", packageName, packageData.analysisAccess);
+    displayPackageCell("pricing-balance-", packageName, packageData.balanceAccess);
     displayPackageCell("pricing-campaign-", packageName, packageData.campaignAccess);
     displayPackageCell("pricing-notification-", packageName, packageData.notificationAccess);
-    displayPackageCell("pricing-portal-", packageName, packageData.portalAccess);
-    displayPackageCell("pricing-multi-portal-user-", packageName, packageData.multiPortalUserAccess);
-    displayPackageCell("pricing-portal-permission-", packageName, packageData.portalPermissionAccess);
   }
 
   function displayPackageCell(packageCellId, packageName, value, suffix) {

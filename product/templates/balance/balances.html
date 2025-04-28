@@ -251,7 +251,13 @@
   function fetchBalances(callback) {
     let request = new HttpRequest("/balances/", "GET", []);
     request.send(function (status, responseText) {
-      callback(JSON.parse(responseText));
+      let response = JSON.parse(responseText);
+      if (!response.success) {
+        Swal.fire("{% trans 'product.balances.failed.title' %}",
+          "{% trans 'product.balances.failed.body' %}", "error");
+        return;
+      }
+      callback(response);
     });
   }
 
