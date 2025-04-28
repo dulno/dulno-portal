@@ -170,6 +170,16 @@
       let response = JSON.parse(responseText);
       if (response.success) {
         window.location.href = "/campaign/" + response.campaign + "/";
+        return;
+      }
+      continueButton.classList.remove("disabled");
+      continueButton.innerHTML = "{% trans 'product.campaign.create.continue' %}";
+      if (response.error === 1000) {
+        Swal.fire("{% trans 'product.campaign.create.failed.title' %}",
+          "{% trans 'product.campaign.create.failed.start.greater.end' %}", "error");
+      } else if (response.error === 1001) {
+        Swal.fire("{% trans 'product.campaign.create.failed.title' %}",
+          "{% trans 'product.campaign.create.failed.bundle' %}", "error");
       }
     });
   });

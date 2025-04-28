@@ -219,7 +219,10 @@
       if (response.success) {
         return;
       }
-      if (response.error === 1001) {
+      if (response.error === 1000) {
+        Swal.fire("{% trans 'product.campaign.notification.update.failed.title' %}",
+          "{% trans 'product.campaign.notification.update.failed.dispatch.past' %}", "error");
+      } else if (response.error === 1001) {
         Swal.fire("{% trans 'product.campaign.notification.update.failed.title' %}",
           "{% trans 'product.campaign.notification.update.failed.spacing' %}", "error");
       } else if (response.error === 1002) {
@@ -243,9 +246,17 @@
         created = true;
         return;
       }
-      if (response.error === 1001) {
+      continueButton.classList.remove("disabled");
+      continueButton.innerHTML = "{% trans 'product.campaign.create.continue' %}";
+      if (response.error === 1000) {
+        Swal.fire("{% trans 'product.campaign.notification.update.failed.title' %}",
+          "{% trans 'product.campaign.notification.update.failed.dispatch.past' %}", "error");
+      } else if (response.error === 1001) {
         Swal.fire("{% trans 'product.campaign.notification.update.failed.title' %}",
           "{% trans 'product.campaign.notification.update.failed.spacing' %}", "error");
+      } else if (response.error === 1002) {
+        Swal.fire("{% trans 'product.campaign.notification.update.failed.title' %}",
+          "{% trans 'product.campaign.notification.update.failed.bundle' %}", "error");
       }
     });
   }

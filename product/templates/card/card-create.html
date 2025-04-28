@@ -7,7 +7,7 @@
     {% include 'product-sidebar.html' %}
     <div class="sidebar-influenced">
       <div id="card-create-container">
-        <div id="card-create-wrapper" class="d-none">
+        <div id="card-create-wrapper">
           <div class="text-center mb-5">
             <div class="position-relative d-flex justify-content-center align-items-center mb-md-0 mb-4">
               <div class="me-auto">
@@ -17,16 +17,30 @@
             </div>
             <p class="text-secondary mx-3">{% trans 'product.card.create.description' %}</p>
           </div>
-          <div id="card-create-type-container">
-            <button id="card-create-type-collection" class="card-create-type">
+          <div id="card-create-type-placeholder" class="card-create-type-container">
+            <button class="card-create-type">
+              <div class="card-create-type-icon placeholder placeholder-wave rounded"></div>
+              <div class="w-75 placeholder placeholder-wave rounded py-3"></div>
+            </button>
+            <button class="card-create-type">
+              <div class="card-create-type-icon placeholder placeholder-wave rounded"></div>
+              <div class="w-75 placeholder placeholder-wave rounded py-3"></div>
+            </button>
+            <button class="card-create-type">
+              <div class="card-create-type-icon placeholder placeholder-wave rounded"></div>
+              <div class="w-75 placeholder placeholder-wave rounded py-3"></div>
+            </button>
+          </div>
+          <div id="card-create-type-container" class="card-create-type-container placeholder-fade">
+            <button id="card-create-type-collection" class="card-create-type d-none">
               <i class="fa-solid fa-hand-holding-heart card-create-type-icon"></i>
               <h4>{% trans 'product.card.create.type.collection' %}</h4>
             </button>
-            <button id="card-create-type-value" class="card-create-type">
+            <button id="card-create-type-value" class="card-create-type d-none">
               <i class="fa-solid fa-wallet card-create-type-icon"></i>
               <h4>{% trans 'product.card.create.type.value' %}</h4>
             </button>
-            <button id="card-create-type-member" class="card-create-type">
+            <button id="card-create-type-member" class="card-create-type d-none">
               <i class="fa-solid fa-crown card-create-type-icon"></i>
               <h4>{% trans 'product.card.create.type.member' %}</h4>
             </button>
@@ -46,9 +60,41 @@
   let continued = false;
 
   $(document).ready(function () {
-    displayLoader();
-    removeLoader();
+    fetchBundle(function (bundle) {
+      document.getElementById("card-create-type-container").classList.add("placeholder-fade-show");
+      document.getElementById("card-create-type-placeholder").classList.add("d-none");
+      displayCardTypes(bundle);
+    });
   });
+
+  function fetchBundle(callback) {
+    let request = new HttpRequest("/bundle/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+
+  function displayCardTypes(bundle) {
+    let types = [];
+    if (bundle.collectionCardAccess) {
+      document.getElementById("card-create-type-collection").classList.remove("d-none");
+      types.push("collection");
+    }
+    if (bundle.valueCardAccess) {
+      document.getElementById("card-create-type-value").classList.remove("d-none");
+      types.push("value");
+    }
+    if (bundle.memberCardAccess) {
+      document.getElementById("card-create-type-member").classList.remove("d-none");
+      types.push("member");
+    }
+    document.getElementById("card-create-type-container").style.gridTemplateColumns =
+      "repeat(" + types.length + ", 1fr)";
+    if (types.length === 1) {
+      selectCardType(types[0]);
+      createCard();
+    }
+  }
 
   document.getElementById("card-create-type-collection").addEventListener("click", function (event) {
     selectCardType("collection");
@@ -76,6 +122,13 @@
   }
 
   document.getElementById("card-continue").addEventListener("click", function (event) {
+    createCard();
+  });
+
+  function createCard() {
+    if (continued) {
+      return;
+    }
     continued = true;
     document.getElementById("card-continue").classList.add("disabled");
     document.getElementById("card-continue").innerHTML = "{% trans 'product.card.create.continue' %}" + `
@@ -85,23 +138,20 @@
     let request = new HttpRequest("/card/create/", "POST", [],
       {type: selectedType.toUpperCase()});
     request.send(function (status, responseText) {
-      window.location.href = "/card/" + JSON.parse(responseText).card + "/";
+      let response = JSON.parse(responseText);
+      if (response.success) {
+        window.location.href = "/card/" + JSON.parse(responseText).card + "/";
+        return;
+      }
+      continued = false;
+      document.getElementById("card-continue").classList.remove("disabled");
+      document.getElementById("card-continue").innerHTML = "{% trans 'product.card.create.continue' %}";
+      Swal.fire("{% trans 'product.card.create.failed.title' %}",
+        "{% trans 'product.card.create.failed.body' %}", "error");
     });
-  });
+  }
 
   document.getElementById("card-create-page-back").addEventListener("click", function (event) {
     window.location.href = "/cards/";
   });
-
-  function displayLoader() {
-    let loader = document.createElement("div");
-    loader.classList.add("loader");
-    document.getElementById("card-create-container").appendChild(loader);
-  }
-
-  function removeLoader() {
-    document.getElementById("card-create-container").removeChild(
-      document.getElementsByClassName("loader")[0]);
-    document.getElementById("card-create-wrapper").classList.remove("d-none");
-  }
 </script>
