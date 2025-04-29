@@ -33,9 +33,9 @@ elif ENVIRONMENT == 'LOCAL':
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 if ENVIRONMENT == 'PRODUCTIVE':
-  COOKIE_DOMAIN = '.dulno.com'
+  COOKIE_DOMAIN = 'portal.dulno.com'
 elif ENVIRONMENT == 'STAGING':
-  COOKIE_DOMAIN = '.dulno.dev'
+  COOKIE_DOMAIN = 'portal.dulno.dev'
 elif ENVIRONMENT == 'LOCAL':
   COOKIE_DOMAIN = '127.0.0.1'
 
