@@ -116,6 +116,8 @@
   document.getElementById('logout-button').onclick = function() {
     let request = new HttpRequest("/verification/logout/", "GET", []);
     request.send(function (status, responseText) {
+      Cookie.destroy("token");
+      Cookie.destroy("refresh-token");
       Cookie.destroy("home-token");
       window.location.href = "/";
     });

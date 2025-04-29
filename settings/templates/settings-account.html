@@ -207,8 +207,7 @@
   };
 
   function logout() {
-    let request = new HttpRequest("/verification/logout/",
-      "GET", []);
+    let request = new HttpRequest("/verification/logout/", "GET", []);
     request.send(function (status, responseText) {
       Cookie.destroy("token");
       Cookie.destroy("refresh-token");

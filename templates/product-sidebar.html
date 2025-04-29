@@ -16,21 +16,21 @@
       <li class="sidebar-item {% if 'partner' in request.path %}sidebar-active{% endif %}">
         <a href="/partner/general/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">store</span><span>{% trans 'product.sidebar.partner' %}</span></a>
       </li>
-      <li class="sidebar-divider"></li>
-      <li id="sidebar-analysis" class="sidebar-item {% if 'analysis' in request.path %}sidebar-active{% endif %}">
+      <li id="sidebar-advanced-divider" class="sidebar-divider d-none"></li>
+      <li id="sidebar-analysis" class="sidebar-item d-none {% if 'analysis' in request.path %}sidebar-active{% endif %}">
         <a href="/analysis/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">monitoring</span><span>{% trans 'product.sidebar.analysis' %}</span></a>
       </li>
-      <li id="sidebar-balances" class="sidebar-item {% if 'balance' in request.path %}sidebar-active{% endif %}">
+      <li id="sidebar-balances" class="sidebar-item d-none {% if 'balance' in request.path %}sidebar-active{% endif %}">
         <a href="/balances/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">payments</span><span>{% trans 'product.sidebar.balances' %}</span></a>
       </li>
-      <li id="sidebar-campaigns" class="sidebar-item {% if 'campaign' in request.path %}sidebar-active{% endif %}">
+      <li id="sidebar-campaigns" class="sidebar-item d-none {% if 'campaign' in request.path %}sidebar-active{% endif %}">
         <a href="/campaigns/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">campaign</span><span>{% trans 'product.sidebar.campaigns' %}</span></a>
       </li>
       <li class="sidebar-divider"></li>
-      <li id="sidebar-package" class="sidebar-item {% if 'package' in request.path %}sidebar-active{% endif %}">
+      <li class="sidebar-item {% if 'package' in request.path %}sidebar-active{% endif %}">
         <a href="/package/general/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">account_balance</span><span>{% trans 'product.sidebar.package' %}</span></a>
       </li>
-      <li id="sidebar-accessories" class="sidebar-item {% if 'accessory' in request.path %}sidebar-active{% endif %}">
+      <li class="sidebar-item {% if 'accessory' in request.path %}sidebar-active{% endif %}">
         <a href="/accessory/purchase/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">shopping_cart</span><span>{% trans 'product.sidebar.accessories' %}</span></a>
       </li>
       <li class="sidebar-divider mt-auto"></li>
@@ -47,5 +47,39 @@
     icons.forEach(icon => {
       icon.classList.add('loaded');
     });
+    fetchSidebarBundle(function (bundle) {
+      checkAdvancedItems(bundle);
+    });
   });
+
+  function checkAdvancedItems(bundle) {
+    let hasAdvancedAccess = false;
+    if (bundle.analysisAccess) {
+      document.getElementById("sidebar-analysis").classList.remove("d-none");
+      hasAdvancedAccess = true;
+    }
+    if (bundle.balanceAccess) {
+      document.getElementById("sidebar-balances").classList.remove("d-none");
+      hasAdvancedAccess = true;
+    }
+    if (bundle.campaignAccess) {
+      document.getElementById("sidebar-campaigns").classList.remove("d-none");
+      hasAdvancedAccess = true;
+    }
+    if (hasAdvancedAccess) {
+      document.getElementById("sidebar-advanced-divider").classList.remove("d-none");
+    }
+  }
+
+  function fetchSidebarBundle(callback) {
+    if (sessionStorage.getItem("dulno-bundle") !== null) {
+      callback(JSON.parse(sessionStorage.getItem("dulno-bundle")));
+      return;
+    }
+    let request = new HttpRequest("/bundle/", "GET", []);
+    request.send(function (status, responseText) {
+      sessionStorage.setItem("dulno-bundle", responseText);
+      callback(JSON.parse(responseText));
+    });
+  }
 </script>

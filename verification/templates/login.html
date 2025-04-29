@@ -87,6 +87,7 @@
       if (success === true) {
         Cookie.create("token", response.productApiKey, 60 * 60 * 24 * 30);
         Cookie.create("refresh-token", response.refreshToken, 60 * 60 * 24 * 30);
+        sessionStorage.removeItem("dulno-bundle");
         if (!redirect()) {
           window.location.href = "/dashboard/";
         }
