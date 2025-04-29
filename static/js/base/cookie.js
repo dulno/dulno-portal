@@ -31,7 +31,7 @@ let Cookie = {
       name: escape(value),
       expires: expires_at.toGMTString(),
       path: "/",
-      domain: "." + hostname,
+      domain: hostname,
     };
     if (!hostname.includes("0.0.0.0") && !hostname.includes("127.0.0.1")) {
       content.secure = true;
