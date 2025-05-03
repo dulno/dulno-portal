@@ -139,4 +139,4 @@ def setCookie(response, key, value, expirationDays):
   expires = datetime.datetime.strftime(datetime.datetime.utcnow() +
     datetime.timedelta(days=expirationDays), "%a, %d-%b-%Y %H:%M:%S GMT")
   response.set_cookie(key, value, expires=expires, domain=COOKIE_DOMAIN,
-    secure=(ENVIRONMENT == 'PRODUCTIVE' or ENVIRONMENT == 'STAGING'))
+    secure=(ENVIRONMENT == 'PRODUCTION' or ENVIRONMENT == 'STAGING'))
