@@ -25,7 +25,7 @@ def applyLanguage(request):
 async def login(request):
   token = request.COOKIES.get('token')
   redirectUrl = request.GET.get('redirect', '')
-  if (token is None or redirectUrl is not ''):
+  if token is None or redirectUrl != '':
     return render(request, 'login.html', {'title': gettext("login.title"),
       'css': ['css/base/home-language.css', 'css/base/2fa.css', 'css/verification/login.css'],
       'redirect': redirectUrl, 'google_client_id': GOOGLE_CLIENT_ID})
