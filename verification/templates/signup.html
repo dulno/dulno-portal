@@ -208,7 +208,7 @@
               </div>
               <div class="signup-field signup-pagination">
                 <button class="signup-previous-button">{% trans 'signup.previous' %}</button>
-                <button id="signup-finish-submit" class="signup-submit-button signup-submit-disabled">{% trans 'signup.submit' %}</button>
+                <button id="signup-finish-submit" class="signup-submit-button signup-submit-disabled d-flex justify-content-center align-items-center">{% trans 'signup.submit' %}</button>
               </div>
             </div>
             <div class="signup-page">
@@ -674,7 +674,14 @@
     if (finishSubmitButton.classList.contains("signup-submit-disabled")) {
       return;
     }
+    document.getElementById("signup-finish-submit").innerHTML = "{% trans 'signup.submit' %}" + `
+      <span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span>
+      <span class="visually-hidden" role="status">Loading...</span>
+    `;
+    document.getElementById("signup-finish-submit").classList.add("signup-submit-disabled");
     signup(function (response) {
+      document.getElementById("signup-finish-submit").innerHTML = "{% trans 'signup.submit' %}";
+      document.getElementById("signup-finish-submit").classList.remove("signup-submit-disabled");
       if (response.success === true) {
         sessionStorage.setItem("signup-email", accountEmailInput.value);
         nextSignupPage(pages.length - 2);
