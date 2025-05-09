@@ -173,6 +173,8 @@
     }).then(result => {
       if (result.isConfirmed) {
         confirm2FA();
+      } else {
+        window.location.reload();
       }
     });
   }
@@ -193,6 +195,8 @@
           "{% trans 'settings.2fa.confirm.successful.body' %}", "success")
           .then(success => window.location.reload());
       });
+    }, function () {
+      window.location.reload();
     });
   }
 </script>
