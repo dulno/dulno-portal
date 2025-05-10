@@ -22,7 +22,12 @@
               <label for="password" class="form-label">{% trans 'login.password' %}</label>
               <a id="forgot-password" href="/password/reset/request/">{% trans 'login.password.forgot' %}</a>
             </div>
-            <input type="password" id="password" class="form-control" placeholder="{% trans 'login.password' %}"/>
+            <div class="password-container">
+              <input type="password" id="password" class="form-control" placeholder="{% trans 'login.password' %}"/>
+              <button id="password-toggle" class="password-toggle">
+                <i id="password-toggle-icon" class="password-toggle-icon fa-solid fa-eye"></i>
+              </button>
+            </div>
           </div>
           <div class="form-check mb-3">
             <input type="checkbox" class="form-check-input" id="remember-check">
@@ -130,4 +135,19 @@
     }
     return false;
   }
+
+  document.getElementById("password-toggle").addEventListener("click", function(event) {
+    event.preventDefault();
+    let input = document.getElementById("password");
+    let type = input.getAttribute("type") === "password" ? "text" : "password";
+    input.setAttribute("type", type);
+    let icon = document.getElementById("password-toggle-icon");
+    if (type === "password") {
+      icon.classList.remove("fa-eye-slash");
+      icon.classList.add("fa-eye");
+    } else {
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    }
+  });
 </script>

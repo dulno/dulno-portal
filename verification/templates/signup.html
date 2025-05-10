@@ -51,7 +51,7 @@
         </div>
         <div id="signup-content">
           <div id="signup-form">
-            <div class="signup-page">
+            <div class="signup-page was-validated">
               <div class="flex-grow-1">
                 <div>
                   <div class="signup-page-headline">{% trans 'signup.card.headline' %}</div>
@@ -61,15 +61,15 @@
                   <div class="flex-grow-1 align-self-stretch me-xl-5">
                     <div class="signup-field">
                       <div class="signup-field-label">{% trans 'signup.card.business.name' %}</div>
-                      <input id="signup-card-name-input" type="text" autocomplete=off maxlength=64 placeholder="{% trans 'signup.card.business.name.placeholder' %}">
+                      <input id="signup-card-name-input" type="text" class="form-control" autocomplete=off maxlength=64 placeholder="{% trans 'signup.card.business.name.placeholder' %}" required>
                     </div>
                     <div class="signup-field">
                       <div class="signup-field-label">{% trans 'signup.card.business.description' %}</div>
-                      <input id="signup-card-description-input" type="text" autocomplete=off maxlength=256 placeholder="{% trans 'signup.card.business.description.placeholder' %}">
+                      <input id="signup-card-description-input" type="text" class="form-control" autocomplete=off maxlength=256 placeholder="{% trans 'signup.card.business.description.placeholder' %}" required>
                     </div>
                     <div class="signup-field">
                       <div class="signup-field-label">{% trans 'signup.card.logo' %}</div>
-                      <input id="signup-card-logo-input" type="file" autocomplete=off accept="image/png, image/jpeg" />
+                      <input id="signup-card-logo-input" type="file" class="form-control" autocomplete=off accept="image/png, image/jpeg" required/>
                     </div>
                     <div class="signup-field">
                       <div class="signup-field-label">{% trans 'signup.card.background.color' %}</div>
@@ -105,7 +105,7 @@
                 <button id="signup-card-next" class="signup-next-button signup-next-disabled">{% trans 'signup.next' %}</button>
               </div>
             </div>
-            <div class="signup-page">
+            <div class="signup-page was-validated">
               <div class="flex-grow-1">
                 <div>
                   <div class="signup-page-headline">{% trans 'signup.reward.headline' %}</div>
@@ -114,11 +114,11 @@
                 <div class="signup-page-input-list">
                   <div class="signup-field">
                     <div class="signup-field-label">{% trans 'signup.reward.number' %}</div>
-                    <input id="signup-reward-number-input" type="text" autocomplete=off value="10">
+                    <input id="signup-reward-number-input" type="text" class="form-control" autocomplete=off value="10" required>
                   </div>
                   <div class="signup-field">
                     <div class="signup-field-label">{% trans 'signup.reward.type' %}</div>
-                    <input id="signup-reward-type-input" type="text" autocomplete=off maxlength=128 placeholder="{% trans 'signup.reward.type.placeholder' %}">
+                    <input id="signup-reward-type-input" type="text" class="form-control" autocomplete=off maxlength=128 placeholder="{% trans 'signup.reward.type.placeholder' %}" required>
                   </div>
                 </div>
               </div>
@@ -127,7 +127,7 @@
                 <button id="signup-reward-next" class="signup-next-button signup-next-disabled">{% trans 'signup.next' %}</button>
               </div>
             </div>
-            <div class="signup-page">
+            <div class="signup-page was-validated">
               <div class="flex-grow-1">
                 <div>
                   <div class="signup-page-headline">{% trans 'signup.business.headline' %}</div>
@@ -149,7 +149,7 @@
                 <button id="signup-business-next" class="signup-next-button signup-next-disabled">{% trans 'signup.next' %}</button>
               </div>
             </div>
-            <div class="signup-page">
+            <div class="signup-page was-validated">
               <div class="flex-grow-1">
                 <div>
                   <div class="signup-page-headline">{% trans 'signup.account.headline' %}</div>
@@ -158,25 +158,35 @@
                 <div class="signup-page-input-list">
                   <div class="signup-field">
                     <div class="signup-field-label">{% trans 'signup.account.name' %}</div>
-                    <input id="signup-account-name-input" type="text" autocomplete=off maxlength=64 placeholder="{% trans 'signup.account.name.placeholder' %}">
+                    <input id="signup-account-name-input" type="text" autocomplete=off class="form-control" maxlength=64 placeholder="{% trans 'signup.account.name.placeholder' %}" required>
                   </div>
-                  <div class="signup-field was-validated">
+                  <div class="signup-field">
                     <div class="signup-field-label">{% trans 'signup.account.email' %}</div>
-                    <input id="signup-account-email-input" type="text" autocomplete=off class="form-control" placeholder="{% trans 'signup.account.email.placeholder' %}">
+                    <input id="signup-account-email-input" type="text" autocomplete=off class="form-control" placeholder="{% trans 'signup.account.email.placeholder' %}" required>
                   </div>
-                  <div class="signup-field was-validated">
+                  <div class="signup-field">
                     <div class="signup-field-label">{% trans 'signup.account.password' %}</div>
-                    <input id="signup-account-password-input" type="password" autocomplete=off class="form-control" minlength="8" name="password" placeholder="{% trans 'signup.account.password.placeholder' %}" required>
-                    <div class="progress mt-3" style="height: 5px;">
-                      <div id="progressbar" class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" style="width: 1%;">
+                    <div class="signup-account-password-container">
+                      <input id="signup-account-password-input" type="password" autocomplete=off class="form-control" minlength="8" name="password" placeholder="{% trans 'signup.account.password.placeholder' %}" required>
+                      <div class="progress mt-3" style="height: 5px;">
+                        <div id="progressbar" class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" style="width: 1%;">
+                        </div>
                       </div>
+                      <div id="feedbackin" class="valid-feedback"></div>
+                      <div id="feedbackirn" class="invalid-feedback">8 {% trans 'neutral.password.letters.remaining' %}, {% trans 'neutral.password.special.characters' %}, {% trans 'neutral.password.upper.case.letters' %}, {% trans 'neutral.password.lower.case.letters' %}, {% trans 'neutral.password.numbers' %}</div>
+                      <button id="signup-account-password-toggle" class="signup-account-password-toggle">
+                        <i id="signup-account-password-toggle-icon" class="signup-account-password-toggle-icon fa-solid fa-eye"></i>
+                      </button>
                     </div>
-                    <div id="feedbackin" class="valid-feedback"></div>
-                    <div id="feedbackirn" class="invalid-feedback">8 {% trans 'neutral.password.letters.remaining' %}, {% trans 'neutral.password.special.characters' %}, {% trans 'neutral.password.upper.case.letters' %}, {% trans 'neutral.password.lower.case.letters' %}, {% trans 'neutral.password.numbers' %}</div>
                   </div>
-                  <div class="signup-field was-validated">
+                  <div class="signup-field">
                     <div class="signup-field-label">{% trans 'signup.account.password.repetition' %}</div>
-                    <input id="signup-account-password-repetition-input" type="password" autocomplete=off class="form-control" placeholder="{% trans 'signup.account.password.repetition.placeholder' %}">
+                    <div class="signup-account-password-container">
+                      <input id="signup-account-password-repetition-input" type="password" autocomplete=off class="form-control" placeholder="{% trans 'signup.account.password.repetition.placeholder' %}">
+                      <button id="signup-account-password-repetition-toggle" class="signup-account-password-toggle">
+                        <i id="signup-account-password-repetition-toggle-icon" class="signup-account-password-toggle-icon fa-solid fa-eye"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -423,8 +433,10 @@
     let entryControl = document.createElement("div");
     entryControl.classList.add("d-flex", "align-items-center");
     let inputElement = document.createElement("input");
+    inputElement.classList.add("form-control");
     inputElement.placeholder = "{% trans 'signup.business.location.placeholder' %}";
     inputElement.type = "text";
+    inputElement.required = true;
     entryControl.appendChild(inputElement);
     let removeElement = document.createElement("button");
     removeElement.innerHTML = '<i class="fa-solid fa-xmark text-danger"></i>';
@@ -598,25 +610,24 @@
         break;
       case 1:
         strength = "{% trans 'neutral.password.too.weak' %}";
-        progress = 15;
+        progress = 25;
         break;
       case 2:
         strength = "{% trans 'neutral.password.very.weak' %}";
-        progress = 30;
+        progress = 50;
         break;
       case 3:
         strength = "{% trans 'neutral.password.weak' %}";
-        progress = 45;
+        progress = 75;
         break;
       default:
         strength = "{% trans 'neutral.password.strong' %}";
-        progress = 75;
+        progress = 100;
         break;
     }
-    progress += accountPasswordInput.value.length;
     let information = "";
     let progressBarClass;
-    if (progress >= 75 && accountPasswordInput.value.length >= 8) {
+    if (progress >= 100 && accountPasswordInput.value.length >= 8) {
       accountPasswordInput.setCustomValidity("");
       progressBarClass = "bg-success";
       information = "{% trans 'neutral.password.strong' %}";
@@ -741,6 +752,30 @@
         callback(JSON.parse(responseText));
       });
     });
+  }
+
+  document.getElementById("signup-account-password-toggle").addEventListener("click", function(event) {
+    event.preventDefault();
+    clickPasswordToggle(document.getElementById("signup-account-password-input"),
+      document.getElementById("signup-account-password-toggle-icon"));
+  });
+
+  document.getElementById("signup-account-password-repetition-toggle").addEventListener("click", function(event) {
+    event.preventDefault();
+    clickPasswordToggle(document.getElementById("signup-account-password-repetition-input"),
+      document.getElementById("signup-account-password-repetition-toggle-icon"));
+  });
+
+  function clickPasswordToggle(input, icon) {
+    let type = input.getAttribute("type") === "password" ? "text" : "password";
+    input.setAttribute("type", type);
+    if (type === "password") {
+      icon.classList.remove("fa-eye-slash");
+      icon.classList.add("fa-eye");
+    } else {
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    }
   }
 
   function resendSignupEmail() {

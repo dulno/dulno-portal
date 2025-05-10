@@ -69,26 +69,26 @@ form {
   border-radius: 10px;
 }
 
-.dark input[type = "email"], .dark input[type = "password"] {
+.dark input[type = "email"], .dark input[type = "password"], .dark input[type = "text"] {
   background-color: #0d1117 !important;
   color: white !important;
   -webkit-text-fill-color: white;
   border: 1px solid #cecece !important;
 }
 
-.dark input[type = "email"]::placeholder, .dark input[type = "password"]::placeholder {
+.dark input[type = "email"]::placeholder, .dark input[type = "password"]::placeholder, .dark input[type = "text"]::placeholder {
   color: #828282 !important;
   -webkit-text-fill-color: #828282;
 }
 
-.light input[type = "email"], .light input[type = "password"] {
+.light input[type = "email"], .light input[type = "password"], .light input[type = "text"] {
   background-color: #eaeaea !important;
   color: black !important;
   -webkit-text-fill-color: black;
   border: 1px solid #4c4c4c !important;
 }
 
-.light input[type = "email"]::placeholder, .light input[type = "password"]::placeholder {
+.light input[type = "email"]::placeholder, .light input[type = "password"]::placeholder, .light input[type = "text"]::placeholder {
   color: #949494 !important;
   -webkit-text-fill-color: #949494;
 }
@@ -116,6 +116,39 @@ input:-webkit-autofill:active{
 .light .form-check-input {
   background-color: #eaeaea;
   border: 1px solid #4c4c4c;
+}
+
+.password-container {
+  position: relative;
+}
+
+.password-container input {
+  padding-right: 40px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 7px;
+  top: 6px;
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.password-toggle-icon {
+  width: 30px;
+  border-radius: 5px;
+  padding: 5px;
+  transition: 0.1s;
+}
+
+.dark .password-toggle-icon:hover {
+  background-color: #161c26;
+}
+
+.light .password-toggle-icon:hover {
+  background-color: #d7d7d7;
 }
 
 #forgot-password {
