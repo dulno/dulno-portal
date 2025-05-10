@@ -330,7 +330,7 @@
         const length = input.value.length;
         input.setSelectionRange(length, length);
       }
-    }, 200);
+    }, 500);
   }
 
   let cardBusinessNameInput = document.getElementById("signup-card-name-input");
@@ -378,7 +378,6 @@
     }
     reader.readAsArrayBuffer(cardLogoInput.files[0]);
   }
-
 
   let cardBackgroundColorInput = document.getElementById("signup-card-background-color-input");
   cardBackgroundColorInput.addEventListener("input", function (event) {
