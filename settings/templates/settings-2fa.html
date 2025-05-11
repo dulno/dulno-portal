@@ -70,14 +70,30 @@
 
   function switch2FA() {
     let content = document.createElement("div");
-    content.classList.add("settings-2fa-switch-password-content");
+    content.classList.add("settings-2fa-switch-password-content", "was-validated");
     let text = document.createElement("p");
     text.innerText = "{% trans 'settings.2fa.switch.password.body' %}";
     content.appendChild(text);
+    let inputContainer = document.createElement("div");
+    inputContainer.classList.add("settings-2fa-password-container");
     let input = document.createElement("input");
+    input.classList.add("form-control");
     input.placeholder = "{% trans 'settings.2fa.switch.password' %}";
     input.type = "password";
-    content.appendChild(input);
+    input.required = true;
+    inputContainer.appendChild(input);
+    let passwordToggle = document.createElement("button");
+    passwordToggle.classList.add("settings-2fa-password-toggle");
+    let passwordToggleIcon = document.createElement("i");
+    passwordToggleIcon.classList.add("settings-2fa-password-toggle-icon",
+      "fa-solid", "fa-eye");
+    passwordToggle.appendChild(passwordToggleIcon);
+    passwordToggle.onclick = function (event) {
+      event.preventDefault();
+      clickPasswordToggle(input, passwordToggleIcon);
+    }
+    inputContainer.appendChild(passwordToggle);
+    content.appendChild(inputContainer);
     Swal.fire({
       title: "{% trans 'settings.2fa.switch.password.title' %}",
       html: content,
@@ -173,6 +189,8 @@
     }).then(result => {
       if (result.isConfirmed) {
         confirm2FA();
+      } else {
+        window.location.reload();
       }
     });
   }
@@ -193,6 +211,20 @@
           "{% trans 'settings.2fa.confirm.successful.body' %}", "success")
           .then(success => window.location.reload());
       });
+    }, function () {
+      window.location.reload();
     });
+  }
+
+  function clickPasswordToggle(input, icon) {
+    let type = input.getAttribute("type") === "password" ? "text" : "password";
+    input.setAttribute("type", type);
+    if (type === "password") {
+      icon.classList.remove("fa-eye-slash");
+      icon.classList.add("fa-eye");
+    } else {
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    }
   }
 </script>

@@ -2,7 +2,7 @@
 {% load i18n %}
 
 <script>
-  function display2FA(callback) {
+  function display2FA(callback, abort) {
     let content = document.createElement("div");
     let description = document.createElement("p");
     description.classList.add("mb-4");
@@ -22,6 +22,8 @@
     }).then((result) => {
       if (result.isConfirmed) {
         callback(collectInput(inputList, ""));
+      } else if (abort) {
+        abort();
       }
     });
   }

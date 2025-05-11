@@ -69,6 +69,11 @@ async def expiration(request):
     'css': ['css/verification/expiration.css', 'css/base/pricing-content.css']})
 
 @home_page
+async def sale(request):
+  return render(request, 'sale.html', {'title': gettext("sale.title"),
+    'css': ['css/verification/sale.css']})
+
+@home_page
 async def offer(request, id):
   return render(request, 'offer.html', {'title': gettext("offer.title"),
     'css': ['css/base/verification-header.css', 'css/base/home-language.css', 'css/verification/offer.css'],
