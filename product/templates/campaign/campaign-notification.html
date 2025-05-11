@@ -89,6 +89,16 @@
           </div>
         </div>
       </div>
+      <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="campaign-notification-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <img class="dulno-logo me-2" alt="" width="32" height="32">
+            <strong id="campaign-notification-toast-title" class="me-auto"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div id="campaign-notification-toast-body" class="toast-body"></div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
@@ -217,6 +227,9 @@
     request.send(function (status, responseText) {
       let response = JSON.parse(responseText);
       if (response.success) {
+        displayCampaignNotificationToast(
+          "{% trans 'product.campaign.notification.update.successful.title' %}",
+          "{% trans 'product.campaign.notification.update.successful.body' %}");
         return;
       }
       if (response.error === 1000) {
@@ -244,6 +257,9 @@
       if (response.success) {
         notification.id = response.notification;
         created = true;
+        displayCampaignNotificationToast(
+          "{% trans 'product.campaign.notification.create.successful.title' %}",
+          "{% trans 'product.campaign.notification.create.successful.body' %}");
         return;
       }
       if (response.error === 1000) {
@@ -257,6 +273,13 @@
           "{% trans 'product.campaign.notification.update.failed.bundle' %}", "error");
       }
     });
+  }
+
+  function displayCampaignNotificationToast(title, body) {
+    document.getElementById("campaign-notification-toast-title").innerText = title;
+    document.getElementById("campaign-notification-toast-body").innerText = body;
+    bootstrap.Toast.getOrCreateInstance(
+      document.getElementById('campaign-notification-toast')).show();
   }
 
   document.getElementById("campaign-notification-delete").onclick = function (event) {

@@ -10,6 +10,7 @@ urlpatterns = [
   path('payment/', verification.payment),
   path('payment/complete/<str:token>/', verification.paymentComplete),
   path('expiration/', verification.expiration),
+  path('sale/', verification.sale),
   path('offer/<str:id>/', verification.offer),
   path('password/reset/request/', verification.passwordResetRequest),
   path('password/reset/complete/<str:member>/<str:token>/', verification.passwordResetComplete),

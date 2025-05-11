@@ -10,6 +10,39 @@
   border: 1px solid #dadada;
 }
 
+.settings-2fa-password-container {
+  position: relative;
+}
+
+.settings-2fa-password-container input {
+  padding-right: 65px !important;
+}
+
+.settings-2fa-password-toggle {
+  position: absolute;
+  right: 32px;
+  top: 6px;
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.settings-2fa-password-toggle-icon {
+  width: 30px;
+  border-radius: 5px;
+  padding: 5px;
+  transition: 0.1s;
+}
+
+.dark .settings-2fa-password-toggle-icon:hover {
+  background-color: #161c26;
+}
+
+.light .settings-2fa-password-toggle-icon:hover {
+  background-color: #d7d7d7;
+}
+
 .settings-2fa-qrcode-steps {
   list-style-type: decimal;
   text-align: left;
@@ -71,11 +104,12 @@
 }
 
 .settings-2fa-switch-password-content input {
+  width: 100%;
   background-color: transparent !important;
   border-radius: 5px;
   box-shadow: none;
   outline: none;
-  padding: 10px !important;
+  padding: 10px;
 }
 
 .dark .settings-2fa-switch-password-content input {
@@ -90,4 +124,12 @@
 
 .settings-2fa-switch-password-content input::placeholder {
   color: #a5a5a5;
+}
+
+.settings-2fa-switch-password-content .settings-2fa-password-toggle {
+  top: 9px;
+}
+
+.settings-2fa-switch-password-content .settings-2fa-password-toggle-icon {
+  width: 33px;
 }

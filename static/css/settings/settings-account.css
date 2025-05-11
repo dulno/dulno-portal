@@ -43,6 +43,39 @@ form input:-webkit-autofill:active{
   font-size: 20px;
 }
 
+.settings-account-password-container {
+  position: relative;
+}
+
+.settings-account-password-container input {
+  padding-right: 65px !important;
+}
+
+.settings-account-password-toggle {
+  position: absolute;
+  right: 32px;
+  top: 6px;
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.settings-account-password-toggle-icon {
+  width: 30px;
+  border-radius: 5px;
+  padding: 5px;
+  transition: 0.1s;
+}
+
+.dark .settings-account-password-toggle-icon:hover {
+  background-color: #161c26;
+}
+
+.light .settings-account-password-toggle-icon:hover {
+  background-color: #d7d7d7;
+}
+
 #settings-account-password-container {
   width: 90%;
   margin: auto;
@@ -115,11 +148,12 @@ form input:-webkit-autofill:active{
 }
 
 .settings-account-delete-content input {
+  width: 100%;
   background-color: transparent !important;
   border-radius: 5px;
   box-shadow: none;
   outline: none;
-  padding: 10px !important;
+  padding: 10px;
 }
 
 .dark .settings-account-delete-content input {
@@ -134,4 +168,12 @@ form input:-webkit-autofill:active{
 
 .settings-account-delete-content input::placeholder {
   color: #a5a5a5;
+}
+
+.settings-account-delete-content .settings-account-password-toggle {
+  top: 9px;
+}
+
+.settings-account-delete-content .settings-account-password-toggle-icon {
+  width: 33px;
 }
