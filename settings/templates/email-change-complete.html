@@ -11,7 +11,7 @@
 <script>
   $(document).ready(function() {
     let request = new HttpRequest("/settings/account/email/change/complete/", "POST",
-      [], {user: "{{user}}", token: "{{token}}"});
+      [], {member: "{{member}}", token: "{{token}}"});
     request.send(function (status, responseText) {
       let response = JSON.parse(responseText);
       if (response.success === false) {

@@ -13,10 +13,10 @@ async def accountSettings(request):
   return render(request, 'settings-account.html', {'title': gettext('settings.account.title'),
     'css': ['css/base/settings-header.css', 'css/base/settings-sidebar.css', 'css/base/settings.css', 'css/settings/settings-account.css']})
 
-def changeEmailComplete(request, user, token):
+def changeEmailComplete(request, member, token):
   return render(request, 'email-change-complete.html', {'title': gettext('settings.account.email.title'),
     'css': ['css/base/home-language.css', 'css/settings/email-change-complete.css'],
-    'user': user, 'token': token})
+    'member': member, 'token': token})
 
 @home_authentication_required
 async def languageSettings(request):
