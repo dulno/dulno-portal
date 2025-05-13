@@ -125,7 +125,7 @@
     margin-top: 10vh;
   }
 
-  #card-create-type-container {
-    grid-template-columns: repeat(1, 1fr);
+  .card-create-type-container {
+    grid-template-columns: repeat(1, 1fr) !important;
   }
 }
