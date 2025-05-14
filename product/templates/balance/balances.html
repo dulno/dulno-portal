@@ -241,8 +241,7 @@
     fetchBalances(function (result) {
       balances = result;
       setupViewSelection();
-      displayTransactions();
-      displayBalancesHeader();
+      displayBalances();
       document.getElementById("balances-body").classList.add("placeholder-fade-show");
       document.getElementById("balances-placeholder").classList.add("d-none");
     });
@@ -282,6 +281,11 @@
     }
   }
 
+  function displayBalances() {
+    displayTransactions();
+    displayBalancesHeader();
+  }
+
   function displayTransactions() {
     document.getElementById("balances-transactions-list").innerHTML = "";
     let transactions = balances.transactions.sort((a, b) => compareTransactions(a, b));
@@ -305,9 +309,9 @@
   }
 
   function shouldDisplayTransaction(transaction) {
-    return listSearch === "" ||
+    return (listSearch === "" ||
       new Date(transaction.time).toLocaleString().toLowerCase()
-        .includes(listSearch.toLowerCase())
+        .includes(listSearch.toLowerCase())) && isTimestampInRange(transaction.time);
   }
 
   function compareTransactions(a, b) {
@@ -509,6 +513,9 @@
       balances.transactions, "time", "value");
     let revenue = 0;
     for (let transaction of balances.transactions) {
+      if (!isTimestampInRange(transaction.time)) {
+        continue;
+      }
       revenue += transaction.value;
     }
     document.getElementById("balances-revenue-value").innerText = revenue + " €";
@@ -522,6 +529,9 @@
       balances.activeCards, "date", "change");
     let activeCards = 0;
     for (let activeCard of balances.activeCards) {
+      if (!isTimestampInRange(activeCard.date)) {
+        continue;
+      }
       activeCards += activeCard.change;
     }
     document.getElementById("balances-active-cards-value").innerText = activeCards;
@@ -535,11 +545,22 @@
       balances.openStamps, "date", "change");
     let openStamps = 0;
     for (let openStamp of balances.openStamps) {
+      if (!isTimestampInRange(openStamp.date)) {
+        continue;
+      }
       openStamps += openStamp.change;
     }
     document.getElementById("balances-open-stamps-value").innerText = openStamps;
     displayHeaderChange(document.getElementById("balances-open-stamps-change"),
       start, end);
+  }
+
+  function isTimestampInRange(timestamp) {
+    const start = new Date(document.getElementById('balances-start-input').value)
+    const end = new Date(document.getElementById('balances-end-input').value);
+    const interval = determineInterval(start.getTime(), end.getTime());
+    adjustTodayInterval(start, end, interval);
+    return timestamp >= start.getTime() && timestamp <= end.getTime();
   }
 
   function displayHeaderChange(changeElement, start, end) {
@@ -670,7 +691,7 @@
       if (input.checked) {
         balancesView = type;
         updateInterval();
-        displayBalancesHeader();
+        displayBalances();
         document.getElementById("balances-view-selection").innerText = title;
         Swal.close();
         sessionStorage.setItem("dulno-balances-view", type);
@@ -736,7 +757,7 @@
     const endInput = new Date(document.getElementById('balances-end-input').value).getTime();
     balancesView = determineInterval(startInput, endInput);
     updateViewSelection();
-    displayBalancesHeader();
+    displayBalances();
   }
 
   function groupAndFilterTimestamps(data, timestampKey, valueKey) {
