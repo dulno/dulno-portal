@@ -369,7 +369,8 @@
     valueContainer.classList.add("balances-transaction-entry-value");
     let valueElement = document.createElement("span");
     valueElement.classList.add("fw-bold");
-    valueElement.innerText = transaction.value + " €";
+    valueElement.innerText =
+      transaction.value.toFixed(2).toString().replace(".", ",") + " €";
     valueContainer.appendChild(valueElement);
     entry.appendChild(valueContainer);
     let typeContainer = document.createElement("div");
@@ -544,7 +545,8 @@
       }
       revenue += transaction.value;
     }
-    document.getElementById("balances-revenue-value").innerText = revenue + " €";
+    document.getElementById("balances-revenue-value").innerText =
+      revenue.toFixed(2).toString().replace(".", ",") + " €";
     displayHeaderChange(document.getElementById("balances-revenue-change"),
       start, end);
   }
@@ -604,6 +606,9 @@
       change = 100;
     }
     let prefix = "+";
+    changeElement.classList.remove("balances-header-change-positive");
+    changeElement.classList.remove("balances-header-change-negative");
+    changeElement.classList.remove("balances-header-change-neutral");
     if (change > 0) {
       changeElement.classList.add("balances-header-change-positive");
     } else if (change < 0) {
