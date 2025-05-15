@@ -529,9 +529,6 @@
       balances.activeCards, "date", "change");
     let activeCards = 0;
     for (let activeCard of balances.activeCards) {
-      if (!isTimestampInRange(activeCard.date)) {
-        continue;
-      }
       activeCards += activeCard.change;
     }
     document.getElementById("balances-active-cards-value").innerText = activeCards;
@@ -545,9 +542,6 @@
       balances.openStamps, "date", "change");
     let openStamps = 0;
     for (let openStamp of balances.openStamps) {
-      if (!isTimestampInRange(openStamp.date)) {
-        continue;
-      }
       openStamps += openStamp.change;
     }
     document.getElementById("balances-open-stamps-value").innerText = openStamps;
@@ -770,11 +764,18 @@
     let end = new Date(endInput);
     const interval = determineInterval(start.getTime(), end.getTime());
     adjustTodayInterval(start, end, interval);
+    let baseline = 0;
+    for (const entry of data) {
+      const timestamp = entry[timestampKey];
+      const value = entry[valueKey];
+      if (timestamp < start.getTime()) {
+        baseline += value;
+      }
+    }
     const grouped = countGroupedTimestamps(data, timestampKey, valueKey,
       start.getTime(), end.getTime(), interval);
     const datasetLabels = generateLabels(start, end, interval);
-    let datasetData = [];
-    datasetData = accumulateData(datasetLabels, grouped);
+    let datasetData = accumulateData(datasetLabels, grouped, baseline);
     return { datasetLabels, datasetData };
   }
 
@@ -872,9 +873,9 @@
     return labels;
   }
 
-  function accumulateData(labels, grouped) {
+  function accumulateData(labels, grouped, baseline) {
     const data = [];
-    let cumulative = 0;
+    let cumulative = baseline;
     for (const label of labels) {
       cumulative += grouped[label] || 0;
       data.push(cumulative);
