@@ -45,6 +45,16 @@
                 </div>
                 <div class="placeholder placeholder-wave rounded w-100" style="height: 100px"></div>
               </div>
+              <div class="balances-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="balances-header-icon placeholder placeholder-wave"></div>
+                  <div class="balances-header-value">
+                    <div class="placeholder placeholder-wave rounded py-2 mb-2" style="width: 100px"></div>
+                    <div class="placeholder placeholder-wave rounded py-2" style="width: 75px"></div>
+                  </div>
+                </div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 100px"></div>
+              </div>
             </div>
             <div class="balances-transactions">
               <h2 class="fw-bold my-5">{% trans 'product.balances.transactions' %}</h2>
@@ -177,6 +187,21 @@
                   </div>
                 </div>
                 <canvas id="balances-header-open-stamps" height="75"></canvas>
+              </div>
+              <div class="balances-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="balances-header-icon">
+                    <i class="fa-solid fa-user"></i>
+                  </div>
+                  <div class="balances-header-value">
+                    <div class="d-flex align-items-center mb-2">
+                      <h4 id="balances-active-users-value" class="fw-bold mb-0"></h4>
+                      <span id="balances-active-users-change"></span>
+                    </div>
+                    <label class="text-secondary">{% trans 'product.balances.active.users' %}</label>
+                  </div>
+                </div>
+                <canvas id="balances-header-active-users" height="75"></canvas>
               </div>
             </div>
             <div class="balances-transactions">
@@ -505,6 +530,7 @@
     displayHeaderRevenue();
     displayHeaderActiveCard();
     displayHeaderOpenStamps();
+    displayHeaderActiveUser();
   }
 
   function displayHeaderRevenue() {
@@ -546,6 +572,19 @@
     }
     document.getElementById("balances-open-stamps-value").innerText = openStamps;
     displayHeaderChange(document.getElementById("balances-open-stamps-change"),
+      start, end);
+  }
+
+  function displayHeaderActiveUser() {
+    let { start, end } = createHeaderChart(
+      document.getElementById('balances-header-active-users'),
+      balances.activeUsers, "date", "change");
+    let activeUsers = 0;
+    for (let activeUser of balances.activeUsers) {
+      activeUsers += activeUser.change;
+    }
+    document.getElementById("balances-active-users-value").innerText = activeUsers;
+    displayHeaderChange(document.getElementById("balances-active-users-change"),
       start, end);
   }
 
