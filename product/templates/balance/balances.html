@@ -276,12 +276,17 @@
     let request = new HttpRequest("/balances/", "GET", []);
     request.send(function (status, responseText) {
       let response = JSON.parse(responseText);
-      if (!response.success) {
-        Swal.fire("{% trans 'product.balances.failed.title' %}",
-          "{% trans 'product.balances.failed.body' %}", "error");
+      if (response.success) {
+        callback(response);
         return;
       }
-      callback(response);
+      if (response.error === 1000) {
+        Swal.fire("{% trans 'product.balances.failed.title' %}",
+          "{% trans 'product.balances.failed.package' %}", "error");
+      } else if (response.error === 1001) {
+        Swal.fire("{% trans 'product.balances.failed.title' %}",
+          "{% trans 'product.balances.failed.cards' %}", "error");
+      }
     });
   }
 

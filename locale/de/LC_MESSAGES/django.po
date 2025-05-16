@@ -926,8 +926,10 @@ msgid "product.balances.transactions.empty"
 msgstr "Keine Transaktionen verfügbar."
 msgid "product.balances.failed.title"
 msgstr "Fehlgeschlagen"
-msgid "product.balances.failed.body"
+msgid "product.balances.failed.package"
 msgstr "Die Bilanzfunktion ist in Ihrem aktuellen Paket nicht verfügbar. Bitte aktualisieren Sie Ihr Paket, um Zugriff auf die Bilanzfunktion zu erhalten"
+msgid "product.balances.failed.cards"
+msgstr "Die Bilanzfunktion funktioniert nur bei Wert- und Mitgliedskarten. Da Sie noch keine dieser Karten angelegt haben, können Sie keine Bilanzen einsehen"
 
 # CAMPAIGNS
 msgid "product.campaigns.title"

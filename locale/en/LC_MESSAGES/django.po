@@ -926,8 +926,10 @@ msgid "product.balances.transactions.empty"
 msgstr "No transactions available."
 msgid "product.balances.failed.title"
 msgstr "Failed"
-msgid "product.balances.failed.body"
+msgid "product.balances.failed.package"
 msgstr "The balances function is not available with your current package. Please upgrade your package to access the balances function"
+msgid "product.balances.failed.cards"
+msgstr "The balance function only works for value and member cards. As you have not yet created any of these cards, you cannot view any balances"
 
 # CAMPAIGNS
 msgid "product.campaigns.title"
