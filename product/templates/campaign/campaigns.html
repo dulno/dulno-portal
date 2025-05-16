@@ -49,9 +49,11 @@
         return;
       }
       fetchCampaigns(function (campaigns) {
-        displayTimeline(campaigns);
-        document.getElementById("campaigns-body").classList.add("placeholder-fade-show");
-        document.getElementById("campaigns-placeholder").classList.add("d-none");
+        setTimeout(function() {
+          displayTimeline(campaigns);
+          document.getElementById("campaigns-body").classList.add("placeholder-fade-show");
+          document.getElementById("campaigns-placeholder").classList.add("d-none");
+        }, 1000);
       });
     });
   });

@@ -723,11 +723,18 @@
     let end = new Date(endInput);
     const interval = determineInterval(start.getTime(), end.getTime());
     adjustTodayInterval(start, end, interval);
-    const grouped = countGroupedTimestamps(timestamps, start.getTime(), end.getTime(), interval);
+    const grouped = countGroupedTimestamps(timestamps, start.getTime(),
+      end.getTime(), interval);
     const labels = generateLabels(start, end, interval);
     let data = [];
     if (isCumulative) {
-      data = accumulateData(labels, grouped);
+      let baseline = 0;
+      for (const timestamp of timestamps) {
+        if (timestamp < start.getTime()) {
+          baseline += 1;
+        }
+      }
+      data = accumulateData(labels, grouped, baseline);
     } else {
       data = labels.map(label => grouped[label] || 0);
     }
@@ -824,9 +831,9 @@
     return labels;
   }
 
-  function accumulateData(labels, grouped) {
+  function accumulateData(labels, grouped, baseline) {
     const data = [];
-    let cumulative = 0;
+    let cumulative = baseline;
     for (const label of labels) {
       cumulative += grouped[label] || 0;
       data.push(cumulative);

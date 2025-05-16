@@ -45,6 +45,16 @@
                 </div>
                 <div class="placeholder placeholder-wave rounded w-100" style="height: 100px"></div>
               </div>
+              <div class="balances-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="balances-header-icon placeholder placeholder-wave"></div>
+                  <div class="balances-header-value">
+                    <div class="placeholder placeholder-wave rounded py-2 mb-2" style="width: 100px"></div>
+                    <div class="placeholder placeholder-wave rounded py-2" style="width: 75px"></div>
+                  </div>
+                </div>
+                <div class="placeholder placeholder-wave rounded w-100" style="height: 100px"></div>
+              </div>
             </div>
             <div class="balances-transactions">
               <h2 class="fw-bold my-5">{% trans 'product.balances.transactions' %}</h2>
@@ -178,6 +188,21 @@
                 </div>
                 <canvas id="balances-header-open-stamps" height="75"></canvas>
               </div>
+              <div class="balances-header-entry">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="balances-header-icon">
+                    <i class="fa-solid fa-user"></i>
+                  </div>
+                  <div class="balances-header-value">
+                    <div class="d-flex align-items-center mb-2">
+                      <h4 id="balances-active-users-value" class="fw-bold mb-0"></h4>
+                      <span id="balances-active-users-change"></span>
+                    </div>
+                    <label class="text-secondary">{% trans 'product.balances.active.users' %}</label>
+                  </div>
+                </div>
+                <canvas id="balances-header-active-users" height="75"></canvas>
+              </div>
             </div>
             <div class="balances-transactions">
               <h2 class="fw-bold my-5">{% trans 'product.balances.transactions' %}</h2>
@@ -241,8 +266,7 @@
     fetchBalances(function (result) {
       balances = result;
       setupViewSelection();
-      displayTransactions();
-      displayBalancesHeader();
+      displayBalances();
       document.getElementById("balances-body").classList.add("placeholder-fade-show");
       document.getElementById("balances-placeholder").classList.add("d-none");
     });
@@ -252,12 +276,17 @@
     let request = new HttpRequest("/balances/", "GET", []);
     request.send(function (status, responseText) {
       let response = JSON.parse(responseText);
-      if (!response.success) {
-        Swal.fire("{% trans 'product.balances.failed.title' %}",
-          "{% trans 'product.balances.failed.body' %}", "error");
+      if (response.success) {
+        callback(response);
         return;
       }
-      callback(response);
+      if (response.error === 1000) {
+        Swal.fire("{% trans 'product.balances.failed.title' %}",
+          "{% trans 'product.balances.failed.package' %}", "error");
+      } else if (response.error === 1001) {
+        Swal.fire("{% trans 'product.balances.failed.title' %}",
+          "{% trans 'product.balances.failed.cards' %}", "error");
+      }
     });
   }
 
@@ -280,6 +309,11 @@
     } else if (balancesView === "year") {
       selectionElement.innerText = "{% trans 'product.balances.view.year.title' %}";
     }
+  }
+
+  function displayBalances() {
+    displayTransactions();
+    displayBalancesHeader();
   }
 
   function displayTransactions() {
@@ -305,9 +339,9 @@
   }
 
   function shouldDisplayTransaction(transaction) {
-    return listSearch === "" ||
+    return (listSearch === "" ||
       new Date(transaction.time).toLocaleString().toLowerCase()
-        .includes(listSearch.toLowerCase())
+        .includes(listSearch.toLowerCase())) && isTimestampInRange(transaction.time);
   }
 
   function compareTransactions(a, b) {
@@ -340,7 +374,8 @@
     valueContainer.classList.add("balances-transaction-entry-value");
     let valueElement = document.createElement("span");
     valueElement.classList.add("fw-bold");
-    valueElement.innerText = transaction.value + " €";
+    valueElement.innerText =
+      transaction.value.toFixed(2).toString().replace(".", ",") + " €";
     valueContainer.appendChild(valueElement);
     entry.appendChild(valueContainer);
     let typeContainer = document.createElement("div");
@@ -379,6 +414,9 @@
       {icon: "fa-arrow-up-right-from-square",
         content: "{% trans 'product.balances.transactions.card.redirect' %}",
         click: () => transactionCardRedirect(transaction)},
+      {icon: "fa-trash", color: "text-danger",
+        content: "{% trans 'product.balances.transactions.withdraw' %}",
+        click: () => withdrawTransaction(transaction)},
     ]);
     settingsDiv.appendChild(dropdown);
     return settingsDiv;
@@ -423,6 +461,33 @@
     if (transaction.card) {
       window.location.href = "/card/" + transaction.card + "/";
     }
+  }
+
+  function withdrawTransaction(transaction) {
+    Swal.fire({
+      title: "{% trans 'product.balances.transaction.withdraw.title' %}",
+      text: "{% trans 'product.balances.transaction.withdraw.body' %}",
+      icon: "warning",
+      confirmButtonColor: "#dc3545",
+      showCancelButton: true,
+      cancelButtonText: "{% trans 'popup.cancel' %}",
+    }).then(result => {
+      if (result.isConfirmed) {
+        let request = new HttpRequest("/transaction/withdraw/", "POST", [],
+          {transaction: transaction.id});
+        request.send(function (status, responseText) {
+          let response = JSON.parse(responseText);
+          if (!response.success) {
+            Swal.fire("{% trans 'product.balances.transaction.withdraw.failed.title' %}",
+              "{% trans 'product.balances.transaction.withdraw.failed.body' %}", "error");
+            return;
+          }
+          Swal.fire("{% trans 'product.balances.transaction.withdraw.successful.title' %}",
+            "{% trans 'product.balances.transaction.withdraw.successful.body' %}", "success")
+            .then(success => window.location.reload());
+        });
+      }
+    });
   }
 
   let sortingElements = document.getElementsByClassName("balances-transactions-table-description-sort");
@@ -471,6 +536,7 @@
     displayHeaderRevenue();
     displayHeaderActiveCard();
     displayHeaderOpenStamps();
+    displayHeaderActiveUser();
   }
 
   function displayHeaderRevenue() {
@@ -479,9 +545,13 @@
       balances.transactions, "time", "value");
     let revenue = 0;
     for (let transaction of balances.transactions) {
+      if (!isTimestampInRange(transaction.time)) {
+        continue;
+      }
       revenue += transaction.value;
     }
-    document.getElementById("balances-revenue-value").innerText = revenue + " €";
+    document.getElementById("balances-revenue-value").innerText =
+      revenue.toFixed(2).toString().replace(".", ",") + " €";
     displayHeaderChange(document.getElementById("balances-revenue-change"),
       start, end);
   }
@@ -512,6 +582,27 @@
       start, end);
   }
 
+  function displayHeaderActiveUser() {
+    let { start, end } = createHeaderChart(
+      document.getElementById('balances-header-active-users'),
+      balances.activeUsers, "date", "change");
+    let activeUsers = 0;
+    for (let activeUser of balances.activeUsers) {
+      activeUsers += activeUser.change;
+    }
+    document.getElementById("balances-active-users-value").innerText = activeUsers;
+    displayHeaderChange(document.getElementById("balances-active-users-change"),
+      start, end);
+  }
+
+  function isTimestampInRange(timestamp) {
+    const start = new Date(document.getElementById('balances-start-input').value)
+    const end = new Date(document.getElementById('balances-end-input').value);
+    const interval = determineInterval(start.getTime(), end.getTime());
+    adjustTodayInterval(start, end, interval);
+    return timestamp >= start.getTime() && timestamp <= end.getTime();
+  }
+
   function displayHeaderChange(changeElement, start, end) {
     let change = 0;
     if (start > 0) {
@@ -520,6 +611,9 @@
       change = 100;
     }
     let prefix = "+";
+    changeElement.classList.remove("balances-header-change-positive");
+    changeElement.classList.remove("balances-header-change-negative");
+    changeElement.classList.remove("balances-header-change-neutral");
     if (change > 0) {
       changeElement.classList.add("balances-header-change-positive");
     } else if (change < 0) {
@@ -640,7 +734,7 @@
       if (input.checked) {
         balancesView = type;
         updateInterval();
-        displayBalancesHeader();
+        displayBalances();
         document.getElementById("balances-view-selection").innerText = title;
         Swal.close();
         sessionStorage.setItem("dulno-balances-view", type);
@@ -706,7 +800,7 @@
     const endInput = new Date(document.getElementById('balances-end-input').value).getTime();
     balancesView = determineInterval(startInput, endInput);
     updateViewSelection();
-    displayBalancesHeader();
+    displayBalances();
   }
 
   function groupAndFilterTimestamps(data, timestampKey, valueKey) {
@@ -719,11 +813,18 @@
     let end = new Date(endInput);
     const interval = determineInterval(start.getTime(), end.getTime());
     adjustTodayInterval(start, end, interval);
+    let baseline = 0;
+    for (const entry of data) {
+      const timestamp = entry[timestampKey];
+      const value = entry[valueKey];
+      if (timestamp < start.getTime()) {
+        baseline += value;
+      }
+    }
     const grouped = countGroupedTimestamps(data, timestampKey, valueKey,
       start.getTime(), end.getTime(), interval);
     const datasetLabels = generateLabels(start, end, interval);
-    let datasetData = [];
-    datasetData = accumulateData(datasetLabels, grouped);
+    let datasetData = accumulateData(datasetLabels, grouped, baseline);
     return { datasetLabels, datasetData };
   }
 
@@ -821,9 +922,9 @@
     return labels;
   }
 
-  function accumulateData(labels, grouped) {
+  function accumulateData(labels, grouped, baseline) {
     const data = [];
-    let cumulative = 0;
+    let cumulative = baseline;
     for (const label of labels) {
       cumulative += grouped[label] || 0;
       data.push(cumulative);

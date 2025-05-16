@@ -32,15 +32,25 @@
                 <div class="mb-3 placeholder placeholder-wave rounded py-3 w-100"></div>
               </div>
             </div>
-            <div class="card-container ms-xl-5 mb-4">
-              <div class="card d-flex align-items-end justify-content-end">
-                <div class="card-logo placeholder placeholder-wave rounded-4" style="width: 72px; height: 72px;"></div>
-                <div class="w-100 placeholder placeholder-wave rounded py-3"></div>
+            <div class="card-wrapper position-relative ms-xl-5 mb-4">
+              <img class="card-preview-mockup" src="{% static 'img/card/card-mockup.webp' %}">
+              <div class="card-container">
+                <div  class="d-flex align-items-end justify-content-end card">
+                  <div class="card-logo placeholder placeholder-wave rounded-4" style="width: 60px; height: 60px;"></div>
+                  <div class="w-100 placeholder placeholder-wave rounded py-3"></div>
+                </div>
+                <div class="w-100 border-bottom border-secondary-subtle my-3"></div>
+                <div class="w-25 placeholder placeholder-wave rounded py-3 mb-3"></div>
+                <div class="w-100 placeholder placeholder-wave rounded py-2 mb-1"></div>
+                <div class="w-75 placeholder placeholder-wave rounded py-2 mb-4"></div>
+                <div class="w-50 placeholder placeholder-wave rounded py-3 mb-3"></div>
+                <div class="w-100 placeholder placeholder-wave rounded py-2 mb-1"></div>
+                <div class="w-25 placeholder placeholder-wave rounded py-2"></div>
               </div>
             </div>
           </div>
           <div id="card-body" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center placeholder-fade">
-            <div class="flex-grow-1 mb-5">
+            <div class="flex-grow-1 mb-5 me-xl-5">
               <div>
                 <h5>{% trans 'product.card.background.color' %}</h5>
                 <input id="card-background-color-input" class="mb-3" type="color" autocomplete=off>
@@ -102,12 +112,20 @@
                 <textarea id="card-member-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.card.member.description.placeholder' %}"></textarea>
               </div>
             </div>
-            <div id="card-preview-container" class="card-container ms-xl-5 mb-4">
-              <div id="card-preview" class="d-flex align-items-end card">
-                <img id="card-preview-logo" class="card-logo" alt=""/>
-                <div id="card-preview-stamps" class="d-none mt-auto">
+            <div class="card-wrapper position-relative ms-xl-5">
+              <img class="card-preview-mockup" src="{% static 'img/card/card-mockup.webp' %}">
+              <div id="card-preview-container" class="card-container">
+                <div id="card-preview" class="d-flex align-items-end card">
+                  <img id="card-preview-logo" class="card-logo" alt=""/>
+                  <div id="card-preview-stamps" class="d-none mt-auto">
+                  </div>
+                  <i id="card-preview-type-member" class="d-none fa-solid"></i>
                 </div>
-                <i id="card-preview-type-member" class="d-none fa-solid"></i>
+                <div class="w-100 border-bottom border-secondary-subtle my-3"></div>
+                <h4 id="card-preview-partner-name" class="fw-bold text-break"></h4>
+                <p id="card-preview-partner-description" class="text-break"></p>
+                <h5 class="fw-bold text-break">{% trans 'product.card.about' %}</h5>
+                <p id="card-preview-card-about" class="text-break"></p>
               </div>
             </div>
           </div>
@@ -129,22 +147,26 @@
 
 <script>
   let card;
+  let partner;
   let icons;
   let selectedIcon;
 
   $(document).ready(function () {
     fetchCard(function (cardResult) {
       card = cardResult;
-      fetchIcons(card.type, function (iconResult) {
-        icons = iconResult;
-        displayCard();
-        for (let element of [...document.querySelectorAll('input[maxlength], textarea[maxlength]')]) {
-          element.addEventListener('input', tickInputMaxLength)
-          element.parentElement.classList.add('max-length-badged');
-          tickInputMaxLength(element)
-        }
-        document.getElementById("card-body").classList.add("placeholder-fade-show");
-        document.getElementById("card-placeholder").classList.add("d-none");
+      fetchPartner(function (partnerResult) {
+        partner = partnerResult;
+        fetchIcons(card.type, function (iconResult) {
+          icons = iconResult;
+          displayCard();
+          for (let element of [...document.querySelectorAll('input[maxlength], textarea[maxlength]')]) {
+            element.addEventListener('input', tickInputMaxLength)
+            element.parentElement.classList.add('max-length-badged');
+            tickInputMaxLength(element)
+          }
+          document.getElementById("card-body").classList.add("placeholder-fade-show");
+          document.getElementById("card-placeholder").classList.add("d-none");
+        });
       });
     });
   });
@@ -166,6 +188,13 @@
 
   function fetchCard(callback) {
     let request = new HttpRequest("/card/find/", "POST", [], {card: "{{id}}"});
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+
+  function fetchPartner(callback) {
+    let request = new HttpRequest("/partner/find/", "GET", []);
     request.send(function (status, responseText) {
       callback(JSON.parse(responseText));
     });
@@ -203,6 +232,8 @@
       displayMemberCard();
     }
     document.getElementById("card-preview-logo").src = "data:image/png;base64," + card.logo;
+    document.getElementById("card-preview-partner-name").innerText = partner.name;
+    document.getElementById("card-preview-partner-description").innerText = partner.description;
     document.getElementById("card-background-color-input").value = card.backgroundColor;
     document.getElementById("card-foreground-color-input").value = card.foregroundColor;
     updateBackgroundColor();
@@ -216,6 +247,8 @@
       card.rewardNumber;
     document.getElementById("card-reward-description").classList.remove("d-none");
     document.getElementById("card-reward-description-input").value =
+      card.rewardDescription;
+    document.getElementById("card-preview-card-about").innerText =
       card.rewardDescription;
     document.getElementById("card-preview-stamps").classList.remove("d-none");
     fillIconDropdown("stampIcon", document.getElementById("card-stamp-icon-list"),
@@ -232,6 +265,8 @@
     document.getElementById("card-value-description").classList.remove("d-none");
     document.getElementById("card-value-description-input").value =
       card.valueDescription;
+    document.getElementById("card-preview-card-about").innerText =
+      card.valueDescription;
     document.getElementById("card-preview-stamps").classList.remove("d-none");
     fillIconDropdown("stampIcon", document.getElementById("card-stamp-icon-list"),
       document.getElementById("card-stamp-icon-button"), icons, card.stampIcon);
@@ -244,6 +279,8 @@
     document.getElementById("card-member-price-input").value = card.memberPrice;
     document.getElementById("card-member-description").classList.remove("d-none");
     document.getElementById("card-member-description-input").value =
+      card.memberDescription;
+    document.getElementById("card-preview-card-about").innerText =
       card.memberDescription;
     document.getElementById("card-preview-type-member").classList.remove("d-none");
     fillIconDropdown("memberIcon", document.getElementById("card-member-icon-list"),
@@ -327,9 +364,9 @@
     }
     function resize() {
       let previewElement = document.getElementById("card-preview");
-      cardStampContainer.style.width = Math.min(number * (32 + 10),
+      cardStampContainer.style.width = Math.min(number * (20 + 5),
         previewElement.clientWidth - 40) + "px";
-      previewElement.style.minHeight = (150 + cardStampContainer.clientHeight) + "px";
+      previewElement.style.minHeight = (120 + cardStampContainer.clientHeight) + "px";
     }
   }
 
@@ -424,6 +461,8 @@
 
   document.getElementById("card-reward-description-input").addEventListener("input", function (event) {
     card.rewardDescription = document.getElementById("card-reward-description-input").value;
+    document.getElementById("card-preview-card-about").innerText =
+      card.rewardDescription;
     processCardInput();
   });
 
@@ -448,6 +487,8 @@
 
   document.getElementById("card-value-description-input").addEventListener("input", function (event) {
     card.valueDescription = document.getElementById("card-value-description-input").value;
+    document.getElementById("card-preview-card-about").innerText =
+      card.valueDescription;
     processCardInput();
   });
 
@@ -462,6 +503,8 @@
 
   document.getElementById("card-member-description-input").addEventListener("input", function (event) {
     card.memberDescription = document.getElementById("card-member-description-input").value;
+    document.getElementById("card-preview-card-about").innerText =
+      card.memberDescription;
     processCardInput();
   });
 

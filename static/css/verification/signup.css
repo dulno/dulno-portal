@@ -4,8 +4,6 @@
   --signup-bullet-border-size: 1px;
   --signup-step-padding: 10px;
   --signup-page-number: 6;
-  --signup-card-background-color: #ffffff;
-  --signup-card-foreground-color: #000000;
 }
 
 #signup-container {
@@ -416,7 +414,7 @@
   filter: none !important;
 }
 
-#signup-card-container {
+#signup-business-container {
   width: min(500px, 100%);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   padding: 10px;
@@ -424,24 +422,23 @@
   border-radius: 12px;
 }
 
-#signup-card {
+#signup-business {
   width: 100%;
   height: 180px;
-  background-color: var(--signup-card-background-color);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   padding: 20px;
   position: relative;
 }
 
-#signup-card-name {
+#signup-business-name {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
 }
 
-#signup-card-description {
+#signup-business-description {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -451,70 +448,50 @@
   overflow-wrap: break-word;
 }
 
-#signup-card-logo {
+#signup-business-logo {
   width: auto;
   height: 72px;
-  position: absolute;
-  top: 20px;
-  right: 20px;
 }
-
-.signup-card-stamp {
-  border: 3px solid var(--signup-card-foreground-color);
-  background-color: transparent;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-}
-
-.signup-card-stamp-collected {
-  background-color: var(--signup-card-foreground-color);
-}
-
 
 @media (max-width: 500px) {
-  #signup-card {
+  #signup-business {
     height: 160px;
-  }
-
-  .signup-card-stamp {
-    width: 24px;
-    height: 24px;
   }
 }
 
-
 @media (max-width: 400px) {
-  #signup-card {
+  #signup-business {
     height: 140px;
   }
 
-  #signup-card-logo {
+  #signup-business-logo {
     height: 64px;
-  }
-
-  .signup-card-stamp {
-    width: 16px;
-    height: 16px;
   }
 }
 
-#signup-business-location-list li {
+#signup-location-list {
+  width: 100%;
+  margin: auto;
+  list-style-type: none;
+  padding: 0;
+}
+
+#signup-location-list li {
   margin-bottom: 10px;
 }
 
-#signup-business-location-list li button {
+#signup-location-list li button {
   background-color: transparent;
   border: none;
   padding: 0;
   margin-left: 5px;
 }
 
-.signup-business-location-suggestions {
+.signup-location-suggestions {
   position: relative;
 }
 
-.signup-business-location-suggestions-content {
+.signup-location-suggestions-content {
   position: absolute;
   border: 1px solid #ddd;
   background-color: white;
@@ -526,16 +503,59 @@
   width: 100%;
 }
 
-.signup-business-location-suggestions-item {
+.signup-location-suggestions-item {
   padding: 5px;
   cursor: pointer;
 }
 
-.signup-business-location-suggestions-item:hover {
+.signup-location-suggestions-item:hover {
   background-color: #f0f0f0;
 }
 
-#signup-business-location-add {
+#signup-link-list input {
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.dark #signup-link-list input {
+  background-color: #212529;
+  border: 1px solid #2f353a;
+}
+
+.light #signup-link-list input {
+  background-color: #f3f3f3;
+  border: 1px solid #d5d5d5;
+}
+
+#signup-link-list {
+  width: 100%;
+  margin: auto;
+  list-style-type: none;
+  padding: 0;
+}
+
+#signup-link-list li {
+  margin-bottom: 10px;
+}
+
+#signup-link-list li button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin-left: 10px;
+}
+
+#signup-link-list li .dropdown, #signup-link-list li .dropdown-menu {
+  min-width: 300px;
+}
+
+@media (max-width: 700px) {
+  #signup-link-list li .dropdown, #signup-link-list li .dropdown-menu {
+    min-width: 130px;
+  }
+}
+
+#signup-location-add, #signup-link-add {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -548,7 +568,7 @@
   cursor: pointer;
 }
 
-#signup-business-location-add:hover {
+#signup-location-add:hover, #signup-link-add:hover {
   background-color: #acb2b9;
 }
 

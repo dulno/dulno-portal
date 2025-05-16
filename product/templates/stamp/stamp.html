@@ -39,7 +39,7 @@
             </div>
             <div class="stamp-container ms-xl-5 mb-4">
               <div class="stamp-icon-container">
-                <div class="placeholder placeholder-wave rounded py-3" style="width: 75px; height: 60px"></div>
+                <div class="placeholder placeholder-wave rounded py-3" style="width: 100px; height: 100px"></div>
               </div>
               <div class="m-2">
                 <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
@@ -75,7 +75,7 @@
             </div>
             <div id="stamp-preview-container" class="stamp-container ms-xl-5 mb-4">
               <div class="stamp-icon-container">
-                <i id="stamp-preview-icon" class="text-primary"></i>
+                <img id="stamp-preview-icon" class="text-primary" src="" alt="">
               </div>
               <div class="m-2">
                 <h5 id="stamp-preview-name" class="fw-bold mb-0"></h5>
@@ -150,12 +150,9 @@
     document.getElementById("stamp-name-input").value = stamp.name;
     let iconElement = document.getElementById("stamp-preview-icon");
     if (stamp.type === "STAMP") {
-      iconElement.classList.add("fa-solid", "fa-stamp");
-      iconElement.style.fontSize = "70px";
-    } else {
-      iconElement.classList.add("material-symbols-outlined", "loaded");
-      iconElement.innerText = "nfc";
-      iconElement.style.fontSize = "100px";
+      iconElement.src = "/static/img/accessory/accessory-stamp.webp";
+    } else if (stamp.type === "TAG") {
+      iconElement.src = "/static/img/accessory/accessory-tag.webp";
     }
     displayStampCardSelection(cards);
     updateStampCardLink();
