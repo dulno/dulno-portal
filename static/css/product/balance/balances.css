@@ -38,7 +38,7 @@
 
 .balances-header {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   column-gap: 40px;
   row-gap: 20px;
   margin-top: 25px;
@@ -115,13 +115,9 @@
   color: #721c24;
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1800px) {
   .balances-header {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .balances-header > :nth-child(3) {
-    grid-column: 1 / -1;
   }
 
   .balances-header-entry {

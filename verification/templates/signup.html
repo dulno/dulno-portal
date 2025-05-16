@@ -14,21 +14,21 @@
                 <label>1</label>
               </div>
               <div class="signup-checked fas fa-check"></div>
-              <p class="mb-0">{% trans 'signup.card.title' %}</p>
+              <p class="mb-0">{% trans 'signup.business.title' %}</p>
             </div>
             <div class="signup-step">
               <div class="signup-bullet">
                 <label>2</label>
               </div>
               <div class="signup-checked fas fa-check"></div>
-              <p class="mb-0">{% trans 'signup.reward.title' %}</p>
+              <p class="mb-0">{% trans 'signup.location.title' %}</p>
             </div>
             <div class="signup-step">
               <div class="signup-bullet">
                 <label>3</label>
               </div>
               <div class="signup-checked fas fa-check"></div>
-              <p class="mb-0">{% trans 'signup.business.title' %}</p>
+              <p class="mb-0">{% trans 'signup.link.title' %}</p>
             </div>
             <div class="signup-step">
               <div class="signup-bullet">
@@ -54,91 +54,50 @@
             <div class="signup-page was-validated">
               <div class="flex-grow-1">
                 <div>
-                  <div class="signup-page-headline">{% trans 'signup.card.headline' %}</div>
-                  <div class="signup-page-description text-secondary">{% trans 'signup.card.description' %}</div>
+                  <div class="signup-page-headline">{% trans 'signup.business.headline' %}</div>
+                  <div class="signup-page-description text-secondary">{% trans 'signup.business.description' %}</div>
                 </div>
                 <div class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center">
                   <div class="flex-grow-1 align-self-stretch me-xl-5">
                     <div class="signup-field">
-                      <div class="signup-field-label">{% trans 'signup.card.business.name' %}</div>
-                      <input id="signup-card-name-input" type="text" class="form-control" autocomplete=off maxlength=64 placeholder="{% trans 'signup.card.business.name.placeholder' %}" required>
+                      <div class="signup-field-label">{% trans 'signup.business.information.name' %}</div>
+                      <input id="signup-business-name-input" type="text" class="form-control" autocomplete=off maxlength=64 placeholder="{% trans 'signup.business.information.name.placeholder' %}" required>
                     </div>
                     <div class="signup-field">
-                      <div class="signup-field-label">{% trans 'signup.card.business.description' %}</div>
-                      <input id="signup-card-description-input" type="text" class="form-control" autocomplete=off maxlength=256 placeholder="{% trans 'signup.card.business.description.placeholder' %}" required>
+                      <div class="signup-field-label">{% trans 'signup.business.information.description' %}</div>
+                      <input id="signup-business-description-input" type="text" class="form-control" autocomplete=off maxlength=256 placeholder="{% trans 'signup.business.information.description.placeholder' %}" required>
                     </div>
                     <div class="signup-field">
-                      <div class="signup-field-label">{% trans 'signup.card.logo' %}</div>
-                      <input id="signup-card-logo-input" type="file" class="form-control" autocomplete=off accept="image/png, image/jpeg" required/>
-                    </div>
-                    <div class="signup-field">
-                      <div class="signup-field-label">{% trans 'signup.card.background.color' %}</div>
-                      <input id="signup-card-background-color-input" type="color" autocomplete=off value="#ffffff">
-                    </div>
-                    <div class="signup-field">
-                      <div class="signup-field-label">{% trans 'signup.card.foreground.color' %}</div>
-                      <input id="signup-card-foreground-color-input" type="color" autocomplete=off value="#000000" class="mb-2">
+                      <div class="signup-field-label">{% trans 'signup.business.information.logo' %}</div>
+                      <input id="signup-business-logo-input" type="file" class="form-control" autocomplete=off accept="image/png, image/jpeg" required/>
                     </div>
                   </div>
-                  <div id="signup-card-container" class="ms-xl-5 mb-3">
-                    <div id="signup-card" class="d-flex align-items-end">
-                      <img id="signup-card-logo" src="{% static 'img/logo-dark.webp' %}"  alt=""/>
-                      <div class="d-flex align-items-center justify-content-evenly w-100">
-                        <div class="signup-card-stamp signup-card-stamp-collected"></div>
-                        <div class="signup-card-stamp signup-card-stamp-collected"></div>
-                        <div class="signup-card-stamp signup-card-stamp-collected"></div>
-                        <div class="signup-card-stamp"></div>
-                        <div class="signup-card-stamp"></div>
-                        <div class="signup-card-stamp"></div>
-                        <div class="signup-card-stamp"></div>
-                        <div class="signup-card-stamp"></div>
-                        <div class="signup-card-stamp"></div>
-                        <div class="signup-card-stamp"></div>
-                      </div>
+                  <div id="signup-business-container" class="ms-xl-5 mb-3">
+                    <div id="signup-business" class="d-flex justify-content-center align-items-center">
+                      <h1 id="signup-business-logo-unknown" class="fa-solid fa-image mb-0"></h1>
+                      <img id="signup-business-logo" class="d-none" src="" alt=""/>
                     </div>
-                    <h3 id="signup-card-name" class="text-start mt-3">{% trans 'signup.card.business.name.placeholder' %}</h3>
-                    <p id="signup-card-description" class="text-start text-secondary mb-0">{% trans 'signup.card.business.description.placeholder' %}</p>
+                    <h3 id="signup-business-name" class="text-start mt-3">{% trans 'signup.business.information.name.placeholder' %}</h3>
+                    <p id="signup-business-description" class="text-start text-secondary mb-0">{% trans 'signup.business.information.description.placeholder' %}</p>
                   </div>
                 </div>
               </div>
               <div class="signup-field signup-pagination">
-                <button id="signup-card-next" class="signup-next-button signup-next-disabled">{% trans 'signup.next' %}</button>
+                <button id="signup-business-next" class="signup-next-button signup-next-disabled">{% trans 'signup.next' %}</button>
               </div>
             </div>
             <div class="signup-page was-validated">
               <div class="flex-grow-1">
                 <div>
-                  <div class="signup-page-headline">{% trans 'signup.reward.headline' %}</div>
-                  <div class="signup-page-description text-secondary">{% trans 'signup.reward.description' %}</div>
+                  <div class="signup-page-headline">{% trans 'signup.location.headline' %}</div>
+                  <div class="signup-page-description text-secondary">{% trans 'signup.location.description' %}</div>
                 </div>
                 <div class="signup-page-input-list">
                   <div class="signup-field">
-                    <div class="signup-field-label">{% trans 'signup.reward.number' %}</div>
-                    <input id="signup-reward-number-input" type="text" class="form-control" autocomplete=off value="10" required>
-                  </div>
-                  <div class="signup-field">
-                    <div class="signup-field-label">{% trans 'signup.reward.type' %}</div>
-                    <input id="signup-reward-type-input" type="text" class="form-control" autocomplete=off maxlength=128 placeholder="{% trans 'signup.reward.type.placeholder' %}" required>
-                  </div>
-                </div>
-              </div>
-              <div class="signup-field signup-pagination">
-                <button class="signup-previous-button">{% trans 'signup.previous' %}</button>
-                <button id="signup-reward-next" class="signup-next-button signup-next-disabled">{% trans 'signup.next' %}</button>
-              </div>
-            </div>
-            <div class="signup-page was-validated">
-              <div class="flex-grow-1">
-                <div>
-                  <div class="signup-page-headline">{% trans 'signup.business.headline' %}</div>
-                  <div class="signup-page-description text-secondary">{% trans 'signup.business.description' %}</div>
-                </div>
-                <div class="signup-page-input-list">
-                  <div class="signup-field">
-                    <div class="signup-field-label">{% trans 'signup.business.locations' %}</div>
-                    <ul id="signup-business-location-list">
+                    <div class="signup-field-label">{% trans 'signup.location.locations' %}</div>
+                    <ul id="signup-location-list">
                     </ul>
-                    <div id="signup-business-location-add">
+                    <div id="signup-location-add">
                       <i class="fa-solid fa-plus"></i>
                     </div>
                   </div>
@@ -146,7 +105,30 @@
               </div>
               <div class="signup-field signup-pagination">
                 <button class="signup-previous-button">{% trans 'signup.previous' %}</button>
-                <button id="signup-business-next" class="signup-next-button signup-next-disabled">{% trans 'signup.next' %}</button>
+                <button id="signup-location-next" class="signup-next-button signup-next-disabled">{% trans 'signup.next' %}</button>
+              </div>
+            </div>
+            <div class="signup-page was-validated">
+              <div class="flex-grow-1">
+                <div>
+                  <div class="signup-page-headline">{% trans 'signup.link.headline' %}</div>
+                  <div class="signup-page-description text-secondary">{% trans 'signup.link.description' %}</div>
+                </div>
+                <div class="signup-page-input-list">
+                  <div class="signup-field">
+                    <div class="signup-field-label">{% trans 'signup.link.links' %}</div>
+                    <p id="signup-link-empty" class="text-center">{% trans 'product.partner.link.empty' %}</p>
+                    <ul id="signup-link-list">
+                    </ul>
+                    <div id="signup-link-add">
+                      <i class="fa-solid fa-plus"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="signup-field signup-pagination">
+                <button class="signup-previous-button">{% trans 'signup.previous' %}</button>
+                <button id="signup-link-next" class="signup-next-button signup-next-disabled">{% trans 'signup.next' %}</button>
               </div>
             </div>
             <div class="signup-page was-validated">
@@ -246,15 +228,21 @@
 <script src="https://www.google.com/recaptcha/api.js?render={{recaptcha_token}}"></script>
 
 <script>
+  let partnerLinkTypes;
+
   $(document).ready(function () {
-    cardBusinessNameInput.focus();
+    businessNameInput.focus();
     for (let element of [...document.querySelectorAll('input[maxlength]')]) {
       element.addEventListener('input', tickInputMaxLength)
       element.parentElement.classList.add('max-length-badged');
       tickInputMaxLength(element)
     }
     updatePasswordProgress();
-    createBusinessLocationEntry();
+    addNewLocation();
+    fetchLinkTypes(function (partnerLinkTypesResult) {
+      partnerLinkTypes = partnerLinkTypesResult;
+      addNewLink();
+    });
   });
 
   function tickInputMaxLength(element) {
@@ -333,36 +321,39 @@
     }, 500);
   }
 
-  let cardBusinessNameInput = document.getElementById("signup-card-name-input");
-  cardBusinessNameInput.addEventListener("input", function (event) {
-    let value = cardBusinessNameInput.value;
+  let businessNameInput = document.getElementById("signup-business-name-input");
+  businessNameInput.addEventListener("input", function (event) {
+    let value = businessNameInput.value;
     if (value === "") {
-      value = "{% trans 'signup.card.business.name.placeholder' %}";
+      value = "{% trans 'signup.business.information.name.placeholder' %}";
     }
-    document.getElementById("signup-card-name").innerText = value;
-    checkCardCompletion();
+    document.getElementById("signup-business-name").innerText = value;
+    checkBusinessCompletion();
   });
 
-  let cardBusinessDescriptionInput = document.getElementById("signup-card-description-input");
-  cardBusinessDescriptionInput.addEventListener("input", function (event) {
-    let value = cardBusinessDescriptionInput.value;
+  let businessDescriptionInput = document.getElementById("signup-business-description-input");
+  businessDescriptionInput.addEventListener("input", function (event) {
+    let value = businessDescriptionInput.value;
     if (value === "") {
-      value = "{% trans 'signup.card.business.description.placeholder' %}";
+      value = "{% trans 'signup.business.information.description.placeholder' %}";
     }
-    document.getElementById("signup-card-description").innerText = value;
-    checkCardCompletion();
+    document.getElementById("signup-business-description").innerText = value;
+    checkBusinessCompletion();
   });
 
-  let cardLogoInput = document.getElementById("signup-card-logo-input");
-  cardLogoInput.addEventListener('change', function (event) {
+  let businessLogoInput = document.getElementById("signup-business-logo-input");
+  businessLogoInput.addEventListener('change', function (event) {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = function (e) {
-        document.getElementById('signup-card-logo').src = e.target.result;
+        let logo = document.getElementById("signup-business-logo");
+        logo.classList.remove("d-none");
+        logo.src = e.target.result;
+        document.getElementById("signup-business-logo-unknown").classList.add("d-none");
       };
       reader.readAsDataURL(file);
-      checkCardCompletion();
+      checkBusinessCompletion();
     }
   });
 
@@ -376,64 +367,29 @@
       }
       callback(btoa(binary));
     }
-    reader.readAsArrayBuffer(cardLogoInput.files[0]);
+    reader.readAsArrayBuffer(businessLogoInput.files[0]);
   }
 
-  let cardBackgroundColorInput = document.getElementById("signup-card-background-color-input");
-  cardBackgroundColorInput.addEventListener("input", function (event) {
-    document.documentElement.style.setProperty("--signup-card-background-color",
-      cardBackgroundColorInput.value);
-  });
-
-  let cardForegroundColorInput = document.getElementById("signup-card-foreground-color-input");
-  cardForegroundColorInput.addEventListener("input", function (event) {
-    document.documentElement.style.setProperty("--signup-card-foreground-color",
-      cardForegroundColorInput.value);
-  });
-
-  function checkCardCompletion() {
-    if (cardBusinessNameInput.value !== "" && cardBusinessDescriptionInput.value !== "" &&
-      cardLogoInput.value !== ""
+  function checkBusinessCompletion() {
+    if (businessNameInput.value !== "" && businessDescriptionInput.value !== "" &&
+      businessLogoInput.value !== ""
     ) {
-      document.getElementById("signup-card-next").classList.remove("signup-next-disabled");
+      document.getElementById("signup-business-next").classList.remove("signup-next-disabled");
       return;
     }
-    document.getElementById("signup-card-next").classList.add("signup-next-disabled");
+    document.getElementById("signup-business-next").classList.add("signup-next-disabled");
   }
 
-  let rewardNumberInput = document.getElementById("signup-reward-number-input");
-  let rewardTypeInput = document.getElementById("signup-reward-type-input");
+  let locationEntries = [];
 
-  rewardNumberInput.addEventListener("input", function (event) {
-    let value = rewardNumberInput.value;
-    value = value.replace(/[^0-9-]/g, "");
-    value = value.replace(/(?!^)-/g, "");
-    rewardNumberInput.value = value;
-    checkRewardCompletion();
-  });
-
-  rewardTypeInput.addEventListener("input", function (event) {
-    checkRewardCompletion();
-  });
-
-  function checkRewardCompletion() {
-    if (rewardNumberInput.value === "" || rewardTypeInput.value === "") {
-      document.getElementById("signup-reward-next").classList.add("signup-next-disabled");
-      return;
-    }
-    document.getElementById("signup-reward-next").classList.remove("signup-next-disabled");
-  }
-
-  let businessLocationEntries = [];
-
-  function createBusinessLocationEntry() {
+  function createLocationEntry() {
     let locationEntry = {address: "", latitude: -1, longitude: -1};
     let entryElement = document.createElement("li");
     let entryControl = document.createElement("div");
     entryControl.classList.add("d-flex", "align-items-center");
     let inputElement = document.createElement("input");
     inputElement.classList.add("form-control");
-    inputElement.placeholder = "{% trans 'signup.business.location.placeholder' %}";
+    inputElement.placeholder = "{% trans 'signup.location.location.placeholder' %}";
     inputElement.type = "text";
     inputElement.required = true;
     entryControl.appendChild(inputElement);
@@ -441,58 +397,58 @@
     removeElement.innerHTML = '<i class="fa-solid fa-xmark text-danger"></i>';
     removeElement.onclick = function (event) {
       entryElement.remove();
-      businessLocationEntries.splice(businessLocationEntries.indexOf(locationEntry), 1);
-      if (businessLocationEntries.length === 1) {
-        businessLocationEntries[0].removeElement.classList.add("d-none");
+      locationEntries.splice(locationEntries.indexOf(locationEntry), 1);
+      if (locationEntries.length === 1) {
+        locationEntries[0].removeElement.classList.add("d-none");
       }
-      checkBusinessCompletion();
+      checkLocationCompletion();
     }
     locationEntry.removeElement = removeElement;
     entryControl.appendChild(removeElement);
     entryElement.appendChild(entryControl);
-    if (businessLocationEntries.length === 0) {
+    if (locationEntries.length === 0) {
       removeElement.classList.add("d-none");
-    } else if (businessLocationEntries.length === 1) {
-      businessLocationEntries[0].removeElement.classList.remove("d-none");
+    } else if (locationEntries.length === 1) {
+      locationEntries[0].removeElement.classList.remove("d-none");
     }
     let suggestionsElement = document.createElement("div");
-    suggestionsElement.classList.add("signup-business-location-suggestions");
+    suggestionsElement.classList.add("signup-location-suggestions");
     let suggestionsContentElement = document.createElement("div");
-    suggestionsContentElement.classList.add("d-none", "signup-business-location-suggestions-content");
+    suggestionsContentElement.classList.add("d-none", "signup-location-suggestions-content");
     locationEntry.timeout = -1;
     inputElement.addEventListener('input', function () {
       locationEntry.address = inputElement.value;
-      processBusinessLocationInteraction(locationEntry, inputElement,
+      processLocationInteraction(locationEntry, inputElement,
         suggestionsContentElement);
-      checkBusinessCompletion();
+      checkLocationCompletion();
     });
     inputElement.addEventListener('click', function () {
-      processBusinessLocationInteraction(locationEntry, inputElement,
+      processLocationInteraction(locationEntry, inputElement,
         suggestionsContentElement);
     });
     suggestionsElement.appendChild(suggestionsContentElement)
     entryElement.appendChild(suggestionsElement);
-    document.getElementById("signup-business-location-list").appendChild(entryElement);
-    businessLocationEntries.push(locationEntry);
+    document.getElementById("signup-location-list").appendChild(entryElement);
+    locationEntries.push(locationEntry);
     document.addEventListener('click', function(event) {
       if (event.target !== inputElement) {
         suggestionsContentElement.classList.add("d-none");
       }
     });
-    checkBusinessCompletion();
+    checkLocationCompletion();
   }
 
-  function processBusinessLocationInteraction(locationEntry, inputElement, suggestionsElement) {
+  function processLocationInteraction(locationEntry, inputElement, suggestionsElement) {
     if (locationEntry.timeout !== -1) {
       clearTimeout(locationEntry.timeout);
     }
     locationEntry.timeout = setTimeout(function () {
       locationEntry.timeout = -1;
-      displayBusinessLocationSuggestions(locationEntry, inputElement, suggestionsElement);
+      displayLocationSuggestions(locationEntry, inputElement, suggestionsElement);
     }, 500);
   }
 
-  function displayBusinessLocationSuggestions(locationEntry, inputElement, suggestionsElement) {
+  function displayLocationSuggestions(locationEntry, inputElement, suggestionsElement) {
     const query = inputElement.value;
     if (query.length > 2) {
       fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=5`)
@@ -504,7 +460,7 @@
           }
           data.forEach(item => {
             const div = document.createElement('div');
-            div.classList.add('signup-business-location-suggestions-item');
+            div.classList.add('signup-location-suggestions-item');
             div.textContent = item.display_name;
             div.onclick = () => {
               inputElement.value = item.display_name;
@@ -512,7 +468,7 @@
               locationEntry.address = item.display_name;
               locationEntry.latitude = item.lat;
               locationEntry.longitude = item.lon;
-              checkBusinessCompletion();
+              checkLocationCompletion();
             };
             suggestionsElement.appendChild(div);
           });
@@ -522,18 +478,168 @@
     }
   }
 
-  document.getElementById("signup-business-location-add").onclick = function (event) {
-    createBusinessLocationEntry();
+  document.getElementById("signup-location-add").onclick = function (event) {
+    addNewLocation();
   }
 
-  function checkBusinessCompletion() {
-    for (let entry of businessLocationEntries) {
+  function addNewLocation() {
+    createLocationEntry();
+  }
+
+  function checkLocationCompletion() {
+    for (let entry of locationEntries) {
       if (entry.address === "" || entry.latitude === -1 || entry.longitude === -1) {
-        document.getElementById("signup-business-next").classList.add("signup-next-disabled");
+        document.getElementById("signup-location-next").classList.add("signup-next-disabled");
         return;
       }
     }
-    document.getElementById("signup-business-next").classList.remove("signup-next-disabled");
+    document.getElementById("signup-location-next").classList.remove("signup-next-disabled");
+  }
+
+  let linkEntries = [];
+
+  function fetchLinkTypes(callback) {
+    let request = new HttpRequest("/partner/link/types/unauthorized/", "POST", [],
+      {language: Cookie.find("dulno-home-language")});
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).types);
+    });
+  }
+
+  function updateLinksEmpty() {
+    if (document.getElementById("signup-link-list").children.length === 0) {
+      document.getElementById("signup-link-empty").classList.remove("d-none");
+    } else {
+      document.getElementById("signup-link-empty").classList.add("d-none");
+    }
+  }
+
+  function createLinkEntry(link) {
+    let entryElement = document.createElement("li");
+    let entryControl = document.createElement("div");
+    entryControl.classList.add("d-flex", "align-items-center");
+    entryControl.appendChild(createLinkDropdown(link));
+    let inputElement = document.createElement("input");
+    inputElement.classList.add("form-control");
+    link.inputElement = inputElement;
+    inputElement.classList.add("w-100");
+    inputElement.placeholder = "{% trans 'product.partner.link.placeholder' %}";
+    inputElement.type = "text";
+    inputElement.value = link.link;
+    inputElement.required = true;
+    entryControl.appendChild(inputElement);
+    let removeElement = document.createElement("button");
+    removeElement.innerHTML = '<i class="fa-solid fa-xmark text-danger"></i>';
+    removeElement.onclick = function (event) {
+      entryElement.remove();
+      linkEntries.splice(linkEntries.indexOf(link), 1);
+      updateLinkDropdownMenus();
+      updateLinksEmpty();
+      checkLinkCompletion();
+    }
+    link.removeElement = removeElement;
+    entryControl.appendChild(removeElement);
+    entryElement.appendChild(entryControl);
+    inputElement.addEventListener('input', function () {
+      link.link = inputElement.value;
+      checkLinkCompletion();
+    });
+    document.getElementById("signup-link-list").appendChild(entryElement);
+  }
+
+  function createLinkDropdown(link) {
+    let dropdownElement = document.createElement("div");
+    dropdownElement.classList.add("dropdown", "me-3", "position-relative");
+    let dropdownButton = document.createElement("div");
+    link.dropdownButton = dropdownButton;
+    dropdownButton.classList.add("btn", "btn-secondary", "dropdown-toggle", "w-100");
+    dropdownButton.role = "button";
+    if (link.type !== "") {
+      dropdownButton.innerHTML = createLinkLabel(
+        partnerLinkTypes.filter(entry => entry.type === link.type)[0]);
+    } else {
+      dropdownButton.innerText = "{% trans 'product.partner.link.type' %}";
+    }
+    dropdownButton.setAttribute("data-bs-toggle", "dropdown");
+    dropdownElement.appendChild(dropdownButton);
+    let dropdownMenu = document.createElement("div");
+    link.dropdownMenu = dropdownMenu;
+    dropdownMenu.classList.add("dropdown-menu", "w-100");
+    fillLinkDropdownMenu(link);
+    dropdownElement.appendChild(dropdownMenu);
+    return dropdownElement;
+  }
+
+  function fillLinkDropdownMenu(link) {
+    link.dropdownMenu.innerHTML = "";
+    for (let type of partnerLinkTypes) {
+      if (linkEntries.some(entry => entry.type === type.type)) {
+        continue;
+      }
+      let entryElement = document.createElement("li");
+      entryElement.classList.add("mb-0");
+      let nameElement = document.createElement("span");
+      nameElement.classList.add("dropdown-item");
+      nameElement.innerHTML = createLinkLabel(type);
+      entryElement.appendChild(nameElement);
+      entryElement.onclick = function () {
+        link.dropdownButton.innerHTML = createLinkLabel(type);
+        link.inputElement.value = "";
+        link.type = type.type;
+        link.link = "";
+        updateLinkDropdownMenus();
+        checkLinkCompletion();
+      }
+      link.dropdownMenu.appendChild(entryElement);
+    }
+    if (link.dropdownMenu.children.length === 0) {
+      var emptyElement = document.createElement("li");
+      emptyElement.classList.add("text-center", "mb-0");
+      emptyElement.innerText = "{% trans 'product.partner.link.types.empty' %}";
+      link.dropdownMenu.appendChild(emptyElement);
+    }
+  }
+
+  function createLinkLabel(type) {
+    let label = "";
+    if (type.type === "WEBSITE") {
+      label += '<i class="fa-solid fa-globe me-2"></i>';
+    } else if (type.type === "INSTAGRAM") {
+      label += '<i class="fa-brands fa-instagram me-2"></i>';
+    } else if (type.type === "FACEBOOK") {
+      label += '<i class="fa-brands fa-facebook me-2"></i>';
+    } else if (type.type === "TIKTOK") {
+      label += '<i class="fa-brands fa-tiktok me-2"></i>';
+    }
+    return label + type.name;
+  }
+
+  function updateLinkDropdownMenus() {
+    for (let entry of linkEntries) {
+      fillLinkDropdownMenu(entry);
+    }
+  }
+
+  document.getElementById("signup-link-add").onclick = function (event) {
+    addNewLink();
+  }
+
+  function addNewLink() {
+    let link = {type: "", link: ""};
+    linkEntries.push(link);
+    createLinkEntry(link);
+    updateLinksEmpty();
+    checkLinkCompletion();
+  }
+
+  function checkLinkCompletion() {
+    for (let entry of linkEntries) {
+      if (entry.type === "" || entry.link === "") {
+        document.getElementById("signup-link-next").classList.add("signup-next-disabled");
+        return;
+      }
+    }
+    document.getElementById("signup-link-next").classList.remove("signup-next-disabled");
   }
 
   let accountNameInput = document.getElementById("signup-account-name-input");
@@ -729,22 +835,24 @@
   function sendSignupRequest(callback, recaptchaToken) {
     let language = Cookie.find("dulno-home-language");
     let locations = [];
-    for (let entry of businessLocationEntries) {
+    for (let entry of locationEntries) {
       let location = {address: entry.address, latitude: entry.latitude,
         longitude: entry.longitude};
       locations.push(location);
+    }
+    let links = [];
+    for (let entry of linkEntries) {
+      let link = {type: entry.type, link: entry.link};
+      links.push(link);
     }
     encodeCardLogo(function (partnerLogo) {
       let request = new HttpRequest("/verification/partner/signup/", "POST", [],
         {memberName: accountNameInput.value, memberEmail: accountEmailInput.value,
           memberPassword: accountPasswordInput.value, memberLanguage: language,
-          partnerName: cardBusinessNameInput.value,
-          partnerDescription: cardBusinessDescriptionInput.value,
+          partnerName: businessNameInput.value,
+          partnerDescription: businessDescriptionInput.value,
           partnerLogo: partnerLogo, partnerLocations: locations,
-          cardBackgroundColor: cardBackgroundColorInput.value,
-          cardForegroundColor: cardForegroundColorInput.value,
-          cardRewardNumber: rewardNumberInput.value,
-          cardRewardDescription: rewardTypeInput.value, redirect: "{{redirect}}",
+          partnerLinks: links, redirect: "{{redirect}}",
           recaptchaToken: recaptchaToken, legalAccepted: finishLegalCheck.checked,
           newsletter: finishNewsletterCheck.checked});
       request.send(function (status, responseText) {
