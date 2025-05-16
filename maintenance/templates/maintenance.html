@@ -10,12 +10,13 @@
           <h3 id="maintenance-headline">{% trans 'maintenance.headline' %}</h3>
           <h1 id="maintenance-subtitle">{% trans 'maintenance.subtitle' %}</h1>
           <p id="maintenance-description"></p>
+          <button id="maintenance-home" type="button" class="btn btn-secondary d-block mx-auto mt-5"><i class="fa-regular fa-share-from-square me-1"></i> {% trans 'maintenance.home' %}</button>
         </div>
         <div>
           <img id="maintenance-logo" src="{% static 'img/maintenance/maintenance.webp' %}">
         </div>
       </div>
-    </div>
+      </div>
   </body>
 </html>
 
@@ -54,5 +55,9 @@
     request.send(function (status, responseText) {
       callback(JSON.parse(responseText));
     });
+  }
+
+  document.getElementById("maintenance-home").onclick = function () {
+    window.location.href = "https://" + "{{domain}}" + "/";
   }
 </script>
