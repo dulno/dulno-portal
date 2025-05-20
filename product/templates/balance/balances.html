@@ -57,7 +57,10 @@
               </div>
             </div>
             <div class="balances-transactions">
-              <h2 class="fw-bold my-5">{% trans 'product.balances.transactions' %}</h2>
+              <div class="d-flex flex-md-row flex-column justify-content-between align-items-center my-5">
+                <h2 class="fw-bold mb-md-0 mb-4">{% trans 'product.balances.transactions' %}</h2>
+                <button class="btn btn-primary fw-bold"><i class="fa-solid fa-cloud-arrow-down me-1"></i> {% trans 'product.balances.transactions.export' %}</button>
+              </div>
               <div class="d-flex justify-content-center align-items-center">
                 <div class="balances-transactions-search-box">
                   <input placeholder="{% trans 'product.balances.transactions.search' %}" type="text" class="form-control" value="" autocomplete="off">
@@ -205,7 +208,10 @@
               </div>
             </div>
             <div class="balances-transactions">
-              <h2 class="fw-bold my-5">{% trans 'product.balances.transactions' %}</h2>
+              <div class="d-flex flex-md-row flex-column justify-content-between align-items-center my-5">
+                <h2 class="fw-bold mb-md-0 mb-4">{% trans 'product.balances.transactions' %}</h2>
+                <button id="balances-transactions-export" class="btn btn-primary fw-bold"><i class="fa-solid fa-cloud-arrow-down me-1"></i> {% trans 'product.balances.transactions.export' %}</button>
+              </div>
               <div class="d-flex justify-content-center align-items-center">
                 <div class="balances-transactions-search-box">
                   <input id="balances-transactions-search-input" placeholder="{% trans 'product.balances.transactions.search' %}" type="text" class="form-control" value="" autocomplete="off">
@@ -411,12 +417,16 @@
     settingsButton.setAttribute("aria-expanded", "false");
     settingsDiv.appendChild(settingsButton);
     let dropdown = createSettingsDropdown([
-      {icon: "fa-arrow-up-right-from-square",
+      {
+        icon: "fa-arrow-up-right-from-square",
         content: "{% trans 'product.balances.transactions.card.redirect' %}",
-        click: () => transactionCardRedirect(transaction)},
-      {icon: "fa-trash", color: "text-danger",
+        click: () => transactionCardRedirect(transaction)
+      },
+      {
+        icon: "fa-trash", color: "text-danger",
         content: "{% trans 'product.balances.transactions.withdraw' %}",
-        click: () => withdrawTransaction(transaction)},
+        click: () => withdrawTransaction(transaction)
+      },
     ]);
     settingsDiv.appendChild(dropdown);
     return settingsDiv;
@@ -517,7 +527,7 @@
     displayTransactions();
   }
 
-  document.getElementById("balances-transactions-search-input").oninput = function(event) {
+  document.getElementById("balances-transactions-search-input").oninput = function (event) {
     if (listSearchTimeout !== -1) {
       clearTimeout(listSearchTimeout);
     }
@@ -540,7 +550,7 @@
   }
 
   function displayHeaderRevenue() {
-    let { start, end } = createHeaderChart(
+    let {start, end} = createHeaderChart(
       document.getElementById('balances-header-revenue'),
       balances.transactions, "time", "value");
     let revenue = 0;
@@ -557,7 +567,7 @@
   }
 
   function displayHeaderActiveCard() {
-    let { start, end } = createHeaderChart(
+    let {start, end} = createHeaderChart(
       document.getElementById('balances-header-active-cards'),
       balances.activeCards, "date", "change");
     let activeCards = 0;
@@ -570,7 +580,7 @@
   }
 
   function displayHeaderOpenStamps() {
-    let { start, end } = createHeaderChart(
+    let {start, end} = createHeaderChart(
       document.getElementById('balances-header-open-stamps'),
       balances.openStamps, "date", "change");
     let openStamps = 0;
@@ -583,7 +593,7 @@
   }
 
   function displayHeaderActiveUser() {
-    let { start, end } = createHeaderChart(
+    let {start, end} = createHeaderChart(
       document.getElementById('balances-header-active-users'),
       balances.activeUsers, "date", "change");
     let activeUsers = 0;
@@ -627,7 +637,7 @@
 
   function createHeaderChart(chartElement, data, timestampKey, valueKey) {
     const ctx = chartElement.getContext('2d');
-    const { datasetLabels, datasetData } = groupAndFilterTimestamps(data,
+    const {datasetLabels, datasetData} = groupAndFilterTimestamps(data,
       timestampKey, valueKey);
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, 'rgba(13, 110, 253, 0.4)');
@@ -662,8 +672,8 @@
             display: false,
           },
         },
-        elements:{
-          point:{
+        elements: {
+          point: {
             borderWidth: 0,
             radius: 0,
             backgroundColor: 'rgba(0,0,0,0)'
@@ -757,7 +767,7 @@
   }
 
   function updateInterval() {
-    const { start, end } = findIntervalRange();
+    const {start, end} = findIntervalRange();
     document.getElementById("balances-start-input").value = start;
     document.getElementById("balances-end-input").value = end;
   }
@@ -807,7 +817,7 @@
     const startInput = document.getElementById('balances-start-input').value;
     const endInput = document.getElementById('balances-end-input').value;
     if (!startInput || !endInput) {
-      return { datasetLabels: [], datasetData: [] };
+      return {datasetLabels: [], datasetData: []};
     }
     let start = new Date(startInput);
     let end = new Date(endInput);
@@ -825,7 +835,7 @@
       start.getTime(), end.getTime(), interval);
     const datasetLabels = generateLabels(start, end, interval);
     let datasetData = accumulateData(datasetLabels, grouped, baseline);
-    return { datasetLabels, datasetData };
+    return {datasetLabels, datasetData};
   }
 
   function adjustTodayInterval(start, end, interval) {
@@ -943,6 +953,97 @@
       return 'month';
     } else {
       return 'year';
+    }
+  }
+
+  document.getElementById("balances-transactions-export").onclick = function () {
+    openExportPeriodWindow();
+  }
+
+  function openExportPeriodWindow() {
+    let content = document.createElement('div');
+    let description = document.createElement('span');
+    description.innerText =
+      "{% trans 'product.balances.transactions.export.body' %}"
+    content.appendChild(description);
+    let interval = document.createElement('div');
+    interval.classList.add("balances-interval", "mx-auto", "my-5");
+    interval.style.width = "fit-content";
+    const now = new Date();
+    let startInput = document.createElement("input");
+    startInput.type = "date";
+    startInput.value = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+      .toLocaleDateString('en-CA');
+    interval.appendChild(startInput);
+    let separator = document.createElement('i');
+    separator.classList.add("fa-solid", "fa-minus", "mx-1", "my-auto");
+    interval.appendChild(separator);
+    let endInput = document.createElement("input");
+    endInput.type = "date";
+    endInput.value = new Date(now.getFullYear(), now.getMonth(), 0)
+      .toLocaleDateString('en-CA');
+    interval.appendChild(endInput);
+    content.appendChild(interval);
+    Swal.fire({
+      title: "{% trans 'product.balances.transactions.export.title' %}",
+      html: content,
+      showCancelButton: true,
+      cancelButtonText: "{% trans 'popup.cancel' %}",
+    }).then(result => {
+      if (result.isConfirmed) {
+        if (startInput.value === "" || endInput.value === "") {
+          Swal.fire("{% trans 'product.balances.transactions.export.incomplete.title' %}",
+            "{% trans 'product.balances.transactions.export.incomplete.body' %}", "error")
+            .then(success => openExportPeriodWindow());
+          return;
+        }
+        exportBalances(new Date(startInput.value), new Date(endInput.value));
+        Swal.fire("{% trans 'product.balances.transactions.export.successful.title' %}",
+          "{% trans 'product.balances.transactions.export.successful.body' %}", "success");
+      }
+    });
+  }
+
+  function exportBalances(start, end) {
+    const headers = ["{% trans 'product.balances.transactions.export.time' %}",
+      "{% trans 'product.balances.transactions.export.value' %}",
+      "{% trans 'product.balances.transactions.export.type' %}"];
+    const csvRows = [];
+    csvRows.push(formatExportRow(headers));
+    let transactions = balances.transactions.sort((a, b) => compareTransactions(a, b));
+    for (let transaction of transactions) {
+      if (transaction.time < start.getTime() || transaction.time > end.getTime()) {
+        continue;
+      }
+      const values = [new Date(transaction.time).toLocaleString(),
+        transaction.value.toFixed(2).toString().replace(".", ",") + " €",
+        findTransactionTypeName(transaction)];
+      csvRows.push(formatExportRow(values));
+    }
+    const csvString = csvRows.join('\n');
+    const blob = new Blob([csvString], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.setAttribute('href', url);
+    a.setAttribute('download', "dulno-transactions-" +
+      start.toLocaleDateString() + "-" + end.toLocaleDateString() + ".csv");
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }
+
+  function formatExportRow(row) {
+    return row.map(h => `"${h}"`).join(',');
+  }
+
+  function findTransactionTypeName(transaction) {
+    if (!transaction.type) {
+      return "{% trans 'product.balances.transactions.type.unknown' %}";
+    } else if (transaction.type === "VALUE") {
+      return "{% trans 'product.balances.transactions.type.value' %}";
+    } else {
+      return "{% trans 'product.balances.transactions.type.member' %}";
     }
   }
 </script>
