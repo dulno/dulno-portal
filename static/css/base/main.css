@@ -34,6 +34,10 @@ h1 {
   }
 }
 
+.swal2-modal {
+  border-radius: 10px;
+}
+
 .dark .swal2-modal {
   background-color: #343b41 !important;
   border: 2px solid #424b53 !important;
