@@ -16,12 +16,16 @@
       <li class="sidebar-item {% if 'partner' in request.path %}sidebar-active{% endif %}">
         <a href="/partner/general/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">store</span><span>{% trans 'product.sidebar.partner' %}</span></a>
       </li>
-      <li id="sidebar-advanced-divider" class="sidebar-divider d-none"></li>
+      <li id="sidebar-statistics-divider" class="sidebar-divider d-none"></li>
       <li id="sidebar-analysis" class="sidebar-item d-none {% if 'analysis' in request.path %}sidebar-active{% endif %}">
         <a href="/analysis/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">monitoring</span><span>{% trans 'product.sidebar.analysis' %}</span></a>
       </li>
       <li id="sidebar-balances" class="sidebar-item d-none {% if 'balance' in request.path %}sidebar-active{% endif %}">
         <a href="/balances/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">payments</span><span>{% trans 'product.sidebar.balances' %}</span></a>
+      </li>
+      <li id="sidebar-marketing-divider" class="sidebar-divider d-none"></li>
+      <li id="sidebar-coupons" class="sidebar-item d-none {% if 'coupon' in request.path %}sidebar-active{% endif %}">
+        <a href="/coupons/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">sell</span><span>{% trans 'product.sidebar.coupons' %}</span></a>
       </li>
       <li id="sidebar-campaigns" class="sidebar-item d-none {% if 'campaign' in request.path %}sidebar-active{% endif %}">
         <a href="/campaigns/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">campaign</span><span>{% trans 'product.sidebar.campaigns' %}</span></a>
@@ -53,21 +57,29 @@
   });
 
   function checkAdvancedItems(bundle) {
-    let hasAdvancedAccess = false;
+    let hasStatisticsAccess = false;
     if (bundle.analysisAccess) {
       document.getElementById("sidebar-analysis").classList.remove("d-none");
-      hasAdvancedAccess = true;
+      hasStatisticsAccess = true;
     }
     if (bundle.balanceAccess) {
       document.getElementById("sidebar-balances").classList.remove("d-none");
-      hasAdvancedAccess = true;
+      hasStatisticsAccess = true;
+    }
+    if (hasStatisticsAccess) {
+      document.getElementById("sidebar-statistics-divider").classList.remove("d-none");
+    }
+    let hasMarketingAccess = false;
+    if (bundle.couponAccess) {
+      document.getElementById("sidebar-coupons").classList.remove("d-none");
+      hasMarketingAccess = true;
     }
     if (bundle.campaignAccess) {
       document.getElementById("sidebar-campaigns").classList.remove("d-none");
-      hasAdvancedAccess = true;
+      hasMarketingAccess = true;
     }
-    if (hasAdvancedAccess) {
-      document.getElementById("sidebar-advanced-divider").classList.remove("d-none");
+    if (hasMarketingAccess) {
+      document.getElementById("sidebar-marketing-divider").classList.remove("d-none");
     }
   }
 

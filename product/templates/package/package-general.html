@@ -122,6 +122,16 @@
                   <div class="package-general-information-entry-icon">
                     <i class="fa-solid fa-play"></i>
                   </div>
+                  <span>{% trans 'product.package.general.coupon.access' %}</span>
+                </div>
+                <span id="package-general-information-coupon-access"></span>
+              </li>
+              <li class="package-general-information-divider"></li>
+              <li class="package-general-information-entry">
+                <div class="package-general-information-entry-description">
+                  <div class="package-general-information-entry-icon">
+                    <i class="fa-solid fa-play"></i>
+                  </div>
                   <span>{% trans 'product.package.general.campaign.access' %}</span>
                 </div>
                 <span id="package-general-information-campaign-access"></span>
@@ -182,6 +192,8 @@
       bundle.analysisAccess ? "<i class='fa-solid fa-check'></i>" : "<i class='fa-solid fa-xmark'></i>";
     document.getElementById("package-general-information-balance-access").innerHTML =
       bundle.balanceAccess ? "<i class='fa-solid fa-check'></i>" : "<i class='fa-solid fa-xmark'></i>";
+    document.getElementById("package-general-information-coupon-access").innerHTML =
+      bundle.couponAccess ? "<i class='fa-solid fa-check'></i>" : "<i class='fa-solid fa-xmark'></i>";
     document.getElementById("package-general-information-campaign-access").innerHTML =
       bundle.campaignAccess ? "<i class='fa-solid fa-check'></i>" : "<i class='fa-solid fa-xmark'></i>";
     document.getElementById("package-general-information-notification-access").innerHTML =
