@@ -62,9 +62,9 @@ async def refreshAuthentication(request):
   jsonText = json.loads(text)
   success = jsonText["success"]
   if (success == "true"):
-    request.dulnoToken = jsonText["productApiKey"]
+    request.dulnoToken = jsonText["authenticationToken"]
     request.dulnoRefreshToken = jsonText["refreshToken"]
-    return {"success": True, "data": {"token": jsonText["productApiKey"],
+    return {"success": True, "data": {"token": jsonText["authenticationToken"],
       "refreshToken": jsonText["refreshToken"]}}
   return {"success": False}
 

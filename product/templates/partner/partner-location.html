@@ -131,15 +131,18 @@
           suggestionsElement.innerHTML = '';
           if (data.length > 0) {
             suggestionsElement.classList.remove("d-none");
+          } else {
+            suggestionsElement.classList.add("d-none");
           }
           data.forEach(item => {
+            let address = synthesizeLocationAddress(item);
             const div = document.createElement('div');
             div.classList.add('partner-location-suggestions-item');
-            div.textContent = item.display_name;
+            div.textContent = address;
             div.onclick = () => {
-              inputElement.value = item.display_name;
+              inputElement.value = address;
               suggestionsElement.classList.add("d-none");
-              locationEntry.address = item.display_name;
+              locationEntry.address = address;
               locationEntry.latitude = item.lat;
               locationEntry.longitude = item.lon;
               updatePartnerLocation(locationEntry);
@@ -150,6 +153,25 @@
     } else {
       suggestionsElement.classList.add("d-none");
     }
+  }
+
+  function synthesizeLocationAddress(item) {
+    let address = item.address;
+    if (!address) {
+      return item.display_name;
+    }
+    if (address.road && address.house_number && address.city && address.country) {
+      return address.road + " " + address.house_number + ", " +
+        address.city + ", " + address.country;
+    } else if (address.road && address.city && address.country) {
+      return address.road + ", " +
+        address.city + ", " + address.country;
+    } else if (address.city && address.country) {
+      return address.city + ", " + address.country;
+    } else if (address.country) {
+      return address.country;
+    }
+    return item.display_name;
   }
 
   document.getElementById("partner-location-add").onclick = function (event) {
