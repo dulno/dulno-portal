@@ -169,7 +169,7 @@
     request.send(function (status, responseText) {
       let response = JSON.parse(responseText);
       if (response.success) {
-        window.location.href = "/campaign/" + response.campaign + "/";
+        window.location.href = "/campaign/" + response.campaign + "/general/";
         return;
       }
       continueButton.classList.remove("disabled");

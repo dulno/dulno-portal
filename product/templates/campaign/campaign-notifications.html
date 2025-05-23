@@ -1,0 +1,150 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="campaign-notifications-container">
+        <div id="campaign-notifications-wrapper">
+          {% include 'campaign-header.html' %}
+          <div id="campaign-notifications-placeholder">
+            <div class="mb-5 ms-xl-5 ps-xl-5">
+              <div class="position-relative d-flex flex-row justify-content-center align-items-center mb-4">
+                <div class="ms-auto">
+                  <button class="btn btn-primary fw-bold"><i class="fa-solid fa-plus me-1"></i> {% trans 'product.campaign.notifications.create' %}</button>
+                </div>
+              </div>
+              <ul class="campaign-notifications">
+                <li class="campaign-notifications-item mb-5">
+                  <div class="mb-3 placeholder placeholder-wave rounded py-2 w-100"></div>
+                  <div class="toast-container pt-2 position-relative">
+                    <div class="toast show" role="alert" aria-live="assertive" atomic="true">
+                      <div class="toast-header">
+                        <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+                      </div>
+                      <div class="toast-body">
+                        <div class="placeholder placeholder-wave rounded py-2 w-100"></div>
+                        <div class="placeholder placeholder-wave rounded py-2 w-75 mt-2"></div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="campaign-notifications-item mb-5">
+                  <div class="mb-3 placeholder placeholder-wave rounded py-2 w-100"></div>
+                  <div class="toast-container pt-2 position-relative">
+                    <div class="toast show" role="alert" aria-live="assertive" atomic="true">
+                      <div class="toast-header">
+                        <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+                      </div>
+                      <div class="toast-body">
+                        <div class="placeholder placeholder-wave rounded py-2 w-100"></div>
+                        <div class="placeholder placeholder-wave rounded py-2 w-75 mt-2"></div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div id="campaign-notifications-body" class="placeholder-fade">
+            <div class="mb-5 ms-xl-5 ps-xl-5">
+              <div class="position-relative d-flex flex-row justify-content-center align-items-center mb-4">
+                <div class="ms-auto">
+                  <button id="campaign-notification-create" class="btn btn-primary fw-bold"><i class="fa-solid fa-plus me-1"></i> {% trans 'product.campaign.notifications.create' %}</button>
+                </div>
+              </div>
+              <ul id="campaign-notifications" class="campaign-notifications">
+              </ul>
+              <p id="campaign-notifications-empty" class="d-none text-center">{% trans 'product.campaign.notifications.empty' %}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let campaign;
+
+  $(document).ready(function () {
+    fetchCampaign(function (campaignResult) {
+      campaign = campaignResult;
+      displayNotifications();
+      document.getElementById("campaign-notifications-body").classList.add("placeholder-fade-show");
+      document.getElementById("campaign-notifications-placeholder").classList.add("d-none");
+    });
+  });
+
+  function fetchCampaign(callback) {
+    let request = new HttpRequest("/campaign/find/", "POST", [],
+      {campaign: "{{id}}"});
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+
+  function displayNotifications() {
+    let notifications = campaign.notifications.filter(entry => entry.state === "PENDING");
+    if (notifications.length === 0) {
+      document.getElementById("campaign-notifications-empty").classList.remove("d-none");
+      return;
+    }
+    notifications.sort(function(a, b) {return a.dispatch - b.dispatch});
+    for (let i = 0; i < notifications.length; i++) {
+      displayNotification(notifications[i]);
+    }
+    updateTheme();
+  }
+
+  function displayNotification(entry) {
+    let entryElement = document.createElement("li");
+    entryElement.classList.add("campaign-notifications-item", "mb-5");
+    let entryHeaderElement = document.createElement("p");
+    entryHeaderElement.classList.add("text-nowrap", "mb-2", "fw-bold");
+    entryHeaderElement.innerText = new Date(entry.dispatch).toLocaleString();
+    entryElement.appendChild(entryHeaderElement);
+    let toastContainer = document.createElement("div");
+    toastContainer.classList.add("toast-container", "pt-2", "position-relative");
+    toastContainer.role = "button";
+    let toastElement = document.createElement("div");
+    toastElement.classList.add("toast", "show");
+    toastElement.role = "alert";
+    toastElement.setAttribute("aria-live", "assertive");
+    toastElement.setAttribute("atomic", "true");
+    let toastHeader = document.createElement("div");
+    toastHeader.classList.add("toast-header");
+    let toastIcon = document.createElement("img");
+    toastIcon.classList.add("dulno-logo", "me-2");
+    toastIcon.style.width = "32px";
+    toastIcon.style.height = "32px";
+    toastHeader.appendChild(toastIcon);
+    let toastTitle = document.createElement("strong");
+    toastTitle.classList.add("me-auto", "text-truncate");
+    toastTitle.innerText = entry.title;
+    toastHeader.appendChild(toastTitle);
+    let toastBell = document.createElement("i");
+    toastBell.classList.add("fa-regular", "fa-bell", "mx-2");
+    toastHeader.appendChild(toastBell);
+    let toastTime = document.createElement("small");
+    toastTime.innerText = "{% trans 'product.campaign.notifications.now' %}";
+    toastHeader.appendChild(toastTime);
+    toastElement.appendChild(toastHeader);
+    let toastBody = document.createElement("div");
+    toastBody.classList.add("toast-body");
+    toastBody.innerText = entry.body;
+    toastElement.appendChild(toastBody);
+    toastContainer.appendChild(toastElement);
+    toastContainer.onclick = function (event) {
+      window.location.href = "/campaign/" + "{{id}}" + "/notification/" + entry.id + "/";
+    }
+    entryElement.appendChild(toastContainer);
+    document.getElementById("campaign-notifications").appendChild(entryElement);
+  }
+
+  document.getElementById("campaign-notification-create").addEventListener("click", function (event) {
+    window.location.href = "/campaign/" + "{{id}}" + "/notification/create/";
+  });
+</script>

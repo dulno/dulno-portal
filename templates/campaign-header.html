@@ -1,0 +1,44 @@
+{% load static %}
+{% load i18n %}
+<div>
+  <div class="position-relative d-flex flex-lg-row flex-column justify-content-center align-items-lg-center mt-lg-5 mt-0 mb-5 py-4">
+    <div class="me-auto ms-lg-0 ms-auto">
+      <button id="campaign-page-back"><i class="fa-solid fa-arrow-left-long"></i></button>
+    </div>
+    <h1 class="fw-bold m-0 position-absolute start-50 translate-middle-x">{% trans 'product.campaign.headline' %}</h1>
+    <div class="ms-auto me-lg-0 me-auto mt-lg-0 mt-5 pt-lg-0 pt-5">
+      <button id="campaign-delete" class="btn btn-danger fw-bold"><i class="fa-solid fa-minus me-1"></i> {% trans 'product.campaign.delete' %}</button>
+    </div>
+  </div>
+  <ul class="campaign-tabs">
+    <li class="{% if 'general' in request.path %}campaign-tab-active{% endif %}"><a href="/campaign/{{id}}/general/">{% trans 'product.campaign.tab.general' %}</a></li>
+    <li class="{% if 'notification' in request.path %}campaign-tab-active{% endif %}"><a href="/campaign/{{id}}/notifications/">{% trans 'product.campaign.tab.notification' %}</a></li>
+    <li class="{% if 'coupon' in request.path %}campaign-tab-active{% endif %}"><a href="/campaign/{{id}}/coupon/">{% trans 'product.campaign.tab.coupon' %}</a></li>
+  </ul>
+</div>
+
+<script>
+  document.getElementById("campaign-delete").onclick = function (event) {
+    Swal.fire({
+      title: "{% trans 'product.campaign.general.delete.title' %}",
+      text: "{% trans 'product.campaign.general.delete.body' %}",
+      icon: "warning",
+      confirmButtonColor: "#dc3545",
+      showCancelButton: true,
+      cancelButtonText: "{% trans 'popup.cancel' %}",
+    }).then(result => {
+      if (result.isConfirmed) {
+        let request = new HttpRequest("/campaign/delete/", "POST", [], {campaign: "{{id}}"});
+        request.send(function (status, responseText) {
+          Swal.fire("{% trans 'product.campaign.general.delete.successful.title' %}",
+            "{% trans 'product.campaign.general.delete.successful.body' %}", "success")
+            .then(success => window.location.href = "/campaigns/");
+        });
+      }
+    });
+  }
+
+  document.getElementById("campaign-page-back").addEventListener("click", function (event) {
+    window.location.href = "/campaigns/";
+  });
+</script>

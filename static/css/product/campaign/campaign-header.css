@@ -1,0 +1,84 @@
+#campaign-page-back {
+  width: 52px;
+  height: 52px;
+  border: none;
+  background-color: transparent;
+  border-radius: 50%;
+  font-size: 25px;
+  transition-duration: 0.1s;
+}
+
+.dark #campaign-page-back {
+  color: #b5b5b5;
+}
+
+.light #campaign-page-back {
+  color: #656565;
+}
+
+.dark #campaign-page-back:hover {
+  background-color: #212937;
+}
+
+.light #campaign-page-back:hover {
+  background-color: #d3d3d3;
+  color: #545454;
+}
+
+.campaign-tabs {
+  width: 100%;
+  margin: 40px auto 75px auto;
+  border: none;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  list-style-type: none;
+}
+
+.dark .campaign-tabs {
+  border-bottom: 2px solid #5d6169;
+}
+
+.light .campaign-tabs {
+  border-bottom: 2px solid #dedede;
+}
+
+.campaign-tabs li {
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-decoration: none;
+}
+
+.campaign-tabs a {
+  padding: 8px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.dark .campaign-tabs a {
+  color: white;
+}
+
+.light .campaign-tabs a {
+  color: black;
+}
+
+.dark .campaign-tabs a:hover {
+  background-color: #36383d;
+}
+
+.light .campaign-tabs a:hover {
+  background-color: #efefef;
+}
+
+.campaign-tab-active {
+  border-bottom: 3px solid var(--bs-blue);
+  margin-bottom: -2px;
+  background-color: transparent;
+}
+
+.campaign-tab-active a {
+  color: var(--bs-blue) !important;
+  background-color: transparent !important;
+}

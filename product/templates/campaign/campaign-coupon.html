@@ -1,0 +1,44 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="campaign-coupon-container">
+        <div id="campaign-coupon-wrapper">
+          {% include 'campaign-header.html' %}
+          <div id="campaign-coupon-placeholder">
+            <div class="mb-5 ms-xl-5 ps-xl-5">
+            </div>
+          </div>
+          <div id="campaign-coupon-body" class="placeholder-fade">
+            <div class="mb-5 ms-xl-5 ps-xl-5">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let campaign;
+
+  $(document).ready(function () {
+    fetchCampaign(function (campaignResult) {
+      campaign = campaignResult;
+      document.getElementById("campaign-coupon-body").classList.add("placeholder-fade-show");
+      document.getElementById("campaign-coupon-placeholder").classList.add("d-none");
+    });
+  });
+
+  function fetchCampaign(callback) {
+    let request = new HttpRequest("/campaign/find/", "POST", [],
+      {campaign: "{{id}}"});
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+</script>

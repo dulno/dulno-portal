@@ -24,11 +24,11 @@
         <a href="/balances/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">payments</span><span>{% trans 'product.sidebar.balances' %}</span></a>
       </li>
       <li id="sidebar-marketing-divider" class="sidebar-divider d-none"></li>
-      <li id="sidebar-coupons" class="sidebar-item d-none {% if 'coupon' in request.path %}sidebar-active{% endif %}">
-        <a href="/coupons/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">sell</span><span>{% trans 'product.sidebar.coupons' %}</span></a>
-      </li>
       <li id="sidebar-campaigns" class="sidebar-item d-none {% if 'campaign' in request.path %}sidebar-active{% endif %}">
         <a href="/campaigns/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">campaign</span><span>{% trans 'product.sidebar.campaigns' %}</span></a>
+      </li>
+      <li id="sidebar-coupons" class="sidebar-item d-none {% if 'coupon' in request.path %}sidebar-active{% endif %}">
+        <a href="/coupons/" class="sidebar-link nav-link" aria-current="page"><span class="sidebar-icon material-symbols-outlined">sell</span><span>{% trans 'product.sidebar.coupons' %}</span></a>
       </li>
       <li class="sidebar-divider"></li>
       <li class="sidebar-item {% if 'package' in request.path %}sidebar-active{% endif %}">
