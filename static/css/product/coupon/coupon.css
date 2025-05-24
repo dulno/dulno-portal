@@ -30,20 +30,28 @@
   color: #545454;
 }
 
-#coupon-wrapper input, #coupon-wrapper textarea, #coupon-stamp-icon-button, #coupon-member-icon-button {
+#coupon-wrapper input[type="text"], #coupon-wrapper input[type="file"], #coupon-wrapper input[type="color"], #coupon-wrapper textarea, #coupon-stamp-icon-button, #coupon-member-icon-button {
   width: 100%;
   border-radius: 5px;
   padding: 5px 10px;
 }
 
-.dark #coupon-wrapper input .dark #coupon-wrapper textarea, .dark #coupon-stamp-icon-button, .dark #coupon-member-icon-button {
+.dark #coupon-wrapper input[type="text"], .dark #coupon-wrapper input[type="file"], .dark #coupon-wrapper input[type="color"], .dark #coupon-wrapper textarea, .dark #coupon-stamp-icon-button, .dark #coupon-member-icon-button {
   background-color: #212529;
   border: 1px solid #2f353a;
 }
 
-.light #coupon-wrapper input, .light #coupon-wrapper textarea, .light #coupon-stamp-icon-button, .light #coupon-member-icon-button {
+.light #coupon-wrapper input[type="text"], .light #coupon-wrapper input[type="file"], .light #coupon-wrapper input[type="color"], .light #coupon-wrapper textarea, .light #coupon-stamp-icon-button, .light #coupon-member-icon-button {
   background-color: #f3f3f3;
   border: 1px solid #d5d5d5;
+}
+
+#coupon-wrapper input {
+  transition: opacity 0.1s;
+}
+
+#coupon-wrapper input[disabled] {
+  opacity: 0.5;
 }
 
 #coupon-wrapper input[maxlength], #coupon-wrapper textarea[maxlength] {
@@ -88,12 +96,13 @@
   padding: 15px;
   border-radius: 12px;
   transition-duration: 0.2s;
+  color: black;
 }
 
 .coupon {
   position: relative;
   min-width: 100%;
-  min-height: 150px;
+  min-height: 120px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   padding: 20px;
@@ -101,12 +110,44 @@
 
 .coupon-logo {
   width: auto;
-  max-width: calc(100% - 40px);
+  max-width: 40%;
   max-height: 60px;
   object-fit: contain;
   position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 20px;
+}
+
+.coupon-reward {
+  width: auto;
+  max-width: calc(100% - 2 * 15px);
+  position: absolute;
   top: 10px;
-  right: 10px;
+  right: 15px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.coupon-redeem {
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.coupon-expiration {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  border-radius: 10px;
+  padding: 5px 15px;
+  background-color: #ffe13d;
+  color: black;
+  font-size: 14px;
 }
 
 @media (max-width: 450px) {

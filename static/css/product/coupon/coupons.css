@@ -46,7 +46,7 @@
 .coupon {
   position: relative;
   min-width: 100%;
-  min-height: 180px !important;
+  min-height: 150px !important;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   padding: 20px;
@@ -54,43 +54,33 @@
 
 .coupon-logo {
   width: auto;
-  max-width: calc(100% - 40px);
+  max-width: 40%;
   max-height: 72px;
   object-fit: contain;
   position: absolute;
-  top: 15px;
-  right: 20px;
-}
-
-:root {
-  --coupon-row-stamps: 10;
-  --coupon-stamps-gap: 10px;
-  --coupon-stamp-size: 32px;
-}
-
-.coupon-stamps {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--coupon-stamp-size), 1fr));
-  margin: 0 auto;
-  gap: var(--coupon-stamps-gap);
-  justify-content: center;
-}
-
-.coupon-stamp {
-  background-color: transparent;
-  width: var(--coupon-stamp-size);
-  font-size: var(--coupon-stamp-size);
-  aspect-ratio : 1 / 1;
-  border-radius: 50%;
-  text-align: center;
-}
-
-.coupon-type-member {
-  position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 56px;
+  transform: translateY(-50%);
+  left: 20px;
+}
+
+.coupon-reward {
+  width: auto;
+  max-width: calc(100% - 2 * 15px);
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.coupon-redeem {
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  border-radius: 5px;
+  padding: 5px;
 }
 
 #coupons-empty {

@@ -19,17 +19,33 @@
           </div>
           <div id="coupon-placeholder" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center">
             <div class="flex-grow-1 mb-5">
-              <div>
+              <div class="mb-3">
                 <h5>{% trans 'product.coupon.background.color' %}</h5>
-                <div class="mb-3 placeholder placeholder-wave rounded py-3 w-100"></div>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
               </div>
-              <div>
+              <div class="mb-3">
                 <h5>{% trans 'product.coupon.foreground.color' %}</h5>
-                <div class="mb-3 placeholder placeholder-wave rounded py-3 w-100"></div>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
               </div>
-              <div>
+              <div class="mb-3">
                 <h5>{% trans 'product.coupon.logo' %}</h5>
-                <div class="mb-3 placeholder placeholder-wave rounded py-3 w-100"></div>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.reward' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.description' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-4 w-100"></div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.expiration' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.limitation' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
               </div>
             </div>
             <div class="coupon-wrapper position-relative ms-xl-5 mb-4">
@@ -37,7 +53,8 @@
               <div class="coupon-container">
                 <div  class="d-flex align-items-end justify-content-end coupon">
                   <div class="coupon-logo placeholder placeholder-wave rounded-4" style="width: 60px; height: 60px;"></div>
-                  <div class="w-100 placeholder placeholder-wave rounded py-3"></div>
+                  <span class="coupon-reward w-25 placeholder placeholder-wave rounded py-3"></span>
+                  <div class="coupon-redeem w-25 placeholder placeholder-wave rounded py-3"></div>
                 </div>
                 <div class="w-100 border-bottom border-secondary-subtle my-3"></div>
                 <div class="w-25 placeholder placeholder-wave rounded py-3 mb-3"></div>
@@ -51,75 +68,55 @@
           </div>
           <div id="coupon-body" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center placeholder-fade">
             <div class="flex-grow-1 mb-5 me-xl-5">
-              <div>
+              <div class="mb-3">
                 <h5>{% trans 'product.coupon.background.color' %}</h5>
-                <input id="coupon-background-color-input" class="mb-3" type="color" autocomplete=off>
+                <input id="coupon-background-color-input" type="color" autocomplete=off>
               </div>
-              <div>
+              <div class="mb-3">
                 <h5>{% trans 'product.coupon.foreground.color' %}</h5>
-                <input id="coupon-foreground-color-input" class="mb-3" type="color" autocomplete=off>
+                <input id="coupon-foreground-color-input" type="color" autocomplete=off>
               </div>
-              <div>
+              <div class="mb-3">
                 <h5>{% trans 'product.coupon.logo' %}</h5>
-                <input id="coupon-logo-input" class="mb-3 form-control" type="file" autocomplete=off accept="image/png, image/jpeg" />
+                <input id="coupon-logo-input" class="form-control" type="file" autocomplete=off accept="image/png, image/jpeg" />
               </div>
-              <div id="coupon-stamp-icon" class="d-none">
-                <h5>{% trans 'product.coupon.stamp.icon' %}</h5>
-                <div class="dropdown w-100 mb-3">
-                  <button id="coupon-stamp-icon-button" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    {% trans 'product.coupon.stamp.icon' %}
-                  </button>
-                  <ul id="coupon-stamp-icon-list" class="dropdown-menu w-100">
-                  </ul>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.reward' %}</h5>
+                <input id="coupon-reward-input" type="text" autocomplete=off maxlength="64" placeholder="{% trans 'product.coupon.reward.placeholder' %}">
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.description' %}</h5>
+                <textarea id="coupon-description-input" autocomplete=off maxlength="256" placeholder="{% trans 'product.coupon.description.placeholder' %}"></textarea>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.expiration' %}</h5>
+                <div class="form-check d-flex align-items-center">
+                  <input id="coupon-expiration-check" class="form-check-input me-2" type="checkbox" autocomplete=off value="">
+                  <input id="coupon-expiration-input" type="text" autocomplete=off placeholder="{% trans 'product.coupon.expiration.placeholder' %}" disabled>
                 </div>
               </div>
-              <div id="coupon-reward-number" class="d-none">
-                <h5>{% trans 'product.coupon.reward.number' %}</h5>
-                <input id="coupon-reward-number-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.coupon.reward.number.placeholder' %}">
-              </div>
-              <div id="coupon-reward-description" class="d-none">
-                <h5>{% trans 'product.coupon.reward.description' %}</h5>
-                <textarea id="coupon-reward-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.coupon.reward.description.placeholder' %}"></textarea>
-              </div>
-              <div id="coupon-value-price" class="d-none">
-                <h5>{% trans 'product.coupon.value.price' %}</h5>
-                <input id="coupon-value-price-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.coupon.value.price.placeholder' %}">
-              </div>
-              <div id="coupon-value-number" class="d-none">
-                <h5>{% trans 'product.coupon.value.number' %}</h5>
-                <input id="coupon-value-number-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.coupon.value.number.placeholder' %}">
-              </div>
-              <div id="coupon-value-description" class="d-none">
-                <h5>{% trans 'product.coupon.value.description' %}</h5>
-                <textarea id="coupon-value-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.coupon.value.description.placeholder' %}"></textarea>
-              </div>
-              <div id="coupon-member-icon" class="d-none">
-                <h5>{% trans 'product.coupon.member.icon' %}</h5>
-                <div class="dropdown w-100 mb-3">
-                  <button id="coupon-member-icon-button" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    {% trans 'product.coupon.member.icon' %}
-                  </button>
-                  <ul id="coupon-member-icon-list" class="dropdown-menu w-100">
-                  </ul>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.limitation' %}</h5>
+                <div class="form-check d-flex align-items-center">
+                  <input id="coupon-limitation-check" class="form-check-input me-2" type="checkbox" autocomplete=off value="">
+                  <input id="coupon-limitation-input" type="text" autocomplete=off placeholder="{% trans 'product.coupon.limitation.placeholder' %}" disabled>
                 </div>
-              </div>
-              <div id="coupon-member-price" class="d-none">
-                <h5>{% trans 'product.coupon.member.price' %}</h5>
-                <input id="coupon-member-price-input" class="mb-3" autocomplete=off placeholder="{% trans 'product.coupon.member.price.placeholder' %}">
-              </div>
-              <div id="coupon-member-description" class="d-none">
-                <h5>{% trans 'product.coupon.member.description' %}</h5>
-                <textarea id="coupon-member-description-input" autocomplete=off maxlength="128" placeholder="{% trans 'product.coupon.member.description.placeholder' %}"></textarea>
               </div>
             </div>
             <div class="coupon-wrapper position-relative ms-xl-5">
-              <img class="coupon-preview-mockup" src="{% static 'img/coupon/coupon-mockup.webp' %}">
+              <img class="coupon-preview-mockup" src="{% static 'img/mockup/mockup.webp' %}">
               <div id="coupon-preview-container" class="coupon-container">
                 <div id="coupon-preview" class="d-flex align-items-end coupon">
                   <img id="coupon-preview-logo" class="coupon-logo" alt=""/>
-                  <div id="coupon-preview-stamps" class="d-none mt-auto">
+                  <span id="coupon-preview-reward" class="coupon-reward"></span>
+                  <div id="coupon-preview-redeem" class="coupon-redeem">
+                    <span>{% trans 'product.coupon.redeem' %}</span>
                   </div>
-                  <i id="coupon-preview-type-member" class="d-none fa-solid"></i>
+                  <div id="coupon-preview-expiration" class="coupon-expiration d-none">
+                    <i class="fa-regular fa-hourglass-half me-2"></i>
+                    <span id="coupon-preview-expiration-days"></span>
+                    <span>{% trans 'product.coupon.expiration.unit' %}</span>
+                  </div>
                 </div>
                 <div class="w-100 border-bottom border-secondary-subtle my-3"></div>
                 <h4 id="coupon-preview-partner-name" class="fw-bold text-break"></h4>
@@ -148,25 +145,20 @@
 <script>
   let coupon;
   let partner;
-  let icons;
-  let selectedIcon;
 
   $(document).ready(function () {
     fetchCoupon(function (couponResult) {
       coupon = couponResult;
       fetchPartner(function (partnerResult) {
         partner = partnerResult;
-        fetchIcons(coupon.type, function (iconResult) {
-          icons = iconResult;
-          displayCoupon();
-          for (let element of [...document.querySelectorAll('input[maxlength], textarea[maxlength]')]) {
-            element.addEventListener('input', tickInputMaxLength)
-            element.parentElement.classList.add('max-length-badged');
-            tickInputMaxLength(element)
-          }
-          document.getElementById("coupon-body").classList.add("placeholder-fade-show");
-          document.getElementById("coupon-placeholder").classList.add("d-none");
-        });
+        displayCoupon();
+        for (let element of [...document.querySelectorAll('input[maxlength], textarea[maxlength]')]) {
+          element.addEventListener('input', tickInputMaxLength)
+          element.parentElement.classList.add('max-length-badged');
+          tickInputMaxLength(element)
+        }
+        document.getElementById("coupon-body").classList.add("placeholder-fade-show");
+        document.getElementById("coupon-placeholder").classList.add("d-none");
       });
     });
   });
@@ -200,184 +192,31 @@
     });
   }
 
-  function fetchIcons(type, callback) {
-    if (type === "COLLECTION" || type === "VALUE") {
-      fetchStampIcons(callback);
-    }
-    if (type === "MEMBER") {
-      fetchMemberIcons(callback);
-    }
-  }
-
-  function fetchStampIcons(callback) {
-    let request = new HttpRequest("/coupon/stamp/icons/", "GET", []);
-    request.send(function (status, responseText) {
-      callback(JSON.parse(responseText).icons);
-    });
-  }
-
-  function fetchMemberIcons(callback) {
-    let request = new HttpRequest("/coupon/member/icons/", "GET", []);
-    request.send(function (status, responseText) {
-      callback(JSON.parse(responseText).icons);
-    });
-  }
-
   function displayCoupon() {
-    if (coupon.type === "COLLECTION") {
-      displayCollectionCoupon();
-    } else if (coupon.type === "VALUE") {
-      displayValueCoupon();
-    } else if (coupon.type === "MEMBER") {
-      displayMemberCoupon();
-    }
     document.getElementById("coupon-preview-logo").src = "data:image/png;base64," + coupon.logo;
     document.getElementById("coupon-preview-partner-name").innerText = partner.name;
     document.getElementById("coupon-preview-partner-description").innerText = partner.description;
     document.getElementById("coupon-background-color-input").value = coupon.backgroundColor;
     document.getElementById("coupon-foreground-color-input").value = coupon.foregroundColor;
+    document.getElementById("coupon-reward-input").value = coupon.reward;
+    document.getElementById("coupon-preview-reward").innerText = coupon.reward;
+    document.getElementById("coupon-description-input").value = coupon.description;
+    document.getElementById("coupon-preview-coupon-about").innerText = coupon.description;
+    if (coupon.expiration !== -1) {
+      document.getElementById("coupon-expiration-input").value = coupon.expiration / (1000 * 60 * 60 * 24);
+      document.getElementById("coupon-expiration-input").removeAttribute("disabled");
+      document.getElementById("coupon-expiration-check").checked = true;
+      document.getElementById("coupon-preview-expiration-days").innerText = coupon.expiration / (1000 * 60 * 60 * 24);
+      document.getElementById("coupon-preview-expiration").classList.remove("d-none");
+    }
+    if (coupon.limitation !== -1) {
+      document.getElementById("coupon-limitation-input").value = coupon.limitation;
+      document.getElementById("coupon-limitation-input").removeAttribute("disabled");
+      document.getElementById("coupon-limitation-check").checked = true;
+    }
     updateBackgroundColor();
     updateForegroundColor();
   }
-
-  function displayCollectionCoupon() {
-    document.getElementById("coupon-stamp-icon").classList.remove("d-none");
-    document.getElementById("coupon-reward-number").classList.remove("d-none");
-    document.getElementById("coupon-reward-number-input").value =
-      coupon.rewardNumber;
-    document.getElementById("coupon-reward-description").classList.remove("d-none");
-    document.getElementById("coupon-reward-description-input").value =
-      coupon.rewardDescription;
-    document.getElementById("coupon-preview-coupon-about").innerText =
-      coupon.rewardDescription;
-    document.getElementById("coupon-preview-stamps").classList.remove("d-none");
-    fillIconDropdown("stampIcon", document.getElementById("coupon-stamp-icon-list"),
-      document.getElementById("coupon-stamp-icon-button"), icons, coupon.stampIcon);
-    displayCouponStamps(true);
-  }
-
-  function displayValueCoupon() {
-    document.getElementById("coupon-stamp-icon").classList.remove("d-none");
-    document.getElementById("coupon-value-price").classList.remove("d-none");
-    document.getElementById("coupon-value-price-input").value = coupon.valuePrice;
-    document.getElementById("coupon-value-number").classList.remove("d-none");
-    document.getElementById("coupon-value-number-input").value = coupon.valueNumber;
-    document.getElementById("coupon-value-description").classList.remove("d-none");
-    document.getElementById("coupon-value-description-input").value =
-      coupon.valueDescription;
-    document.getElementById("coupon-preview-coupon-about").innerText =
-      coupon.valueDescription;
-    document.getElementById("coupon-preview-stamps").classList.remove("d-none");
-    fillIconDropdown("stampIcon", document.getElementById("coupon-stamp-icon-list"),
-      document.getElementById("coupon-stamp-icon-button"), icons, coupon.stampIcon);
-    displayCouponStamps(true);
-  }
-
-  function displayMemberCoupon() {
-    document.getElementById("coupon-member-icon").classList.remove("d-none");
-    document.getElementById("coupon-member-price").classList.remove("d-none");
-    document.getElementById("coupon-member-price-input").value = coupon.memberPrice;
-    document.getElementById("coupon-member-description").classList.remove("d-none");
-    document.getElementById("coupon-member-description-input").value =
-      coupon.memberDescription;
-    document.getElementById("coupon-preview-coupon-about").innerText =
-      coupon.memberDescription;
-    document.getElementById("coupon-preview-type-member").classList.remove("d-none");
-    fillIconDropdown("memberIcon", document.getElementById("coupon-member-icon-list"),
-      document.getElementById("coupon-member-icon-button"), icons, coupon.memberIcon);
-    document.getElementById("coupon-preview-type-member").classList
-      .add("fa-" + coupon.memberIconName);
-  }
-
-  function fillIconDropdown(identifier, menu, button, icons, current) {
-    for (let icon of icons) {
-      let entryElement = document.createElement("li");
-      entryElement.classList.add("mb-0");
-      let iconElement = document.createElement("div");
-      iconElement.classList.add("dropdown-item");
-      let symbolElement = document.createElement("i");
-      symbolElement.classList.add("fa-solid", "fa-" + icon.icon, "me-2",
-        "text-center");
-      symbolElement.style.width = "20px";
-      iconElement.appendChild(symbolElement);
-      let nameElement = document.createElement("span");
-      nameElement.innerText = icon.name;
-      iconElement.appendChild(nameElement);
-      entryElement.appendChild(iconElement);
-      entryElement.onclick = function () {
-        selectIcon(identifier, button, icon, iconElement);
-      }
-      menu.appendChild(entryElement);
-      if (current === icon.type) {
-        button.innerHTML = iconElement.innerHTML;
-        selectedIcon = icon;
-      }
-    }
-  }
-
-  function selectIcon(identifier, button, icon, iconElement) {
-    if ((coupon.type === "COLLECTION" || coupon.type === "VALUE")  && selectedIcon) {
-      for (let element of document.getElementsByClassName("coupon-preview-stamp")) {
-        element.classList.remove("fa-" + selectedIcon.icon);
-      }
-    } else if (coupon.type === "MEMBER" && selectedIcon) {
-      document.getElementById("coupon-preview-type-member").classList
-        .remove("fa-" + selectedIcon.icon);
-    }
-    button.innerHTML = iconElement.innerHTML;
-    selectedIcon = icon;
-    coupon[identifier] = icon.type;
-    updateCoupon();
-    if (coupon.type === "COLLECTION" || coupon.type === "VALUE") {
-      for (let element of document.getElementsByClassName("coupon-preview-stamp")) {
-        element.classList.add("fa-" + icon.icon);
-      }
-    } else if (coupon.type === "MEMBER") {
-      document.getElementById("coupon-preview-type-member").classList
-        .add("fa-" + icon.icon);
-    }
-  }
-
-  function displayCouponStamps(initial) {
-    let couponStampContainer = document.getElementById("coupon-preview-stamps");
-    couponStampContainer.innerHTML = "";
-    let number = coupon.type === "COLLECTION" ? coupon.rewardNumber : coupon.valueNumber;
-    number = Math.max(1, Math.min(200, isNaN(number) ? 1 : number));
-    for (let i = 0; i < number; i++) {
-      let couponStampElement = document.createElement("i");
-      couponStampElement.classList.add("coupon-preview-stamp");
-      couponStampElement.style.color = coupon.foregroundColor;
-      couponStampElement.classList.add("fa-" + selectedIcon.icon);
-      if (i < 3) {
-        couponStampElement.classList.add("fa-solid");
-      } else {
-        couponStampElement.classList.add("fa-regular");
-      }
-      couponStampContainer.appendChild(couponStampElement);
-    }
-    if (initial) {
-      setTimeout(function () {
-        resize();
-      }, 0);
-    } else {
-      resize();
-    }
-    function resize() {
-      let previewElement = document.getElementById("coupon-preview");
-      couponStampContainer.style.width = Math.min(number * (20 + 5),
-        previewElement.clientWidth - 40) + "px";
-      previewElement.style.minHeight = (120 + couponStampContainer.clientHeight) + "px";
-    }
-  }
-
-  window.addEventListener('resize', function(event) {
-    if (!coupon) {
-      return;
-    }
-    if (coupon.type === "COLLECTION" || coupon.type === "VALUE") {
-      displayCouponStamps(false);
-    }
-  });
 
   document.getElementById("coupon-background-color-input").addEventListener("input", function () {
     coupon.backgroundColor = document.getElementById("coupon-background-color-input").value;
@@ -440,71 +279,68 @@
   }
 
   function updateForegroundColor() {
-    if (coupon.type === "COLLECTION" || coupon.type === "VALUE") {
-      for (let element of document.getElementsByClassName("coupon-preview-stamp")) {
-        element.style.color = coupon.foregroundColor;
-      }
-    } else if (coupon.type === "MEMBER") {
-      document.getElementById("coupon-preview-type-member").style.color = coupon.foregroundColor;
-    }
+    document.getElementById("coupon-preview-reward").style.color = coupon.foregroundColor;
+    let redeemButton = document.getElementById("coupon-preview-redeem");
+    redeemButton.style.color = coupon.foregroundColor;
+    redeemButton.style.border = "1px solid " + coupon.foregroundColor;
   }
 
-  document.getElementById("coupon-reward-number-input").addEventListener("input", function (event) {
-    let value = document.getElementById("coupon-reward-number-input").value;
-    value = value.replace(/[^0-9]/g, "");
-    value = value.replace(/(?!^)-/g, "");
-    document.getElementById("coupon-reward-number-input").value = value;
-    coupon.rewardNumber = parseInt(value);
+  document.getElementById("coupon-reward-input").addEventListener("input", function (event) {
+    coupon.reward = document.getElementById("coupon-reward-input").value;
+    document.getElementById("coupon-preview-reward").innerText = coupon.reward;
     processCouponInput();
-    displayCouponStamps(false);
   });
 
-  document.getElementById("coupon-reward-description-input").addEventListener("input", function (event) {
-    coupon.rewardDescription = document.getElementById("coupon-reward-description-input").value;
+  document.getElementById("coupon-description-input").addEventListener("input", function (event) {
+    coupon.description = document.getElementById("coupon-description-input").value;
     document.getElementById("coupon-preview-coupon-about").innerText =
-      coupon.rewardDescription;
+      coupon.description;
     processCouponInput();
   });
 
-  document.getElementById("coupon-value-price-input").addEventListener("input", function (event) {
-    let value = document.getElementById("coupon-value-price-input").value;
+  document.getElementById("coupon-expiration-check").addEventListener("change", function (event) {
+    let input = document.getElementById("coupon-expiration-input");
+    if (document.getElementById("coupon-expiration-check").checked) {
+      input.removeAttribute("disabled");
+      document.getElementById("coupon-preview-expiration").classList.remove("d-none");
+    } else {
+      input.setAttribute("disabled", "true");
+      input.value = "";
+      document.getElementById("coupon-preview-expiration").classList.add("d-none");
+      document.getElementById("coupon-preview-expiration-days").innerText = "";
+      coupon.expiration = -1;
+      updateCoupon();
+    }
+  });
+
+  document.getElementById("coupon-expiration-input").addEventListener("input", function (event) {
+    let value = document.getElementById("coupon-expiration-input").value;
     value = value.replace(/[^0-9]/g, "");
     value = value.replace(/(?!^)-/g, "");
-    document.getElementById("coupon-value-price-input").value = value;
-    coupon.valuePrice = parseInt(value);
+    document.getElementById("coupon-expiration-input").value = value;
+    document.getElementById("coupon-preview-expiration-days").innerText = value;
+    coupon.expiration = 1000 * 60 * 60 * 24 * parseInt(value);
     processCouponInput();
   });
 
-  document.getElementById("coupon-value-number-input").addEventListener("input", function (event) {
-    let value = document.getElementById("coupon-value-number-input").value;
+  document.getElementById("coupon-limitation-check").addEventListener("change", function (event) {
+    let input = document.getElementById("coupon-limitation-input");
+    if (document.getElementById("coupon-limitation-check").checked) {
+      input.removeAttribute("disabled");
+    } else {
+      input.setAttribute("disabled", "true");
+      input.value = "";
+      coupon.limitation = -1;
+      updateCoupon();
+    }
+  });
+
+  document.getElementById("coupon-limitation-input").addEventListener("input", function (event) {
+    let value = document.getElementById("coupon-limitation-input").value;
     value = value.replace(/[^0-9]/g, "");
     value = value.replace(/(?!^)-/g, "");
-    document.getElementById("coupon-value-number-input").value = value;
-    coupon.valueNumber = parseInt(value);
-    processCouponInput();
-    displayCouponStamps(false);
-  });
-
-  document.getElementById("coupon-value-description-input").addEventListener("input", function (event) {
-    coupon.valueDescription = document.getElementById("coupon-value-description-input").value;
-    document.getElementById("coupon-preview-coupon-about").innerText =
-      coupon.valueDescription;
-    processCouponInput();
-  });
-
-  document.getElementById("coupon-member-price-input").addEventListener("input", function (event) {
-    let value = document.getElementById("coupon-member-price-input").value;
-    value = value.replace(/[^0-9]/g, "");
-    value = value.replace(/(?!^)-/g, "");
-    document.getElementById("coupon-member-price-input").value = value;
-    coupon.memberPrice = parseInt(value);
-    processCouponInput();
-  });
-
-  document.getElementById("coupon-member-description-input").addEventListener("input", function (event) {
-    coupon.memberDescription = document.getElementById("coupon-member-description-input").value;
-    document.getElementById("coupon-preview-coupon-about").innerText =
-      coupon.memberDescription;
+    document.getElementById("coupon-limitation-input").value = value;
+    coupon.limitation = parseInt(value);
     processCouponInput();
   });
 
@@ -522,35 +358,11 @@
 
   function updateCoupon() {
     let body = {coupon: coupon.id, backgroundColor: coupon.backgroundColor,
-      foregroundColor: coupon.foregroundColor};
-    let content = {};
-    if (coupon.type === "COLLECTION") {
-      content.stampIcon = coupon.stampIcon;
-      content.rewardNumber = coupon.rewardNumber;
-      content.rewardDescription = coupon.rewardDescription;
-    } else if (coupon.type === "VALUE") {
-      content.stampIcon = coupon.stampIcon;
-      content.valueNumber = coupon.valueNumber;
-      content.valuePrice = coupon.valuePrice;
-      content.valueDescription = coupon.valueDescription;
-    } else if (coupon.type === "MEMBER") {
-      content.memberIcon = coupon.memberIcon;
-      content.memberPrice = coupon.memberPrice;
-      content.memberDescription = coupon.memberDescription;
-    }
-    body.content = content;
+      foregroundColor: coupon.foregroundColor, reward: coupon.reward,
+      description: coupon.description, expiration: coupon.expiration,
+      limitation: coupon.limitation};
     let request = new HttpRequest("/coupon/update/", "POST", [], body);
-    request.send(function (status, responseText) {
-      let response = JSON.parse(responseText);
-      if (response.success) {
-        return;
-      }
-      let error = response.error;
-      if (error === 1000) {
-        Swal.fire("{% trans 'product.coupon.update.failed.title' %}",
-          "{% trans 'product.coupon.update.failed.used' %}", "error");
-      }
-    });
+    request.send(function (status, responseText) {});
   }
 
   document.getElementById("coupon-delete").onclick = function (event) {

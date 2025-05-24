@@ -18,13 +18,15 @@
             <li class="coupon-container">
               <div class="coupon d-flex align-items-end justify-content-end">
                 <div class="coupon-logo placeholder placeholder-wave rounded-4" style="width: 72px; height: 72px;"></div>
-                <div class="w-100 placeholder placeholder-wave rounded py-3"></div>
+                <span class="coupon-reward w-25 placeholder placeholder-wave rounded py-3"></span>
+                <div class="coupon-redeem w-25 placeholder placeholder-wave rounded py-3"></div>
               </div>
             </li>
             <li class="coupon-container">
               <div class="coupon d-flex align-items-end justify-content-end">
                 <div class="coupon-logo placeholder placeholder-wave rounded-4" style="width: 72px; height: 72px;"></div>
-                <div class="w-100 placeholder placeholder-wave rounded py-3"></div>
+                <span class="coupon-reward w-25 placeholder placeholder-wave rounded py-3"></span>
+                <div class="coupon-redeem w-25 placeholder placeholder-wave rounded py-3"></div>
               </div>
             </li>
           </ul>
@@ -80,17 +82,19 @@
     couponLogo.classList.add("coupon-logo");
     couponLogo.src = "data:image/png;base64," + coupon.logo;
     couponElement.appendChild(couponLogo);
-    if (coupon.type === "COLLECTION" || coupon.type === "VALUE") {
-      couponElement.appendChild(createCouponStamps(couponContainer, couponElement,
-        coupon.type === "COLLECTION" ? coupon.rewardNumber : coupon.valueNumber,
-        coupon.foregroundColor, coupon.stampIconName));
-    } else if (coupon.type === "MEMBER") {
-      let memberElement = document.createElement("i");
-      memberElement.classList.add("coupon-type-member", "fa-solid",
-        "fa-" + coupon.memberIconName);
-      memberElement.style.color = coupon.foregroundColor;
-      couponElement.appendChild(memberElement);
-    }
+    let couponReward = document.createElement("span");
+    couponReward.classList.add("coupon-reward");
+    couponReward.innerText = coupon.reward;
+    couponReward.style.color = coupon.foregroundColor;
+    couponElement.appendChild(couponReward);
+    let couponRedeem = document.createElement("div");
+    couponRedeem.classList.add("coupon-redeem");
+    couponRedeem.style.color = coupon.foregroundColor;
+    couponRedeem.style.border = "1px solid " + coupon.foregroundColor;
+    let couponRedeemText = document.createElement("span");
+    couponRedeemText.innerText = "{% trans 'product.coupon.redeem' %}";
+    couponRedeem.appendChild(couponRedeemText);
+    couponElement.appendChild(couponRedeem);
     couponContainer.appendChild(couponElement);
     couponContainer.role = "button";
     couponContainer.onclick = function (event) {
