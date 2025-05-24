@@ -1,0 +1,126 @@
+#coupon-wrapper {
+  width: min(1200px, 95%);
+  margin: auto;
+}
+
+#coupon-page-back {
+  width: 52px;
+  height: 52px;
+  border: none;
+  background-color: transparent;
+  border-radius: 50%;
+  font-size: 25px;
+  transition-duration: 0.1s;
+}
+
+.dark #coupon-page-back {
+  color: #b5b5b5;
+}
+
+.light #coupon-page-back {
+  color: #656565;
+}
+
+.dark #coupon-page-back:hover {
+  background-color: #212937;
+}
+
+.light #coupon-page-back:hover {
+  background-color: #d3d3d3;
+  color: #545454;
+}
+
+#coupon-wrapper input, #coupon-wrapper textarea, #coupon-stamp-icon-button, #coupon-member-icon-button {
+  width: 100%;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.dark #coupon-wrapper input .dark #coupon-wrapper textarea, .dark #coupon-stamp-icon-button, .dark #coupon-member-icon-button {
+  background-color: #212529;
+  border: 1px solid #2f353a;
+}
+
+.light #coupon-wrapper input, .light #coupon-wrapper textarea, .light #coupon-stamp-icon-button, .light #coupon-member-icon-button {
+  background-color: #f3f3f3;
+  border: 1px solid #d5d5d5;
+}
+
+#coupon-wrapper input[maxlength], #coupon-wrapper textarea[maxlength] {
+  position: relative;
+}
+
+.max-length-badged[data-remaining] {
+  position: relative;
+
+  &:after {
+    content: attr(data-remaining) " / " attr(data-limit);
+    display: inline-block;
+    position: absolute;
+    bottom: -20px;
+    right: 5px;
+    pointer-events: none;
+    font-size: 0.75em;
+  }
+
+  &.max-length-reached::after {
+    color: #dc3545;
+  }
+}
+
+.coupon-wrapper {
+  margin-bottom: 40px;
+}
+
+.coupon-preview-mockup {
+  width: 400px;
+  height: auto;
+}
+
+.coupon-container {
+  position: absolute;
+  top: 130px;
+  left: 50%;
+  max-height: 575px;
+  overflow-y: hidden;
+  transform: translateX(-50%);
+  width: min(320px, 100%);
+  padding: 15px;
+  border-radius: 12px;
+  transition-duration: 0.2s;
+}
+
+.coupon {
+  position: relative;
+  min-width: 100%;
+  min-height: 150px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.coupon-logo {
+  width: auto;
+  max-width: calc(100% - 40px);
+  max-height: 60px;
+  object-fit: contain;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+@media (max-width: 450px) {
+  .coupon-wrapper {
+    transform: scale(0.8);
+    transform-origin: top center;
+    margin-bottom: -100px;
+  }
+}
+
+@media (max-width: 375px) {
+  .coupon-wrapper {
+    transform: scale(0.7);
+    transform-origin: top center;
+    margin-bottom: -150px;
+  }
+}

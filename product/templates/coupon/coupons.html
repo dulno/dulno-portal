@@ -100,6 +100,26 @@
   }
 
   document.getElementById("coupon-create").addEventListener("click", function (event) {
-    window.location.href = "/coupon/create/";
+    createCoupon();
   });
+
+  function createCoupon() {
+    document.getElementById("coupon-create").classList.add("disabled");
+    document.getElementById("coupon-create").innerHTML = "{% trans 'product.coupons.create' %}" + `
+      <span class="spinner-border spinner-border-sm ms-2" aria-hidden="true"></span>
+      <span class="visually-hidden" role="status">Loading...</span>
+    `;
+    let request = new HttpRequest("/coupon/create/", "POST", [], {});
+    request.send(function (status, responseText) {
+      let response = JSON.parse(responseText);
+      if (response.success) {
+        window.location.href = "/coupon/" + JSON.parse(responseText).coupon + "/";
+        return;
+      }
+      document.getElementById("coupon-create").classList.remove("disabled");
+      document.getElementById("coupon-create").innerHTML = "{% trans 'product.coupons.create' %}";
+      Swal.fire("{% trans 'product.coupons.create.failed.title' %}",
+        "{% trans 'product.coupons.create.failed.body' %}", "error");
+    });
+  }
 </script>
