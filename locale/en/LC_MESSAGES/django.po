@@ -1198,6 +1198,14 @@ msgstr "You cannot delete notifications that have already been sent"
 # CAMPAIGN - COUPON
 msgid "product.campaign.coupon.title"
 msgstr "Campaign - Coupon - Dulno"
+msgid "product.campaign.coupon.headline"
+msgstr "Choose coupon (optional):"
+msgid "product.campaign.coupon.none"
+msgstr "None"
+msgid "product.campaign.coupon.successful.title"
+msgstr "Campaign coupon changed"
+msgid "product.campaign.coupon.successful.body"
+msgstr "You have successfully changed the campaign coupon."
 
 # ACCESSORY
 msgid "product.accessory.headline"

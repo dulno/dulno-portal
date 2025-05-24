@@ -1198,6 +1198,14 @@ msgstr "Sie können keine bereits gesendeten Benachrichtigungen löschen"
 # CAMPAIGN - COUPON
 msgid "product.campaign.coupon.title"
 msgstr "Kampagne - Gutschein - Dulno"
+msgid "product.campaign.coupon.headline"
+msgstr "Gutschein wählen (optional):"
+msgid "product.campaign.coupon.none"
+msgstr "Keiner"
+msgid "product.campaign.coupon.successful.title"
+msgstr "Kampagnengutschein geändert"
+msgid "product.campaign.coupon.successful.body"
+msgstr "Sie haben den Kampagnengutschein erfolgreich geändert."
 
 # ACCESSORY
 msgid "product.accessory.headline"

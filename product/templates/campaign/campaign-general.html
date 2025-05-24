@@ -208,7 +208,7 @@
     let body = {
       campaign: campaign.id, title: campaign.title,
       description: campaign.description, type: campaign.type,
-      start: campaign.start, end: campaign.end
+      start: campaign.start, end: campaign.end, coupon: campaign.coupon
     };
     let request = new HttpRequest("/campaign/update/", "POST", [], body);
     request.send(function (status, responseText) {
