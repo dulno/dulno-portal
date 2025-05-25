@@ -88,7 +88,7 @@
       updateCampaignCouponLink();
     });
     if (campaign.coupon === id) {
-      entry.click();
+      document.getElementById("campaign-coupon-button").innerText = name;
     }
     document.getElementById("campaign-coupon-selection").appendChild(entry);
   }
