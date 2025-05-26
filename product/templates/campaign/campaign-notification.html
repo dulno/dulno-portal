@@ -299,7 +299,7 @@
           if (response.success) {
             Swal.fire("{% trans 'product.campaign.notification.delete.successful.title' %}",
               "{% trans 'product.campaign.notification.delete.successful.body' %}", "success")
-              .then(success => window.location.href = "/campaign/" + "{{campaign}}" + "/");
+              .then(success => window.location.href = "/campaign/" + "{{campaign}}" + "/notifications/");
             return;
           }
           if (response.error === 1000) {
@@ -312,6 +312,6 @@
   }
 
   document.getElementById("campaign-notification-page-back").addEventListener("click", function (event) {
-    window.location.href = "/campaign/" + "{{campaign}}" + "/";
+    window.location.href = "/campaign/" + "{{campaign}}" + "/notifications/";
   });
 </script>

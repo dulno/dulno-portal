@@ -49,11 +49,9 @@
         return;
       }
       fetchCampaigns(function (campaigns) {
-        setTimeout(function() {
-          displayTimeline(campaigns);
-          document.getElementById("campaigns-body").classList.add("placeholder-fade-show");
-          document.getElementById("campaigns-placeholder").classList.add("d-none");
-        }, 1000);
+        document.getElementById("campaigns-body").classList.add("placeholder-fade-show");
+        document.getElementById("campaigns-placeholder").classList.add("d-none");
+        displayTimeline(campaigns);
       });
     });
   });
@@ -138,7 +136,7 @@
     let label = document.createElement("span");
     label.innerText = "{% trans 'product.campaigns.campaign' %}";
     element.appendChild(label);
-    timelineRedirects.push("/campaign/" + id + "/");
+    timelineRedirects.push("/campaign/" + id + "/general/");
     currentItemIndex++;
     return {
       id: currentItemIndex,

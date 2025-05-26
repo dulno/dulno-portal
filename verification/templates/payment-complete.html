@@ -31,9 +31,9 @@
       let response = JSON.parse(responseText);
       if (response.success === true) {
         document.getElementById("payment-complete-continue").classList.remove("d-none");
-        Cookie.create("token", response.productApiKey, 60 * 60 * 24 * 30);
+        Cookie.create("token", response.authenticationToken, 60 * 60 * 24 * 30);
         Cookie.create("refresh-token", response.refreshToken, 60 * 60 * 24 * 30);
-        Cookie.create("home-token", response.homeApiKey, 60 * 60);
+        Cookie.create("home-token", response.homeToken, 60 * 60);
         resetPackageSelection();
       }
     });

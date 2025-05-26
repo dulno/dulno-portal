@@ -52,7 +52,7 @@ class HttpRequest {
     request.send(function (status, responseText) {
       let response = JSON.parse(responseText);
       if (response.success === "true") {
-        Cookie.create("token", response.productApiKey, 60 * 60 * 24 * 30);
+        Cookie.create("token", response.authenticationToken, 60 * 60 * 24 * 30);
         Cookie.create("refresh-token", response.refreshToken, 60 * 60 * 24 * 30);
         self.send(callback);
       }

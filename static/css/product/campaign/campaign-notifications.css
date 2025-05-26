@@ -1,0 +1,58 @@
+#campaign-notifications-wrapper {
+  width: min(1200px, 95%);
+  margin: auto;
+}
+
+.campaign-notifications {
+  position: relative;
+  list-style: none;
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 500px) {
+  .campaign-notifications {
+    width: 300px;
+  }
+}
+
+@media (max-width: 400px) {
+  .campaign-notifications {
+    width: 275px;
+  }
+}
+
+.dark .campaign-notifications {
+  border-left: 1px solid hsl(0, 0%, 90%);
+}
+
+.light .campaign-notifications {
+  border-left: 1px solid hsl(0, 0%, 10%);
+}
+
+.campaign-notifications .campaign-notifications-item {
+  position: relative;
+}
+
+.campaign-notifications .campaign-notifications-item:after {
+  position: absolute;
+  display: block;
+  top: 0;
+}
+
+.campaign-notifications .campaign-notifications-item:after {
+  left: -43px;
+  border-radius: 50%;
+  height: 21px;
+  width: 21px;
+  content: "";
+}
+
+.dark .campaign-notifications .campaign-notifications-item:after {
+  background-color: hsl(0, 0%, 90%);
+}
+
+.light .campaign-notifications .campaign-notifications-item:after {
+  background-color: hsl(0, 0%, 10%);
+}
