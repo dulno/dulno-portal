@@ -1,0 +1,217 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="campaign-general-container">
+        <div id="campaign-general-wrapper">
+          {% include 'campaign-header.html' %}
+          <div id="campaign-general-placeholder" class="mx-xl-3">
+            <div class="w-100 mb-5">
+              <div class="mb-3">
+                <h5>{% trans 'product.campaign.general.input.title' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.campaign.general.input.description' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-5 w-100"></div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.campaign.general.input.type' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div class="d-flex flex-xl-row flex-column justify-content-center align-items-center w-100">
+                <div class="mb-3 w-100">
+                  <h5>{% trans 'product.campaign.general.input.start' %}</h5>
+                  <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+                </div>
+                <div class="mb-3 w-100 ms-xl-2">
+                  <h5>{% trans 'product.campaign.general.input.end' %}</h5>
+                  <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="campaign-general-body" class="mx-xl-3 placeholder-fade">
+            <div class="w-100 mb-5">
+              <div class="mb-3">
+                <h5>{% trans 'product.campaign.general.input.title' %}</h5>
+                <input id="campaign-title-input" autocomplete=off maxlength="64" placeholder="{% trans 'product.campaign.general.input.title.placeholder' %}">
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.campaign.general.input.description' %}</h5>
+                <textarea id="campaign-description-input" autocomplete=off maxlength="256" placeholder="{% trans 'product.campaign.general.input.description.placeholder' %}"></textarea>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.campaign.general.input.type' %}</h5>
+                <div class="dropdown w-100">
+                  <button id="campaign-type-button" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% trans 'product.campaign.general.input.type' %}
+                  </button>
+                  <ul id="campaign-type-list" class="dropdown-menu w-100">
+                  </ul>
+                </div>
+              </div>
+              <div class="d-flex flex-xl-row flex-column justify-content-center align-items-center w-100">
+                <div class="mb-3 w-100">
+                  <h5>{% trans 'product.campaign.general.input.start' %}</h5>
+                  <input id="campaign-start-input" autocomplete=off type="date">
+                </div>
+                <div class="mb-3 w-100 ms-xl-2">
+                  <h5>{% trans 'product.campaign.general.input.end' %}</h5>
+                  <input id="campaign-end-input" autocomplete=off type="date">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let campaign;
+  let types;
+
+  $(document).ready(function () {
+    fetchCampaign(function (campaignResult) {
+      campaign = campaignResult;
+      fetchCampaignTypes(function (typeResult) {
+        types = typeResult;
+        displayCampaign();
+        for (let element of [...document.querySelectorAll('input[maxlength], textarea[maxlength]')]) {
+          element.addEventListener('input', tickInputMaxLength)
+          element.parentElement.classList.add('max-length-badged');
+          tickInputMaxLength(element)
+        }
+        document.getElementById("campaign-general-body").classList.add("placeholder-fade-show");
+        document.getElementById("campaign-general-placeholder").classList.add("d-none");
+      });
+    });
+  });
+
+  function tickInputMaxLength(element) {
+    if (element.target) {
+      element = element.target
+    }
+    let limit = element.maxLength;
+    let parent = element.parentElement;
+    let length = element.value.length;
+    parent.dataset['limit'] = limit;
+    parent.dataset['remaining'] = limit - length;
+    parent.classList.remove('max-length-reached');
+    if (length === limit) {
+      parent.classList.add('max-length-reached');
+    }
+  }
+
+  function fetchCampaign(callback) {
+    let request = new HttpRequest("/campaign/find/", "POST", [],
+      {campaign: "{{id}}"});
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+
+  function fetchCampaignTypes(callback) {
+    let request = new HttpRequest("/campaign/types/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).types);
+    });
+  }
+
+  function displayCampaign() {
+    document.getElementById("campaign-title-input").value = campaign.title;
+    document.getElementById("campaign-description-input").value = campaign.description;
+    document.getElementById("campaign-start-input").value =
+      new Date(campaign.start).toLocaleDateString("en-CA")
+    document.getElementById("campaign-end-input").value =
+      new Date(campaign.end).toLocaleDateString("en-CA");
+    fillTypesDropdown();
+  }
+
+  function fillTypesDropdown() {
+    for (let type of types) {
+      let entryElement = document.createElement("li");
+      entryElement.classList.add("mb-0");
+      let typeElement = document.createElement("div");
+      typeElement.classList.add("dropdown-item");
+      let symbolElement = document.createElement("i");
+      symbolElement.classList.add("fa-solid", "fa-" + type.icon, "me-2",
+        "text-center");
+      symbolElement.style.width = "20px";
+      typeElement.appendChild(symbolElement);
+      let nameElement = document.createElement("span");
+      nameElement.innerText = type.name;
+      typeElement.appendChild(nameElement);
+      entryElement.appendChild(typeElement);
+      entryElement.onclick = function () {
+        document.getElementById("campaign-type-button").innerHTML =
+          typeElement.innerHTML;
+        campaign.type = type.type;
+        updateCampaign();
+      }
+      if (type.type === campaign.type) {
+        document.getElementById("campaign-type-button").innerHTML =
+          typeElement.innerHTML;
+      }
+      document.getElementById("campaign-type-list").appendChild(entryElement);
+    }
+  }
+
+  let titleInput = document.getElementById("campaign-title-input");
+  titleInput.oninput = function (event) {
+    campaign.title = titleInput.value;
+    processCampaignInput();
+  }
+
+  let descriptionInput = document.getElementById("campaign-description-input");
+  descriptionInput.oninput = function (event) {
+    campaign.description = descriptionInput.value;
+    processCampaignInput();
+  }
+
+  let startInput = document.getElementById("campaign-start-input");
+  startInput.oninput = function (event) {
+    campaign.start = new Date(startInput.value).setHours(0, 0, 0, 0);
+    updateCampaign();
+  }
+
+  let endInput = document.getElementById("campaign-end-input");
+  endInput.oninput = function (event) {
+    campaign.end = new Date(endInput.value).setHours(23, 59, 59, 999);
+    updateCampaign();
+  }
+
+  let inputTimeout = -1;
+
+  function processCampaignInput() {
+    if (inputTimeout !== -1) {
+      clearTimeout(inputTimeout);
+    }
+    inputTimeout = setTimeout(function () {
+      inputTimeout = -1;
+      updateCampaign();
+    }, 500);
+  }
+
+  function updateCampaign() {
+    if (campaign.start > campaign.end) {
+      Swal.fire("{% trans 'product.campaign.general.update.failed.title' %}",
+        "{% trans 'product.campaign.general.update.failed.start.greater.end' %}", "error");
+      return;
+    }
+    let body = {
+      campaign: campaign.id, title: campaign.title,
+      description: campaign.description, type: campaign.type,
+      start: campaign.start, end: campaign.end, coupon: campaign.coupon
+    };
+    let request = new HttpRequest("/campaign/update/", "POST", [], body);
+    request.send(function (status, responseText) {
+    });
+  }
+</script>

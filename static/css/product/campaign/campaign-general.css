@@ -1,0 +1,46 @@
+#campaign-general-wrapper {
+  width: min(1200px, 95%);
+  margin: auto;
+}
+
+#campaign-general-wrapper input, #campaign-general-wrapper textarea, #campaign-type-button {
+  width: 100%;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.dark #campaign-general-wrapper input, .dark #campaign-general-wrapper textarea, .dark #campaign-type-button {
+  background-color: #212529;
+  border: 1px solid #2f353a;
+}
+
+.light #campaign-general-wrapper input, .light #campaign-general-wrapper textarea, .light #campaign-type-button {
+  background-color: #f3f3f3;
+  border: 1px solid #d5d5d5;
+}
+
+#campaign-general-wrapper input[maxlength], #campaign-general-wrapper textarea[maxlength] {
+  position: relative;
+}
+
+.max-length-badged[data-remaining] {
+  position: relative;
+
+  &:after {
+    content: attr(data-remaining) " / " attr(data-limit);
+    display: inline-block;
+    position: absolute;
+    bottom: -20px;
+    right: 5px;
+    pointer-events: none;
+    font-size: 0.75em;
+  }
+
+  &.max-length-reached::after {
+    color: #dc3545;
+  }
+}
+
+.toast-container {
+  z-index: 10 !important;
+}

@@ -1,0 +1,400 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="coupon-container">
+        <div id="coupon-wrapper">
+          <div class="position-relative d-flex flex-lg-row flex-column justify-content-center align-items-lg-center mt-lg-5 mt-0 mb-5 py-4">
+            <div class="me-auto ms-lg-0 ms-auto">
+              <button id="coupon-page-back"><i class="fa-solid fa-arrow-left-long"></i></button>
+            </div>
+            <h1 class="fw-bold m-0 position-absolute start-50 translate-middle-x">{% trans 'product.coupon.headline' %}</h1>
+            <div class="ms-auto me-lg-0 me-auto mt-lg-0 mt-5 pt-lg-0 pt-5">
+              <button id="coupon-delete" class="btn btn-danger fw-bold"><i class="fa-solid fa-minus me-1"></i> {% trans 'product.coupon.delete' %}</button>
+            </div>
+          </div>
+          <div id="coupon-placeholder" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center">
+            <div class="flex-grow-1 mb-5">
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.background.color' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.foreground.color' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.logo' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.reward' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.description' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-4 w-100"></div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.expiration' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.limitation' %}</h5>
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+            </div>
+            <div class="coupon-wrapper position-relative ms-xl-5 mb-4">
+              <img class="coupon-preview-mockup" src="{% static 'img/mockup/mockup.webp' %}">
+              <div class="coupon-container">
+                <div  class="d-flex align-items-end justify-content-end coupon">
+                  <div class="coupon-logo placeholder placeholder-wave rounded-4" style="width: 60px; height: 60px;"></div>
+                  <span class="coupon-reward w-25 placeholder placeholder-wave rounded py-3"></span>
+                  <div class="coupon-redeem w-25 placeholder placeholder-wave rounded py-3"></div>
+                </div>
+                <div class="w-100 border-bottom border-secondary-subtle my-3"></div>
+                <div class="w-25 placeholder placeholder-wave rounded py-3 mb-3"></div>
+                <div class="w-100 placeholder placeholder-wave rounded py-2 mb-1"></div>
+                <div class="w-75 placeholder placeholder-wave rounded py-2 mb-4"></div>
+                <div class="w-50 placeholder placeholder-wave rounded py-3 mb-3"></div>
+                <div class="w-100 placeholder placeholder-wave rounded py-2 mb-1"></div>
+                <div class="w-25 placeholder placeholder-wave rounded py-2"></div>
+              </div>
+            </div>
+          </div>
+          <div id="coupon-body" class="d-flex flex-xl-row flex-column-reverse align-items-xl-start align-items-center justify-content-center placeholder-fade">
+            <div class="flex-grow-1 mb-5 me-xl-5">
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.background.color' %}</h5>
+                <input id="coupon-background-color-input" type="color" autocomplete=off>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.foreground.color' %}</h5>
+                <input id="coupon-foreground-color-input" type="color" autocomplete=off>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.logo' %}</h5>
+                <input id="coupon-logo-input" class="form-control" type="file" autocomplete=off accept="image/png, image/jpeg" />
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.reward' %}</h5>
+                <input id="coupon-reward-input" type="text" autocomplete=off maxlength="64" placeholder="{% trans 'product.coupon.reward.placeholder' %}">
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.description' %}</h5>
+                <textarea id="coupon-description-input" autocomplete=off maxlength="256" placeholder="{% trans 'product.coupon.description.placeholder' %}"></textarea>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.expiration' %}</h5>
+                <div class="form-check d-flex align-items-center">
+                  <input id="coupon-expiration-check" class="form-check-input me-2" type="checkbox" autocomplete=off value="">
+                  <input id="coupon-expiration-input" type="text" autocomplete=off placeholder="{% trans 'product.coupon.expiration.placeholder' %}" disabled>
+                </div>
+              </div>
+              <div class="mb-3">
+                <h5>{% trans 'product.coupon.limitation' %}</h5>
+                <div class="form-check d-flex align-items-center">
+                  <input id="coupon-limitation-check" class="form-check-input me-2" type="checkbox" autocomplete=off value="">
+                  <input id="coupon-limitation-input" type="text" autocomplete=off placeholder="{% trans 'product.coupon.limitation.placeholder' %}" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="coupon-wrapper position-relative ms-xl-5">
+              <img class="coupon-preview-mockup" src="{% static 'img/mockup/mockup.webp' %}">
+              <div id="coupon-preview-container" class="coupon-container">
+                <div id="coupon-preview" class="d-flex align-items-end coupon">
+                  <img id="coupon-preview-logo" class="coupon-logo" alt=""/>
+                  <span id="coupon-preview-reward" class="coupon-reward"></span>
+                  <div id="coupon-preview-redeem" class="coupon-redeem">
+                    <span>{% trans 'product.coupon.redeem' %}</span>
+                  </div>
+                  <div id="coupon-preview-expiration" class="coupon-expiration d-none">
+                    <i class="fa-regular fa-hourglass-half me-2"></i>
+                    <span id="coupon-preview-expiration-days"></span>
+                    <span>{% trans 'product.coupon.expiration.unit' %}</span>
+                  </div>
+                </div>
+                <div class="w-100 border-bottom border-secondary-subtle my-3"></div>
+                <h4 id="coupon-preview-partner-name" class="fw-bold text-break"></h4>
+                <p id="coupon-preview-partner-description" class="text-break"></p>
+                <h5 class="fw-bold text-break">{% trans 'product.coupon.about' %}</h5>
+                <p id="coupon-preview-coupon-about" class="text-break"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="coupon-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <img class="dulno-logo me-2" alt="" width="32" height="32">
+            <strong id="coupon-toast-title" class="me-auto"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div id="coupon-toast-body" class="toast-body"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let coupon;
+  let partner;
+
+  $(document).ready(function () {
+    fetchCoupon(function (couponResult) {
+      coupon = couponResult;
+      fetchPartner(function (partnerResult) {
+        partner = partnerResult;
+        displayCoupon();
+        for (let element of [...document.querySelectorAll('input[maxlength], textarea[maxlength]')]) {
+          element.addEventListener('input', tickInputMaxLength)
+          element.parentElement.classList.add('max-length-badged');
+          tickInputMaxLength(element)
+        }
+        document.getElementById("coupon-body").classList.add("placeholder-fade-show");
+        document.getElementById("coupon-placeholder").classList.add("d-none");
+      });
+    });
+  });
+
+  function tickInputMaxLength(element) {
+    if (element.target) {
+      element = element.target
+    }
+    let limit = element.maxLength;
+    let parent = element.parentElement;
+    let length = element.value.length;
+    parent.dataset['limit'] = limit;
+    parent.dataset['remaining'] = limit - length;
+    parent.classList.remove('max-length-reached');
+    if (length === limit) {
+      parent.classList.add('max-length-reached');
+    }
+  }
+
+  function fetchCoupon(callback) {
+    let request = new HttpRequest("/coupon/find/", "POST", [], {coupon: "{{id}}"});
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+
+  function fetchPartner(callback) {
+    let request = new HttpRequest("/partner/find/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+
+  function displayCoupon() {
+    document.getElementById("coupon-preview-logo").src = "data:image/png;base64," + coupon.logo;
+    document.getElementById("coupon-preview-partner-name").innerText = partner.name;
+    document.getElementById("coupon-preview-partner-description").innerText = partner.description;
+    document.getElementById("coupon-background-color-input").value = coupon.backgroundColor;
+    document.getElementById("coupon-foreground-color-input").value = coupon.foregroundColor;
+    document.getElementById("coupon-reward-input").value = coupon.reward;
+    document.getElementById("coupon-preview-reward").innerText = coupon.reward;
+    document.getElementById("coupon-description-input").value = coupon.description;
+    document.getElementById("coupon-preview-coupon-about").innerText = coupon.description;
+    if (coupon.expiration !== -1) {
+      document.getElementById("coupon-expiration-input").value = coupon.expiration / (1000 * 60 * 60 * 24);
+      document.getElementById("coupon-expiration-input").removeAttribute("disabled");
+      document.getElementById("coupon-expiration-check").checked = true;
+      document.getElementById("coupon-preview-expiration-days").innerText = coupon.expiration / (1000 * 60 * 60 * 24);
+      document.getElementById("coupon-preview-expiration").classList.remove("d-none");
+    }
+    if (coupon.limitation !== -1) {
+      document.getElementById("coupon-limitation-input").value = coupon.limitation;
+      document.getElementById("coupon-limitation-input").removeAttribute("disabled");
+      document.getElementById("coupon-limitation-check").checked = true;
+    }
+    updateBackgroundColor();
+    updateForegroundColor();
+  }
+
+  document.getElementById("coupon-background-color-input").addEventListener("input", function () {
+    coupon.backgroundColor = document.getElementById("coupon-background-color-input").value;
+    updateBackgroundColor();
+    updateCoupon();
+  });
+
+  document.getElementById("coupon-foreground-color-input").addEventListener("input", function () {
+    coupon.foregroundColor = document.getElementById("coupon-foreground-color-input").value;
+    updateForegroundColor();
+    updateCoupon();
+  });
+
+  document.getElementById("coupon-logo-input").addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        let logoElement = document.getElementById("coupon-preview-logo");
+        let previousLogo = logoElement.src;
+        logoElement.src = e.target.result;
+        encodeCouponLogo(function (logo) {
+          let request = new HttpRequest("/coupon/logo/update/", "POST", [],
+            {coupon: coupon.id, logo: logo});
+          request.send(function (status, responseText) {
+            document.getElementById("coupon-toast-title").innerText =
+              "{% trans 'product.coupon.logo.update.title' %}";
+            if (JSON.parse(responseText).success) {
+              document.getElementById("coupon-toast-body").innerText =
+                "{% trans 'product.coupon.logo.update.success.body' %}";
+            } else {
+              document.getElementById("coupon-toast-body").innerText =
+                "{% trans 'product.coupon.logo.update.failure.body' %}";
+              logoElement.src = previousLogo;
+            }
+            bootstrap.Toast.getOrCreateInstance(
+              document.getElementById('coupon-toast')).show();
+          });
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  function encodeCouponLogo(callback) {
+    let reader = new FileReader();
+    reader.onload = function() {
+      let binary = '';
+      let bytes = new Uint8Array(reader.result);
+      for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      callback(btoa(binary));
+    }
+    reader.readAsArrayBuffer(document.getElementById("coupon-logo-input").files[0]);
+  }
+
+  function updateBackgroundColor() {
+    document.getElementById("coupon-preview").style.backgroundColor = coupon.backgroundColor;
+  }
+
+  function updateForegroundColor() {
+    document.getElementById("coupon-preview-reward").style.color = coupon.foregroundColor;
+    let redeemButton = document.getElementById("coupon-preview-redeem");
+    redeemButton.style.color = coupon.foregroundColor;
+    redeemButton.style.border = "1px solid " + coupon.foregroundColor;
+  }
+
+  document.getElementById("coupon-reward-input").addEventListener("input", function (event) {
+    coupon.reward = document.getElementById("coupon-reward-input").value;
+    document.getElementById("coupon-preview-reward").innerText = coupon.reward;
+    processCouponInput();
+  });
+
+  document.getElementById("coupon-description-input").addEventListener("input", function (event) {
+    coupon.description = document.getElementById("coupon-description-input").value;
+    document.getElementById("coupon-preview-coupon-about").innerText =
+      coupon.description;
+    processCouponInput();
+  });
+
+  document.getElementById("coupon-expiration-check").addEventListener("change", function (event) {
+    let input = document.getElementById("coupon-expiration-input");
+    if (document.getElementById("coupon-expiration-check").checked) {
+      input.removeAttribute("disabled");
+      document.getElementById("coupon-preview-expiration").classList.remove("d-none");
+    } else {
+      input.setAttribute("disabled", "true");
+      input.value = "";
+      document.getElementById("coupon-preview-expiration").classList.add("d-none");
+      document.getElementById("coupon-preview-expiration-days").innerText = "";
+      coupon.expiration = -1;
+      updateCoupon();
+    }
+  });
+
+  document.getElementById("coupon-expiration-input").addEventListener("input", function (event) {
+    let value = document.getElementById("coupon-expiration-input").value;
+    value = value.replace(/[^0-9]/g, "");
+    value = value.replace(/(?!^)-/g, "");
+    document.getElementById("coupon-expiration-input").value = value;
+    document.getElementById("coupon-preview-expiration-days").innerText = value;
+    coupon.expiration = 1000 * 60 * 60 * 24 * parseInt(value);
+    processCouponInput();
+  });
+
+  document.getElementById("coupon-limitation-check").addEventListener("change", function (event) {
+    let input = document.getElementById("coupon-limitation-input");
+    if (document.getElementById("coupon-limitation-check").checked) {
+      input.removeAttribute("disabled");
+    } else {
+      input.setAttribute("disabled", "true");
+      input.value = "";
+      coupon.limitation = -1;
+      updateCoupon();
+    }
+  });
+
+  document.getElementById("coupon-limitation-input").addEventListener("input", function (event) {
+    let value = document.getElementById("coupon-limitation-input").value;
+    value = value.replace(/[^0-9]/g, "");
+    value = value.replace(/(?!^)-/g, "");
+    document.getElementById("coupon-limitation-input").value = value;
+    coupon.limitation = parseInt(value);
+    processCouponInput();
+  });
+
+  let inputTimeout = -1;
+
+  function processCouponInput() {
+    if (inputTimeout !== -1) {
+      clearTimeout(inputTimeout);
+    }
+    inputTimeout = setTimeout(function () {
+      inputTimeout = -1;
+      updateCoupon();
+    }, 500);
+  }
+
+  function updateCoupon() {
+    let body = {coupon: coupon.id, backgroundColor: coupon.backgroundColor,
+      foregroundColor: coupon.foregroundColor, reward: coupon.reward,
+      description: coupon.description, expiration: coupon.expiration,
+      limitation: coupon.limitation};
+    let request = new HttpRequest("/coupon/update/", "POST", [], body);
+    request.send(function (status, responseText) {});
+  }
+
+  document.getElementById("coupon-delete").onclick = function (event) {
+    Swal.fire({
+      title: "{% trans 'product.coupon.delete.title' %}",
+      text: "{% trans 'product.coupon.delete.body' %}",
+      icon: "warning",
+      confirmButtonColor: "#dc3545",
+      showCancelButton: true,
+      cancelButtonText: "{% trans 'popup.cancel' %}",
+    }).then(result => {
+      if (result.isConfirmed) {
+        let request = new HttpRequest("/coupon/delete/", "POST", [], {coupon: "{{id}}"});
+        request.send(function (status, responseText) {
+          let response = JSON.parse(responseText);
+          if (response.success) {
+            Swal.fire("{% trans 'product.coupon.delete.successful.title' %}",
+              "{% trans 'product.coupon.delete.successful.body' %}", "success")
+              .then(success => window.location.href = "/coupons/");
+          } else {
+            let error = response.error;
+            if (error === 1000) {
+              Swal.fire("{% trans 'product.coupon.delete.failed.title' %}",
+                "{% trans 'product.coupon.delete.failed.used' %}", "error");
+            }
+          }
+        });
+      }
+    });
+  }
+
+  document.getElementById("coupon-page-back").addEventListener("click", function (event) {
+    window.location.href = "/coupons/";
+  });
+</script>

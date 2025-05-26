@@ -1,0 +1,137 @@
+{% load static %}
+{% load i18n %}
+<html lang="en">
+  {% include 'head.html' %}
+  <body class="light" data-bs-theme="light">
+    {% include 'product-header.html' %}
+    {% include 'product-sidebar.html' %}
+    <div class="sidebar-influenced">
+      <div id="campaign-coupon-container">
+        <div id="campaign-coupon-wrapper">
+          {% include 'campaign-header.html' %}
+          <div id="campaign-coupon-placeholder" class="mx-xl-3">
+            <div class="campaign-coupon-content">
+              <h5>{% trans 'product.campaign.coupon.headline' %}</h5>
+              <div class="mb-5">
+                <div class="placeholder placeholder-wave rounded py-3 w-100"></div>
+              </div>
+            </div>
+          </div>
+          <div id="campaign-coupon-body" class="mx-xl-3 placeholder-fade">
+            <div class="campaign-coupon-content">
+              <h5>{% trans 'product.campaign.coupon.headline' %}</h5>
+              <div class="mb-5 d-flex justify-content-center align-items-center">
+                <div class="dropdown flex-grow-1 w-100 mb-md-0 mb-3">
+                  <button id="campaign-coupon-button" class="btn btn-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% trans 'product.campaign.coupon.none' %}
+                  </button>
+                  <ul id="campaign-coupon-selection" class="dropdown-menu w-100">
+                  </ul>
+                </div>
+                <a id="campaign-coupon-link" href="/coupons/" target="_blank"><h3 class="fa-regular fa-share-from-square mb-0 ms-md-3"></h3></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="campaign-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <img class="dulno-logo me-2" alt="" width="32" height="32">
+            <strong id="campaign-toast-title" class="me-auto"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div id="campaign-toast-body" class="toast-body"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  let campaign;
+
+  $(document).ready(function () {
+    fetchCampaign(function (campaignResult) {
+      fetchCoupons(function (couponsResult) {
+        campaign = campaignResult;
+        displayCampaignCoupon(couponsResult.sort((a, b) => b.creation - a.creation));
+        document.getElementById("campaign-coupon-body").classList.add("placeholder-fade-show");
+        document.getElementById("campaign-coupon-placeholder").classList.add("d-none");
+      });
+    });
+  });
+
+  function displayCampaignCoupon(coupons) {
+    displayCampaignCouponSelection(coupons);
+    updateCampaignCouponLink();
+  }
+
+  function displayCampaignCouponSelection(coupons) {
+    addCampaignCouponSelectionEntry(null, "{% trans 'product.campaign.coupon.none' %}");
+    for (let i = 0; i < coupons.length; i++) {
+      let coupon = coupons[i];
+      addCampaignCouponSelectionEntry(coupon.id, coupon.reward);
+    }
+  }
+
+  function addCampaignCouponSelectionEntry(id, name) {
+    let entry = document.createElement("li");
+    let span = document.createElement("span");
+    span.classList.add("dropdown-item");
+    span.innerText = name;
+    entry.appendChild(span);
+    entry.addEventListener('click', function () {
+      document.getElementById("campaign-coupon-button").innerText = name;
+      campaign.coupon = id;
+      updateCampaignCoupon();
+      updateCampaignCouponLink();
+    });
+    if (campaign.coupon === id) {
+      document.getElementById("campaign-coupon-button").innerText = name;
+    }
+    document.getElementById("campaign-coupon-selection").appendChild(entry);
+  }
+
+  function updateCampaignCouponLink() {
+    let linkElement = document.getElementById("campaign-coupon-link");
+    if (campaign.coupon === null) {
+      linkElement.classList.add("d-none");
+      return;
+    }
+    linkElement.classList.remove("d-none");
+    linkElement.href = "/coupon/" + campaign.coupon + "/";
+  }
+
+  function updateCampaignCoupon() {
+    let body = {
+      campaign: campaign.id, title: campaign.title,
+      description: campaign.description, type: campaign.type,
+      start: campaign.start, end: campaign.end, coupon: campaign.coupon
+    };
+    let request = new HttpRequest("/campaign/update/", "POST", [], body);
+    request.send(function (status, responseText) {
+      document.getElementById("campaign-toast-title").innerText =
+        "{% trans 'product.campaign.coupon.successful.title' %}";
+      document.getElementById("campaign-toast-body").innerText =
+        "{% trans 'product.campaign.coupon.successful.body' %}";
+      bootstrap.Toast.getOrCreateInstance(
+        document.getElementById('campaign-toast')).show();
+    });
+  }
+
+  function fetchCoupons(callback) {
+    let request = new HttpRequest("/coupons/list/", "GET", []);
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText).coupons);
+    });
+  }
+
+  function fetchCampaign(callback) {
+    let request = new HttpRequest("/campaign/find/", "POST", [],
+      {campaign: "{{id}}"});
+    request.send(function (status, responseText) {
+      callback(JSON.parse(responseText));
+    });
+  }
+</script>
