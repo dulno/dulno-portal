@@ -102,7 +102,9 @@
       if (result.isConfirmed) {
         let request = new HttpRequest("/terminate/", "GET", []);
         request.send(function (status, responseText) {
-          Swal.fire("{% trans 'product.package.termination.process.successful.title' %}", "{% trans 'product.package.termination.process.successful.body' %}", "success").then(success => window.location.reload());
+          Swal.fire("{% trans 'product.package.termination.process.successful.title' %}",
+            "{% trans 'product.package.termination.process.successful.body' %}", "success")
+            .then(success => window.location.reload());
         });
       }
     });
