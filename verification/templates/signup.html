@@ -97,9 +97,6 @@
                     <div class="signup-field-label">{% trans 'signup.location.locations' %}</div>
                     <ul id="signup-location-list">
                     </ul>
-                    <div id="signup-location-add">
-                      <i class="fa-solid fa-plus"></i>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -238,7 +235,7 @@
       tickInputMaxLength(element)
     }
     updatePasswordProgress();
-    addNewLocation();
+    displayLocationEntry();
     fetchLinkTypes(function (partnerLinkTypesResult) {
       partnerLinkTypes = partnerLinkTypesResult;
       addNewLink();
@@ -380,10 +377,9 @@
     document.getElementById("signup-business-next").classList.add("signup-next-disabled");
   }
 
-  let locationEntries = [];
+  let locationEntry = {address: "", latitude: -1, longitude: -1};
 
-  function createLocationEntry() {
-    let locationEntry = {address: "", latitude: -1, longitude: -1};
+  function displayLocationEntry() {
     let entryElement = document.createElement("li");
     let entryControl = document.createElement("div");
     entryControl.classList.add("d-flex", "align-items-center");
@@ -393,24 +389,7 @@
     inputElement.type = "text";
     inputElement.required = true;
     entryControl.appendChild(inputElement);
-    let removeElement = document.createElement("button");
-    removeElement.innerHTML = '<i class="fa-solid fa-xmark text-danger"></i>';
-    removeElement.onclick = function (event) {
-      entryElement.remove();
-      locationEntries.splice(locationEntries.indexOf(locationEntry), 1);
-      if (locationEntries.length === 1) {
-        locationEntries[0].removeElement.classList.add("d-none");
-      }
-      checkLocationCompletion();
-    }
-    locationEntry.removeElement = removeElement;
-    entryControl.appendChild(removeElement);
     entryElement.appendChild(entryControl);
-    if (locationEntries.length === 0) {
-      removeElement.classList.add("d-none");
-    } else if (locationEntries.length === 1) {
-      locationEntries[0].removeElement.classList.remove("d-none");
-    }
     let suggestionsElement = document.createElement("div");
     suggestionsElement.classList.add("signup-location-suggestions");
     let suggestionsContentElement = document.createElement("div");
@@ -429,7 +408,6 @@
     suggestionsElement.appendChild(suggestionsContentElement)
     entryElement.appendChild(suggestionsElement);
     document.getElementById("signup-location-list").appendChild(entryElement);
-    locationEntries.push(locationEntry);
     document.addEventListener('click', function(event) {
       if (event.target !== inputElement) {
         suggestionsContentElement.classList.add("d-none");
@@ -500,22 +478,16 @@
     return item.display_name;
   }
 
-  document.getElementById("signup-location-add").onclick = function (event) {
-    addNewLocation();
-  }
-
-  function addNewLocation() {
-    createLocationEntry();
-  }
-
   function checkLocationCompletion() {
-    for (let entry of locationEntries) {
-      if (entry.address === "" || entry.latitude === -1 || entry.longitude === -1) {
-        document.getElementById("signup-location-next").classList.add("signup-next-disabled");
-        return;
-      }
+    if (locationEntry.address === "" || locationEntry.latitude === -1 ||
+      locationEntry.longitude === -1
+    ) {
+      document.getElementById("signup-location-next")
+        .classList.add("signup-next-disabled");
+      return;
     }
-    document.getElementById("signup-location-next").classList.remove("signup-next-disabled");
+    document.getElementById("signup-location-next")
+      .classList.remove("signup-next-disabled");
   }
 
   let linkEntries = [];
@@ -856,12 +828,8 @@
 
   function sendSignupRequest(callback, recaptchaToken) {
     let language = Cookie.find("dulno-home-language");
-    let locations = [];
-    for (let entry of locationEntries) {
-      let location = {address: entry.address, latitude: entry.latitude,
-        longitude: entry.longitude};
-      locations.push(location);
-    }
+    let location = {address: locationEntry.address,
+      latitude: locationEntry.latitude, longitude: locationEntry.longitude};
     let links = [];
     for (let entry of linkEntries) {
       let link = {type: entry.type, link: entry.link};
@@ -873,7 +841,7 @@
           memberPassword: accountPasswordInput.value, memberLanguage: language,
           partnerName: businessNameInput.value,
           partnerDescription: businessDescriptionInput.value,
-          partnerLogo: partnerLogo, partnerLocations: locations,
+          partnerLogo: partnerLogo, partnerLocation: location,
           partnerLinks: links, redirect: "{{redirect}}",
           recaptchaToken: recaptchaToken, legalAccepted: finishLegalCheck.checked,
           newsletter: finishNewsletterCheck.checked});

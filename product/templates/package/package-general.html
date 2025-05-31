@@ -60,6 +60,16 @@
               <li class="package-general-information-entry">
                 <div class="package-general-information-entry-description">
                   <div class="package-general-information-entry-icon">
+                    <i class="fa-solid fa-location-dot"></i>
+                  </div>
+                  <span>{% trans 'product.package.general.location.limit' %}</span>
+                </div>
+                <span id="package-general-information-location-limit"></span>
+              </li>
+              <li class="package-general-information-divider"></li>
+              <li class="package-general-information-entry">
+                <div class="package-general-information-entry-description">
+                  <div class="package-general-information-entry-icon">
                     <i class="fa-solid fa-user"></i>
                   </div>
                   <span>{% trans 'product.package.general.portal.access' %}</span>
@@ -180,6 +190,8 @@
       .toggleClass("d-none", bundle.runtime !== "UNBOUND");
     document.getElementById("package-general-information-expiration").innerHTML =
       Math.ceil(Number(bundle.expiration - Date.now()) / (1000 * 60 * 60 * 24)).toString();
+    document.getElementById("package-general-information-location-limit").innerHTML =
+      bundle.locationLimit;
     document.getElementById("package-general-information-portal-access").innerHTML =
       bundle.portalAccess ? "<i class='fa-solid fa-check'></i>" : "<i class='fa-solid fa-xmark'></i>";
     document.getElementById("package-general-information-collection-card-access").innerHTML =

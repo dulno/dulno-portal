@@ -22,6 +22,7 @@
         <button type="button" class="pricing-package-basic-buy pricing-get-button btn btn-outline-dark">{% trans 'pricing.buy' %}</button>
         <p class="pricing-package-features-headline">{% trans 'pricing.summary.headline' %}</p>
         <ul class="pricing-package-features">
+          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="pricing-locations-basic mb-0 me-2"></b><b class="mb-0">{% trans 'pricing.feature.location' %}</b></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.collection.card' %}</b></li>
         </ul>
       </th>
@@ -35,10 +36,10 @@
         <button type="button" class="pricing-package-professional-buy pricing-get-button btn btn-primary">{% trans 'pricing.buy' %}</button>
         <p class="pricing-package-features-headline">{% trans 'pricing.summary.headline' %}</p>
         <ul class="pricing-package-features">
+          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="pricing-locations-professional mb-0 me-2"></p><p class="mb-0">{% trans 'pricing.feature.location' %}</p></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.collection.card' %}</p></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.value.card' %}</b></li>
-          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.analysis' %}</b></li>
-          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.balances' %}</b></li>
+          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.analysis' %} & {% trans 'pricing.feature.balances' %}</b></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.coupons' %}</b></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.campaigns' %}</b></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.notifications' %}</b></li>
@@ -54,10 +55,10 @@
         <button type="button" class="pricing-package-premium-buy pricing-get-button btn btn-outline-dark">{% trans 'pricing.buy' %}</button>
         <p class="pricing-package-features-headline">{% trans 'pricing.summary.headline' %}</p>
         <ul class="pricing-package-features">
+          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="pricing-locations-premium mb-0 me-2"></b><b class="mb-0">{% trans 'pricing.feature.locations' %}</b></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.collection.card' %}</p></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.value.card' %}</p></li>
-          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.analysis' %}</p></li>
-          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.balances' %}</p></li>
+          <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.analysis' %} & {% trans 'pricing.feature.balances' %}</p></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.coupons' %}</p></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.campaigns' %}</p></li>
           <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.notifications' %}</p></li>
@@ -92,6 +93,13 @@
         <td class="pricing-runtime-professional"></td>
         <td class="pricing-runtime-premium"></td>
         <td class="pricing-runtime-enterprise"></td>
+      </tr>
+      <tr>
+        <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.locations' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.locations.tip' %}"></h5></td>
+        <td class="pricing-locations-basic"></td>
+        <td class="pricing-locations-professional"></td>
+        <td class="pricing-locations-premium"></td>
+        <td class="pricing-locations-enterprise"></td>
       </tr>
       <tr>
         <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.tip' %}"></h5></td>
@@ -216,6 +224,7 @@
               <button type="button" class="pricing-package-basic-buy pricing-get-button btn btn-outline-dark">{% trans 'pricing.buy' %}</button>
               <p class="pricing-package-features-headline">{% trans 'pricing.summary.headline' %}</p>
               <ul class="pricing-package-features">
+                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="pricing-locations-basic mb-0 me-2"></b><b class="mb-0">{% trans 'pricing.feature.location' %}</b></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.collection.card' %}</b></li>
               </ul>
             </th>
@@ -227,6 +236,10 @@
             <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.runtime' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.runtime.tip' %}"></h5></td>
               <td class="pricing-runtime-basic pricing-feature-basic"></td>
+            </tr>
+            <tr>
+              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.locations' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.locations.tip' %}"></h5></td>
+              <td class="pricing-locations-basic"></td>
             </tr>
             <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.tip' %}"></h5></td>
@@ -306,10 +319,10 @@
               <button type="button" class="pricing-package-professional-buy pricing-get-button btn btn-outline-dark">{% trans 'pricing.buy' %}</button>
               <p class="pricing-package-features-headline">{% trans 'pricing.summary.headline' %}</p>
               <ul class="pricing-package-features">
+                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="pricing-locations-professional mb-0 me-2"></p><p class="mb-0">{% trans 'pricing.feature.location' %}</p></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.collection.card' %}</p></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.value.card' %}</b></li>
-                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.analysis' %}</b></li>
-                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.balances' %}</b></li>
+                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.analysis' %} & {% trans 'pricing.feature.balances' %}</b></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.coupons' %}</b></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.campaigns' %}</b></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="mb-0">{% trans 'pricing.feature.notifications' %}</b></li>
@@ -323,6 +336,10 @@
             <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.runtime' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.runtime.tip' %}"></h5></td>
               <td class="pricing-runtime-premium pricing-feature-premium"></td>
+            </tr>
+            <tr>
+              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.locations' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.locations.tip' %}"></h5></td>
+              <td class="pricing-locations-professional"></td>
             </tr>
             <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.tip' %}"></h5></td>
@@ -402,10 +419,10 @@
               <button type="button" class="pricing-package-premium-buy pricing-get-button btn btn-outline-dark">{% trans 'pricing.buy' %}</button>
               <p class="pricing-package-features-headline">{% trans 'pricing.summary.headline' %}</p>
               <ul class="pricing-package-features">
+                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><b class="pricing-locations-premium mb-0 me-2"></b><b class="mb-0">{% trans 'pricing.feature.locations' %}</b></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.collection.card' %}</p></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.value.card' %}</p></li>
-                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.analysis' %}</p></li>
-                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.balances' %}</p></li>
+                <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.analysis' %} & {% trans 'pricing.feature.balances' %}</p></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.coupons' %}</p></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.campaigns' %}</p></li>
                 <li class="mb-3"><i class="fa-solid fa-check me-3"></i><p class="mb-0">{% trans 'pricing.feature.notifications' %}</p></li>
@@ -420,6 +437,10 @@
             <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.runtime' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.runtime.tip' %}"></h5></td>
               <td class="pricing-runtime-premium pricing-feature-premium"></td>
+            </tr>
+            <tr>
+              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.locations' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.locations.tip' %}"></h5></td>
+              <td class="pricing-locations-premium"></td>
             </tr>
             <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.tip' %}"></h5></td>
@@ -505,6 +526,10 @@
             <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.runtime' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.runtime.tip' %}"></h5></td>
               <td class="pricing-runtime-enterprise pricing-feature-enterprise"></td>
+            </tr>
+            <tr>
+              <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.locations' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.locations.tip' %}"></h5></td>
+              <td class="pricing-locations-enterprise"></td>
             </tr>
             <tr>
               <td class="pricing-feature" data-bs-toggle="tooltip-parent">{% trans 'pricing.feature.portal' %} <h5 class="pricing-feature-tip fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'pricing.feature.portal.tip' %}"></h5></td>
@@ -709,6 +734,7 @@
     }
     displayPackageCell("pricing-runtime-", packageName, (bundleRuntime === "MONTHLY" ?
       "{% trans 'pricing.time.month' %}" : "{% trans 'pricing.time.year' %}"));
+    displayPackageCell("pricing-locations-", packageName, packageData.locationLimit);
     displayPackageCell("pricing-portal-", packageName, packageData.portalAccess);
     displayPackageCell("pricing-collection-card-", packageName, packageData.collectionCardAccess);
     displayPackageCell("pricing-value-card-", packageName, packageData.valueCardAccess);
