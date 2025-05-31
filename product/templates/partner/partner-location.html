@@ -184,10 +184,17 @@
     if (location.address === location.previousAddress) {
       return;
     }
-    new HttpRequest("/partner/location/change/", "POST", [],
+    var request = new HttpRequest("/partner/location/change/", "POST", [],
       {previousAddress: location.previousAddress, newAddress: location.address,
-        newLatitude: location.latitude, newLongitude: location.longitude})
-      .send(function (status, responseText) {});
+        newLatitude: location.latitude, newLongitude: location.longitude});
+    request.send(function (status, responseText) {
+      let response = JSON.parse(responseText);
+      if (!response.success) {
+        Swal.fire("{% trans 'product.partner.location.change.failed.title' %}",
+          "{% trans 'product.partner.location.change.failed.body' %}", "error")
+          .then(success => window.location.reload());
+      }
+    });
     location.previousAddress = location.address;
   }
 </script>
