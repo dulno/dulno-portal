@@ -12,7 +12,6 @@ The portal bundles central functions for the overview and management of the prod
 |      | Pipeline status                                                        |
 |------|------------------------------------------------------------------------|
 | main | ![](https://github.com/dulno/dulno-portal/actions/workflows/ci.yml/badge.svg?branch=main) |
-| dev  | ![](https://github.com/dulno/dulno-portal/actions/workflows/ci.yml/badge.svg?branch=dev)  |
 
 ## Installation
 
